@@ -30,6 +30,7 @@ export default function CAutocompleteWorkCenter(props) {
             } else {
                 response = await fetch('http://61.90.156.165/sts_web_center/module/RPT_JOBPACKING/data.php?load=workcenter');
             }
+
             // const response = await fetch('https://country.register.gov.uk/records.json?page-size=5000');
             // const response2 = await API_sts_web_center.get("RPT_JOBPACKING/data.php?load=workcenter");
             console.log("response", response)

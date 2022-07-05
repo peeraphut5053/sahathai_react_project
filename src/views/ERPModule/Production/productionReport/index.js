@@ -170,6 +170,18 @@ const ProductionDailyReport = () => {
 	}
 
 
+	const saveOperation = async (values) =>{
+		API.get("RPT_JOBPACKING/data.php", {
+			params: {
+				load: "saveOperation",
+				txtFromDate: values.startdate,
+				txtToDate: values.enddate,
+				operationWeight: values.itemA,
+				operationSpeed: values.itemB,
+				operationTime: values.itemC,
+			}
+		});
+	}
 
 	const SearchFn = async (load, values, wc_group_query, doc_type) => {
 		setLocalStorageW_c(values.w_c)
@@ -545,7 +557,16 @@ const ProductionDailyReport = () => {
 														/>
 												</Grid>
 												&nbsp;
-											</Card>
+												<Grid>
+												<Button
+														color="primary"
+														variant="contained"
+														style={{ margin: 2 }}
+														onClick={() => { saveOperation(values) }} disabled={false} >
+														บันทึกผลการเดินเครื่อง
+													</Button>
+												</Grid>
+										</Card>
 										</Grid>
 										<Grid item xs={6} >
 											<Card variant="outlined">
