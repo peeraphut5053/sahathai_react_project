@@ -53,6 +53,9 @@ const ProductionDailyReport = () => {
 	const [selectFormingRecordReason, setselectFormingRecordReason] = useState()
 	const [openAlert, setOpenAlert] = React.useState(false);
 	const [BreakTimeForming, setBreakTimeForming] = React.useState(9);
+	const [itemA, setItemA] = React.useState(0);
+	const [itemB, setItemB] = React.useState(0);
+	const [itemC, setItemC] = React.useState(0);
 	
 
 	const [itemModal, setitemModal] = useState(null)
@@ -68,6 +71,15 @@ const ProductionDailyReport = () => {
 					txtToDate: values.enddate,
 					txtItem: values.item,
 					txtref_num: values.refnum,
+					txtw_c: values.w_c,
+				}
+			});
+			
+			const responseFormingOperation = await API.get("RPT_JOBPACKING/data.php", {
+				params: {
+					load: "getFormingOperation",
+					txtFromDate: values.startdate,
+					txtToDate: values.enddate,
 					txtw_c: values.w_c,
 				}
 			});
@@ -179,8 +191,15 @@ const ProductionDailyReport = () => {
 				operationWeight: values.itemA,
 				operationSpeed: values.itemB,
 				operationTime: values.itemC,
+				w_c: values.w_c,
 			}
+
 		});
+		
+		setItemA(values.itemA);
+		setItemB(values.itemB);
+		setItemC(values.itemA);
+
 	}
 
 	const SearchFn = async (load, values, wc_group_query, doc_type) => {
@@ -199,6 +218,10 @@ const ProductionDailyReport = () => {
 				}
 			})
 
+			setItemA(response.data[0].operationWeight);
+			setItemB(response.data[0].operationSpeed);
+			setItemC(response.data[0].operationTime);
+
 
 
 
@@ -211,12 +234,12 @@ const ProductionDailyReport = () => {
 				ReportProductionDaily(response.data, values.startdate, values.enddate)
 
 			} else if (doc_type === 'Forming') {
-				if(values.itemA == undefined || values.itemB == undefined || values.itemC == undefined){
+				if(itemA == '' || itemB == '' || itemC == ''){
 					alert("กรอกข้อมูลการเดินเครื่อง")
 				}else{
 				if (response.data.length > 0) {
 					if (response.data[0].forming_reason_meter.length > 3) {
-						ReportForming(response.data, values.startdate, values.enddate,values.itemA,values.itemB,values.itemC)
+						ReportForming(response.data, values.startdate, values.enddate,itemA,itemB,itemC)
 					} else {
 						alert("กรุณากรอกเลขมิตเตอร์")
 						// ReportForming(response.data, values.startdate, values.enddate)
@@ -529,7 +552,7 @@ const ProductionDailyReport = () => {
 															name="itemA"
 															onBlur={handleBlur}
 															onChange={handleChange}
-															value={values.itemA}
+															value={itemA==null? values.itemA: itemA}
 														/>
 												</Grid>
 												&nbsp;
@@ -541,7 +564,7 @@ const ProductionDailyReport = () => {
 															name="itemB"
 															onBlur={handleBlur}
 															onChange={handleChange}
-															value={values.itemB}
+															value={itemB==null? values.itemB: itemB}
 														/>
 												</Grid>
 												&nbsp;
@@ -553,7 +576,7 @@ const ProductionDailyReport = () => {
 															name="itemC"
 															onBlur={handleBlur}
 															onChange={handleChange}
-															value={values.itemC}
+															value={itemC==null? values.itemC: itemC}
 														/>
 												</Grid>
 												&nbsp;
