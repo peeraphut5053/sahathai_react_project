@@ -4,6 +4,7 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import APIPath from './APIPath';
 
 function sleep(delay = 0) {
     return new Promise((resolve) => {
@@ -24,23 +25,10 @@ export default function CAutocomplete(props) {
         }
 
         (async () => {
-            let response;
-            if (window.location.host == '172.18.1.194:5000' || window.location.host == 'localhost:3001' || window.location.host == '172.18.1.194' ) {
-                response = await fetch('http://172.18.1.194/sts_web_center/module/RPT_JOBPACKING/data.php?load=workcenter');
-            } else {
-                response = await fetch('http://61.90.156.165/sts_web_center/module/RPT_JOBPACKING/data.php?load=workcenter');
-            }
-            // const response = await fetch('https://country.register.gov.uk/records.json?page-size=5000');
-            // const response2 = await API_sts_web_center.get("RPT_JOBPACKING/data.php?load=workcenter");
-            console.log("response", response)
-            await sleep(1e3); // For demo purposes.
-            const countries = await response.json();
-
-
-            if (active) {
-                console.log("countries", countries)
-                setOptions(countries)
-            }
+            let response = await fetch(`${APIPath}/RPT_JOBPACKING/data.php?load=workcenter`);
+            await sleep(1e3);
+            const options = await response.json();
+            (active) && setOptions(options)
         })();
 
         return () => {
@@ -56,12 +44,6 @@ export default function CAutocomplete(props) {
 
     return (
         <div>
-
-            {/* {
-                JSON.stringify(options)
-            } */}
-
-
             <Autocomplete
                 defaultValue={{ wc: props.value, description: "" }}
                 fullWidth
@@ -99,7 +81,6 @@ export default function CAutocomplete(props) {
                         size="small"
                         InputProps={{
                             ...params.InputProps,
-
                             endAdornment: (
                                 <React.Fragment>
                                     {loading ? <CircularProgress color="inherit" size={20} /> : null}
@@ -107,7 +88,6 @@ export default function CAutocomplete(props) {
                                 </React.Fragment>
                             ),
                         }}
-
                         InputLabelProps={{
                             shrink: true,
                         }}

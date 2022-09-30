@@ -41,6 +41,10 @@ import { ReportMoveInternal } from './ReportMoveInternal';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake-thai/build/vfs_fonts";
 
+import Web3 from 'web3';
+
+
+
 
 moment.locale("th");
 
@@ -580,8 +584,6 @@ const BoatNote = () => {
                                                                     <>
                                                                         <Grid item xs={12}>
                                                                             <CAutocompleteWorkCenter
-                                                                                path_module = {"/RPT_JOBPACKING/data.php?load=workcenter"}
-                                                                                label = {"Work center"}
                                                                                 onBlur={handleBlur}
                                                                                 name="wc"
                                                                                 value={values.wc}
