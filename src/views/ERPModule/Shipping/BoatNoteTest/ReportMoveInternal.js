@@ -23,14 +23,12 @@ function ReportMoveInternal(dataNowHeader,dataNow) {
         // { text: "มัดที่ \n Bundle no", fontSize: 11, alignment: 'center' },
         { text: "จำนวนมัด \n Bundle", fontSize: 11, alignment: 'center' },
         { text: "จำนวนเส้น \n PCS", fontSize: 11, alignment: 'center' },
-        { text: "น้ำหนัก \n มาตรฐาน", fontSize: 11, alignment: 'center' },
 
     ],
     )
 
     let total_bundle = 0;
     let total_pcs = 0;
-    let total_std_wei = 0;
     let cal_bundel = []
 
     for (let i = 0; i < dataNow.length; i++) {
@@ -38,7 +36,6 @@ function ReportMoveInternal(dataNowHeader,dataNow) {
         total_bundle = total_bundle + dataNow[i]["countlot"]
         // total_pcs = total_pcs + dataNow[i]["SUMLotPCS"]
         total_pcs = total_pcs + dataNow[i]["uf_pack"] * dataNow[i]["countlot"]
-        total_std_wei = total_std_wei + Number(dataNow[i]["qty2"])
 
         cal_bundel.push(dataNow[i]["SUMLotPCS"])
 
@@ -57,8 +54,6 @@ function ReportMoveInternal(dataNowHeader,dataNow) {
             // { text: `${convertAllLotReport("wordslot", dataNow[i]["AllLot"])}`, fontSize: 12, alignment: 'center' },
             { text: dataNow[i]["countlot"], fontSize: 12, alignment: 'center' },
             { text: dataNow[i]["uf_pack"] * dataNow[i]["countlot"], fontSize: 12, alignment: 'center' },
-            { text: dataNow[i]["qty2"], fontSize: 12, alignment: 'center' },
-
         ],
         )
         if (i === dataNow.length - 1) {
@@ -75,7 +70,6 @@ function ReportMoveInternal(dataNowHeader,dataNow) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: total_bundle, fontSize: 11, alignment: 'center' },
                 { text: total_pcs, fontSize: 11, alignment: 'center' },
-                { text: total_std_wei, fontSize: 11, alignment: 'center' }
                 // { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
             ],
@@ -232,7 +226,7 @@ function ReportMoveInternal(dataNowHeader,dataNow) {
                     {
 
                         table: {
-                            widths: [15, 40, 50, 28, 32, 50, 20, 40, 50, 30, 30, 35, 50, 30,25],
+                            widths: [15, 45, 70, 30, 35, 55, 25, 45, 55, 35, 35, 35, 55, 40],
                             headerRows: 1,
                             body: data,
                         },

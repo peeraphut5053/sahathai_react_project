@@ -66,8 +66,6 @@ const CardBoatHeader = (props, { className, ...rest }) => {
                 </Button>
               </Grid>
             </Grid>
-            
-
 
 
             <MaterialTable
@@ -89,7 +87,7 @@ const CardBoatHeader = (props, { className, ...rest }) => {
                 paging: false,
                 maxBodyHeight: '65vh',
                 minBodyHeight: '65vh',
-                filtering: true,
+                filtering: false,
                 rowStyle: rowData => ({
                   // backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
                   fontSize: '0.8em',

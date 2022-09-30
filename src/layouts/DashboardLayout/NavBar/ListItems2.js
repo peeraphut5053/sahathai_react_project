@@ -278,6 +278,11 @@ const ListItems2 = [
                 Icon: AssignmentIcon,
                 title: 'Boat Note report'
             },
+            {
+                href: '/app/BoatNoteTest',
+                Icon: AssignmentIcon,
+                title: 'Boat Note report Test'
+            },
         ]
     },
     {

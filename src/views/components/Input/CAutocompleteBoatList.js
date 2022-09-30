@@ -35,16 +35,20 @@ export default function CAutocompleteBoatList(props) {
             await sleep(1e3); // For demo purposes.
             const countries = [
                 {
-                    boatList: "Ship 1",
-                    description: "เรือ A"
+                    boatList: "1",
+                    description: "ท้าย"
                 },
                 {
-                    boatList: "Ship 2",
-                    description: "เรือ B"
+                    boatList: "2",
+                    description: "ท้ายกลาง"
                 },
                 {
-                    boatList: "Ship 3",
-                    description: "เรือ C"
+                    boatList: "3",
+                    description: "หัวกลาง"
+                },
+                {
+                    boatList: "4",
+                    description: "หัว"
                 }
             ];
 
@@ -106,7 +110,7 @@ export default function CAutocompleteBoatList(props) {
                 renderInput={(params) => (
                     <TextField
                         {...params}
-                        label="ชื่อเรือที่ใช้ขนส่ง"
+                        label="ตำแหน่งที่วางสินค้า"
                         variant="outlined"
                         size="small"
                         InputProps={{
