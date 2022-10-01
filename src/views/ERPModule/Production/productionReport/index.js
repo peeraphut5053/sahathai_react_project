@@ -552,7 +552,7 @@ const ProductionDailyReport = () => {
 															name="itemA"
 															onBlur={handleBlur}
 															onChange={handleChange}
-															value={itemA==null? values.itemA: itemA}
+															value={itemA==0? values.itemA: itemA}
 														/>
 												</Grid>
 												&nbsp;
@@ -564,7 +564,7 @@ const ProductionDailyReport = () => {
 															name="itemB"
 															onBlur={handleBlur}
 															onChange={handleChange}
-															value={itemB==null? values.itemB: itemB}
+															value={itemB==0? values.itemB: itemB}
 														/>
 												</Grid>
 												&nbsp;
@@ -576,7 +576,7 @@ const ProductionDailyReport = () => {
 															name="itemC"
 															onBlur={handleBlur}
 															onChange={handleChange}
-															value={itemC==null? values.itemC: itemC}
+															value={itemC==0? values.itemC: itemC}
 														/>
 												</Grid>
 												&nbsp;
