@@ -217,7 +217,6 @@ const ProductionDailyReport = () => {
 					wc_group_query: wc_group_query
 				}
 			})
-
 			setItemA(response.data[0].operationWeight);
 			setItemB(response.data[0].operationSpeed);
 			setItemC(response.data[0].operationTime);
