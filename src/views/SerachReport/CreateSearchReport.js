@@ -5,24 +5,15 @@ import {
     Card,
     Checkbox,
     Container,
-    FormControl,
-    FormControlLabel,
     Grid,
-    InputAdornment,
-    InputLabel,
     makeStyles,
-    OutlinedInput,
     TextField,
-    Typography,
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import MaterialTable from 'material-table';
-import SearchIcon from '@material-ui/icons/Search';
 import tableIcons from './SerachReportView/tableIcons';
 import api from './api'
 import { useEffect } from 'react';
-import Axios from 'axios';
-import API from '../components/API';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 

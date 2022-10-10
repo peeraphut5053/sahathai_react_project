@@ -5,13 +5,11 @@ import {
   Card,
   CardContent,
   Grid,
-  Typography,
   colors,
   makeStyles,
   Button,
-  Chip
 } from '@material-ui/core';
-import MaterialTable, { MTableToolbar } from 'material-table';
+import MaterialTable from 'material-table';
 import tableIcons from 'src/views/components/table/tableIcons';
 
 const useStyles = makeStyles((theme) => ({

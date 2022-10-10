@@ -76,12 +76,6 @@ function CGroupTextBoxs(props) {
         }
     }
 
-    // const [PageState, setPageState] = useState(false)
-    const [STS_qty_move_hrd, setSTS_qty_move_hrd] = useState([])
-    // const toggleChecked = () => setPageState((prev) => !prev) //State Page Create or View Document
-
-
-
 
     const body = (
         <div style={{ width: '85%', margin: '5%' }} >

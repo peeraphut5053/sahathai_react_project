@@ -6,14 +6,10 @@ import {
   Divider,
   Drawer,
   Hidden,
-  List,
   Typography,
   makeStyles,
-  Collapse
 } from '@material-ui/core';
 
-import NavItem from './NavItems';
-import ListItems from './ListItems'
 import ListItems2 from './ListItems2'
 import MenuItems from './MenuItems'
 import UserData from './UserData';

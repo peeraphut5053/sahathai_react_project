@@ -7,7 +7,6 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import { DataGrid } from '@material-ui/data-grid';
 import MaterialTable, { MTableToolbar } from 'material-table';
 import tableIcons from 'src/views/components/table/tableIcons';
 import API from 'src/views/components/API';

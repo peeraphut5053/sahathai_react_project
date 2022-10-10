@@ -2,14 +2,8 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
-    Button, Card, CardActions, CardContent, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, Grid, IconButton, Modal, Paper, Radio, RadioGroup, Snackbar, Typography, Avatar,
-    Box,
-    colors,
+    Card, CardContent, Grid,  Modal, 
     makeStyles,
-    Dialog,
-    DialogTitle,
-    List,
-    ListItem
 } from '@material-ui/core';
 
 
@@ -18,8 +12,6 @@ import MaterialTable from 'material-table';
 import { Formik } from 'formik';
 import moment from "moment";
 import DateTimePicker from '../../../components/Input/CDateTimePicker';
-//import CAutocomplete from '../../../components/Input/CAutocomplete ';
-import CAutocomplete from '../../../components/Input/CAutocomplete ';
 import CButton from '../../../components/Input/CButton';
 import tableIcons from '../../../components/table/tableIcons'
 import API from '../../../components/API';

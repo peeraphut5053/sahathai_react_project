@@ -6,7 +6,6 @@ import {
     Grid,
     makeStyles,
     MenuItem,
-    NativeSelect,
     Paper,
     Select,
     TextField,
@@ -24,10 +23,9 @@ import CAutocompleteDoctypeShipping from '../../../components/Input/CAutocomplet
 import CAutocompleteLocation from '../../../components/Input/CAutocompleteLocation';
 import CAutocompleteListOfDoGroup from '../../../components/Input/CAutocompleteListOfDoGroup';
 
-import { Field, Formik } from 'formik';
+import { Formik } from 'formik';
 import moment from "moment";
 import CTextField from '../../../components/Input/CTextField';
-import CButton from 'src/views/components/Input/CButton';
 import MaterialTable, { MTableToolbar } from 'material-table';
 import tableIcons from 'src/views/components/table/tableIcons';
 import CAutocompleteBoatList from 'src/views/components/Input/CAutocompleteBoatList';
@@ -35,13 +33,10 @@ import SaveIcon from '@material-ui/icons/Save';
 import ModalProgressSaving from './ModalProgressSaving';
 import ModalSelectDOList from './ModalSelectDOList';
 
-import { positions } from '@material-ui/system';
-import { ReportMoveInternal } from './ReportMoveInternal';
 
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake-thai/build/vfs_fonts";
 
-import Web3 from 'web3';
 
 
 
@@ -71,7 +66,6 @@ const BoatNote = () => {
     const [openModalCreateBoteNote, setOpenModalCreateBoteNote] = useState(false);
     const [openModalCreateDoGroup, setOpenModalCreateDoGroup] = useState(false);
     const [openModalSelectDOList, setOpenModalSelectDOList] = useState(false);
-    const [wc, setWc] = useState("")
     const [toLoc, setToLoc] = useState("")
     const [qtyMoveList, setQtyMoveList] = useState([]);
     const [doctype_shipping, setDoctype_shipping] = useState("");
