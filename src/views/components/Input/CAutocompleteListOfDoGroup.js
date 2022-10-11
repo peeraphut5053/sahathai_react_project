@@ -24,7 +24,7 @@ export default function CAutocompleteListOfDoGroup(props) {
         }
 
         (async () => {
-            let response = await fetch(`${APIPath}/RPT_JOBPACKING/data.php?load=workcenter`);
+            let response = await fetch(`${APIPath}/RPT_JOBPACKING/data.php?load=STS_list_of_do_group`);
 
             // const response = await fetch('https://country.register.gov.uk/records.json?page-size=5000');
             // const response2 = await API_sts_web_center.get("RPT_JOBPACKING/data.php?load=workcenter");
