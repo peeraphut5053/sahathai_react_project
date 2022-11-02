@@ -9,7 +9,7 @@ import {
     withStyles,
     colors,
 } from '@material-ui/core';
-import { Link as  useNavigate } from 'react-router-dom';
+// import { Link as  useNavigate } from 'react-router-dom';
 
 
 import Table from '@material-ui/core/Table';
@@ -58,7 +58,7 @@ const StyledTableRow = withStyles((theme) => ({
 const TableExecutiveSummary = ({ className, ...rest }) => {
     const classes = useStyles();
     const [openModalItem, setOpenModalItem] = React.useState(false);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const handleCloseModalItem = async () => {
         setOpenModalItem(false);
