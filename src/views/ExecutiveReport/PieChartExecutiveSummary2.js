@@ -322,7 +322,7 @@ const PieChartExecutiveSummary2 = ({ className, ...rest }) => {
             
              
              <CardHeader 
-             title="Coil Received(MT) Now!!" 
+             title="Coil Received (MT) Now!!" 
              style={{ textAlign: 'center' }}
              />
             <Box
@@ -374,7 +374,7 @@ const PieChartExecutiveSummary2 = ({ className, ...rest }) => {
             </Box>
             
             <CardHeader 
-             title="Steel Pipe Delivery(MT) Now!!" 
+             title="Steel Pipe Delivery (MT) Now!!" 
              style={{ textAlign: 'center' }}
              />
             <Box

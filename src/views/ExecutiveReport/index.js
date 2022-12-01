@@ -88,7 +88,7 @@ const ExecutiveReport = () => {
             // {...rest}
             >
               <CardContent>
-                <CardHeader title="Coil Received(MT) & Steel Pipe Delivery(MT)" />
+                <CardHeader title="Coil Received (MT) & Steel Pipe Delivery (MT)" />
                 <Divider />
                 <Grid container spacing={2} >
                   <Grid item sm={6} xl={6} xs={6} lg={6} >
