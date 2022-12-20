@@ -96,7 +96,7 @@ const LatestProducts = ({ className, ...rest }) => {
     >
       <CardHeader
         subtitle={` in total`}
-        title="OUTSTANDDING"
+        title="OUTSTANDING"
         onClick={SearchOutStanding}
       />
       <Divider />
@@ -156,7 +156,7 @@ const LatestProducts = ({ className, ...rest }) => {
 
           <List component="nav" className={classes.root} aria-label="mailbox folders">
             <ListItem button>
-              <ListItemText primary="ProcessingPipe" />
+              <ListItemText primary="Processing Pipe" />
             </ListItem>
             <Divider />
             {V_STS_execSUM_Outs_ProcessingPipe.map((value) =>
@@ -179,7 +179,7 @@ const LatestProducts = ({ className, ...rest }) => {
 
           <List component="nav" className={classes.root} aria-label="mailbox folders">
             <ListItem button>
-              <ListItemText primary="Finished Pipe(all category)" />
+              <ListItemText primary="Finished Pipe (all category)" />
             </ListItem>
             <Divider />
             {V_STS_execSUM_Outs_FinishedPipe.map((value) =>
