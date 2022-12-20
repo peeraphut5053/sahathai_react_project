@@ -16,6 +16,8 @@ import CardReportProductionDaily from './CardReportProductionDaily';
 import TableExecutiveSummary from './TableExecutiveSummary';
 import CardReportProductFromming from './CardReportProductFromming';
 import CardAppProductionOvertime from './CardAppProductionOvertime';
+import CardReportProductProductionIndex from './CardReportProductProductionIndex';
+
 import PieChartExecutiveSummary from './PieChartExecutiveSummary';
 import PieChartExecutiveSummary2 from './PieChartExecutiveSummary2';
 import clsx from 'clsx';
@@ -58,7 +60,7 @@ const ExecutiveReport = () => {
       <Container maxWidth={false}>
         <Grid item lg={12}>
           <Grid container spacing={2}>
-            <Grid item sm={6} xl={3} xs={12} lg={3} >
+          <Grid item sm={6} xl={3} xs={12} lg={3} >
               <CardReportProductFromming />
             </Grid>
             <Grid item sm={6} xl={3} xs={12} lg={3}>
@@ -69,6 +71,9 @@ const ExecutiveReport = () => {
             </Grid>
             <Grid item sm={6} xl={3} xs={12} lg={3}>
               <CardAppProductionOvertime />
+            </Grid>
+            <Grid item sm={6} xl={3} xs={12} lg={3} >
+              <CardReportProductProductionIndex />
             </Grid>
             {/* <Grid item xs={12}>
                 <CardNext />
