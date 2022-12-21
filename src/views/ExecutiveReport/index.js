@@ -38,7 +38,7 @@ const ExecutiveReport = () => {
 
   useEffect(() => {
 
-    
+
     if (isMobile == true) {
 
       setTimeout(() => {
@@ -47,7 +47,7 @@ const ExecutiveReport = () => {
     }
   }, [])
 
- 
+
 
 
   return (
@@ -60,7 +60,7 @@ const ExecutiveReport = () => {
       <Container maxWidth={false}>
         <Grid item lg={12}>
           <Grid container spacing={2}>
-          <Grid item sm={6} xl={3} xs={12} lg={3} >
+            <Grid item sm={6} xl={3} xs={12} lg={3} >
               <CardReportProductFromming />
             </Grid>
             <Grid item sm={6} xl={3} xs={12} lg={3}>
