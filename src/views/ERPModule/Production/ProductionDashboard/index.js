@@ -218,7 +218,7 @@ const ProductionDashboard = () => {
 
 
   React.useEffect(() => {
-    var timerID = setInterval(() => tick(), 5000);
+    var timerID = setInterval(() => tick(), 15000);
 
 
     return function cleanup() {
@@ -274,7 +274,7 @@ const ProductionDashboard = () => {
               >
                 <Grid item lg={3} sm={6} xl={3} xs={12}>
                   <Typography color="textPrimary" gutterBottom variant="h4" >
-                    Production Index {data1}
+                    Production Index
                   </Typography>
                   <Typography color="textPrimary" gutterBottom variant="h5" >
                     {moment().format('YYYY-MM-DD HH:mm:ss')} เวลา {date.toLocaleTimeString()}
