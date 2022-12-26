@@ -75,7 +75,7 @@ function ReportMoveInternal(dataNowHeader,dataNow) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: total_bundle, fontSize: 11, alignment: 'center' },
                 { text: total_pcs, fontSize: 11, alignment: 'center' },
-                { text: total_std_wei, fontSize: 11, alignment: 'center' }
+                { text: Number(total_std_wei).toFixed(2), fontSize: 11, alignment: 'center' }
                 // { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
             ],
