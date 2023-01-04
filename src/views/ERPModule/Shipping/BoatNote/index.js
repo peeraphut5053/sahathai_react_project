@@ -701,7 +701,7 @@ const BoatNote = () => {
                                                                             className={classes.textField}
                                                                             onKeyUp={setBoatPositionState}
                                                                         /> */}
-                                                                        {/* <FormControl style={{ paddingRight: 10 }} variant="filled" size="small">
+                                                                        <FormControl style={{ paddingRight: 10 }} variant="filled" size="small">
                                                                             <Select
 
 
@@ -711,7 +711,7 @@ const BoatNote = () => {
                                                                                 size="small"
                                                                                 onChange={setBoatPositionState}
                                                                             >
-                                                                                <MenuItem value="">
+                                                                                <MenuItem value="ไม่ระบุตำแหน่ง">
                                                                                     <em>None</em>
                                                                                 </MenuItem>
                                                                                 <MenuItem value={'หัวเรือ'}>หัวเรือ</MenuItem>
@@ -719,7 +719,7 @@ const BoatNote = () => {
                                                                                 <MenuItem value={'กลางท้าย'}>กลางท้าย</MenuItem>
                                                                                 <MenuItem value={'ท้ายเรือ'}>ท้ายเรือ</MenuItem>
                                                                             </Select>
-                                                                        </FormControl> */}
+                                                                        </FormControl>
 
                                                                         <TextField size="small" label={"Scan tag"} id={"tagScan"}
                                                                             variant="outlined"
