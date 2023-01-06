@@ -9,7 +9,9 @@ import {
     Paper,
     Select,
     TextField,
-    Modal
+    Modal,
+    InputLabel,
+    Box
 } from '@material-ui/core';
 
 import Page from 'src/components/Page';
@@ -701,13 +703,15 @@ const BoatNote = () => {
                                                                             className={classes.textField}
                                                                             onKeyUp={setBoatPositionState}
                                                                         /> */}
-                                                                        <FormControl style={{ paddingRight: 10 }} variant="filled" size="small">
+                                                                        
+                                                                        <FormControl style={{ paddingRight: 10 , width: 120}} variant="outlined" size="small">
+                                                                        <InputLabel>ระวางเรือ</InputLabel>
                                                                             <Select
-
 
 
                                                                                 value={boatPosition}
                                                                                 variant="outlined"
+                                                                                label="ระวางเรือ"
                                                                                 size="small"
                                                                                 onChange={setBoatPositionState}
                                                                             >
@@ -720,7 +724,7 @@ const BoatNote = () => {
                                                                                 <MenuItem value={'ท้ายเรือ'}>ท้ายเรือ</MenuItem>
                                                                             </Select>
                                                                         </FormControl>
-
+                                                                      
                                                                         <TextField size="small" label={"Scan tag"} id={"tagScan"}
                                                                             variant="outlined"
                                                                             className={classes.textField}
