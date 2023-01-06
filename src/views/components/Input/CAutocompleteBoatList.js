@@ -32,19 +32,19 @@ export default function CAutocompleteBoatList(props) {
             const countries = [
                 {
                     boatList: "1",
-                    description: "ท้าย"
+                    description: "หัว"
                 },
                 {
                     boatList: "2",
-                    description: "ท้ายกลาง"
+                    description: "กลางหัว"
                 },
                 {
                     boatList: "3",
-                    description: "หัวกลาง"
+                    description: "กลางท้าย"
                 },
                 {
                     boatList: "4",
-                    description: "หัว"
+                    description: "ท้าย"
                 }
             ];
 
@@ -74,7 +74,7 @@ export default function CAutocompleteBoatList(props) {
             } */}
 
 
-            <Autocomplete
+            {/* <Autocomplete
                 defaultValue={{ boatList: props.value, description: "" }}
                 fullWidth
                 id="asynchronous-demo"
@@ -125,7 +125,7 @@ export default function CAutocompleteBoatList(props) {
                         }}
                     />
                 )}
-            />
+            /> */}
         </div>
 
     );
