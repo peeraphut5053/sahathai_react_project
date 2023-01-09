@@ -707,11 +707,8 @@ const BoatNote = () => {
                                                                         <FormControl style={{ paddingRight: 10 , width: 120}} variant="outlined" size="small">
                                                                         <InputLabel>ระวางเรือ</InputLabel>
                                                                             <Select
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 7779a4059e01b8e5eaa5789bf9cf25bea9e1fd26
                                                                                 value={boatPosition}
                                                                                 variant="outlined"
                                                                                 label="ระวางเรือ"
