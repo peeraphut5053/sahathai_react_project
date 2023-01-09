@@ -83,7 +83,8 @@ const ProductionDashboard = () => {
                     Production Index 
                   </Typography>
                   <Typography color="textPrimary" gutterBottom variant="h5" >
-                    {moment().format('YYYY-MM-DD HH:mm:ss')} เวลา {date.toLocaleTimeString()}
+                    {moment().format('YYYY-MM-DD HH:mm:ss')} 
+                    {/* เวลา {date.toLocaleTimeString()} */}
                   </Typography>
                 </Grid>
               </Grid>

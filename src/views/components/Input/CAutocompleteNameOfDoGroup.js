@@ -11,7 +11,7 @@ function sleep(delay = 0) {
     });
 }
 
-export default function CAutocompleteBoatList(props) {
+export default function CAutocompleteNameOfDoGroup(props) {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
     const loading = open && options.length === 0;
@@ -24,30 +24,12 @@ export default function CAutocompleteBoatList(props) {
         }
 
         (async () => {
-            let response = await fetch(`${APIPath}/RPT_JOBPACKING/data.php?load=workcenter`);
+            let response = await fetch(`${APIPath}/API_QuantityMove/data.php?load=STS_list_of_do_group`);
 
-            // const response = await fetch('https://country.register.gov.uk/records.json?page-size=5000');
+            // const response = await fetch('https://country.register.gov.uk/records.json?page-size=5000');111
             // const response2 = await API_sts_web_center.get("RPT_JOBPACKING/data.php?load=workcenter");
             await sleep(1e3); // For demo purposes.
-            const countries = [
-                {
-                    boatList: "1",
-                    description: "หัว"
-                },
-                {
-                    boatList: "2",
-                    description: "กลางหัว"
-                },
-                {
-                    boatList: "3",
-                    description: "กลางท้าย"
-                },
-                {
-                    boatList: "4",
-                    description: "ท้าย"
-                }
-            ];
-
+            const countries = await response.json();
 
             if (active) {
                 console.log("countries", countries)
@@ -74,8 +56,8 @@ export default function CAutocompleteBoatList(props) {
             } */}
 
 
-            {/* <Autocomplete
-                defaultValue={{ boatList: props.value, description: "" }}
+            <Autocomplete
+                defaultValue={{ id: props.value, do_group_name: "" }}
                 fullWidth
                 id="asynchronous-demo"
                 style={{ fontSize: 8 }}
@@ -89,15 +71,15 @@ export default function CAutocompleteBoatList(props) {
                 }}
                 getOptionSelected={(option, value) => option.boatList === value.boatList}
                 // getOptionSelected={(option, value) => ()=>{console.log(value)}}
-                getOptionLabel={(option) => `${option.boatList}  ${option.description}`}
+                getOptionLabel={(option) => `${option.id}  ${option.do_group_name}`}
                 options={options}
                 loading={loading}
                 onChange={(option, value) => {
                     console.log(value)
                     if (value) {
-                        props.setFieldValue('boatList', value.boatList)
+                        props.setdo_group_name(value.do_group_name)
                     } else {
-                        props.setFieldValue('boatList', '')
+                        props.setdo_group_name('')
                     }
 
                 }
@@ -106,7 +88,7 @@ export default function CAutocompleteBoatList(props) {
                 renderInput={(params) => (
                     <TextField
                         {...params}
-                        label="ตำแหน่งที่วางสินค้า"
+                        label="กลุ่มใบ DO ที่ต้องการขนส่ง"
                         variant="outlined"
                         size="small"
                         InputProps={{
@@ -125,7 +107,7 @@ export default function CAutocompleteBoatList(props) {
                         }}
                     />
                 )}
-            /> */}
+            />
         </div>
 
     );
