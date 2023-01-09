@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 const CardBoatLine = (props, { className, ...rest }) => {
   const classes = useStyles();
 
-  const [openModalItem, setOpenModalItem] = React.useState(true);
+  const [openModalItem, setOpenModalItem] = React.useState(false); // Boat NOte
   const [do_group_name, setdo_group_name] = useState("")
 
   const printReportMove = async (doc_type) => {
@@ -175,7 +175,7 @@ const CardBoatLine = (props, { className, ...rest }) => {
                     </>
                     :
                     <>
-                      <Chip label={"พิมพ์ Boat Note"} color="primary" style={{ marginRight: 5 }} onClick={() => setOpenModalItem(true)} />
+                      <Chip label={"พิมพ์ Boat Note Demo"} color="primary" style={{ marginRight: 5 }} onClick={() => setOpenModalItem(true)} />
                       <Chip label={"พิมพ์ใบสรุปการส่งสินค้า"} color="primary" style={{ marginRight: 5 }} onClick={() => printReportMove("Internal")} />
                       <Chip label={"พิมพ์รายละเอียด Barcode"} color="primary" style={{ marginRight: 5 }} onClick={() => printReportMove("BoatNote")} />
                     </>
