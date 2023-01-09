@@ -703,9 +703,6 @@ const BoatNote = () => {
                                                                         /> */}
                                                                         <FormControl style={{ paddingRight: 10 }} variant="filled" size="small">
                                                                             <Select
-
-
-
                                                                                 value={boatPosition}
                                                                                 variant="outlined"
                                                                                 size="small"

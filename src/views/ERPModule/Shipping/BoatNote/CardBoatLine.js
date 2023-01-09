@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
@@ -13,13 +13,14 @@ import {
   Button,
   Chip
 } from '@material-ui/core';
-import ModalManagementFullPage from '../../../components/ModalManagementFullPage';
+import ModalManagement from '../../../components/ModalManagement';
 import MaterialTable, { MTableToolbar } from 'material-table';
 import tableIcons from 'src/views/components/table/tableIcons';
 import { ReportMoveInternal } from './ReportMoveInternal';
 import { ReportMoveBoatNote } from './ReportMoveBoatNote';
 import API from 'src/views/components/API';
 import CTextField from 'src/views/components/Input/CTextField';
+import CAutocompleteNameOfDoGroup from '../../../components/Input/CAutocompleteNameOfDoGroup';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +45,8 @@ const useStyles = makeStyles((theme) => ({
 const CardBoatLine = (props, { className, ...rest }) => {
   const classes = useStyles();
 
-  const [openModalItem, setOpenModalItem] = React.useState(false);
+  const [openModalItem, setOpenModalItem] = React.useState(true);
+  const [do_group_name, setdo_group_name] = useState("")
 
   const printReportMove = async (doc_type) => {
     if (props.doc_num) {
@@ -63,7 +65,7 @@ const CardBoatLine = (props, { className, ...rest }) => {
           }
         })
         console.log(response2.data);
-        ReportMoveInternal(response2.data,response.data)
+        ReportMoveInternal(response2.data, response.data)
       } else if (doc_type == "BoatNote") {
         const response = await API.get("RPT_JOBPACKING/data.php", {
           params: {
@@ -73,11 +75,16 @@ const CardBoatLine = (props, { className, ...rest }) => {
         })
         ReportMoveBoatNote(response.data, response.data, response.data, response.data)
       }
+    }else if (doc_type == "BoatNoteSelectByDoGroup"){
+      const response = await API.get("RPT_JOBPACKING/data.php", {
+        params: {
+          load: 'BoatNoteSelectByDoGroup',
+          do_group_name: do_group_name
+        }
+      })
+      ReportMoveBoatNote(response.data, response.data, response.data, response.data)
 
-
-
-
-    } else {
+    }else {
       alert("เลือกใบส่งของ")
     }
   }
@@ -99,22 +106,41 @@ const CardBoatLine = (props, { className, ...rest }) => {
 
 
   const handleCloseModalItem = async () => {
-
-
     setOpenModalItem(false);
   };
   return (
     <Card
-      className={clsx(classes.root, className)}
-      {...rest}
 
     >
-      <ModalManagementFullPage
+      <ModalManagement
         modalHeader={
           <></>
         }
         modalDetail={
-          <div>123</div>
+          <div>
+
+            <>
+              <Grid container spacing={2}>
+
+                <Grid item xs={12} >
+                  <CAutocompleteNameOfDoGroup
+                    // onBlur={handleBlur}
+                    name="do_group_name"
+                    value={do_group_name}
+                    setdo_group_name={setdo_group_name}
+
+                  />
+                </Grid>
+
+                <Grid item xs={12} >
+                  <Button variant="contained" label={""} color="primary"
+                    onClick={()=>printReportMove("BoatNoteSelectByDoGroup")} >
+                    พิมพ์ BoatNote {do_group_name}
+                  </Button>
+                </Grid>
+              </Grid>
+            </>
+          </div>
         }
 
         open={openModalItem}
@@ -149,8 +175,9 @@ const CardBoatLine = (props, { className, ...rest }) => {
                     </>
                     :
                     <>
-                    <Chip label={"พิมพ์ใบสรุปการส่งสินค้า"} color="primary" style={{ marginRight: 5 }} onClick={() => printReportMove("Internal")} />
-                    <Chip label={"พิมพ์รายละเอียด Barcode"} color="primary" style={{ marginRight: 5 }} onClick={() => printReportMove("BoatNote")} />
+                      <Chip label={"พิมพ์ Boat Note"} color="primary" style={{ marginRight: 5 }} onClick={() => setOpenModalItem(true)} />
+                      <Chip label={"พิมพ์ใบสรุปการส่งสินค้า"} color="primary" style={{ marginRight: 5 }} onClick={() => printReportMove("Internal")} />
+                      <Chip label={"พิมพ์รายละเอียด Barcode"} color="primary" style={{ marginRight: 5 }} onClick={() => printReportMove("BoatNote")} />
                     </>
                 }
 
