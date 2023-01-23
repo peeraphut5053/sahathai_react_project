@@ -80,6 +80,12 @@ const LatestProducts = ({ className, ...rest }) => {
       SearchOutStanding()
     }, 3000);
 
+    var timerID = setInterval(() => SearchOutStanding(), 240000);
+
+
+    return function cleanup() {
+      clearInterval(timerID);
+    };
   }, [])
 
 

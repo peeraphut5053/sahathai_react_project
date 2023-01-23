@@ -89,6 +89,14 @@ const ChartExecutiveSummary = ({ className, ...rest }) => {
   useEffect(() => {
     STS_execRpt_SUM_mthly(Item_Group)
     selectColor(item_Group_selected)
+    var timerID = setInterval(() =>  STS_execRpt_SUM_mthly(Item_Group), 240000);
+    // var timerID = setInterval(() =>  selectColor(item_Group_selected), 15000);
+
+
+    return function cleanup() {
+      clearInterval(timerID);
+    };
+  
   }, [Item_Group, item_Group_selected])
 
 
