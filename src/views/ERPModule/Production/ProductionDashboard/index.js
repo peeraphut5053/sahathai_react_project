@@ -34,6 +34,7 @@ const ProductionDashboard = () => {
 
 
   React.useEffect(() => {
+    setTimeout (() => tick(), 2000);
     var timerID = setInterval(() => tick(), 15000);
 
     
@@ -102,8 +103,11 @@ const ProductionDashboard = () => {
                   icons={tableIcons}
                   title={"ปู่เจ้า"}
                   columns={[
-                    { title: 'description', field: 'description', width: 200 },
-                    { title: 'qty', field: 'qty', type: 'numeric' },
+                    { title: 'Station', field: 'Station', width: 200 },
+                    { title: 'Qty Today (PCS)', field: 'Qty Today (PCS)', type: 'numeric' },
+                    { title: 'Qty MTD (PCS)', field: 'Qty MTD (PCS)', type: 'numeric' },
+                    { title: 'Qty Today (Ton)', field: 'Qty Today (Ton)', type: 'numeric' },
+                    { title: 'Qty MTD (Ton)', field: 'Qty MTD (Ton)', type: 'numeric' },
                   ]}
                   data={ProductionDashboardP}
                   options={{
@@ -138,8 +142,11 @@ const ProductionDashboard = () => {
                   icons={tableIcons}
                   title={"วังน้อย"}
                   columns={[
-                    { title: 'description', field: 'description', width: 200 },
-                    { title: 'qty', field: 'qty', type: 'numeric' },
+                    { title: 'Station', field: 'Station', width: 200 },
+                    { title: 'Qty Today (PCS)', field: 'Qty Today (PCS)', type: 'numeric' },
+                    { title: 'Qty MTD (PCS)', field: 'Qty MTD (PCS)', type: 'numeric' },
+                    { title: 'Qty Today (Ton)', field: 'Qty Today (Ton)', type: 'numeric' },
+                    { title: 'Qty MTD (Ton)', field: 'Qty MTD (Ton)', type: 'numeric' },
                   ]}
                   data={ProductionDashboardW}
                   options={{

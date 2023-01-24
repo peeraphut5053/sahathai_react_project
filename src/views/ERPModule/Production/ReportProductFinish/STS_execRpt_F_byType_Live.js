@@ -27,7 +27,7 @@ const STS_execRpt_F_byType_Live = (props) => {
   const classes = useStyles();
   const [DataSTS_execRpt_F_byType_Live, setDataSTS_execRpt_F_byType_Live] = useState([])
   const [IsLoadingState, setIsLoadingState] = useState(true)
-
+  
 
   const searchSTS_execRpt_F_byType_Live = (daystart, dayend) => {
 
@@ -50,7 +50,7 @@ const STS_execRpt_F_byType_Live = (props) => {
     let emptyRow = {};
     for (let key of keys) {
       if (key === keys[0]) { totalRow[key] = 'Total'; }
-      else if (key === keys[1]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[2]]); }, 0);; }
+      else if (key === keys[1]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[1]]); }, 0);; }
       else if (key === keys[2]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[2]]); }, 0);; }
       else if (key === keys[3]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[3]]); }, 0);; }
       else if (key === keys[4]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[4]]); }, 0);; }
@@ -87,7 +87,7 @@ const STS_execRpt_F_byType_Live = (props) => {
     >
 
       <Container maxWidth={false}>
-
+ 
         <Grid container spacing={0} >
           {/* {JSON.stringify(DataSTS_execRpt_F_byType_Live)} */}
           {/* <Grid item xs={12}>
@@ -114,7 +114,7 @@ const STS_execRpt_F_byType_Live = (props) => {
 
               ]}
               data={DataSTS_execRpt_F_byType_Live}
-
+              
               options={{
 
                 cellStyle: { padding: '0.1' },
