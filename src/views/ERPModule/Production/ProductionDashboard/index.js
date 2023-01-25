@@ -33,31 +33,32 @@ const ProductionDashboard = () => {
   const [ProductionDashboardW, setProductionDashboardW] = useState([])
 
 
-  React.useEffect(() => {
-    setTimeout (() => tick(), 2000);
-    var timerID = setInterval(() => tick(), 15000);
-
-    
-
-    return function cleanup() {
-      clearInterval(timerID);
-    };
-  });
-
-  function tick() {
-    API.get(`API_ExecutiveReport/data.php?load=ProductionDashboardP`)
-      .then(res => {
-        setProductionDashboardP(res.data)
-      })
-      API.get(`API_ExecutiveReport/data.php?load=ProductionDashboardW`)
-      .then(res => {
-        setProductionDashboardW(res.data)
-      })
-      
-    setDate(new Date());
+  const tick = () => {
+      setTimeout(() => {
+      API.get(`API_ExecutiveReport/data.php?load=ProductionDashboardP`)
+        .then(res => {
+          setProductionDashboardP(res.data)
+        })
+        API.get(`API_ExecutiveReport/data.php?load=ProductionDashboardW`)
+        .then(res => {
+          setProductionDashboardW(res.data) 
+        })
+        
+      setDate(new Date());
+    }, 2000);
   }
 
+  React.useEffect(() => {
+      tick()
+      var timerID = setInterval(() => tick(), 15000);
+      
 
+      return function cleanup() {
+        clearInterval(timerID);
+      };
+  }, [])
+
+ 
   return (
     <Page
       className={classes.root}
