@@ -101,7 +101,7 @@ const V_STS_execRpt_F_byMKTType_Live = (props) => {
             <ThemeProvider theme={theme}>
 
               <MaterialTable
-                title={`รายงาน ${props.title}`}
+                title={`${props.title}`}
                 icons={tableIcons}
                 isLoading={IsLoadingState}
 
