@@ -104,7 +104,7 @@ const STS_execRpt_F_bySize_Live = (props) => {
 
               columns={[
                 
-                { title: 'no.', field: 'no.' },
+                // { title: 'no.', field: 'no.' },
                 { title: 'SIZE', field: 'SIZE' },
                 { title: 'USA จำนวนเส้น', field: 'USA จำนวนเส้น', type: 'numeric' },
                 { title: 'USA นน.ตัน', field: 'USA นน.ตัน', type: 'numeric' },

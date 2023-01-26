@@ -99,7 +99,7 @@ const STS_execRpt_F_bySizeType_Live = (props) => {
               icons={tableIcons}
               isLoading={IsLoadingState}
               columns={[
-                { title: 'no.', field: 'no.' },
+                // { title: 'no.', field: 'no.' },
                 { title: 'SIZE', field: 'SIZE' },
                 { title: 'Type', field: 'Type' },
                 { title: 'USA จำนวนเส้น', field: 'USA จำนวนเส้น', type: 'numeric' },
