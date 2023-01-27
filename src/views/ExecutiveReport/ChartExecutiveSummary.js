@@ -142,7 +142,7 @@ const ChartExecutiveSummary = ({ className, ...rest }) => {
       setSelectLineColor(colors.indigo[500])
     } else if (item_Group_selected == "Strip") {
       setSelectLineColor(colors.orange[500])
-    } else if (item_Group_selected == "Process") {
+    } else if (item_Group_selected == "Processing Pipe") {
       setSelectLineColor(colors.red[500])
     } else if (item_Group_selected == "Finished Pipe") {
       setSelectLineColor(colors.green[500])
@@ -432,7 +432,7 @@ const ChartExecutiveSummary = ({ className, ...rest }) => {
               <MenuItem onClick={() => handleClose("all")}>OVERALL BALANCE</MenuItem>
               <MenuItem onClick={() => handleClose("Coil")}>Coil</MenuItem>
               <MenuItem onClick={() => handleClose("Strip")}>Strip</MenuItem>
-              {/* <MenuItem onClick={() => handleClose("Processing Pipe")}>Processing Pipe</MenuItem> */}
+              <MenuItem onClick={() => handleClose("Processing Pipe")}>Processing Pipe</MenuItem>
               <MenuItem onClick={() => handleClose("Finished Pipe")}>Finished Pipe</MenuItem>
               <MenuItem onClick={() => handleClose("Scrap Pipe")}>Scrap Pipe</MenuItem>
             </Menu>
