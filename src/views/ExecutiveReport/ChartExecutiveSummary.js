@@ -433,7 +433,7 @@ const ChartExecutiveSummary = ({ className, ...rest }) => {
               <MenuItem onClick={() => handleClose("Coil")}>Coil</MenuItem>
               <MenuItem onClick={() => handleClose("Strip")}>Strip</MenuItem>
               {/* <MenuItem onClick={() => handleClose("Processing Pipe")}>Processing Pipe</MenuItem> */}
-              <MenuItem onClick={() => handleClose("Finished Pipe")}>Finshed Pipe</MenuItem>
+              <MenuItem onClick={() => handleClose("Finished Pipe")}>Finished Pipe</MenuItem>
               <MenuItem onClick={() => handleClose("Scrap Pipe")}>Scrap Pipe</MenuItem>
             </Menu>
             <span hidden={LoadingData}>
