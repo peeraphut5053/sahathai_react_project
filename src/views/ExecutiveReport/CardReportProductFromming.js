@@ -52,7 +52,7 @@ const TotalCustomers = ({ className, ...rest }) => {
     >
       <ModalManagementFullPage
         modalHeader={
-          <></>
+          <>รายงานอายุสินค้าระหว่างผลิต</>
         }
         modalDetail={
           <ReportProductForming />

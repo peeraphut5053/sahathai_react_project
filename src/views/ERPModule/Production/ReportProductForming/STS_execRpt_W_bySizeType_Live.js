@@ -12,6 +12,8 @@ import MaterialTable, { MTableToolbar } from 'material-table';
 import tableIcons from 'src/views/components/table/tableIcons';
 import API from 'src/views/components/API';
 import MenuChip from './MenuChip';
+import ModalNopaperSmall from '../../../components/ModalNopaperSmall';
+import STS_execRpt_W_bySizeType_Live_Detail from './STS_execRpt_W_bySizeType_Live_Detail';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +29,10 @@ const STS_execRpt_W_bySizeType_Live = (props) => {
   const classes = useStyles();
   const [DataSTS_execRpt_W_bySizeType_Live, setDataSTS_execRpt_W_bySizeType_Live] = useState([])
   const [IsLoadingState, setIsLoadingState] = useState(true)
-  
+
+  const [openModalDetailUSA, setOpenModalDetailUSA] = React.useState(false);
+  const [openModalDetailAUS, setOpenModalDetailAUS] = React.useState(false);
+  const [openModalDetailIN, setOpenModalDetailIN] = React.useState(false);
 
   const searchSTS_execRpt_W_bySizeType_Live = (daystart, dayend) => {
 
@@ -77,11 +82,64 @@ const STS_execRpt_W_bySizeType_Live = (props) => {
     return [...data, emptyRow, totalRow];
   }
 
+  const handleCloseModalItem = async () => {
+    setOpenModalDetailUSA(false);
+    setOpenModalDetailAUS(false);
+    setOpenModalDetailIN(false);
+  };
+
   return (
     <Page
       className={classes.root}
       title="Dashboard"
     >
+       <ModalNopaperSmall
+         style={{  width: 500 }} 
+        modalHeader={
+          <>รายงาน {`Detail USA`}</>
+        }
+        modalDetail={
+          <STS_execRpt_W_bySizeType_Live_Detail
+            title={`Detail USA ${props.title}`}
+            daystart={props.daystart}
+            dayend={props.dayend}
+            country={"USA"}
+          />
+        }
+        open={openModalDetailUSA}
+        onClose={handleCloseModalItem}
+      />
+      <ModalNopaperSmall
+        modalHeader={
+          <>รายงาน {`Detail AUS`}</>
+        }
+        modalDetail={
+          <STS_execRpt_W_bySizeType_Live_Detail
+            title={`Detail AUS ${props.title}`}
+            label={props.label}
+            daystart={props.daystart}
+            dayend={props.dayend}
+            country={"AUS"}
+          />
+        }
+        open={openModalDetailAUS}
+        onClose={handleCloseModalItem}
+      />
+      <ModalNopaperSmall 
+        modalHeader={
+          <>รายงาน {`Detail ขายใน`}</>
+        }
+        modalDetail={
+          <STS_execRpt_W_bySizeType_Live_Detail
+            title={`Detail ขายใน ${props.title}`}
+            daystart={props.daystart}
+            dayend={props.dayend}
+            country={"IN"}
+          />
+        }
+        open={openModalDetailIN}
+        onClose={handleCloseModalItem}
+      />
 
       <Container maxWidth={false}>
 
@@ -112,6 +170,45 @@ const STS_execRpt_W_bySizeType_Live = (props) => {
 
               ]}
               data={DataSTS_execRpt_W_bySizeType_Live}
+
+              components={{
+                Toolbar: props => (
+                  <div>
+                    <MTableToolbar {...props} />
+                    <div style={{ padding: '0px 20px 0.1px'}}>
+                      <Chip
+                        aria-controls="customized-menu"
+                        aria-haspopup="true"
+                        variant="contained"
+                        color="primary"
+                        onClick={setOpenModalDetailUSA}
+                        label={"Detail USA"}
+                      >
+                      </Chip>
+                   <span style={{ padding: '0px 5px' }}> </span>
+                      <Chip
+                        aria-controls="customized-menu"
+                        aria-haspopup="true"
+                        variant="contained"
+                        color="primary"
+                        onClick={setOpenModalDetailAUS}
+                        label={"Detail AUS"}
+                      >
+                      </Chip>
+                    <span style={{ padding: '0px 5px' }}> </span>
+                      <Chip
+                        aria-controls="customized-menu"
+                        aria-haspopup="true"
+                        variant="contained"
+                        color="primary"
+                        onClick={setOpenModalDetailIN}
+                        label={"Detail ขายใน"}
+                      >
+                      </Chip>
+                        </div>
+                    </div>
+                  ),
+                }}
 
               options={{
 
