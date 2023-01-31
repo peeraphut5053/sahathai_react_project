@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+
 import {
   Avatar,
   Box,
@@ -11,6 +12,10 @@ import {
   colors,
   makeStyles,
   Button,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
   Chip
 } from '@material-ui/core';
 import ModalManagement from '../../../components/ModalManagement';
@@ -21,6 +26,7 @@ import { ReportMoveBoatNote } from './ReportMoveBoatNote';
 import API from 'src/views/components/API';
 import CTextField from 'src/views/components/Input/CTextField';
 import CAutocompleteNameOfDoGroup from '../../../components/Input/CAutocompleteNameOfDoGroup';
+import CAutocompleteLocation from '../../../components/Input/CAutocompleteLocation2';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -47,6 +53,8 @@ const CardBoatLine = (props, { className, ...rest }) => {
 
   const [openModalItem, setOpenModalItem] = React.useState(false); // Boat NOte
   const [do_group_name, setdo_group_name] = useState("")
+  const [loc, set_loc] = useState("")
+  const [boatPosition, setBoatPosition] = useState("");
 
   const printReportMove = async (doc_type) => {
     if (props.doc_num) {
@@ -75,16 +83,18 @@ const CardBoatLine = (props, { className, ...rest }) => {
         })
         ReportMoveBoatNote(response.data, response.data, response.data, response.data)
       }
-    }else if (doc_type == "BoatNoteSelectByDoGroup"){
+    } else if (doc_type == "BoatNoteSelectByDoGroup") {
       const response = await API.get("RPT_JOBPACKING/data.php", {
         params: {
           load: 'BoatNoteSelectByDoGroup',
-          do_group_name: do_group_name
+          do_group_name: do_group_name,
+          loc : loc,
+          boatPosition : boatPosition
         }
       })
       ReportMoveBoatNote(response.data, response.data, response.data, response.data)
 
-    }else {
+    } else {
       alert("เลือกใบส่งของ")
     }
   }
@@ -103,7 +113,9 @@ const CardBoatLine = (props, { className, ...rest }) => {
     props.handlesetEditStatus()
   }
 
-
+  const setBoatPositionState = (event) => {
+    setBoatPosition(event.target.value)
+  }
 
   const handleCloseModalItem = async () => {
     setOpenModalItem(false);
@@ -128,13 +140,38 @@ const CardBoatLine = (props, { className, ...rest }) => {
                     name="do_group_name"
                     value={do_group_name}
                     setdo_group_name={setdo_group_name}
-
                   />
                 </Grid>
-
+                <Grid item xs={12} >
+                  <FormControl style={{ width: 100 + '%' }} variant="outlined" size="small">
+                    <InputLabel>ระวางเรือ</InputLabel>
+                    <Select
+                      value={boatPosition}
+                      variant="outlined"
+                      label="ระวางเรือ"
+                      size="small"
+                      onChange={setBoatPositionState}
+                    >
+                      <MenuItem value="ไม่ระบุตำแหน่ง">
+                        <em>None</em>
+                      </MenuItem>
+                      <MenuItem value={'หัวเรือ'}>หัวเรือ</MenuItem>
+                      <MenuItem value={'กลางหัว'}>กลางหัว</MenuItem>
+                      <MenuItem value={'กลางท้าย'}>กลางท้าย</MenuItem>
+                      <MenuItem value={'ท้ายเรือ'}>ท้ายเรือ</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} >
+                  <CAutocompleteLocation
+                    name="loc"
+                    value={loc}
+                    setFieldValue={set_loc}
+                  />
+                </Grid>
                 <Grid item xs={12} >
                   <Button variant="contained" label={""} color="primary"
-                    onClick={()=>printReportMove("BoatNoteSelectByDoGroup")} >
+                    onClick={() => printReportMove("BoatNoteSelectByDoGroup")} >
                     พิมพ์ BoatNote {do_group_name}
                   </Button>
                 </Grid>
