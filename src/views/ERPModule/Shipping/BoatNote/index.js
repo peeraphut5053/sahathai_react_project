@@ -713,7 +713,7 @@ const BoatNote = () => {
                                                                                 size="small"
                                                                                 onChange={setBoatPositionState}
                                                                             >
-                                                                                <MenuItem value="ไม่ระบุตำแหน่ง">
+                                                                                <MenuItem value="">
                                                                                     <em>None</em>
                                                                                 </MenuItem>
                                                                                 <MenuItem value={'หัวเรือ'}>หัวเรือ</MenuItem>
