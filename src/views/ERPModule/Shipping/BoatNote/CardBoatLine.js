@@ -81,7 +81,7 @@ const CardBoatLine = (props, { className, ...rest }) => {
             doc_num: props.doc_num
           }
         })
-        ReportMoveBoatNote(response.data, response.data, response.data, response.data)
+        ReportMoveBoatNote(response.data, loc, response.data, response.data)
       }
     } else if (doc_type == "BoatNoteSelectByDoGroup") {
       const response = await API.get("RPT_JOBPACKING/data.php", {
@@ -92,7 +92,7 @@ const CardBoatLine = (props, { className, ...rest }) => {
           boatPosition : boatPosition
         }
       })
-      ReportMoveBoatNote(response.data, response.data, response.data, response.data)
+      ReportMoveBoatNote(response.data, loc, response.data, response.data)
 
     } else {
       alert("เลือกใบส่งของ")
