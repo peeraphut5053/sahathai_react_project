@@ -33,12 +33,16 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
         { text: "Uf_Schedule", fontSize: 11, alignment: 'center' },
         { text: "Uf_length", fontSize: 11, alignment: 'center' },
         { text: "countlot", fontSize: 11, alignment: 'center' },
+        { text: "PCS/BDL", fontSize: 11, alignment: 'center' },
+        { text: "Weight", fontSize: 11, alignment: 'center' },
         // { text: "ตำแหน่งสินค้า \n boat position", fontSize: 11, alignment: 'center' },
 
     ])
 
     let total_bundle = 0;
     let total_pcs = 0;
+    let total_bdl = 0;
+    let total_weight = 0;
     let cal_bundel = []
 
 
@@ -49,6 +53,8 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
         total_bundle = total_bundle + result[i]["SUMLotBundle"]
         // total_pcs = total_pcs + dataNow[i]["SUMLotPCS"]
         total_pcs = total_pcs + result[i]["countlot"]
+        total_bdl = total_bdl + result[i]["PCSperBundle"]
+        total_weight = total_weight + result[i]["weight"]
         cal_bundel.push(result[i]["SUMLotPCS"])
 
         data.push([
@@ -62,12 +68,14 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
             { text: result[i]["Uf_Schedule"], fontSize: 12, alignment: 'center' },
             { text: result[i]["Uf_length"], fontSize: 12, alignment: 'center' },
             { text: result[i]["countlot"], fontSize: 12, alignment: 'center' },
+            { text: result[i]["PCSperBundle"], fontSize: 12, alignment: 'center' },
+            { text: result[i]["weight"], fontSize: 12, alignment: 'center' },
             // { text: result[i]["boat_position"], fontSize: 12, alignment: 'center' },
         ],
         )
         if (i === result.length - 1) {
             data.push([
-                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 8 },
+                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 9 },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
@@ -77,7 +85,9 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
-                { text: total_pcs, fontSize: 11, alignment: 'center' },
+                { text: total_pcs, fontSize: 13, alignment: 'center' },
+                { text: total_bdl, fontSize: 13, alignment: 'center' },
+                { text: total_weight, fontSize: 13, alignment: 'center' },
             ],
             )
         }
@@ -96,12 +106,16 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
         { text: "Uf_Schedule", fontSize: 11, alignment: 'center' },
         { text: "Uf_length", fontSize: 11, alignment: 'center' },
         { text: "countlot", fontSize: 11, alignment: 'center' },
+        { text: "PCS/BDL", fontSize: 11, alignment: 'center' },
+        { text: "Weight", fontSize: 11, alignment: 'center' },
         // { text: "ตำแหน่งสินค้า \n boat position", fontSize: 11, alignment: 'center' },
 
     ])
 
     let total_bundle2 = 0;
     let total_pcs2 = 0;
+    let total_bdl2 = 0;
+    let total_weight2 = 0;
     let cal_bundel2 = []
 
     let result2 = dataNow.filter((d) => d.boat_position == "กลางหัว")
@@ -111,6 +125,8 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
         total_bundle2 = total_bundle + result2[i]["SUMLotBundle"]
         // total_pcs2 = total_pcs + dataNow2[i]["SUMLotPCS"]
         total_pcs2 = total_pcs2 + result2[i]["countlot"]
+        total_bdl2 = total_bdl2 + result2[i]["PCSperBundle"]
+        total_weight2 = total_weight2 + result2[i]["weight"]
         cal_bundel2.push(dataNow[i]["SUMLotPCS"])
 
 
@@ -125,13 +141,15 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
             { text: result2[i]["Uf_Schedule"], fontSize: 12, alignment: 'center' },
             { text: result2[i]["Uf_length"], fontSize: 12, alignment: 'center' },
             { text: result2[i]["countlot"], fontSize: 12, alignment: 'center' },
+            { text: result2[i]["PCSperBundle"], fontSize: 12, alignment: 'center' },
+            { text: result2[i]["weight"], fontSize: 12, alignment: 'center' },
             // { text: result[i]["boat_position"], fontSize: 12, alignment: 'center' },
 
         ],
         )
         if (i === result2.length - 1) {
             data2.push([
-                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 8 },
+                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 9 },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
@@ -141,7 +159,9 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
-                { text: total_pcs2, fontSize: 11, alignment: 'center' },
+                { text: total_pcs2, fontSize: 13, alignment: 'center' },
+                { text: total_bdl2, fontSize: 13, alignment: 'center' },
+                { text: total_weight2, fontSize: 13, alignment: 'center' },
             ],
             )
         }
@@ -162,12 +182,16 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
         { text: "Uf_Schedule", fontSize: 11, alignment: 'center' },
         { text: "Uf_length", fontSize: 11, alignment: 'center' },
         { text: "countlot", fontSize: 11, alignment: 'center' },
+        { text: "PCS/BDL", fontSize: 11, alignment: 'center' },
+        { text: "Weight", fontSize: 11, alignment: 'center' },
         // { text: "ตำแหน่งสินค้า \n boat position", fontSize: 11, alignment: 'center' },
 
     ])
 
     let total_bundle3 = 0;
     let total_pcs3 = 0;
+    let total_bdl3 = 0;
+    let total_weight3 = 0;
     let cal_bundel3 = []
 
     let result3 = dataNow.filter((d) => d.boat_position == "กลางท้าย")
@@ -177,6 +201,8 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
         total_bundle3 = total_bundle + result3[i]["SUMLotBundle"]
         // total_pcs3 = total_pcs + dataNow3[i]["SUMLotPCS"]
         total_pcs3 = total_pcs3 + result3[i]["countlot"]
+        total_bdl3 = total_bdl3 + result3[i]["PCSperBundle"]
+        total_weight3 = total_weight3 + result3[i]["weight"]
         cal_bundel3.push(result3[i]["SUMLotPCS"])
 
         data3.push([
@@ -190,12 +216,14 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
             { text: result3[i]["Uf_Schedule"], fontSize: 12, alignment: 'center' },
             { text: result3[i]["Uf_length"], fontSize: 12, alignment: 'center' },
             { text: result3[i]["countlot"], fontSize: 12, alignment: 'center' },
+            { text: result3[i]["PCSperBundle"], fontSize: 12, alignment: 'center' },
+            { text: result3[i]["weight"], fontSize: 12, alignment: 'center' },
             // { text: result[i]["boat_position"], fontSize: 12, alignment: 'center' },
         ],
         )
         if (i === result3.length - 1) {
             data3.push([
-                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 8 },
+                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 9 },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
@@ -205,7 +233,9 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
-                { text: total_pcs3, fontSize: 11, alignment: 'center' },
+                { text: total_pcs3, fontSize: 13, alignment: 'center' },
+                { text: total_bdl3, fontSize: 13, alignment: 'center' },
+                { text: total_weight3, fontSize: 13, alignment: 'center' },
             ],
             )
         }
@@ -225,6 +255,8 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
         { text: "Uf_Schedule", fontSize: 11, alignment: 'center' },
         { text: "Uf_length", fontSize: 11, alignment: 'center' },
         { text: "countlot", fontSize: 11, alignment: 'center' },
+        { text: "PCS/BDL", fontSize: 11, alignment: 'center' },
+        { text: "Weight", fontSize: 11, alignment: 'center' },
         // { text: "ตำแหน่งสินค้า \n boat position", fontSize: 11, alignment: 'center' },
 
 
@@ -232,6 +264,8 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
 
     let total_bundle4 = 0;
     let total_pcs4 = 0;
+    let total_bdl4 = 0;
+    let total_weight4 = 0;
     let cal_bundel4 = []
 
     let result4 = dataNow.filter((d) => d.boat_position == "ท้ายเรือ")
@@ -241,6 +275,8 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
         total_bundle4 = total_bundle + result4[i]["SUMLotBundle"]
         // total_pcs4 = total_pcs + dataNow4[i]["SUMLotPCS"]
         total_pcs4 = total_pcs4 + result4[i]["countlot"]
+        total_bdl4 = total_bdl4 + result4[i]["PCSperBundle"]
+        total_weight4 = total_weight4 + result4[i]["weight"]
         cal_bundel4.push(result4[i]["SUMLotPCS"])
 
         data4.push([
@@ -254,13 +290,15 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
             { text: result4[i]["Uf_Schedule"], fontSize: 12, alignment: 'center' },
             { text: result4[i]["Uf_length"], fontSize: 12, alignment: 'center' },
             { text: result4[i]["countlot"], fontSize: 12, alignment: 'center' },
+            { text: result4[i]["PCSperBundle"], fontSize: 12, alignment: 'center' },
+            { text: result4[i]["weight"], fontSize: 12, alignment: 'center' },
             // { text: result[i]["boat_position"], fontSize: 12, alignment: 'center' },
 
         ],
         )
         if (i === result4.length - 1) {
             data4.push([
-                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 8 },
+                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 9 },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
@@ -270,7 +308,9 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
-                { text: total_pcs4, fontSize: 11, alignment: 'center' },
+                { text: total_pcs4, fontSize: 13, alignment: 'center' },
+                { text: total_bdl4, fontSize: 13, alignment: 'center' },
+                { text: total_weight4, fontSize: 13, alignment: 'center' },
             ],
             )
         }
@@ -290,6 +330,8 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
         { text: "Uf_Schedule", fontSize: 11, alignment: 'center' },
         { text: "Uf_length", fontSize: 11, alignment: 'center' },
         { text: "countlot", fontSize: 11, alignment: 'center' },
+        { text: "PCS/BDL", fontSize: 11, alignment: 'center' },
+        { text: "Weight", fontSize: 11, alignment: 'center' },
         // { text: "ตำแหน่งสินค้า \n boat position", fontSize: 11, alignment: 'center' },
 
 
@@ -297,6 +339,8 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
 
     let total_bundle5 = 0;
     let total_pcs5 = 0;
+    let total_bdl5 = 0;
+    let total_weight5 = 0;
     let cal_bundel5 = []
 
     let result5 = dataNow.filter((d) => d.boat_position == "")
@@ -306,6 +350,8 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
         total_bundle5 = total_bundle + result5[i]["SUMLotBundle"]
         // total_pcs4 = total_pcs + dataNow4[i]["SUMLotPCS"]
         total_pcs5 = total_pcs5 + result5[i]["countlot"]
+        total_bdl5 = total_bdl5 + result5[i]["PCSperBundle"]
+        total_weight5 = total_weight5 + result5[i]["weight"]
         cal_bundel5.push(result5[i]["SUMLotPCS"])
 
         data5.push([
@@ -319,13 +365,15 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
             { text: result5[i]["Uf_Schedule"], fontSize: 12, alignment: 'center' },
             { text: result5[i]["Uf_length"], fontSize: 12, alignment: 'center' },
             { text: result5[i]["countlot"], fontSize: 12, alignment: 'center' },
+            { text: result5[i]["PCSperBundle"], fontSize: 12, alignment: 'center' },
+            { text: result5[i]["weight"], fontSize: 12, alignment: 'center' },
             // { text: result[i]["boat_position"], fontSize: 12, alignment: 'center' },
 
         ],
         )
         if (i === result5.length - 1) {
             data5.push([
-                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 8 },
+                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 9 },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
@@ -335,7 +383,9 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
-                { text: total_pcs4, fontSize: 11, alignment: 'center' },
+                { text: total_pcs5, fontSize: 13, alignment: 'center' },
+                { text: total_bdl5, fontSize: 13, alignment: 'center' },
+                { text: total_weight5, fontSize: 13, alignment: 'center' },
             ],
             )
         }
@@ -379,7 +429,7 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
                         [
                             {
                                 border: [false, false, false, false],
-                                text: `ชื่อเรือ ${loc}`, fontSize: 14, colSpan: 2
+                                text: `ชื่อเรือ ${loc} (${dataNow[1]["loc_description"]})`, fontSize: 14, colSpan: 2
                             },
                             { text: 'วันที่', fontSize: 14 },
                             {
@@ -408,7 +458,7 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
             },
             {
                 table: {
-                    widths: [20, 40, 60, 60, 50, 60, 35, 70, 50, 30],
+                    widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
                     headerRows: 1,
                     body: data,
                 },
@@ -432,7 +482,7 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
             },
             {
                 table: {
-                    widths: [20, 40, 60, 60, 50, 60, 35, 70, 50, 30],
+                    widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
                     headerRows: 1,
                     body: data2,
                 },
@@ -456,7 +506,7 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
             },
             {
                 table: {
-                    widths: [20, 40, 60, 60, 50, 60, 35, 70, 50, 30],
+                    widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
                     headerRows: 1,
                     body: data3,
                 },
@@ -469,7 +519,7 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
                         [
                             {
                                 border: [false, false, false, false],
-                                text: `หัวเรือ`, fontSize: 16, colSpan: 3, alignment: 'left',
+                                text: `ท้ายเรือ`, fontSize: 16, colSpan: 3, alignment: 'left',
                             },
                             { text: '', fontSize: 14 },
                             { text: '', fontSize: 14 },
@@ -479,7 +529,7 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
             },
             {
                 table: {
-                    widths: [20, 40, 60, 60, 50, 60, 35, 70, 50, 30],
+                    widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
                     headerRows: 1,
                     body: data4,
                 },
@@ -502,7 +552,7 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
             },
             {
                 table: {
-                    widths: [20, 40, 60, 60, 50, 60, 35, 70, 50, 30],
+                    widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
                     headerRows: 1,
                     body: data5,
                 },
