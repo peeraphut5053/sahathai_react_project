@@ -354,6 +354,18 @@ const BoatNote = () => {
         console.log(values)
     }
 
+    const BoatPfn = async (load, values, doc_num) => {
+        await API.get(`API_QuantityMove/data.php`, {
+            params: {
+                load: load,
+                id: values.id,
+                doc_num: doc_num,
+                boat_position: values.boat_position
+            }
+        });
+        console.log(values, doc_num)
+    }
+
 
 
 
@@ -656,7 +668,11 @@ const BoatNote = () => {
                                                             { title: 'item', field: 'item', width: 300 },
                                                             { title: 'qty', field: 'qty1', type: 'numeric' },
                                                             { title: 'unit', field: 'u_m' },
-                                                            { title: 'boat position', field: 'boat_position' },
+                                                            { 
+                                                                title: 'boat position', 
+                                                                field: 'boat_position',
+                                                                lookup: { หัวเรือ: 'หัวเรือ', กลางหัว: 'กลางหัว', กลางท้าย: 'กลางท้าย', ท้ายเรือ: 'ท้ายเรือ' }, 
+                                                            },
                                                         ]}
                                                         // onRowClick={(event, rowData) => {
                                                         //   SelectItemToModal(rowData)
@@ -687,6 +703,20 @@ const BoatNote = () => {
 
                                                                         resolve()
                                                                     }, 1000)
+                                                                }),
+
+                                                                onRowUpdate: (newData, oldData) =>
+                                                                new Promise((resolve, reject) => {
+                                                                  setTimeout(() => {
+                                                                    const dataUpdate = [...qtyMoveList];
+                                                                    const index = oldData.tableData.id;
+                                                                    dataUpdate[index] = newData;
+                                                                    // console.log(doc_num)
+                                                                    // console.log(newData)
+                                                                    setQtyMoveList([...dataUpdate]);
+                                                                    BoatPfn("UpdateBoat_Position", newData, doc_num)
+                                                                    resolve();
+                                                                  }, 1000)
                                                                 }),
                                                         }}
 
