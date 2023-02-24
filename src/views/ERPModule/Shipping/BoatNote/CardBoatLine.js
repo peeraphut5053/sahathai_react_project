@@ -92,7 +92,7 @@ const CardBoatLine = (props, { className, ...rest }) => {
           boatPosition : boatPosition
         }
       })
-      ReportMoveBoatNote(response.data, loc, response.data, response.data)
+      ReportMoveBoatNote(response.data, loc, boatPosition, response.data, response.data)
 
     } else {
       alert("เลือกใบส่งของ")

@@ -3,7 +3,7 @@ import pdfMake from "pdfmake/build/pdfmake";
 import { convertAllLotReport, workcenterHeader, dateFormatReport, fontsReport } from '../../Production/productionReport/function/GroupLot'
 import { logo } from './function/logo'
 
-function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
+function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
     pdfMake.fonts = fontsReport
 
 
@@ -391,6 +391,452 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
         }
     }
 
+    if (boatPosition == "หัวเรือ"){
+        var docDefinition2 = {
+            pageSize: 'A4',
+            pageMargins: [25, 5, 25, 10],
+    
+            content: [
+                {
+                    margin: [20, 5, 50, 10],
+                    table: {
+                        widths: [310, 0, 350],
+                        body: [
+                            [
+                                {
+                                    border: [false, false, false, false],
+                                    width: 70,
+                                    image: logo(),
+                                    alignment: 'left',
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                                {
+                                    border: [false, false, false, false], text: 'Boat Note', fontSize: 18
+                                },
+                            ],
+                            [
+                                {
+                                    border: [false, false, false, false], text: `บริษัท สหไทย สตีลไพพ์ จำกัด (มหาชน)         `, fontSize: 14, colSpan: 3
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                            ],
+                            [
+                                {
+                                    border: [false, false, false, false],
+                                    text: `ชื่อเรือ ${loc} (${dataNow[1]["loc_description"]})`, fontSize: 14, colSpan: 2
+                                },
+                                { text: 'วันที่', fontSize: 14 },
+                                {
+                                    border: [false, false, false, false],
+                                    text: 'วันที่ ............ เวลา............ ', fontSize: 14
+                                },
+                            ],
+                        ],
+                    },
+                },
+                {
+                    margin: [0, 0, 0, 0],
+                    table: {
+                        widths: ['*', 0, 350],
+                        body: [
+                            [
+                                {
+                                    border: [false, false, false, false],
+                                    text: `หัวเรือ`, fontSize: 16, colSpan: 3, alignment: 'left',
+                                },
+                                { text: '', fontSize: 14 },
+                                { text: '', fontSize: 14 },
+                            ],
+                        ],
+                    },
+                },
+                {
+                    table: {
+                        widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
+                        headerRows: 1,
+                        body: data,
+                    },
+                },
+    
+               
+                {
+                    margin: [15, 0, 0, 10],
+                    columns: [
+                        {
+                            fontSize: 16,
+                            text: [
+                                {
+                                    text: `ผู้ตรวจสอบ................................................................
+                                    FOMFN-08/01-Oct-20`,
+                                    margin: [40, 10],
+                                    fontSize: 16,
+                                },
+                                {
+                                    text: '',
+                                }
+                            ],
+                            alignment: 'left'
+                        },
+                        {
+                            fontSize: 16, text: [{ text: '', alignment: 'right' },], alignment: 'center'
+                        },
+                        {
+                            fontSize: 16, text: [{ text: '', alignment: 'right' },], alignment: 'center'
+                        },
+                    ]
+    
+                }
+            ],
+            defaultStyle: {
+                font: 'THSarabunNew',
+            },
+    
+        };
+    }
+
+
+    if (boatPosition == "กลางหัว"){
+        var docDefinition3 = {
+            pageSize: 'A4',
+            pageMargins: [25, 5, 25, 10],
+    
+            content: [
+                {
+                    margin: [20, 5, 50, 10],
+                    table: {
+                        widths: [310, 0, 350],
+                        body: [
+                            [
+                                {
+                                    border: [false, false, false, false],
+                                    width: 70,
+                                    image: logo(),
+                                    alignment: 'left',
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                                {
+                                    border: [false, false, false, false], text: 'Boat Note', fontSize: 18
+                                },
+                            ],
+                            [
+                                {
+                                    border: [false, false, false, false], text: `บริษัท สหไทย สตีลไพพ์ จำกัด (มหาชน)         `, fontSize: 14, colSpan: 3
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                            ],
+                            [
+                                {
+                                    border: [false, false, false, false],
+                                    text: `ชื่อเรือ ${loc} (${dataNow[1]["loc_description"]})`, fontSize: 14, colSpan: 2
+                                },
+                                { text: 'วันที่', fontSize: 14 },
+                                {
+                                    border: [false, false, false, false],
+                                    text: 'วันที่ ............ เวลา............ ', fontSize: 14
+                                },
+                            ],
+                        ],
+                    },
+                },
+                {
+                    margin: [0, 0, 0, 0],
+                    table: {
+                        widths: ['*', 0, 350],
+                        body: [
+                            [
+                                {
+                                    border: [false, false, false, false],
+                                    text: `กลางหัว`, fontSize: 16, colSpan: 3, alignment: 'left',
+                                },
+                                { text: '', fontSize: 14 },
+                                { text: '', fontSize: 14 },
+                            ],
+                        ],
+                    },
+                },
+                {
+                    table: {
+                        widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
+                        headerRows: 1,
+                        body: data2,
+                    },
+                },
+    
+               
+                {
+                    margin: [15, 0, 0, 10],
+                    columns: [
+                        {
+                            fontSize: 16,
+                            text: [
+                                {
+                                    text: `ผู้ตรวจสอบ................................................................
+                                    FOMFN-08/01-Oct-20`,
+                                    margin: [40, 10],
+                                    fontSize: 16,
+                                },
+                                {
+                                    text: '',
+                                }
+                            ],
+                            alignment: 'left'
+                        },
+                        {
+                            fontSize: 16, text: [{ text: '', alignment: 'right' },], alignment: 'center'
+                        },
+                        {
+                            fontSize: 16, text: [{ text: '', alignment: 'right' },], alignment: 'center'
+                        },
+                    ]
+    
+                }
+            ],
+            defaultStyle: {
+                font: 'THSarabunNew',
+            },
+    
+        };
+    }
+
+    
+    if (boatPosition == "กลางท้าย"){
+        var docDefinition4 = {
+            pageSize: 'A4',
+            pageMargins: [25, 5, 25, 10],
+    
+            content: [
+                {
+                    margin: [20, 5, 50, 10],
+                    table: {
+                        widths: [310, 0, 350],
+                        body: [
+                            [
+                                {
+                                    border: [false, false, false, false],
+                                    width: 70,
+                                    image: logo(),
+                                    alignment: 'left',
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                                {
+                                    border: [false, false, false, false], text: 'Boat Note', fontSize: 18
+                                },
+                            ],
+                            [
+                                {
+                                    border: [false, false, false, false], text: `บริษัท สหไทย สตีลไพพ์ จำกัด (มหาชน)         `, fontSize: 14, colSpan: 3
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                            ],
+                            [
+                                {
+                                    border: [false, false, false, false],
+                                    text: `ชื่อเรือ ${loc} (${dataNow[1]["loc_description"]})`, fontSize: 14, colSpan: 2
+                                },
+                                { text: 'วันที่', fontSize: 14 },
+                                {
+                                    border: [false, false, false, false],
+                                    text: 'วันที่ ............ เวลา............ ', fontSize: 14
+                                },
+                            ],
+                        ],
+                    },
+                },
+                {
+                    margin: [0, 0, 0, 0],
+                    table: {
+                        widths: ['*', 0, 350],
+                        body: [
+                            [
+                                {
+                                    border: [false, false, false, false],
+                                    text: `กลางท้าย`, fontSize: 16, colSpan: 3, alignment: 'left',
+                                },
+                                { text: '', fontSize: 14 },
+                                { text: '', fontSize: 14 },
+                            ],
+                        ],
+                    },
+                },
+                {
+                    table: {
+                        widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
+                        headerRows: 1,
+                        body: data3,
+                    },
+                },
+    
+               
+                {
+                    margin: [15, 0, 0, 10],
+                    columns: [
+                        {
+                            fontSize: 16,
+                            text: [
+                                {
+                                    text: `ผู้ตรวจสอบ................................................................
+                                    FOMFN-08/01-Oct-20`,
+                                    margin: [40, 10],
+                                    fontSize: 16,
+                                },
+                                {
+                                    text: '',
+                                }
+                            ],
+                            alignment: 'left'
+                        },
+                        {
+                            fontSize: 16, text: [{ text: '', alignment: 'right' },], alignment: 'center'
+                        },
+                        {
+                            fontSize: 16, text: [{ text: '', alignment: 'right' },], alignment: 'center'
+                        },
+                    ]
+    
+                }
+            ],
+            defaultStyle: {
+                font: 'THSarabunNew',
+            },
+    
+        };
+    }
+
+
+    if (boatPosition == "ท้ายเรือ"){
+        var docDefinition5 = {
+            pageSize: 'A4',
+            pageMargins: [25, 5, 25, 10],
+    
+            content: [
+                {
+                    margin: [20, 5, 50, 10],
+                    table: {
+                        widths: [310, 0, 350],
+                        body: [
+                            [
+                                {
+                                    border: [false, false, false, false],
+                                    width: 70,
+                                    image: logo(),
+                                    alignment: 'left',
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                                {
+                                    border: [false, false, false, false], text: 'Boat Note', fontSize: 18
+                                },
+                            ],
+                            [
+                                {
+                                    border: [false, false, false, false], text: `บริษัท สหไทย สตีลไพพ์ จำกัด (มหาชน)         `, fontSize: 14, colSpan: 3
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                            ],
+                            [
+                                {
+                                    border: [false, false, false, false],
+                                    text: `ชื่อเรือ ${loc} (${dataNow[1]["loc_description"]})`, fontSize: 14, colSpan: 2
+                                },
+                                { text: 'วันที่', fontSize: 14 },
+                                {
+                                    border: [false, false, false, false],
+                                    text: 'วันที่ ............ เวลา............ ', fontSize: 14
+                                },
+                            ],
+                        ],
+                    },
+                },
+                {
+                    margin: [0, 0, 0, 0],
+                    table: {
+                        widths: ['*', 0, 350],
+                        body: [
+                            [
+                                {
+                                    border: [false, false, false, false],
+                                    text: `ท้ายเรือ`, fontSize: 16, colSpan: 3, alignment: 'left',
+                                },
+                                { text: '', fontSize: 14 },
+                                { text: '', fontSize: 14 },
+                            ],
+                        ],
+                    },
+                },
+                {
+                    table: {
+                        widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
+                        headerRows: 1,
+                        body: data4,
+                    },
+                },
+    
+               
+                {
+                    margin: [15, 0, 0, 10],
+                    columns: [
+                        {
+                            fontSize: 16,
+                            text: [
+                                {
+                                    text: `ผู้ตรวจสอบ................................................................
+                                    FOMFN-08/01-Oct-20`,
+                                    margin: [40, 10],
+                                    fontSize: 16,
+                                },
+                                {
+                                    text: '',
+                                }
+                            ],
+                            alignment: 'left'
+                        },
+                        {
+                            fontSize: 16, text: [{ text: '', alignment: 'right' },], alignment: 'center'
+                        },
+                        {
+                            fontSize: 16, text: [{ text: '', alignment: 'right' },], alignment: 'center'
+                        },
+                    ]
+    
+                }
+            ],
+            defaultStyle: {
+                font: 'THSarabunNew',
+            },
+    
+        };
+    }
+
+    
+    else {
+
     var docDefinition = {
         pageSize: 'A4',
         pageMargins: [25, 5, 25, 10],
@@ -591,9 +1037,24 @@ function ReportMoveBoatNote(dataNow, loc, dataNow3, dataNow4) {
         },
 
     };
+}
 
 
-    pdfMake.createPdf(docDefinition).open()
+    if (boatPosition == "หัวเรือ"){
+        pdfMake.createPdf(docDefinition2).open()
+    }
+    if (boatPosition == "กลางหัว"){
+        pdfMake.createPdf(docDefinition3).open()
+    }
+    if (boatPosition == "กลางท้าย"){
+        pdfMake.createPdf(docDefinition4).open()
+    }
+    if (boatPosition == "ท้ายเรือ"){
+        pdfMake.createPdf(docDefinition5).open()
+    }
+    else {
+        pdfMake.createPdf(docDefinition).open()
+    }
 }
 
 export { ReportMoveBoatNote };
