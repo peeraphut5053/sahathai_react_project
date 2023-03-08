@@ -25,15 +25,16 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
     data.push([
         { text: `No.`, fontSize: 11, alignment: 'center', style: 'header' },
         { text: "STS_PO", fontSize: 11, alignment: 'center' },
-        { text: "cust_name", fontSize: 11, alignment: 'center' },
+        // { text: "cust_name", fontSize: 11, alignment: 'center' },
         { text: "city", fontSize: 11, alignment: 'center' },
         { text: "Uf_NPS", fontSize: 11, alignment: 'center' },
         { text: "Uf_spec", fontSize: 11, alignment: 'center' },
         { text: "Uf_Grade", fontSize: 11, alignment: 'center' },
         { text: "Uf_Schedule", fontSize: 11, alignment: 'center' },
         { text: "Uf_length", fontSize: 11, alignment: 'center' },
-        { text: "countlot", fontSize: 11, alignment: 'center' },
+        { text: "Uf_TypeEnd", fontSize: 11, alignment: 'center' },
         { text: "PCS/BDL", fontSize: 11, alignment: 'center' },
+        { text: "countlot", fontSize: 11, alignment: 'center' },
         { text: "Weight", fontSize: 11, alignment: 'center' },
         // { text: "ตำแหน่งสินค้า \n boat position", fontSize: 11, alignment: 'center' },
 
@@ -60,22 +61,23 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         data.push([
             { text: i + 1, alignment: 'center' },
             { text: result[i]["STS_PO"], fontSize: 12, alignment: 'center' },
-            { text: result[i]["cust_name"], fontSize: 12, alignment: 'center' },
+            // { text: result[i]["cust_name"], fontSize: 12, alignment: 'center' },
             { text: result[i]["city"], fontSize: 12, alignment: 'center' },
             { text: result[i]["Uf_NPS"], fontSize: 12, alignment: 'center' },
             { text: result[i]["Uf_spec"], fontSize: 12, alignment: 'center' },
             { text: result[i]["Uf_Grade"], fontSize: 12, alignment: 'center' },
             { text: result[i]["Uf_Schedule"], fontSize: 12, alignment: 'center' },
             { text: result[i]["Uf_length"], fontSize: 12, alignment: 'center' },
-            { text: result[i]["countlot"], fontSize: 12, alignment: 'center' },
+            { text: result[i]["Uf_TypeEnd"], fontSize: 12, alignment: 'center' },
             { text: result[i]["PCSperBundle"], fontSize: 12, alignment: 'center' },
+            { text: result[i]["countlot"], fontSize: 12, alignment: 'center' },
             { text: result[i]["weight"], fontSize: 12, alignment: 'center' },
             // { text: result[i]["boat_position"], fontSize: 12, alignment: 'center' },
         ],
         )
         if (i === result.length - 1) {
             data.push([
-                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 9 },
+                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 10 },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
@@ -85,8 +87,8 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
-                { text: total_pcs, fontSize: 13, alignment: 'center' },
                 { text: total_bdl, fontSize: 13, alignment: 'center' },
+                { text: total_pcs, fontSize: 13, alignment: 'center' },
                 { text: total_weight, fontSize: 13, alignment: 'center' },
             ],
             )
@@ -98,15 +100,16 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
     data2.push([
         { text: `No.`, fontSize: 11, alignment: 'center', style: 'header' },
         { text: "STS_PO", fontSize: 11, alignment: 'center' },
-        { text: "cust_name", fontSize: 11, alignment: 'center' },
+        // { text: "cust_name", fontSize: 11, alignment: 'center' },
         { text: "city", fontSize: 11, alignment: 'center' },
         { text: "Uf_NPS", fontSize: 11, alignment: 'center' },
         { text: "Uf_spec", fontSize: 11, alignment: 'center' },
         { text: "Uf_Grade", fontSize: 11, alignment: 'center' },
         { text: "Uf_Schedule", fontSize: 11, alignment: 'center' },
         { text: "Uf_length", fontSize: 11, alignment: 'center' },
-        { text: "countlot", fontSize: 11, alignment: 'center' },
+        { text: "Uf_TypeEnd", fontSize: 11, alignment: 'center' },
         { text: "PCS/BDL", fontSize: 11, alignment: 'center' },
+        { text: "countlot", fontSize: 11, alignment: 'center' },
         { text: "Weight", fontSize: 11, alignment: 'center' },
         // { text: "ตำแหน่งสินค้า \n boat position", fontSize: 11, alignment: 'center' },
 
@@ -133,15 +136,16 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         data2.push([
             { text: i + 1, alignment: 'center' },
             { text: result2[i]["STS_PO"], fontSize: 12, alignment: 'center' },
-            { text: result2[i]["cust_name"], fontSize: 12, alignment: 'center' },
+            // { text: result2[i]["cust_name"], fontSize: 12, alignment: 'center' },
             { text: result2[i]["city"], fontSize: 12, alignment: 'center' },
             { text: result2[i]["Uf_NPS"], fontSize: 12, alignment: 'center' },
             { text: result2[i]["Uf_spec"], fontSize: 12, alignment: 'center' },
             { text: result2[i]["Uf_Grade"], fontSize: 12, alignment: 'center' },
             { text: result2[i]["Uf_Schedule"], fontSize: 12, alignment: 'center' },
             { text: result2[i]["Uf_length"], fontSize: 12, alignment: 'center' },
-            { text: result2[i]["countlot"], fontSize: 12, alignment: 'center' },
+            { text: result2[i]["Uf_TypeEnd"], fontSize: 12, alignment: 'center' },
             { text: result2[i]["PCSperBundle"], fontSize: 12, alignment: 'center' },
+            { text: result2[i]["countlot"], fontSize: 12, alignment: 'center' },
             { text: result2[i]["weight"], fontSize: 12, alignment: 'center' },
             // { text: result[i]["boat_position"], fontSize: 12, alignment: 'center' },
 
@@ -149,7 +153,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         )
         if (i === result2.length - 1) {
             data2.push([
-                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 9 },
+                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 10 },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
@@ -159,8 +163,8 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
-                { text: total_pcs2, fontSize: 13, alignment: 'center' },
                 { text: total_bdl2, fontSize: 13, alignment: 'center' },
+                { text: total_pcs2, fontSize: 13, alignment: 'center' },
                 { text: total_weight2, fontSize: 13, alignment: 'center' },
             ],
             )
@@ -174,15 +178,16 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
     data3.push([
         { text: `No.`, fontSize: 11, alignment: 'center', style: 'header' },
         { text: "STS_PO", fontSize: 11, alignment: 'center' },
-        { text: "cust_name", fontSize: 11, alignment: 'center' },
+        // { text: "cust_name", fontSize: 11, alignment: 'center' },
         { text: "city", fontSize: 11, alignment: 'center' },
         { text: "Uf_NPS", fontSize: 11, alignment: 'center' },
         { text: "Uf_spec", fontSize: 11, alignment: 'center' },
         { text: "Uf_Grade", fontSize: 11, alignment: 'center' },
         { text: "Uf_Schedule", fontSize: 11, alignment: 'center' },
         { text: "Uf_length", fontSize: 11, alignment: 'center' },
-        { text: "countlot", fontSize: 11, alignment: 'center' },
+        { text: "Uf_TypeEnd", fontSize: 11, alignment: 'center' },
         { text: "PCS/BDL", fontSize: 11, alignment: 'center' },
+        { text: "countlot", fontSize: 11, alignment: 'center' },
         { text: "Weight", fontSize: 11, alignment: 'center' },
         // { text: "ตำแหน่งสินค้า \n boat position", fontSize: 11, alignment: 'center' },
 
@@ -208,22 +213,23 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         data3.push([
             { text: i + 1, alignment: 'center' },
             { text: result3[i]["STS_PO"], fontSize: 12, alignment: 'center' },
-            { text: result3[i]["cust_name"], fontSize: 12, alignment: 'center' },
+            // { text: result3[i]["cust_name"], fontSize: 12, alignment: 'center' },
             { text: result3[i]["city"], fontSize: 12, alignment: 'center' },
             { text: result3[i]["Uf_NPS"], fontSize: 12, alignment: 'center' },
             { text: result3[i]["Uf_spec"], fontSize: 12, alignment: 'center' },
             { text: result3[i]["Uf_Grade"], fontSize: 12, alignment: 'center' },
             { text: result3[i]["Uf_Schedule"], fontSize: 12, alignment: 'center' },
             { text: result3[i]["Uf_length"], fontSize: 12, alignment: 'center' },
-            { text: result3[i]["countlot"], fontSize: 12, alignment: 'center' },
+            { text: result3[i]["Uf_TypeEnd"], fontSize: 12, alignment: 'center' },
             { text: result3[i]["PCSperBundle"], fontSize: 12, alignment: 'center' },
+            { text: result3[i]["countlot"], fontSize: 12, alignment: 'center' },
             { text: result3[i]["weight"], fontSize: 12, alignment: 'center' },
             // { text: result[i]["boat_position"], fontSize: 12, alignment: 'center' },
         ],
         )
         if (i === result3.length - 1) {
             data3.push([
-                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 9 },
+                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 10 },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
@@ -233,8 +239,8 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
-                { text: total_pcs3, fontSize: 13, alignment: 'center' },
                 { text: total_bdl3, fontSize: 13, alignment: 'center' },
+                { text: total_pcs3, fontSize: 13, alignment: 'center' },
                 { text: total_weight3, fontSize: 13, alignment: 'center' },
             ],
             )
@@ -247,15 +253,16 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
     data4.push([
         { text: `No.`, fontSize: 11, alignment: 'center', style: 'header' },
         { text: "STS_PO", fontSize: 11, alignment: 'center' },
-        { text: "cust_name", fontSize: 11, alignment: 'center' },
+        // { text: "cust_name", fontSize: 11, alignment: 'center' },
         { text: "city", fontSize: 11, alignment: 'center' },
         { text: "Uf_NPS", fontSize: 11, alignment: 'center' },
         { text: "Uf_spec", fontSize: 11, alignment: 'center' },
         { text: "Uf_Grade", fontSize: 11, alignment: 'center' },
         { text: "Uf_Schedule", fontSize: 11, alignment: 'center' },
         { text: "Uf_length", fontSize: 11, alignment: 'center' },
-        { text: "countlot", fontSize: 11, alignment: 'center' },
+        { text: "Uf_TypeEnd", fontSize: 11, alignment: 'center' },
         { text: "PCS/BDL", fontSize: 11, alignment: 'center' },
+        { text: "countlot", fontSize: 11, alignment: 'center' },
         { text: "Weight", fontSize: 11, alignment: 'center' },
         // { text: "ตำแหน่งสินค้า \n boat position", fontSize: 11, alignment: 'center' },
 
@@ -282,15 +289,16 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         data4.push([
             { text: i + 1, alignment: 'center' },
             { text: result4[i]["STS_PO"], fontSize: 12, alignment: 'center' },
-            { text: result4[i]["cust_name"], fontSize: 12, alignment: 'center' },
+            // { text: result4[i]["cust_name"], fontSize: 12, alignment: 'center' },
             { text: result4[i]["city"], fontSize: 12, alignment: 'center' },
             { text: result4[i]["Uf_NPS"], fontSize: 12, alignment: 'center' },
             { text: result4[i]["Uf_spec"], fontSize: 12, alignment: 'center' },
             { text: result4[i]["Uf_Grade"], fontSize: 12, alignment: 'center' },
             { text: result4[i]["Uf_Schedule"], fontSize: 12, alignment: 'center' },
             { text: result4[i]["Uf_length"], fontSize: 12, alignment: 'center' },
-            { text: result4[i]["countlot"], fontSize: 12, alignment: 'center' },
+            { text: result4[i]["Uf_TypeEnd"], fontSize: 12, alignment: 'center' },
             { text: result4[i]["PCSperBundle"], fontSize: 12, alignment: 'center' },
+            { text: result4[i]["countlot"], fontSize: 12, alignment: 'center' },
             { text: result4[i]["weight"], fontSize: 12, alignment: 'center' },
             // { text: result[i]["boat_position"], fontSize: 12, alignment: 'center' },
 
@@ -298,7 +306,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         )
         if (i === result4.length - 1) {
             data4.push([
-                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 9 },
+                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 10 },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
@@ -308,8 +316,8 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
-                { text: total_pcs4, fontSize: 13, alignment: 'center' },
                 { text: total_bdl4, fontSize: 13, alignment: 'center' },
+                { text: total_pcs4, fontSize: 13, alignment: 'center' },
                 { text: total_weight4, fontSize: 13, alignment: 'center' },
             ],
             )
@@ -322,15 +330,16 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
     data5.push([
         { text: `No.`, fontSize: 11, alignment: 'center', style: 'header' },
         { text: "STS_PO", fontSize: 11, alignment: 'center' },
-        { text: "cust_name", fontSize: 11, alignment: 'center' },
+        // { text: "cust_name", fontSize: 11, alignment: 'center' },
         { text: "city", fontSize: 11, alignment: 'center' },
         { text: "Uf_NPS", fontSize: 11, alignment: 'center' },
         { text: "Uf_spec", fontSize: 11, alignment: 'center' },
         { text: "Uf_Grade", fontSize: 11, alignment: 'center' },
         { text: "Uf_Schedule", fontSize: 11, alignment: 'center' },
         { text: "Uf_length", fontSize: 11, alignment: 'center' },
-        { text: "countlot", fontSize: 11, alignment: 'center' },
+        { text: "Uf_TypeEnd", fontSize: 11, alignment: 'center' },
         { text: "PCS/BDL", fontSize: 11, alignment: 'center' },
+        { text: "countlot", fontSize: 11, alignment: 'center' },
         { text: "Weight", fontSize: 11, alignment: 'center' },
         // { text: "ตำแหน่งสินค้า \n boat position", fontSize: 11, alignment: 'center' },
 
@@ -357,15 +366,16 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         data5.push([
             { text: i + 1, alignment: 'center' },
             { text: result5[i]["STS_PO"], fontSize: 12, alignment: 'center' },
-            { text: result5[i]["cust_name"], fontSize: 12, alignment: 'center' },
+            // { text: result5[i]["cust_name"], fontSize: 12, alignment: 'center' },
             { text: result5[i]["city"], fontSize: 12, alignment: 'center' },
             { text: result5[i]["Uf_NPS"], fontSize: 12, alignment: 'center' },
             { text: result5[i]["Uf_spec"], fontSize: 12, alignment: 'center' },
             { text: result5[i]["Uf_Grade"], fontSize: 12, alignment: 'center' },
             { text: result5[i]["Uf_Schedule"], fontSize: 12, alignment: 'center' },
             { text: result5[i]["Uf_length"], fontSize: 12, alignment: 'center' },
-            { text: result5[i]["countlot"], fontSize: 12, alignment: 'center' },
+            { text: result5[i]["Uf_TypeEnd"], fontSize: 12, alignment: 'center' },
             { text: result5[i]["PCSperBundle"], fontSize: 12, alignment: 'center' },
+            { text: result5[i]["countlot"], fontSize: 12, alignment: 'center' },
             { text: result5[i]["weight"], fontSize: 12, alignment: 'center' },
             // { text: result[i]["boat_position"], fontSize: 12, alignment: 'center' },
 
@@ -373,7 +383,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         )
         if (i === result5.length - 1) {
             data5.push([
-                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 9 },
+                { text: ` `, fontSize: 11, alignment: 'center', style: 'header', colSpan: 10 },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
@@ -383,8 +393,8 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
-                { text: total_pcs5, fontSize: 13, alignment: 'center' },
                 { text: total_bdl5, fontSize: 13, alignment: 'center' },
+                { text: total_pcs5, fontSize: 13, alignment: 'center' },
                 { text: total_weight5, fontSize: 13, alignment: 'center' },
             ],
             )
@@ -418,24 +428,48 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                             ],
                             [
                                 {
-                                    border: [false, false, false, false], text: `บริษัท สหไทย สตีลไพพ์ จำกัด (มหาชน)         `, fontSize: 14, colSpan: 3
+                                    border: [false, false, false, false], text: `บริษัท สหไทย สตีลไพพ์ จำกัด (มหาชน)         `, fontSize: 14, colSpan: 2
                                 },
                                 {
                                     border: [false, false, false, false], text: ''
                                 },
                                 {
-                                    border: [false, false, false, false], text: ''
+                                    border: [false, false, false, false], text: `วันที่เริ่ม ${dataNow[1]["startDate"]}`, fontSize: 14
                                 },
                             ],
                             [
                                 {
                                     border: [false, false, false, false],
-                                    text: `ชื่อเรือ ${loc} (${dataNow[1]["loc_description"]})`, fontSize: 14, colSpan: 2
+                                    text: dataNow[1]["uf_by"], fontSize: 14, colSpan: 2
                                 },
                                 { text: 'วันที่', fontSize: 14 },
                                 {
                                     border: [false, false, false, false],
-                                    text: 'วันที่ ............ เวลา............ ', fontSize: 14
+                                    text: `วันที่สิ้นสุด ${dataNow[1]["endDate"]}`, fontSize: 14, type: 'date'
+                                },
+                            ],
+                            [
+                                {
+                                    border: [false, false, false, false], text: `ชื่อเรือ ${loc} (${dataNow[1]["loc_description"]})`, fontSize: 14, colSpan: 2
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                                {
+                                    border: [false, false, false, false],
+                                    text: `Total Countlot : ${total_pcs + total_pcs2 + total_pcs3 + total_pcs4 + total_pcs5}`, fontSize: 14 
+                                },
+                            ],
+                            [
+                                {
+                                    border: [false, false, false, false], text: '', fontSize: 14, colSpan: 2
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                                {
+                                    border: [false, false, false, false],
+                                    text: `Total Weight : ${total_weight + total_weight2 + total_weight3 + total_weight4 + total_weight5}`, fontSize: 14 
                                 },
                             ],
                         ],
@@ -459,7 +493,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                 },
                 {
                     table: {
-                        widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
+                        widths: [15, 30, 45, 25, 65, 34, 44, 38, 40, 30, 30, 50],
                         headerRows: 1,
                         body: data,
                     },
@@ -529,24 +563,48 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                             ],
                             [
                                 {
-                                    border: [false, false, false, false], text: `บริษัท สหไทย สตีลไพพ์ จำกัด (มหาชน)         `, fontSize: 14, colSpan: 3
+                                    border: [false, false, false, false], text: `บริษัท สหไทย สตีลไพพ์ จำกัด (มหาชน)         `, fontSize: 14, colSpan: 2
                                 },
                                 {
                                     border: [false, false, false, false], text: ''
                                 },
                                 {
-                                    border: [false, false, false, false], text: ''
+                                    border: [false, false, false, false], text: `วันที่เริ่ม ${dataNow[1]["startDate"]}`, fontSize: 14
                                 },
                             ],
                             [
                                 {
                                     border: [false, false, false, false],
-                                    text: `ชื่อเรือ ${loc} (${dataNow[1]["loc_description"]})`, fontSize: 14, colSpan: 2
+                                    text: dataNow[1]["uf_by"], fontSize: 14, colSpan: 2
                                 },
                                 { text: 'วันที่', fontSize: 14 },
                                 {
                                     border: [false, false, false, false],
-                                    text: 'วันที่ ............ เวลา............ ', fontSize: 14
+                                    text: `วันที่สิ้นสุด ${dataNow[1]["endDate"]}`, fontSize: 14, type: 'date'
+                                },
+                            ],
+                            [
+                                {
+                                    border: [false, false, false, false], text: `ชื่อเรือ ${loc} (${dataNow[1]["loc_description"]})`, fontSize: 14, colSpan: 2
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                                {
+                                    border: [false, false, false, false],
+                                    text: `Total Countlot : ${total_pcs + total_pcs2 + total_pcs3 + total_pcs4 + total_pcs5}`, fontSize: 14 
+                                },
+                            ],
+                            [
+                                {
+                                    border: [false, false, false, false], text: '', fontSize: 14, colSpan: 2
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                                {
+                                    border: [false, false, false, false],
+                                    text: `Total Weight : ${total_weight + total_weight2 + total_weight3 + total_weight4 + total_weight5}`, fontSize: 14 
                                 },
                             ],
                         ],
@@ -570,7 +628,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                 },
                 {
                     table: {
-                        widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
+                        widths: [15, 30, 45, 25, 65, 34, 44, 38, 40, 30, 30, 50],
                         headerRows: 1,
                         body: data2,
                     },
@@ -640,24 +698,48 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                             ],
                             [
                                 {
-                                    border: [false, false, false, false], text: `บริษัท สหไทย สตีลไพพ์ จำกัด (มหาชน)         `, fontSize: 14, colSpan: 3
+                                    border: [false, false, false, false], text: `บริษัท สหไทย สตีลไพพ์ จำกัด (มหาชน)         `, fontSize: 14, colSpan: 2
                                 },
                                 {
                                     border: [false, false, false, false], text: ''
                                 },
                                 {
-                                    border: [false, false, false, false], text: ''
+                                    border: [false, false, false, false], text: `วันที่เริ่ม ${dataNow[1]["startDate"]}`, fontSize: 14
                                 },
                             ],
                             [
                                 {
                                     border: [false, false, false, false],
-                                    text: `ชื่อเรือ ${loc} (${dataNow[1]["loc_description"]})`, fontSize: 14, colSpan: 2
+                                    text: dataNow[1]["uf_by"], fontSize: 14, colSpan: 2
                                 },
                                 { text: 'วันที่', fontSize: 14 },
                                 {
                                     border: [false, false, false, false],
-                                    text: 'วันที่ ............ เวลา............ ', fontSize: 14
+                                    text: `วันที่สิ้นสุด ${dataNow[1]["endDate"]}`, fontSize: 14, type: 'date'
+                                },
+                            ],
+                            [
+                                {
+                                    border: [false, false, false, false], text: `ชื่อเรือ ${loc} (${dataNow[1]["loc_description"]})`, fontSize: 14, colSpan: 2
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                                {
+                                    border: [false, false, false, false],
+                                    text: `Total Countlot : ${total_pcs + total_pcs2 + total_pcs3 + total_pcs4 + total_pcs5}`, fontSize: 14 
+                                },
+                            ],
+                            [
+                                {
+                                    border: [false, false, false, false], text: '', fontSize: 14, colSpan: 2
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                                {
+                                    border: [false, false, false, false],
+                                    text: `Total Weight : ${total_weight + total_weight2 + total_weight3 + total_weight4 + total_weight5}`, fontSize: 14 
                                 },
                             ],
                         ],
@@ -681,7 +763,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                 },
                 {
                     table: {
-                        widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
+                        widths: [15, 30, 45, 25, 65, 34, 44, 38, 40, 30, 30, 50],
                         headerRows: 1,
                         body: data3,
                     },
@@ -751,24 +833,48 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                             ],
                             [
                                 {
-                                    border: [false, false, false, false], text: `บริษัท สหไทย สตีลไพพ์ จำกัด (มหาชน)         `, fontSize: 14, colSpan: 3
+                                    border: [false, false, false, false], text: `บริษัท สหไทย สตีลไพพ์ จำกัด (มหาชน)         `, fontSize: 14, colSpan: 2
                                 },
                                 {
                                     border: [false, false, false, false], text: ''
                                 },
                                 {
-                                    border: [false, false, false, false], text: ''
+                                    border: [false, false, false, false], text: `วันที่เริ่ม ${dataNow[1]["startDate"]}`, fontSize: 14
                                 },
                             ],
                             [
                                 {
                                     border: [false, false, false, false],
-                                    text: `ชื่อเรือ ${loc} (${dataNow[1]["loc_description"]})`, fontSize: 14, colSpan: 2
+                                    text: dataNow[1]["uf_by"], fontSize: 14, colSpan: 2
                                 },
                                 { text: 'วันที่', fontSize: 14 },
                                 {
                                     border: [false, false, false, false],
-                                    text: 'วันที่ ............ เวลา............ ', fontSize: 14
+                                    text: `วันที่สิ้นสุด ${dataNow[1]["endDate"]}`, fontSize: 14, type: 'date'
+                                },
+                            ],
+                            [
+                                {
+                                    border: [false, false, false, false], text: `ชื่อเรือ ${loc} (${dataNow[1]["loc_description"]})`, fontSize: 14, colSpan: 2
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                                {
+                                    border: [false, false, false, false],
+                                    text: `Total Countlot : ${total_pcs + total_pcs2 + total_pcs3 + total_pcs4 + total_pcs5}`, fontSize: 14 
+                                },
+                            ],
+                            [
+                                {
+                                    border: [false, false, false, false], text: '', fontSize: 14, colSpan: 2
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                                {
+                                    border: [false, false, false, false],
+                                    text: `Total Weight : ${total_weight + total_weight2 + total_weight3 + total_weight4 + total_weight5}`, fontSize: 14 
                                 },
                             ],
                         ],
@@ -792,7 +898,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                 },
                 {
                     table: {
-                        widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
+                        widths: [15, 30, 45, 25, 65, 34, 44, 38, 40, 30, 30, 50],
                         headerRows: 1,
                         body: data4,
                     },
@@ -863,24 +969,48 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                         ],
                         [
                             {
-                                border: [false, false, false, false], text: `บริษัท สหไทย สตีลไพพ์ จำกัด (มหาชน)         `, fontSize: 14, colSpan: 3
+                                border: [false, false, false, false], text: `บริษัท สหไทย สตีลไพพ์ จำกัด (มหาชน)         `, fontSize: 14, colSpan: 2
                             },
                             {
                                 border: [false, false, false, false], text: ''
                             },
                             {
-                                border: [false, false, false, false], text: ''
+                                border: [false, false, false, false], text: `วันที่เริ่ม ${dataNow[1]["startDate"]}`, fontSize: 14
                             },
                         ],
                         [
                             {
                                 border: [false, false, false, false],
-                                text: `ชื่อเรือ ${loc} (${dataNow[1]["loc_description"]})`, fontSize: 14, colSpan: 2
+                                text: dataNow[1]["uf_by"], fontSize: 14, colSpan: 2
                             },
                             { text: 'วันที่', fontSize: 14 },
                             {
                                 border: [false, false, false, false],
-                                text: 'วันที่ ............ เวลา............ ', fontSize: 14
+                                text: `วันที่สิ้นสุด ${dataNow[1]["endDate"]}`, fontSize: 14, type: 'date'
+                            },
+                        ],
+                        [
+                            {
+                                border: [false, false, false, false], text: `ชื่อเรือ ${loc} (${dataNow[1]["loc_description"]})`, fontSize: 14, colSpan: 2
+                            },
+                            {
+                                border: [false, false, false, false], text: ''
+                            },
+                            {
+                                border: [false, false, false, false],
+                                text: `Total Countlot : ${total_pcs + total_pcs2 + total_pcs3 + total_pcs4 + total_pcs5}`, fontSize: 14 
+                            },
+                        ],
+                        [
+                            {
+                                border: [false, false, false, false], text: '', fontSize: 14, colSpan: 2
+                            },
+                            {
+                                border: [false, false, false, false], text: ''
+                            },
+                            {
+                                border: [false, false, false, false],
+                                text: `Total Weight : ${total_weight + total_weight2 + total_weight3 + total_weight4 + total_weight5}`, fontSize: 14 
                             },
                         ],
                     ],
@@ -904,7 +1034,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
             },
             {
                 table: {
-                    widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
+                    widths: [15, 30, 45, 25, 65, 34, 44, 38, 40, 30, 30, 50],
                     headerRows: 1,
                     body: data,
                 },
@@ -928,7 +1058,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
             },
             {
                 table: {
-                    widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
+                    widths: [15, 30, 45, 25, 65, 34, 44, 38, 40, 30, 30, 50],
                     headerRows: 1,
                     body: data2,
                 },
@@ -952,7 +1082,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
             },
             {
                 table: {
-                    widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
+                    widths: [15, 30, 45, 25, 65, 34, 44, 38, 40, 30, 30, 50],
                     headerRows: 1,
                     body: data3,
                 },
@@ -975,7 +1105,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
             },
             {
                 table: {
-                    widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
+                    widths: [15, 30, 45, 25, 65, 34, 44, 38, 40, 30, 30, 50],
                     headerRows: 1,
                     body: data4,
                 },
@@ -998,7 +1128,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
             },
             {
                 table: {
-                    widths: [15, 30, 50, 45, 25, 60, 34, 44, 38, 30, 30, 50],
+                    widths: [15, 30, 45, 25, 65, 34, 44, 38, 40, 30, 30, 50],
                     headerRows: 1,
                     body: data5,
                 },
