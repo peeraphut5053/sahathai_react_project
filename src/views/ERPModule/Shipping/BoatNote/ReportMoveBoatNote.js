@@ -26,7 +26,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         { text: `No.`, fontSize: 11, alignment: 'center', style: 'header' },
         { text: "STS_PO", fontSize: 11, alignment: 'center' },
         // { text: "cust_name", fontSize: 11, alignment: 'center' },
-        { text: "city", fontSize: 11, alignment: 'center' },
+        { text: "City", fontSize: 11, alignment: 'center' },
         { text: "Uf_NPS", fontSize: 11, alignment: 'center' },
         { text: "Uf_spec", fontSize: 11, alignment: 'center' },
         { text: "Uf_Grade", fontSize: 11, alignment: 'center' },
@@ -34,7 +34,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         { text: "Uf_length", fontSize: 11, alignment: 'center' },
         { text: "Uf_TypeEnd", fontSize: 11, alignment: 'center' },
         { text: "PCS/BDL", fontSize: 11, alignment: 'center' },
-        { text: "countlot", fontSize: 11, alignment: 'center' },
+        { text: "Countlot", fontSize: 11, alignment: 'center' },
         { text: "Weight", fontSize: 11, alignment: 'center' },
         // { text: "ตำแหน่งสินค้า \n boat position", fontSize: 11, alignment: 'center' },
 
@@ -101,7 +101,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         { text: `No.`, fontSize: 11, alignment: 'center', style: 'header' },
         { text: "STS_PO", fontSize: 11, alignment: 'center' },
         // { text: "cust_name", fontSize: 11, alignment: 'center' },
-        { text: "city", fontSize: 11, alignment: 'center' },
+        { text: "City", fontSize: 11, alignment: 'center' },
         { text: "Uf_NPS", fontSize: 11, alignment: 'center' },
         { text: "Uf_spec", fontSize: 11, alignment: 'center' },
         { text: "Uf_Grade", fontSize: 11, alignment: 'center' },
@@ -109,7 +109,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         { text: "Uf_length", fontSize: 11, alignment: 'center' },
         { text: "Uf_TypeEnd", fontSize: 11, alignment: 'center' },
         { text: "PCS/BDL", fontSize: 11, alignment: 'center' },
-        { text: "countlot", fontSize: 11, alignment: 'center' },
+        { text: "Countlot", fontSize: 11, alignment: 'center' },
         { text: "Weight", fontSize: 11, alignment: 'center' },
         // { text: "ตำแหน่งสินค้า \n boat position", fontSize: 11, alignment: 'center' },
 
@@ -179,7 +179,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         { text: `No.`, fontSize: 11, alignment: 'center', style: 'header' },
         { text: "STS_PO", fontSize: 11, alignment: 'center' },
         // { text: "cust_name", fontSize: 11, alignment: 'center' },
-        { text: "city", fontSize: 11, alignment: 'center' },
+        { text: "City", fontSize: 11, alignment: 'center' },
         { text: "Uf_NPS", fontSize: 11, alignment: 'center' },
         { text: "Uf_spec", fontSize: 11, alignment: 'center' },
         { text: "Uf_Grade", fontSize: 11, alignment: 'center' },
@@ -187,7 +187,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         { text: "Uf_length", fontSize: 11, alignment: 'center' },
         { text: "Uf_TypeEnd", fontSize: 11, alignment: 'center' },
         { text: "PCS/BDL", fontSize: 11, alignment: 'center' },
-        { text: "countlot", fontSize: 11, alignment: 'center' },
+        { text: "Countlot", fontSize: 11, alignment: 'center' },
         { text: "Weight", fontSize: 11, alignment: 'center' },
         // { text: "ตำแหน่งสินค้า \n boat position", fontSize: 11, alignment: 'center' },
 
@@ -254,7 +254,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         { text: `No.`, fontSize: 11, alignment: 'center', style: 'header' },
         { text: "STS_PO", fontSize: 11, alignment: 'center' },
         // { text: "cust_name", fontSize: 11, alignment: 'center' },
-        { text: "city", fontSize: 11, alignment: 'center' },
+        { text: "City", fontSize: 11, alignment: 'center' },
         { text: "Uf_NPS", fontSize: 11, alignment: 'center' },
         { text: "Uf_spec", fontSize: 11, alignment: 'center' },
         { text: "Uf_Grade", fontSize: 11, alignment: 'center' },
@@ -262,7 +262,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         { text: "Uf_length", fontSize: 11, alignment: 'center' },
         { text: "Uf_TypeEnd", fontSize: 11, alignment: 'center' },
         { text: "PCS/BDL", fontSize: 11, alignment: 'center' },
-        { text: "countlot", fontSize: 11, alignment: 'center' },
+        { text: "Countlot", fontSize: 11, alignment: 'center' },
         { text: "Weight", fontSize: 11, alignment: 'center' },
         // { text: "ตำแหน่งสินค้า \n boat position", fontSize: 11, alignment: 'center' },
 
@@ -331,7 +331,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         { text: `No.`, fontSize: 11, alignment: 'center', style: 'header' },
         { text: "STS_PO", fontSize: 11, alignment: 'center' },
         // { text: "cust_name", fontSize: 11, alignment: 'center' },
-        { text: "city", fontSize: 11, alignment: 'center' },
+        { text: "City", fontSize: 11, alignment: 'center' },
         { text: "Uf_NPS", fontSize: 11, alignment: 'center' },
         { text: "Uf_spec", fontSize: 11, alignment: 'center' },
         { text: "Uf_Grade", fontSize: 11, alignment: 'center' },
@@ -339,7 +339,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
         { text: "Uf_length", fontSize: 11, alignment: 'center' },
         { text: "Uf_TypeEnd", fontSize: 11, alignment: 'center' },
         { text: "PCS/BDL", fontSize: 11, alignment: 'center' },
-        { text: "countlot", fontSize: 11, alignment: 'center' },
+        { text: "Countlot", fontSize: 11, alignment: 'center' },
         { text: "Weight", fontSize: 11, alignment: 'center' },
         // { text: "ตำแหน่งสินค้า \n boat position", fontSize: 11, alignment: 'center' },
 
@@ -445,7 +445,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                                 { text: 'วันที่', fontSize: 14 },
                                 {
                                     border: [false, false, false, false],
-                                    text: `วันที่สิ้นสุด ${dataNow[1]["endDate"]}`, fontSize: 14, type: 'date'
+                                    text: `วันที่สิ้นสุด ${dataNow[1]["endDate"]}`, fontSize: 14
                                 },
                             ],
                             [
@@ -580,7 +580,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                                 { text: 'วันที่', fontSize: 14 },
                                 {
                                     border: [false, false, false, false],
-                                    text: `วันที่สิ้นสุด ${dataNow[1]["endDate"]}`, fontSize: 14, type: 'date'
+                                    text: `วันที่สิ้นสุด ${dataNow[1]["endDate"]}`, fontSize: 14
                                 },
                             ],
                             [
@@ -715,7 +715,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                                 { text: 'วันที่', fontSize: 14 },
                                 {
                                     border: [false, false, false, false],
-                                    text: `วันที่สิ้นสุด ${dataNow[1]["endDate"]}`, fontSize: 14, type: 'date'
+                                    text: `วันที่สิ้นสุด ${dataNow[1]["endDate"]}`, fontSize: 14
                                 },
                             ],
                             [
@@ -850,7 +850,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                                 { text: 'วันที่', fontSize: 14 },
                                 {
                                     border: [false, false, false, false],
-                                    text: `วันที่สิ้นสุด ${dataNow[1]["endDate"]}`, fontSize: 14, type: 'date'
+                                    text: `วันที่สิ้นสุด ${dataNow[1]["endDate"]}`, fontSize: 14
                                 },
                             ],
                             [
@@ -986,7 +986,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition, dataNow3, dataNow4) {
                             { text: 'วันที่', fontSize: 14 },
                             {
                                 border: [false, false, false, false],
-                                text: `วันที่สิ้นสุด ${dataNow[1]["endDate"]}`, fontSize: 14, type: 'date'
+                                text: `วันที่สิ้นสุด ${dataNow[1]["endDate"]}`, fontSize: 14
                             },
                         ],
                         [

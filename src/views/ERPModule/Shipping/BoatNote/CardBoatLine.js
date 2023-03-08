@@ -23,6 +23,7 @@ import MaterialTable, { MTableToolbar } from 'material-table';
 import tableIcons from 'src/views/components/table/tableIcons';
 import { ReportMoveInternal } from './ReportMoveInternal';
 import { ReportMoveBoatNote } from './ReportMoveBoatNote';
+import { ReportSummaryBoatNote } from './ReportSummaryBoatNote';
 import API from 'src/views/components/API';
 import CTextField from 'src/views/components/Input/CTextField';
 import CAutocompleteNameOfDoGroup from '../../../components/Input/CAutocompleteNameOfDoGroup';
@@ -93,6 +94,16 @@ const CardBoatLine = (props, { className, ...rest }) => {
         }
       })
       ReportMoveBoatNote(response.data, loc, boatPosition, response.data, response.data)
+
+    } else if (doc_type == "BoatNoteSummaryByDoGroup") {
+      const response = await API.get("RPT_JOBPACKING/data.php", {
+        params: {
+          load: 'BoatNoteSummaryByDoGroup',
+          do_group_name: do_group_name,
+          loc : loc,
+        }
+      })
+      ReportSummaryBoatNote(response.data, loc, response.data, response.data)
 
     } else {
       alert("เลือกใบส่งของ")
@@ -169,10 +180,17 @@ const CardBoatLine = (props, { className, ...rest }) => {
                     setFieldValue={set_loc}
                   />
                 </Grid>
-                <Grid item xs={12} >
+                <Grid item>
                   <Button variant="contained" label={""} color="primary"
                     onClick={() => printReportMove("BoatNoteSelectByDoGroup")} >
                     พิมพ์ BoatNote {do_group_name}
+                  </Button>
+                </Grid>
+
+                <Grid item>
+                  <Button variant="contained" label={""} color="primary"
+                    onClick={() => printReportMove("BoatNoteSummaryByDoGroup")} >
+                    พิมพ์สรุป BoatNote {do_group_name}
                   </Button>
                 </Grid>
               </Grid>
@@ -212,7 +230,7 @@ const CardBoatLine = (props, { className, ...rest }) => {
                     </>
                     :
                     <>
-                      <Chip label={"พิมพ์ Boat Note Demo"} color="primary" style={{ marginRight: 5 }} onClick={() => setOpenModalItem(true)} />
+                      <Chip label={"พิมพ์ Boat Note"} color="primary" style={{ marginRight: 5 }} onClick={() => setOpenModalItem(true)} />
                       <Chip label={"พิมพ์ใบสรุปการส่งสินค้า"} color="primary" style={{ marginRight: 5 }} onClick={() => printReportMove("Internal")} />
                       <Chip label={"พิมพ์รายละเอียด Barcode"} color="primary" style={{ marginRight: 5 }} onClick={() => printReportMove("BoatNote")} />
                     </>
