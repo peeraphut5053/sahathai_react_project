@@ -28,8 +28,8 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
     for (let i = 0; i < result.length; i++) {
         const britishNumberFormatter = new Intl.NumberFormat("en-GB");
 
-        total_countlot = total_countlot + result[i]["sumSTS_PO"]
-        total_weight = total_weight + result[i]["sumWeight"]
+        total_countlot += result[i]["sumSTS_PO"]
+        total_weight += result[i]["sumWeight"]
 
         data.push([
             { text: i + 1, alignment: 'center' },
