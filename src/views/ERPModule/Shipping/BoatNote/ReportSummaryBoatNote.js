@@ -10,29 +10,53 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
     data.push([
         { text: `No.`, fontSize: 12, alignment: 'center', style: 'header' },
         { text: "Loc", fontSize: 12, alignment: 'center' },
-        { text: "Description", fontSize: 12, alignment: 'center' },
+        // { text: "Description", fontSize: 12, alignment: 'center' },
         { text: "Cust_name", fontSize: 12, alignment: 'center' },
         { text: "City", fontSize: 12, alignment: 'center' },
         { text: "STS_PO", fontSize: 12, alignment: 'center' },
+        { text: "CUST_PO", fontSize: 12, alignment: 'center' },
         { text: "Countlot", fontSize: 12, alignment: 'center' },
         { text: "Weight", fontSize: 12, alignment: 'center' },
     ])
 
+
+    let total_countlot = 0;
+    let total_weight = 0;
+
     let result = dataNow
 
     for (let i = 0; i < result.length; i++) {
+        const britishNumberFormatter = new Intl.NumberFormat("en-GB");
+
+        total_countlot = total_countlot + result[i]["sumSTS_PO"]
+        total_weight = total_weight + result[i]["sumWeight"]
 
         data.push([
             { text: i + 1, alignment: 'center' },
             { text: result[i]["loc"], fontSize: 12, alignment: 'center' },
-            { text: result[i]["loc_description"], fontSize: 12, alignment: 'center' },
+            // { text: result[i]["loc_description"], fontSize: 12, alignment: 'center' },
             { text: result[i]["cust_name"], fontSize: 12, alignment: 'center' },
             { text: result[i]["city"], fontSize: 12, alignment: 'center' },
             { text: result[i]["sts_PO"], fontSize: 12, alignment: 'center' },
-            { text: result[i]["sumSTS_PO"], fontSize: 12, alignment: 'center' },
-            { text: result[i]["sumWeight"], fontSize: 12, alignment: 'center' },
-        ])
+            { text: result[i]["cust_po"], fontSize: 12, alignment: 'center' },
+            { text: britishNumberFormatter.format(result[i]["sumSTS_PO"]), fontSize: 12, alignment: 'center' },
+            { text: britishNumberFormatter.format(result[i]["sumWeight"]), fontSize: 12, alignment: 'center' },
+        ],)
+
+        if (i === result.length - 1) {
+            data.push([
+                { text: "Total", fontSize: 13, alignment: 'center', colSpan: 6 },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: britishNumberFormatter.format(total_countlot) , fontSize: 13, alignment: 'center' },
+                { text: britishNumberFormatter.format(total_weight), fontSize: 13, alignment: 'center' },
+            ])
+        }
     }
+
 
 
     var docDefinition = {
@@ -75,7 +99,19 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
                                 border: [false, false, false, false], text: ''
                             },
                             { 
-                                border: [false, false, false, false], text: '' },
+                                border: [false, false, false, false], text: ''
+                            },
+                            {
+                                border: [false, false, false, false], text: dataNow[1]["loc_description"], fontSize: 14
+                            },
+                        ],
+                        [
+                            {
+                                border: [false, false, false, false], text: ''
+                            },
+                            { 
+                                border: [false, false, false, false], text: ''
+                            },
                             {
                                 border: [false, false, false, false], text: ''
                             },
@@ -83,37 +119,82 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
                     ],
                 },
             },
-            // {
-            //     margin: [0, 0, 0, 0],
-            //     table: {
-            //         widths: ['*', 0, 350],
-            //         body: [
-            //             [
-            //                 {
-            //                     border: [false, false, false, false],
-            //                     text: dataNow[1]["uf_by"],fontSize: 16, colSpan: 3, alignment: 'left',
-            //                 },
-            //                 { text: '', fontSize: 14 },
-            //                 { text: '', fontSize: 14 },
-            //             ],
-            //         ],
-            //     },
-            // },
+            {
+                margin: [0, 0, 0, 0],
+                table: {
+                    widths: ['*', 0, 350],
+                    body: [
+                        [
+                            {
+                                border: [false, false, false, false],
+                                text: '',fontSize: 16, colSpan: 3, alignment: 'left',
+                            },
+                            { text: '', fontSize: 14 },
+                            { text: '', fontSize: 14 },
+                        ],
+                    ],
+                },
+            },
             {
                 table: {
-                    widths: [20, 55, 90, 70, 70, 55, 55, 60],
+                    widths: [20, 50, 70, 70, 50, 105, 50, 60,5],
                     headerRows: 1,
                     body: data,
                 },
             },
-
-           
+            {
+                margin: [20, 0, 0, 20],
+                columns: [
+                    {
+                        fontSize: 16, text: [{ text: '', alignment: 'right' },], alignment: 'center'
+                    },
+                    {
+                        fontSize: 16, text: [{ text: '', alignment: 'right' },], alignment: 'center'
+                    },
+                    {
+                        fontSize: 16, text: [{ text: '', alignment: 'right' },], alignment: 'right'
+                    },
+                ]
+            },
+            {
+                margin: [20, 0, 0, 20],
+                columns: [
+                    {
+                        fontSize: 16, text: [{ text: `............................................................
+                        SAHA THAI STEEL PIPE CO., LTD.`, alignment: 'center' },], alignment: 'left'
+                    },
+                    {
+                        fontSize: 16, text: [{ text: '', alignment: 'right' },], alignment: 'center'
+                    },
+                    {
+                        fontSize: 16, text: [{ text: `............................................................
+                        TAIKONG RECEIVER`, alignment: 'center' },], alignment: 'right'
+                    },
+                ]
+            },
+            {
+                margin: [20, 0, 0, 20],
+                columns: [
+                    {
+                        fontSize: 16, text: [{ text: `DATE : .................................................`
+                        , alignment: 'center' },], alignment: 'left'
+                    },
+                    {
+                        fontSize: 16, text: [{ text: '', alignment: 'right' },], alignment: 'center'
+                    },
+                    {
+                        fontSize: 16, text: [{ text: `............................................................
+                        CHECKER RECEIVER`, alignment: 'center' },], alignment: 'right'
+                    },
+                ]
+            }
         ],
         defaultStyle: {
             font: 'THSarabunNew',
         },
 
     };
+
 
     pdfMake.createPdf(docDefinition).open()
 }
