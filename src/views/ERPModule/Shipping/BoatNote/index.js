@@ -73,6 +73,7 @@ const BoatNote = () => {
     const [doctype_shipping, setDoctype_shipping] = useState("");
     const [boatPosition, setBoatPosition] = useState("");
     const [destination, setDestination] = useState("");
+    const [ActWeight, setActWeight] = useState("");
     
     const [editStatus, setEditStatus] = useState(true);
 
@@ -155,6 +156,10 @@ const BoatNote = () => {
 
     const setDestinationState = (event) => {
         setDestination(event.target.value)
+    }
+
+    const setActWeightState = (event) => {
+        setActWeight(event.target.value)
     }
 
 
@@ -240,7 +245,7 @@ const BoatNote = () => {
             //   setOpenModal(true);
             //   //Insert QTY MOVE HEARDER
         } else {
-            API.get(`API_QuantityMove/data.php?load=moveqty_create_hdr&toLoc=${values.loc}&w_c=${values.wc}&doc_type=${values.doc_type}&do_num=${values.do_num}&boatList=${values.boatList}&destination=${destination}`)
+            API.get(`API_QuantityMove/data.php?load=moveqty_create_hdr&toLoc=${values.loc}&w_c=${values.wc}&doc_type=${values.doc_type}&do_num=${values.do_num}&boatList=${values.boatList}&destination=${destination}&ActWeight=${ActWeight}`)
                 .then(res => {
                     const moveqty_hdr = res.data
                     //       setdocNum(moveqty_hdr.doc_num)
@@ -759,7 +764,7 @@ const BoatNote = () => {
                                                                             onKeyUp={(e) => (values.doc_type == "Ship") ? handleScanTagCheckByDO(e, values.do_num) : handleScanTag(e)}
                                                                             autoFocus={focusScanTagState} />
 
-                                                                        <FormControl style={{ paddingLeft: 10 , width: 120}} variant="outlined" size="small">
+                                                                        <FormControl style={{ paddingLeft: 10 ,paddingRight: 10, width: 130}} variant="outlined" size="small">
                                                                         <InputLabel style={{ paddingLeft: 10}}>ปลายทาง</InputLabel>
                                                                             <Select
                                                                                 value={destination}
@@ -780,6 +785,14 @@ const BoatNote = () => {
                                                                                 <MenuItem value={'ลงเรือฉลอม'}>ลงเรือฉลอม</MenuItem>
                                                                             </Select>
                                                                         </FormControl>
+
+                                                                        <TextField size="small" label={"Actual Weight"} id={"actWeight"}
+                                                                            variant="outlined"
+                                                                            className={classes.textField}
+                                                                            value = {ActWeight}
+                                                                            // onKeyUp={(e) => (values.doc_type == "Ship") ? handleScanTagCheckByDO(e, values.do_num) : handleScanTag(e)}
+                                                                            // autoFocus={} 
+                                                                            />
 
                                                                     </div>
                                                                 </div>

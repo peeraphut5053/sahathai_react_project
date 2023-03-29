@@ -32,6 +32,7 @@ function ReportMoveInternal(dataNowHeader,dataNow) {
     let total_pcs = 0;
     let total_std_wei = 0;
     let cal_bundel = []
+    let total_difWeight = 0
 
     for (let i = 0; i < dataNow.length; i++) {
 
@@ -39,6 +40,8 @@ function ReportMoveInternal(dataNowHeader,dataNow) {
         // total_pcs = total_pcs + dataNow[i]["SUMLotPCS"]
         total_pcs = total_pcs + dataNow[i]["uf_pack"] * dataNow[i]["countlot"]
         total_std_wei = total_std_wei + Number(dataNow[i]["qty2"])
+        total_difWeight = total_std_wei - Number(dataNowHeader[0]["ActWeight"])
+
 
         cal_bundel.push(dataNow[i]["SUMLotPCS"])
 
@@ -63,7 +66,7 @@ function ReportMoveInternal(dataNowHeader,dataNow) {
         )
         if (i === dataNow.length - 1) {
             data.push([
-                { text: `เอกสารเลขที่ : ${dataNow[i]["doc_num"]}`, fontSize: 11, alignment: 'center', style: 'header', colSpan: 8 },
+                { text: `เอกสารเลขที่ : ${dataNow[i]["doc_num"]}`, fontSize: 11, alignment: 'center', style: 'header', colSpan: 10 },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
@@ -76,6 +79,46 @@ function ReportMoveInternal(dataNowHeader,dataNow) {
                 { text: total_bundle, fontSize: 11, alignment: 'center' },
                 { text: total_pcs, fontSize: 11, alignment: 'center' },
                 { text: Number(total_std_wei).toFixed(2), fontSize: 11, alignment: 'center' }
+                // { text: "", fontSize: 11, alignment: 'center' },
+                // { text: "", fontSize: 11, alignment: 'center' },
+            ],
+            )
+        }
+        if (i === dataNow.length - 1) {
+            data.push([
+                { text: `น้ำหนักชั้งจริง`, fontSize: 11, alignment: 'center', style: 'header', colSpan: 10 },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: Number(dataNowHeader[0]["ActWeight"]).toFixed(2), fontSize: 11, alignment: 'center' }
+                // { text: "", fontSize: 11, alignment: 'center' },
+                // { text: "", fontSize: 11, alignment: 'center' },
+            ],
+            )
+        }
+        if (i === dataNow.length - 1) {
+            data.push([
+                { text: `ส่วนต่างน้ำหนัก`, fontSize: 11, alignment: 'center', style: 'header', colSpan: 10 },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: Number(total_difWeight).toFixed(2), fontSize: 11, alignment: 'center' }
                 // { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
             ],
