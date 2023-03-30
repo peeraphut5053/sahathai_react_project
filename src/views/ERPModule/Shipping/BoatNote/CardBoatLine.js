@@ -19,11 +19,13 @@ import {
   Chip
 } from '@material-ui/core';
 import ModalManagement from '../../../components/ModalManagement';
+import ModalManagementFullPage from '../../../components/ModalManagementFullPage';
 import MaterialTable, { MTableToolbar } from 'material-table';
 import tableIcons from 'src/views/components/table/tableIcons';
 import { ReportMoveInternal } from './ReportMoveInternal';
 import { ReportMoveBoatNote } from './ReportMoveBoatNote';
 import { ReportSummaryBoatNote } from './ReportSummaryBoatNote';
+import ReportTagBoatNote from './ReportTagBoatNote';
 import API from 'src/views/components/API';
 import CTextField from 'src/views/components/Input/CTextField';
 import CAutocompleteNameOfDoGroup from '../../../components/Input/CAutocompleteNameOfDoGroup';
@@ -53,6 +55,7 @@ const CardBoatLine = (props, { className, ...rest }) => {
   const classes = useStyles();
 
   const [openModalItem, setOpenModalItem] = React.useState(false); // Boat NOte
+  const [OpenModalTagBoatNote, setOpenModalTagBoatNote] = React.useState(false);
   const [do_group_name, setdo_group_name] = useState("")
   const [loc, set_loc] = useState("")
   const [boatPosition, setBoatPosition] = useState("");
@@ -130,6 +133,7 @@ const CardBoatLine = (props, { className, ...rest }) => {
 
   const handleCloseModalItem = async () => {
     setOpenModalItem(false);
+    setOpenModalTagBoatNote(false);
   };
   return (
     <Card
@@ -201,6 +205,19 @@ const CardBoatLine = (props, { className, ...rest }) => {
         open={openModalItem}
         onClose={handleCloseModalItem}
       />
+
+      <ModalManagementFullPage
+          // modalHeader={
+          //   <>รายงาน Tag ลงเรือ</>
+          // }
+          modalDetail={
+            <ReportTagBoatNote />
+          }
+
+          open={OpenModalTagBoatNote}
+          onClose={handleCloseModalItem}
+      />
+                 
       <CardContent>
         <Grid
           container
@@ -238,6 +255,7 @@ const CardBoatLine = (props, { className, ...rest }) => {
 
 
                 <Chip label={"แก้ไขใบส่งสินค้า"} color="primary" style={{ marginRight: 5 }} onClick={openEditPage} />
+                <Chip label={"รายงาน Tag ลงเรือ"} color="primary" style={{ marginRight: 5 }} onClick={setOpenModalTagBoatNote} />
               </div>
             </div>
 
