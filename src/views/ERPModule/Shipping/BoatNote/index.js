@@ -73,7 +73,7 @@ const BoatNote = () => {
     const [doctype_shipping, setDoctype_shipping] = useState("");
     const [boatPosition, setBoatPosition] = useState("");
     const [destination, setDestination] = useState("");
-    const [ActWeight, setActWeight] = useState("");
+    const [Saerch_STS_qty_move_hrd, setSaerch_STS_qty_move_hrd] = useState([])
     
     const [editStatus, setEditStatus] = useState(true);
 
@@ -145,7 +145,12 @@ const BoatNote = () => {
                 console.log(res.data)
                 // handlecheckItemLotLoc(res.data)
             })
-
+        
+            API.get(`API_QuantityMove/data.php?load=Saerch_STS_qty_move_hrd&doc_num=${row.doc_num}`)
+            .then(res => {
+                console.log(res.data)
+                setSaerch_STS_qty_move_hrd(res.data)
+            })
         setDoc_num(row.doc_num)
         setDoc_type(row.doc_type)
     }
@@ -158,9 +163,9 @@ const BoatNote = () => {
         setDestination(event.target.value)
     }
 
-    const setActWeightState = (event) => {
-        setActWeight(event.target.value)
-    }
+    // const setActWeightState = (event) => {
+    //     setActWeight(event.target.value)
+    // }
 
 
     const handleScanTag = (event) => {
@@ -245,7 +250,7 @@ const BoatNote = () => {
             //   setOpenModal(true);
             //   //Insert QTY MOVE HEARDER
         } else {
-            API.get(`API_QuantityMove/data.php?load=moveqty_create_hdr&toLoc=${values.loc}&w_c=${values.wc}&doc_type=${values.doc_type}&do_num=${values.do_num}&boatList=${values.boatList}&destination=${destination}&ActWeight=${ActWeight}`)
+            API.get(`API_QuantityMove/data.php?load=moveqty_create_hdr&toLoc=${values.loc}&w_c=${values.wc}&doc_type=${values.doc_type}&do_num=${values.do_num}&boatList=${values.boatList}&destination=${destination}&ActWeight=${values.ActualWeight}`)
                 .then(res => {
                     const moveqty_hdr = res.data
                     //       setdocNum(moveqty_hdr.doc_num)
@@ -291,6 +296,7 @@ const BoatNote = () => {
     const handlesetEditStatus = () => {
         setEditStatus(true)
         setQtyMoveList(STS_qty_move_line)
+        setSaerch_STS_qty_move_hrd(Saerch_STS_qty_move_hrd)
         setOpenModalCreateBoteNote(true);
     }
 
@@ -521,7 +527,8 @@ const BoatNote = () => {
                                     doc_type: 'Internal',
                                     wc: '',
                                     round: '',
-                                    boatList: ''
+                                    boatList: '',
+                                    ActualWeight: 0,
                                 }
                             }
                             validate={values => {
@@ -583,6 +590,27 @@ const BoatNote = () => {
                                                                         name="loc"
                                                                         value={values.loc}
                                                                         setFieldValue={setFieldValue}
+                                                                    />
+                                                                </Grid>
+                                                                    
+                                                                <Grid item lg={12} >
+                                                                    <CTextField size="small" fullWidth
+                                                                            // variant="outlined"
+                                                                            // className={classes.textField}
+                                
+                                                                            
+                                                                            error={Boolean(touched.item && errors.item)}
+                                                                            helperText={touched.item && errors.item}
+                                                                            label="น้ำหนักชั่งจริง"
+                                                                            name="ActualWeight"
+                                                                            onBlur={handleBlur}
+                                                                            onChange={handleChange}
+                                                                            value={values.ActualWeight}
+                                                        
+                                                                            // value = {ActualWeight==0? values.ActualWeight: ActualWeight}
+                                                                            // onBlur={handleBlur}
+                                                                            // onChange={handleChange}
+                                                                            // onKeyUp={(e) => (values.doc_type == "Ship") ? handleScanTagCheckByDO(e, values.do_num) : handleScanTag(e)}
                                                                     />
                                                                 </Grid>
                                                             </Grid>
@@ -785,14 +813,6 @@ const BoatNote = () => {
                                                                                 <MenuItem value={'ลงเรือฉลอม'}>ลงเรือฉลอม</MenuItem>
                                                                             </Select>
                                                                         </FormControl>
-
-                                                                        <TextField size="small" label={"Actual Weight"} id={"actWeight"}
-                                                                            variant="outlined"
-                                                                            className={classes.textField}
-                                                                            value = {ActWeight}
-                                                                            // onKeyUp={(e) => (values.doc_type == "Ship") ? handleScanTagCheckByDO(e, values.do_num) : handleScanTag(e)}
-                                                                            // autoFocus={} 
-                                                                            />
 
                                                                     </div>
                                                                 </div>
