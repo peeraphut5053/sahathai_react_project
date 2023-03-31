@@ -75,7 +75,7 @@ const BoatNote = () => {
     const [destination, setDestination] = useState("");
     let [Search_STS_qty_move_hrd, setSearch_STS_qty_move_hrd] = useState([])
     
-    const [editStatus, setEditStatus] = useState(true);
+    const [editStatus, setEditStatus] = useState(false);
 
 
     const [openModalProcess, setOpenModalProcess] = useState(false);
@@ -296,7 +296,6 @@ const BoatNote = () => {
     const handlesetEditStatus = () => {
         setEditStatus(true)
         setQtyMoveList(STS_qty_move_line)
-        setSearch_STS_qty_move_hrd(Search_STS_qty_move_hrd)
         setOpenModalCreateBoteNote(true);
     }
 
@@ -375,6 +374,26 @@ const BoatNote = () => {
             }
         });
         console.log(values, doc_num)
+    }
+
+    const editActualWeight = (event, doc_num, eActualWeight) => {
+        if (event.key === 'Enter') {
+
+            API.get(`API_QuantityMove/data.php?load=editActualWeight&doc_num=${doc_num}&eActualWeight=${eActualWeight}`, {
+            
+            });
+        console.log(event, doc_num, eActualWeight)
+
+        const timer = setInterval(() => {
+            API.get(`API_QuantityMove/data.php?load=Search_STS_qty_move_hrd&doc_num=${doc_num}`)
+            .then(res => {
+                console.log(res.data)
+                setSearch_STS_qty_move_hrd(res.data)
+            })
+        clearInterval(timer)
+    }, 1000)
+
+        }
     }
 
 
@@ -529,6 +548,7 @@ const BoatNote = () => {
                                     round: '',
                                     boatList: '',
                                     ActualWeight: 0,
+                                    eActualWeight: 0,
                                 }
                             }
                             validate={values => {
@@ -593,25 +613,53 @@ const BoatNote = () => {
                                                                     />
                                                                 </Grid>
                                                                     
+
+                                                            {(editStatus == true) ?
+                                                                <>
                                                                 <Grid item lg={12} >
-                                                                    <CTextField size="small" fullWidth
-                                                                            // variant="outlined"
-                                                                            // className={classes.textField}
-                                
-                                                                            
-                                                                            error={Boolean(touched.item && errors.item)}
-                                                                            helperText={touched.item && errors.item}
-                                                                            label="น้ำหนักชั่งจริง"
-                                                                            name="ActualWeight"
-                                                                            onBlur={handleBlur}
-                                                                            onChange={handleChange}
-                                                                            value={values.ActualWeight}
-                                                        
-                                                                            // onBlur={handleBlur}
-                                                                            // onChange={handleChange}
-                                                                            // onKeyUp={(e) => (values.doc_type == "Ship") ? handleScanTagCheckByDO(e, values.do_num) : handleScanTag(e)}
+                                                                    <CTextField size="small" fullWidth                       
+                                                                           
+                                                                        error={Boolean(touched.item && errors.item)}
+                                                                        helperText={touched.item && errors.item}
+                                                                        label="น้ำหนักชั่งจริง"
+                                                                        name="ActWeight"
+                                                                        onBlur={handleBlur}
+                                                                        onChange={handleChange}
+                                                                        value={Search_STS_qty_move_hrd[0]["ActWeight"]}
+                                                                                                                                       
                                                                     />
                                                                 </Grid>
+
+                                                                <Grid item lg={12} >
+                                                                    <TextField size="small" fullWidth                       
+                                                                        
+                                                                        error={Boolean(touched.item && errors.item)}
+                                                                        helperText={touched.item && errors.item}
+                                                                        label="แก้ไขน้ำหนักชั่งจริง"
+                                                                        name="eActualWeight"
+                                                                        onBlur={handleBlur}
+                                                                        onChange={handleChange}
+                                                                        value={values.eActualWeight}
+                                                                        onKeyUp={(e) => editActualWeight(e, doc_num, values.eActualWeight) }
+                                                                                                                                     
+                                                                    />
+                                                                </Grid>
+                                                            
+                                                                     </> : 
+                                                                <Grid item lg={12} >
+                                                                    <CTextField size="small" fullWidth
+                                                                                                                                                                                                                                                                
+                                                                        error={Boolean(touched.item && errors.item)}
+                                                                        helperText={touched.item && errors.item}
+                                                                        label="น้ำหนักชั่งจริง"
+                                                                        name="ActualWeight"
+                                                                        onBlur={handleBlur}
+                                                                        onChange={handleChange}
+                                                                        value={values.ActualWeight}
+                                                                                                              
+                                                                    />
+                                                                </Grid>
+                                                            }
                                                             </Grid>
                                                         </Paper>
                                                     </Grid>
