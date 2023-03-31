@@ -73,7 +73,7 @@ const BoatNote = () => {
     const [doctype_shipping, setDoctype_shipping] = useState("");
     const [boatPosition, setBoatPosition] = useState("");
     const [destination, setDestination] = useState("");
-    const [Saerch_STS_qty_move_hrd, setSaerch_STS_qty_move_hrd] = useState([])
+    let [Search_STS_qty_move_hrd, setSearch_STS_qty_move_hrd] = useState([])
     
     const [editStatus, setEditStatus] = useState(true);
 
@@ -146,10 +146,10 @@ const BoatNote = () => {
                 // handlecheckItemLotLoc(res.data)
             })
         
-            API.get(`API_QuantityMove/data.php?load=Saerch_STS_qty_move_hrd&doc_num=${row.doc_num}`)
+            API.get(`API_QuantityMove/data.php?load=Search_STS_qty_move_hrd&doc_num=${row.doc_num}`)
             .then(res => {
                 console.log(res.data)
-                setSaerch_STS_qty_move_hrd(res.data)
+                setSearch_STS_qty_move_hrd(res.data)
             })
         setDoc_num(row.doc_num)
         setDoc_type(row.doc_type)
@@ -296,7 +296,7 @@ const BoatNote = () => {
     const handlesetEditStatus = () => {
         setEditStatus(true)
         setQtyMoveList(STS_qty_move_line)
-        setSaerch_STS_qty_move_hrd(Saerch_STS_qty_move_hrd)
+        setSearch_STS_qty_move_hrd(Search_STS_qty_move_hrd)
         setOpenModalCreateBoteNote(true);
     }
 
@@ -567,7 +567,7 @@ const BoatNote = () => {
                                 >
                                     {/* <Button color="primary" variant="contained" onClick={() => { handleOpenModalItem(123) }}>1234</Button> */}
                                     {/* {JSON.stringify(values)} */}
-
+                                    
                                     <Grid container spacing={2}>
                                         <Grid item lg={12} >
                                             <Grid container spacing={2}>
@@ -607,7 +607,6 @@ const BoatNote = () => {
                                                                             onChange={handleChange}
                                                                             value={values.ActualWeight}
                                                         
-                                                                            // value = {ActualWeight==0? values.ActualWeight: ActualWeight}
                                                                             // onBlur={handleBlur}
                                                                             // onChange={handleChange}
                                                                             // onKeyUp={(e) => (values.doc_type == "Ship") ? handleScanTagCheckByDO(e, values.do_num) : handleScanTag(e)}

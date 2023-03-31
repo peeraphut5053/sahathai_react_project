@@ -57,12 +57,6 @@ const ReportTagBoatNote = (props) => {
   }, [])
 
 
-  const excelStyles = [
-    {
-        id: 'stringType',
-        dataType: 'String',
-    }
-];
 
 
   return (
@@ -80,12 +74,12 @@ const ReportTagBoatNote = (props) => {
                 isLoading={IsLoadingState}
                 
                 columns={[
-                  { title: 'Tag Id', field: 'id', type: 'String' },
+                  { title: 'Tag Id', field: 'id', type: 'string' },
                   { title: 'Lot', field: 'lot'},
                   { title: 'Location', field: 'loc' },
                   { title: 'Item', field: 'item', width: '400' },
-                  { title: 'qty_on_hand', field: 'qty_on_hand', type: 'Integers' },
-                  { title: 'qty_tag', field: 'tagQTY', type: 'Integers' },
+                  { title: 'qty_on_hand', field: 'qty_on_hand' },
+                  { title: 'qty_tag', field: 'tagQTY' },
                   
                 ]}
                 data={DataReportTagBoatNote}
