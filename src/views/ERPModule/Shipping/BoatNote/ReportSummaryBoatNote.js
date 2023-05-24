@@ -91,18 +91,29 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
                                 border: [false, false, false, false], text: ''
                             },
                             {
-                                border: [false, false, false, false], text: dataNow[1]["uf_by"], fontSize: 14
+                                border: [false, false, false, false], text: `วันที่เริ่ม ${dataNow[0]["startDate"]}`, fontSize: 14
                             },
                         ],
                         [
                             {
-                                border: [false, false, false, false], text: ''
+                                border: [false, false, false, false], text: dataNow[0]["uf_by"], fontSize: 14
                             },
                             { 
                                 border: [false, false, false, false], text: ''
                             },
                             {
-                                border: [false, false, false, false], text: dataNow[1]["loc_description"], fontSize: 14
+                                border: [false, false, false, false], text: `วันที่สิ้นสุด ${dataNow[1]["endDate"]}`, fontSize: 14
+                            },
+                        ],
+                        [
+                            {
+                                border: [false, false, false, false], text: `${dataNow[0]["loc_description"]} ทะเบียนเรือ ${dataNow[0]["loc_no"]}` , fontSize: 14
+                            },
+                            { 
+                                border: [false, false, false, false], text: ''
+                            },
+                            {
+                                border: [false, false, false, false], text: ''
                             },
                         ],
                         [

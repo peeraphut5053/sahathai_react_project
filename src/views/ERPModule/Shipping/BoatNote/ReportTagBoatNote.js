@@ -75,6 +75,7 @@ const ReportTagBoatNote = (props) => {
                 
                 columns={[
                   { title: 'Tag Id', field: 'id', type: 'string' },
+                  { title: 'Do num', field: 'do_num'},
                   { title: 'Lot', field: 'lot'},
                   { title: 'Location', field: 'loc' },
                   { title: 'Item', field: 'item', width: '400' },
