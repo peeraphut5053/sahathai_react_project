@@ -102,7 +102,7 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
                                 border: [false, false, false, false], text: ''
                             },
                             {
-                                border: [false, false, false, false], text: `วันที่สิ้นสุด ${dataNow[1]["endDate"]}`, fontSize: 14
+                                border: [false, false, false, false], text: `วันที่สิ้นสุด ${dataNow[0]["endDate"]}`, fontSize: 14
                             },
                         ],
                         [
