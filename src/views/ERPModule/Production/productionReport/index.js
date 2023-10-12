@@ -241,7 +241,10 @@ const ProductionDailyReport = () => {
 				ReportProductionDaily(response.data, values.startdate, values.enddate)
 
 			} else if (doc_type === 'Forming') {
-				if(itemA == '' || itemB == '' || itemC == ''){
+				if(BreakTimeOne == false && BreakTimeTwo == false && BreakTimeThree == false){
+					alert("กรุณาเลือกข้อมูลจำนวนชั่วโมงงาน")
+				}
+				else if(itemA == '' || itemB == '' || itemC == ''){
 					alert("กรอกข้อมูลการเดินเครื่อง")
 				}else{
 				if (response.data.length > 0) {
