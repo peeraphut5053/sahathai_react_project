@@ -87,6 +87,16 @@ const ProductionDailyReport = () => {
 				setDataFormingRecord(response.data)
 			}
 
+			if(!responseFormingOperation.data[0]?.operationWeight){
+				setItemA(0);
+				setItemB(0);
+				setItemC(0);
+			}else{
+				setItemA(responseFormingOperation.data[0].operationWeight);
+				setItemB(responseFormingOperation.data[0].operationSpeed);
+				setItemC(responseFormingOperation.data[0].operationTime);
+			}
+
 			const response2 = await API.get("RPT_JOBPACKING/data.php", {
 				params: {
 					load: "SelectFormingModal_reason_meter",
@@ -198,7 +208,7 @@ const ProductionDailyReport = () => {
 		
 		setItemA(values.itemA);
 		setItemB(values.itemB);
-		setItemC(values.itemA);
+		setItemC(values.itemC);
 
 	}
 
