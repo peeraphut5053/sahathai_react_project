@@ -839,12 +839,12 @@ const BoatNote = () => {
                                                                             onKeyUp={(e) => (values.doc_type == "Ship") ? handleScanTagCheckByDO(e, values.do_num) : handleScanTag(e)}
                                                                             autoFocus={focusScanTagState} />
 
-                                                                        <FormControl style={{ paddingLeft: 10 ,paddingRight: 10, width: 130}} variant="outlined" size="small">
-                                                                        <InputLabel style={{ paddingLeft: 10}}>ปลายทาง</InputLabel>
+                                                                        <FormControl style={{ paddingLeft: 10 ,paddingRight: 10, width: 170}} variant="outlined" size="small">
+                                                                        <InputLabel style={{ paddingLeft: 10}}>ปลายทางขนส่ง</InputLabel>
                                                                             <Select
                                                                                 value={destination}
                                                                                 variant="outlined"
-                                                                                label="ปลายทาง"
+                                                                                label="ปลายทางขนส่ง"
                                                                                 size="small"
                                                                                 onChange={setDestinationState}
                                                                             >
