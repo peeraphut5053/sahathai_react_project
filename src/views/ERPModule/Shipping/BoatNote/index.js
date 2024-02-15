@@ -77,6 +77,8 @@ const BoatNote = () => {
     
     const [editStatus, setEditStatus] = useState(false);
 
+    const [isDisabled, setDisabled] = useState(false);
+
 
     const [openModalProcess, setOpenModalProcess] = useState(false);
     const handleCloseProcess = () => { setOpenModalProcess(false); };
@@ -239,7 +241,7 @@ const BoatNote = () => {
 
 
     const saveDocument = (values, qtyMoveList) => {
-
+        setDisabled(true)
         console.log(qtyMoveList)
         console.log(values)
 
@@ -282,6 +284,7 @@ const BoatNote = () => {
                 })
         }
         setFocusScanTagState(false)
+        setDisabled(false)
     }
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -871,7 +874,7 @@ const BoatNote = () => {
                                                 </Grid>
                                                 <Grid item xs={12}>
                                                     <Paper className={classes.paper}>
-                                                        <Button type="button" variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => saveDocument(values, qtyMoveList)}>Save</Button>
+                                                        <Button disabled={isDisabled} type="button" variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => saveDocument(values, qtyMoveList)}>Save</Button>
                                                     </Paper>
                                                     {/* <Button variant="contained" color="primary" startIcon={<SaveIcon />} style={{ margin: 10 }} onClick={handleSubmit} >Save  </Button> */}
 
