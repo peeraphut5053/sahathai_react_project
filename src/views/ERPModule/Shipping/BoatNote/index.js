@@ -256,6 +256,7 @@ const BoatNote = () => {
                     //       setdocNum(moveqty_hdr.doc_num)
                     //       setToLocation(moveqty_hdr.loc)
                     if (qtyMoveList.length > 0) {
+                        setEditStatus(false)
                         setOpenModalCreateBoteNote(false)
                         setOpenModalProcess(true)
                         let i = 1;
@@ -870,7 +871,7 @@ const BoatNote = () => {
                                                 </Grid>
                                                 <Grid item xs={12}>
                                                     <Paper className={classes.paper}>
-                                                        <Button type="button" variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => saveDocument(values, qtyMoveList)}  >Save</Button>
+                                                        <Button type="button" variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => saveDocument(values, qtyMoveList)}>Save</Button>
                                                     </Paper>
                                                     {/* <Button variant="contained" color="primary" startIcon={<SaveIcon />} style={{ margin: 10 }} onClick={handleSubmit} >Save  </Button> */}
 
@@ -907,7 +908,7 @@ const BoatNote = () => {
                                 STS_qty_move_line={STS_qty_move_line}
                                 doc_num={doc_num}
                                 doc_type={doc_type}
-                                handleOpenModalCreateDoGroup={handleOpenModalCreateDoGroup}
+                                // handleOpenModalCreateDoGroup={handleOpenModalCreateDoGroup}
                                 handlesetEditStatus={handlesetEditStatus}
                             />
                         </Grid>
