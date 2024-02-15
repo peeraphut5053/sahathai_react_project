@@ -242,8 +242,8 @@ const BoatNote = () => {
 
     const saveDocument = (values, qtyMoveList) => {
         setDisabled(true)
-        console.log(qtyMoveList)
-        console.log(values)
+        // console.log(qtyMoveList)
+        // console.log(values)
 
         if (!values.loc || qtyMoveList.length === 0) {
             alert("กรุณากรอก location ปลายทาง หรือ scan barcode อย่างน้อย 1 lot")
