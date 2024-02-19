@@ -257,7 +257,7 @@ const BoatNote = () => {
                     const moveqty_hdr = res.data
                     //       setdocNum(moveqty_hdr.doc_num)
                     //       setToLocation(moveqty_hdr.loc)
-                    if (qtyMoveList.length > 0) {
+                    if (qtyMoveList.length > 0 && moveqty_hdr.doc_num !== 'undefined' && moveqty_hdr.doc_num !== null) {
                         setEditStatus(false)
                         setOpenModalCreateBoteNote(false)
                         setOpenModalProcess(true)
