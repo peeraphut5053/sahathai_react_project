@@ -18,12 +18,12 @@ function ReportForming(dataNow, selectedDateStart, selectedDateEnd,itemA,itemB,i
         { text: "ขนาด\nSize", fontSize: 11, alignment: 'center' },
         { text: "มาตรฐาน\nStandard", fontSize: 11, alignment: 'center' },
         { text: "เกรด\nGrade", fontSize: 11, alignment: 'center' },
-        { text: "ความหนา\nSCH", fontSize: 11, alignment: 'center' },
-        { text: "ความยาว\nLength", fontSize: 11, alignment: 'center' },
+        { text: "ความ\nหนา\nSCH", fontSize: 11, alignment: 'center' },
+        { text: "ความ\nยาว\nLength", fontSize: 11, alignment: 'center' },
         { text: "ชนิด\nType", fontSize: 11, alignment: 'center' },
         { text: "มัดที่ \n Bundle no", fontSize: 11, alignment: 'center' },
         { text: "เส้น/มัด\nPCS/Bundle", fontSize: 11, alignment: 'center' },
-        { text: "จำนวนมัด\nBundle", fontSize: 11, alignment: 'center' },
+        { text: "จำนวน\nมัด\nBundle", fontSize: 11, alignment: 'center' },
         { text: "จำนวน\n เกรด A \n(เส้น)", fontSize: 11, alignment: 'center' },
         { text: "จำนวน\n เกรด B \n(เส้น)", fontSize: 11, alignment: 'center' },
         { text: "จำนวน\n เกรด C \n(เส้น)", fontSize: 11, alignment: 'center' },
@@ -33,6 +33,9 @@ function ReportForming(dataNow, selectedDateStart, selectedDateEnd,itemA,itemB,i
         { text: "เวลา\nทำงาน", fontSize: 11, alignment: 'center' },
         { text: "เล้น/ชม.", fontSize: 11, alignment: 'center' },
         { text: "เป้าหมาย\nการผลิต\n(-10%) ", fontSize: 11, alignment: 'center' },
+        { text: "น้ำหนัก\nท่อชั่งจริง", fontSize: 11, alignment: 'center' },
+        { text: "ความเร็ว\nในการเดินเครื่อง\nมาตรา\nฐาน", fontSize: 11, alignment: 'center' },
+        { text: "ความเร็ว\nในการเดินเครื่อง\nจริง", fontSize: 11, alignment: 'center' },
     ],
     )
 
@@ -52,25 +55,28 @@ function ReportForming(dataNow, selectedDateStart, selectedDateEnd,itemA,itemB,i
 
         data.push([
             { text: i + 1, alignment: 'center' },
-            { text: dataNow[i]["Uf_NPS"], fontSize: 12, alignment: 'center' },
-            { text: dataNow[i]["Uf_spec"], fontSize: 12, alignment: 'center' },
-            { text: dataNow[i]["Uf_Grade"], fontSize: 12, alignment: 'center' },
-            { text: dataNow[i]["Uf_Schedule"], fontSize: 12, alignment: 'center' },
-            { text: dataNow[i]["Uf_length"], fontSize: 12, alignment: 'center' },
-            { text: dataNow[i]["Uf_TypeEnd"], fontSize: 12, alignment: 'center' },
-            { text: `${convertAllLotReport("wordslot", dataNow[i]["AllLot"])}`, fontSize: 12, alignment: 'center' },
-            { text: `${convertAllLotReport("wordsqty", dataNow[i]["AllLot"])}`, fontSize: 12, alignment: 'center' },
-            { text: `${convertAllLotReport("wordsqtybundle", dataNow[i]["AllLot"])}`, fontSize: 12, alignment: 'center' },
+            { text: dataNow[i]["Uf_NPS"], fontSize: 11, alignment: 'center' },
+            { text: dataNow[i]["Uf_spec"], fontSize: 11, alignment: 'center' },
+            { text: dataNow[i]["Uf_Grade"], fontSize: 11, alignment: 'center' },
+            { text: dataNow[i]["Uf_Schedule"], fontSize: 11, alignment: 'center' },
+            { text: dataNow[i]["Uf_length"], fontSize: 11, alignment: 'center' },
+            { text: dataNow[i]["Uf_TypeEnd"], fontSize: 11, alignment: 'center' },
+            { text: `${convertAllLotReport("wordslot", dataNow[i]["AllLot"])}`, fontSize: 11, alignment: 'center' },
+            { text: `${convertAllLotReport("wordsqty", dataNow[i]["AllLot"])}`, fontSize: 11, alignment: 'center' },
+            { text: `${convertAllLotReport("wordsqtybundle", dataNow[i]["AllLot"])}`, fontSize: 11, alignment: 'center' },
             // { text: `${convertAllLotReport("wordsqtybundletotal", dataNow[i]["AllLot"])}`, fontSize: 12, alignment: 'right' }, 
             { text: dataNow[i]["sumABundle"], fontSize: 11, alignment: 'center' },
             { text: dataNow[i]["sumBBundle"], fontSize: 11, alignment: 'center' },
             { text: dataNow[i]["sumRBundle"], fontSize: 11, alignment: 'center' },
-            { text: dataNow[i]["ref_num"], fontSize: 12, alignment: 'center' },
-            { text: dataNow[i]["MatItem"], fontSize: 12, alignment: 'right' },
-            { text: dataNow[i]["totalMatUsed"], fontSize: 12, alignment: 'right' },
-            { text: BreakTimeFormingRate, fontSize: 12, alignment: 'right' },
-            { text: Number(dataNow[i]["pcs_per_mch_hr"]), fontSize: 12, alignment: 'right' },
+            { text: dataNow[i]["ref_num"], fontSize: 11, alignment: 'center' },
+            { text: dataNow[i]["MatItem"], fontSize: 11, alignment: 'right' },
+            { text: dataNow[i]["totalMatUsed"], fontSize: 11, alignment: 'right' },
+            { text: BreakTimeFormingRate, fontSize: 11, alignment: 'right' },
+            { text: Number(dataNow[i]["pcs_per_mch_hr"]), fontSize: 11, alignment: 'right' },
             { text: (Number(dataNow[i]["pcs_per_mch_hr"]) * BreakTimeFormingRate) - (Number(dataNow[i]["pcs_per_mch_hr"]) * BreakTimeFormingRate) * 10 / 100, fontSize: 12, alignment: 'right' },
+            { text: dataNow[i]["operationWeight"], fontSize: 11, alignment: 'center' },
+            { text: Number(dataNow[i]["operationSpeed"]).toFixed(0), fontSize: 11, alignment: 'right' },
+            { text: dataNow[i]["operationTime"], fontSize: 11, alignment: 'right' },
         ],
         )
 
@@ -87,6 +93,9 @@ function ReportForming(dataNow, selectedDateStart, selectedDateEnd,itemA,itemB,i
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: total_bundle, fontSize: 11, alignment: 'right' },
                 { text: total_pcs, fontSize: 11, alignment: 'right' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
@@ -243,30 +252,30 @@ function ReportForming(dataNow, selectedDateStart, selectedDateEnd,itemA,itemB,i
                 table: {
                     widths: [150, '*', 150],
                     body: [
-                        [
-                            {
-                                border: [false, false, false, false], text: `น้ำหนักท่อชั่งจริง ________${itemA}___________ กิโลกรัม`
-                                , fontSize: 12, colSpan: 3
-                            },
-                            {
-                                border: [false, false, false, false], text: ''
-                            },
-                            {
-                                border: [false, false, false, false], text: '', fontSize: 18
-                            },
-                        ],
-                        [
-                            {
-                                border: [false, false, false, false], text: `ความเร็วในการเดินเครื่อง มาตรฐาน ________${itemB}__________ เมตร/วินาที, เดินเครื่องจริง _________${itemC}_________ เมตร/วินาที `
-                                , fontSize: 12, colSpan: 3
-                            },
-                            {
-                                border: [false, false, false, false], text: ''
-                            },
-                            {
-                                border: [false, false, false, false], text: '', fontSize: 18
-                            },
-                        ],
+                        // [
+                        //     {
+                        //         border: [false, false, false, false], text: `น้ำหนักท่อชั่งจริง ________${itemA}___________ กิโลกรัม`
+                        //         , fontSize: 12, colSpan: 3
+                        //     },
+                        //     {
+                        //         border: [false, false, false, false], text: ''
+                        //     },
+                        //     {
+                        //         border: [false, false, false, false], text: '', fontSize: 18
+                        //     },
+                        // ],
+                        // [
+                        //     {
+                        //         border: [false, false, false, false], text: `ความเร็วในการเดินเครื่อง มาตรฐาน ________${itemB}__________ เมตร/วินาที, เดินเครื่องจริง _________${itemC}_________ เมตร/วินาที `
+                        //         , fontSize: 12, colSpan: 3
+                        //     },
+                        //     {
+                        //         border: [false, false, false, false], text: ''
+                        //     },
+                        //     {
+                        //         border: [false, false, false, false], text: '', fontSize: 18
+                        //     },
+                        // ],
                         [
                             {
                                 border: [false, false, false, false], text: 'หมายเหตุ ลงบันทึกเวลาและรายงานสาเหตุที่ต้องหยุดเดินเครื่องจักรในเวลาทำงาน เช่น ปรับโรล,เปลี่ยนใบเลื่อย, เครนเสีย, ไฟฟ้าดับ, อื่นๆ '
@@ -362,7 +371,7 @@ function ReportForming(dataNow, selectedDateStart, selectedDateEnd,itemA,itemB,i
         content: [
             {
                 table: {
-                    widths: [15, 50, 50, 20, 30, 40, 20, 40, 25, 30, 35, 30, 30, 50, 80, 25, 20, 27, 30],
+                    widths: [15, 27, 37, 21, 18, 27, 22, 35, 29, 25, 28, 28, 28, 44, 67, 26, 20, 20, 30, 28, 27, 27],
                     headerRows: 1,
                     body: data,
                 },

@@ -87,15 +87,15 @@ const ProductionDailyReport = () => {
 				setDataFormingRecord(response.data)
 			}
 
-			if(!responseFormingOperation.data[0]?.operationWeight){
-				setItemA(0);
-				setItemB(0);
-				setItemC(0);
-			}else{
-				setItemA(responseFormingOperation.data[0].operationWeight);
-				setItemB(responseFormingOperation.data[0].operationSpeed);
-				setItemC(responseFormingOperation.data[0].operationTime);
-			}
+			// if(!responseFormingOperation.data[0]?.operationWeight){
+			// 	setItemA(0);
+			// 	setItemB(0);
+			// 	setItemC(0);
+			// }else{
+			// 	setItemA(responseFormingOperation.data[0].operationWeight);
+			// 	setItemB(responseFormingOperation.data[0].operationSpeed);
+			// 	setItemC(responseFormingOperation.data[0].operationTime);
+			// }
 
 			const response2 = await API.get("RPT_JOBPACKING/data.php", {
 				params: {
@@ -206,9 +206,9 @@ const ProductionDailyReport = () => {
 
 		});
 		
-		setItemA(values.itemA);
-		setItemB(values.itemB);
-		setItemC(values.itemC);
+		// setItemA(values.itemA);
+		// setItemB(values.itemB);
+		// setItemC(values.itemC);
 
 	}
 
@@ -228,15 +228,15 @@ const ProductionDailyReport = () => {
 				}
 			})
 
-			if(!response.data[0]?.operationWeight){
-				setItemA(0);
-				setItemB(0);
-				setItemC(0);
-			}else{
-				setItemA(response.data[0].operationWeight);
-				setItemB(response.data[0].operationSpeed);
-				setItemC(response.data[0].operationTime);
-			}
+			// if(!response.data[0]?.operationWeight){
+			// 	setItemA(0);
+			// 	setItemB(0);
+			// 	setItemC(0);
+			// }else{
+			// 	setItemA(response.data[0].operationWeight);
+			// 	setItemB(response.data[0].operationSpeed);
+			// 	setItemC(response.data[0].operationTime);
+			// }
 
 
 
@@ -254,9 +254,10 @@ const ProductionDailyReport = () => {
 				if(BreakTimeOne == false && BreakTimeTwo == false && BreakTimeThree == false){
 					alert("กรุณาเลือกข้อมูลจำนวนชั่วโมงงาน")
 				}
-				else if(itemA == '' || itemB == '' || itemC == ''){
-					alert("กรอกข้อมูลการเดินเครื่อง")
-				}else{
+				// else if(itemA == '' || itemB == '' || itemC == ''){
+				// 	alert("กรอกข้อมูลการเดินเครื่อง")
+				// }
+				else{
 				if (response.data.length > 0) {
 					if (response.data[0].forming_reason_meter.length > 3) {
 						ReportForming(response.data, values.startdate, values.enddate,itemA,itemB,itemC)
@@ -281,7 +282,8 @@ const ProductionDailyReport = () => {
 							forming_reason_remark: " 00; ซ่อมเพลาโมเล่ย์มอเตอร์; 2 ครั้ง; 3ใบ; ปรับODเปลี่ยนควานหนา; 100x50; ; 100x50; ; ",
 							forming_reason_meter: " 9489,9512",
 						}]
-					ReportForming(temp, values.startdate, values.enddate,values.itemA,values.itemB,values.itemC)
+					ReportForming(temp, values.startdate, values.enddate)
+					// values.itemA,values.itemB,values.itemC
 				}
 			}
 
@@ -560,7 +562,7 @@ const ProductionDailyReport = () => {
 												</CardContent>
 											</Card>
 										</Grid>
-										<Grid item xs={2} >
+										{/* <Grid item xs={2} >
 											<Card variant="outlined" margin="2" spacing={2}>
 												&nbsp;
 												<Grid item lg={12} spacing={2}>
@@ -610,7 +612,7 @@ const ProductionDailyReport = () => {
 													</Button>
 												</Grid>
 										</Card>
-										</Grid>
+										</Grid> */}
 										<Grid item xs={6} >
 											<Card variant="outlined">
 												<ReasonRecordStopMachineMetersTableEditable
