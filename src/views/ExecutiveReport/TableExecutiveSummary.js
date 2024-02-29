@@ -91,7 +91,7 @@ const TableExecutiveSummary = ({ className, ...rest }) => {
 
     useEffect(() => {
         searchExecutiveSummaryData()
-        var timerID = setInterval(() => searchExecutiveSummaryData(), 240000);
+        var timerID = setInterval(() => searchExecutiveSummaryData(), 900000);
 
 
         return function cleanup() {

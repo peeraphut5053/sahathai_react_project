@@ -32,7 +32,7 @@ function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd) {
         let datadetialJson = JSON.parse("[" + dataNow[i]["AllLot2"] + "]")
 
 
-
+        
         data.push([
             {
                 text:
@@ -145,7 +145,7 @@ function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd) {
         content: [
             {
                 table: {
-                    widths: [35, '*', '*', '*', '*', '*'],
+                    widths: [25, 30, 70, 40, 80, 80],
                     headerRows: 1,
                     body: data,
                 },

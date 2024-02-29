@@ -50,7 +50,7 @@ const ProductionDashboard = () => {
 
   React.useEffect(() => {
       tick()
-      var timerID = setInterval(() => tick(), 15000);
+      var timerID = setInterval(() => tick(), 600000);
       
 
       return function cleanup() {
