@@ -226,6 +226,20 @@ const ProductionDailyReport = () => {
 					txtw_c: values.w_c,
 					wc_group_query: wc_group_query
 				}
+				
+			})
+
+			const response2 = await API.get("RPT_JOBPACKING/data.php", {
+				params: {
+					load: 'STS_JOB_REPORT_DIARY_SUB',
+					txtFromDate: values.startdate,
+					txtToDate: values.enddate,
+					txtItem: values.item,
+					txtref_num: values.refnum,
+					txtw_c: values.w_c,
+					wc_group_query: wc_group_query
+				}
+				
 			})
 
 			// if(!response.data[0]?.operationWeight){
@@ -288,7 +302,7 @@ const ProductionDailyReport = () => {
 			}
 
 			} else if (doc_type === 'CheckPacking') {
-				ReportCheckPackingDiary(response.data, values.startdate, values.enddate)
+				ReportCheckPackingDiary(response.data, values.startdate, values.enddate, response2.data)
 			} else if (doc_type === 'CheckProduction') {
 				ReportCheckProductionDiary(response.data, values.startdate, values.enddate)
 			} else if (doc_type === 'MovingProductReport') {

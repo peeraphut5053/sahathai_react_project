@@ -4,12 +4,13 @@ import { logo } from './function/logo'
 
 
 
-function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd) {
+function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd, dataNow2) {
 
     let startdate = dateFormatReport(selectedDateStart)
     let enddate = dateFormatReport(selectedDateEnd)
     pdfMake.fonts = fontsReport
     const data = []
+    const data2 = []
 
     data.push([
         { text: `No.`, fontSize: 14, alignment: 'center', style: 'header' },
@@ -17,7 +18,14 @@ function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd) {
         { text: "lot", fontSize: 14, alignment: 'center' },
         { text: "act weight", fontSize: 14, alignment: 'center' },
         { text: "sts_no", fontSize: 14, alignment: 'center' },
-        { text: "remark", fontSize: 14, alignment: 'center' },
+        // { text: "remark", fontSize: 14, alignment: 'center' },
+    ],
+    )
+
+    data2.push([
+        { text: "lot", fontSize: 14, alignment: 'center' },
+        { text: "จำนวน", fontSize: 14, alignment: 'center' },
+        { text: "sts_no", fontSize: 14, alignment: 'center' },
     ],
     )
 
@@ -38,7 +46,7 @@ function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd) {
                 text:
                     `Item : ${dataNow[i]["item"]}  Description : ${dataNow[i]["item"]}  STS PO : ${dataNow[i]["ref_num"]}  City : ${dataNow[i]["city"]}
                    ข้อมูล:: Size: ${dataNow[i]["Uf_NPS"]} | Standard: ${dataNow[i]["Uf_NPS"]} | Grade: ${dataNow[i]["Uf_Grade"]} | ความหนา: ${dataNow[i]["Uf_Schedule"]} | ความยาว: ${dataNow[i]["Uf_length"]}  | ชนิด: ${dataNow[i]["Uf_TypeEnd"]}`
-                , fontSize: 13, alignment: 'left', colSpan: 6,
+                , fontSize: 13, alignment: 'left', colSpan: 5,
             },
             { text: dataNow[i]["Uf_spec"], fontSize: 12, alignment: 'center' },
             { text: dataNow[i]["Uf_Grade"], fontSize: 12, alignment: 'center' },
@@ -54,7 +62,33 @@ function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd) {
                 { text: datadetialJson[j].lot, fontSize: 12, alignment: 'center' },
                 { text: datadetialJson[j].uf_act_weight, fontSize: 12, alignment: 'center' },
                 { text: datadetialJson[j].sts_no, fontSize: 12, alignment: 'center' },
-                { text: ' ', fontSize: 12, alignment: 'center' },
+                // { text: ' ', fontSize: 12, alignment: 'center' },
+            ],
+            )
+        }
+    }
+
+    for (let i = 0; i < dataNow2.length; i++) {
+        
+        let datadetialJson2 = JSON.parse("[" + dataNow2[i]["AllLot2"] + "]")
+
+        // data2.push([
+        //     {
+        //         text:
+        //             `Item : ${dataNow2[i]["item"]}  Description : ${dataNow2[i]["item"]}  STS PO : ${dataNow2[i]["ref_num"]}  City : ${dataNow2[i]["city"]}
+        //            ข้อมูล:: Size: ${dataNow2[i]["Uf_NPS"]} | Standard: ${dataNow2[i]["Uf_NPS"]} | Grade: ${dataNow2[i]["Uf_Grade"]} | ความหนา: ${dataNow2[i]["Uf_Schedule"]} | ความยาว: ${dataNow2[i]["Uf_length"]}  | ชนิด: ${dataNow2[i]["Uf_TypeEnd"]}`
+        //         , fontSize: 13, alignment: 'left', colSpan: 5,
+        //     },
+        //     { text: '', fontSize: 12, alignment: 'center' },
+        // ],
+        // )
+
+        for (let j = 0; j < datadetialJson2.length; j++) {
+      
+            data2.push([
+                { text: datadetialJson2[j].lot, fontSize: 12, alignment: 'center' },
+                { text: datadetialJson2[j].qty, fontSize: 12, alignment: 'center' },
+                { text: datadetialJson2[j].sts_no, fontSize: 12, alignment: 'center' },
             ],
             )
         }
@@ -144,15 +178,27 @@ function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd) {
 
         content: [
             {
-                table: {
-                    widths: [25, 30, 70, 40, 80, 80],
-                    headerRows: 1,
-                    body: data,
+            columns: [
+                {
+                    table: {
+                        widths: [30, 35, 70, 35, 80,],
+                        headerRows: 1,
+                        body: data
+                    },
                 },
-            },
-        ],
+                {          
+                    table: {
+                        widths: [70, 35, 80],
+                        headerRows: 1,
+                        body: data2,
+                    },
+                },
+            ],
+        },
+    ],
         defaultStyle: {
             font: 'THSarabunNew',
+            columnGap: 10
         },
 
     };
