@@ -231,7 +231,7 @@ const ProductionDailyReport = () => {
 
 			const response2 = await API.get("RPT_JOBPACKING/data.php", {
 				params: {
-					load: 'STS_JOB_REPORT_DIARY_SUB',
+					load: 'STS_JOB_REPORT_DIARY_SUB_QUERY',
 					txtFromDate: values.startdate,
 					txtToDate: values.enddate,
 					txtItem: values.item,

@@ -38,13 +38,14 @@ function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd, da
         total_pcs = total_pcs + dataNow[i]["SUMLotPCS"]
 
         let datadetialJson = JSON.parse("[" + dataNow[i]["AllLot2"] + "]")
+        let datadetialJson2 = JSON.parse("[" + dataNow2[i]["AllLot2"] + "]")
 
 
         
         data.push([
             {
                 text:
-                    `Item : ${dataNow[i]["item"]}  Description : ${dataNow[i]["item"]}  STS PO : ${dataNow[i]["ref_num"]}  City : ${dataNow[i]["city"]}
+                    `Item : ${dataNow[i]["item"]} \n Description : ${dataNow[i]["ItemDesc"]} \n STS PO : ${dataNow[i]["ref_num"]}  City : ${dataNow[i]["city"]} 
                    ข้อมูล:: Size: ${dataNow[i]["Uf_NPS"]} | Standard: ${dataNow[i]["Uf_NPS"]} | Grade: ${dataNow[i]["Uf_Grade"]} | ความหนา: ${dataNow[i]["Uf_Schedule"]} | ความยาว: ${dataNow[i]["Uf_length"]}  | ชนิด: ${dataNow[i]["Uf_TypeEnd"]}`
                 , fontSize: 13, alignment: 'left', colSpan: 5,
             },
@@ -52,6 +53,16 @@ function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd, da
             { text: dataNow[i]["Uf_Grade"], fontSize: 12, alignment: 'center' },
             { text: dataNow[i]["Uf_Schedule"], fontSize: 12, alignment: 'center' },
             { text: '', fontSize: 12, alignment: 'center' },
+        ],
+        )
+
+        data2.push([
+            {
+                text:
+                    `Item : ${dataNow[i]["item"]} \n Description : ${dataNow[i]["ItemDesc"]} \n STS PO : ${dataNow[i]["ref_num"]}  City : ${dataNow[i]["city"]} 
+                   ข้อมูล:: Size: ${dataNow[i]["Uf_NPS"]} | Standard: ${dataNow[i]["Uf_NPS"]} | Grade: ${dataNow[i]["Uf_Grade"]} | ความหนา: ${dataNow[i]["Uf_Schedule"]} | ความยาว: ${dataNow[i]["Uf_length"]}  | ชนิด: ${dataNow[i]["Uf_TypeEnd"]}`
+                , fontSize: 13, alignment: 'left', colSpan: 3,
+            },
         ],
         )
 
@@ -66,33 +77,28 @@ function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd, da
             ],
             )
         }
-    }
 
-    for (let i = 0; i < dataNow2.length; i++) {
-        
-        let datadetialJson2 = JSON.parse("[" + dataNow2[i]["AllLot2"] + "]")
-
-        // data2.push([
-        //     {
-        //         text:
-        //             `Item : ${dataNow2[i]["item"]}  Description : ${dataNow2[i]["item"]}  STS PO : ${dataNow2[i]["ref_num"]}  City : ${dataNow2[i]["city"]}
-        //            ข้อมูล:: Size: ${dataNow2[i]["Uf_NPS"]} | Standard: ${dataNow2[i]["Uf_NPS"]} | Grade: ${dataNow2[i]["Uf_Grade"]} | ความหนา: ${dataNow2[i]["Uf_Schedule"]} | ความยาว: ${dataNow2[i]["Uf_length"]}  | ชนิด: ${dataNow2[i]["Uf_TypeEnd"]}`
-        //         , fontSize: 13, alignment: 'left', colSpan: 5,
-        //     },
-        //     { text: '', fontSize: 12, alignment: 'center' },
-        // ],
-        // )
-
-        for (let j = 0; j < datadetialJson2.length; j++) {
+        for (let k = 0; k < datadetialJson2.length; k++) {
       
             data2.push([
-                { text: datadetialJson2[j].lot, fontSize: 12, alignment: 'center' },
-                { text: datadetialJson2[j].qty, fontSize: 12, alignment: 'center' },
-                { text: datadetialJson2[j].sts_no, fontSize: 12, alignment: 'center' },
+                { text: datadetialJson2[k].lot, fontSize: 12, alignment: 'center' },
+                { text: datadetialJson2[k].qty, fontSize: 12, alignment: 'center' },
+                { text: datadetialJson2[k].sts_no, fontSize: 12, alignment: 'center' },
             ],
             )
         }
+
+    // let m = 0; m < datadetialJson.length - datadetialJson2.length; m++
+            // data2.push([
+            //     { text: 1234 , fontSize: 12, alignment: 'center' , colSpan: 3, rowSpan: 2},
+        
+            // ],
+            // )
+        
     }
+
+    
+
 
     var docDefinition = {
         pageSize: 'A4',
@@ -181,14 +187,14 @@ function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd, da
             columns: [
                 {
                     table: {
-                        widths: [30, 35, 70, 35, 80,],
+                        widths: [30, 40, 75, 45, 80,],
                         headerRows: 1,
                         body: data
                     },
                 },
                 {          
                     table: {
-                        widths: [70, 35, 80],
+                        widths: [75, 40, 80],
                         headerRows: 1,
                         body: data2,
                     },
