@@ -44,6 +44,7 @@ function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd, da
         
         data.push([
             {
+                border: [true, false, true, false],
                 text:
                     `Item : ${dataNow[i]["item"]} \n Description : ${dataNow[i]["ItemDesc"]} \n STS PO : ${dataNow[i]["ref_num"]}  City : ${dataNow[i]["city"]} 
                    ข้อมูล:: Size: ${dataNow[i]["Uf_NPS"]} | Standard: ${dataNow[i]["Uf_NPS"]} | Grade: ${dataNow[i]["Uf_Grade"]} | ความหนา: ${dataNow[i]["Uf_Schedule"]} | ความยาว: ${dataNow[i]["Uf_length"]}  | ชนิด: ${dataNow[i]["Uf_TypeEnd"]}`
@@ -58,6 +59,7 @@ function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd, da
 
         data2.push([
             {
+                border: [true, false, true, false],
                 text:
                     `Item : ${dataNow[i]["item"]} \n Description : ${dataNow[i]["ItemDesc"]} \n STS PO : ${dataNow[i]["ref_num"]}  City : ${dataNow[i]["city"]} 
                    ข้อมูล:: Size: ${dataNow[i]["Uf_NPS"]} | Standard: ${dataNow[i]["Uf_NPS"]} | Grade: ${dataNow[i]["Uf_Grade"]} | ความหนา: ${dataNow[i]["Uf_Schedule"]} | ความยาว: ${dataNow[i]["Uf_length"]}  | ชนิด: ${dataNow[i]["Uf_TypeEnd"]}`
@@ -77,6 +79,7 @@ function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd, da
             ],
             )
         }
+        
 
         for (let k = 0; k < datadetialJson2.length; k++) {
       
@@ -88,13 +91,15 @@ function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd, da
             )
         }
 
-    // let m = 0; m < datadetialJson.length - datadetialJson2.length; m++
-            // data2.push([
-            //     { text: 1234 , fontSize: 12, alignment: 'center' , colSpan: 3, rowSpan: 2},
-        
-            // ],
-            // )
-        
+            data.push([
+                { border: [true, false, true, false], text: '' , fontSize: 12, alignment: 'center' , colSpan: 5, pageBreak: 'before'},
+            ],
+            )
+            
+            data2.push([
+                { border: [true, false, true, false], text: '' , fontSize: 12, alignment: 'center' , colSpan: 3, pageBreak: 'before'},
+            ],
+            )
     }
 
     
