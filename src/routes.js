@@ -29,7 +29,8 @@ import DomesticBacklogView from 'src/views/ERPModule/SaleDomestic/DomesticBacklo
 import RegisterView from 'src/views/auth/RegisterView';
 import SettingsView from 'src/views/UserAccountManagement/SettingsView';
 import MoveItemView from 'src/views/ERPModule/Production/moveItem';
-import BoatNoteView from 'src/views/ERPModule/Shipping/BoatNote';
+// import BoatNoteView from 'src/views/ERPModule/Shipping/BoatNote';
+import BoatNoteView from 'src/views/ERPModule/BoatNote';
 
 import ERPStep from 'src/views/ERPStep';
 import FreeZoneApp from 'src/views/ERPModule/SaleExport/FreeZoneApp';
@@ -69,6 +70,7 @@ const routes = [
       { path: 'Stock_mthly', element: <Stock_mthlyView /> },
       { path: 'DomesticBacklog', element: <DomesticBacklogView /> },
       { path: 'moveItem', element: <MoveItemView /> },
+       // { path: 'BoatNote', element: <BoatNoteView /> },
       { path: 'BoatNote', element: <BoatNoteView /> },
       { path: 'FreeZoneApp', element: <FreeZoneApp /> },
       { path: 'PendingSubmitedReportEX', element: <PendingSubmitedReportEX /> },

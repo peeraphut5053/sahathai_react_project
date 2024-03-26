@@ -304,7 +304,7 @@ const ProductionDailyReport = () => {
 			} else if (doc_type === 'CheckPacking') {
 				ReportCheckPackingDiary(response.data, values.startdate, values.enddate, response2.data)
 			} else if (doc_type === 'CheckProduction') {
-				ReportCheckProductionDiary(response.data, values.startdate, values.enddate)
+				ReportCheckProductionDiary(response.data, values.startdate, values.enddate,response2.data)
 			} else if (doc_type === 'MovingProductReport') {
 				ReportMovingProductReport(response.data, values.startdate, values.enddate)
 			} else if (doc_type === 'Stamping') {

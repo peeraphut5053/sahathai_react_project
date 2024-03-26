@@ -273,10 +273,15 @@ const ListItems2 = [
         Icon: HomeWorkIcon,
         menutitle: 'จัดส่ง',
         submenu: [
+            // {
+            //     href: '/app/BoatNote',
+            //     Icon: AssignmentIcon,
+            //     title: 'Boat Note report'
+            // },
             {
                 href: '/app/BoatNote',
                 Icon: AssignmentIcon,
-                title: 'Boat Note report'
+                title: 'Boat Note'
             },
             
         ]

@@ -61,8 +61,8 @@ function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd, da
             {
                 border: [true, false, true, false],
                 text:
-                    `Item : ${dataNow[i]["item"]} \n Description : ${dataNow[i]["ItemDesc"]} \n STS PO : ${dataNow[i]["ref_num"]}  City : ${dataNow[i]["city"]} 
-                   ข้อมูล:: Size: ${dataNow[i]["Uf_NPS"]} | Standard: ${dataNow[i]["Uf_NPS"]} | Grade: ${dataNow[i]["Uf_Grade"]} | ความหนา: ${dataNow[i]["Uf_Schedule"]} | ความยาว: ${dataNow[i]["Uf_length"]}  | ชนิด: ${dataNow[i]["Uf_TypeEnd"]}`
+                    `Item : ${dataNow2[i]["item"]} \n Description : ${dataNow2[i]["ItemDesc"]} \n STS PO : ${dataNow2[i]["mainref"]}  City : ${dataNow2[i]["city"]} 
+                   ข้อมูล:: Size: ${dataNow2[i]["Uf_NPS"]} | Standard: ${dataNow2[i]["Uf_NPS"]} | Grade: ${dataNow2[i]["Uf_Grade"]} | ความหนา: ${dataNow2[i]["Uf_Schedule"]} | ความยาว: ${dataNow2[i]["Uf_length"]}  | ชนิด: ${dataNow2[i]["Uf_TypeEnd"]}`
                 , fontSize: 13, alignment: 'left', colSpan: 3,
             },
         ],
@@ -159,7 +159,7 @@ function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd, da
                         fontSize: 16,
                         text: [
                             {
-                                text: `ผู้ตรวจสอบ................................
+                                text: `ผู้ตรวจสอบ(QC)................................
                   FOMFN-08/01-Oct-20`,
                                 margin: [40, 10],
                                 fontSize: 16,
@@ -177,7 +177,7 @@ function ReportCheckPackingDiary(dataNow, selectedDateStart, selectedDateEnd, da
                         fontSize: 16,
                         text: [
                             {
-                                text: 'ผู้จัดการฝ่าย .................................. \n' + currentPage.toString() + '/' + pageCount, alignment: 'center',
+                                text: 'หัวหน้างาน .................................. \n' + currentPage.toString() + '/' + pageCount, alignment: 'center',
                                 margin: [0, 0, 0, 0],
                             }
                         ],
