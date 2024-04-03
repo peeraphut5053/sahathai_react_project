@@ -22,7 +22,8 @@ import ModalManagement from '../../components/ModalManagement';
 import ModalManagementFullPage from '../../components/ModalManagementFullPage';
 import MaterialTable, { MTableToolbar } from 'material-table';
 import tableIcons from 'src/views/components/table/tableIcons';
-import { ReportMoveInternal } from './ReportMoveInternal';
+import { ReportMoveInternal } from './ReportMoveInternal'; 
+import { ReportMoveDetail } from './ReportMoveDetail'; 
 import { ReportMoveBoatNote } from './ReportMoveBoatNote';
 import { ReportSummaryBoatNote } from './ReportSummaryBoatNote';
 import ReportTagBoatNote from './ReportTagBoatNote';
@@ -128,6 +129,22 @@ const CardTruckLine = (props, { className, ...rest }) => {
       props.handlesetEditStatus()
     }else{
     alert("เลือกใบส่งของที่ต้องการแก้ไข")
+  }
+  }
+
+  const printReportMoveDetail = async (STS_qty_move_line, doc_num) => {
+    if (props.doc_num) {
+
+        const response2 = await API.get("RPT_JOBPACKING/data.php", {
+          params: {
+            load: 'STS_QTY_MOVE_REPORT_header',
+            doc_num: props.doc_num
+          }
+        })
+        console.log(response2.data);
+        ReportMoveDetail(response2.data, STS_qty_move_line, doc_num)
+    }else{
+    alert("เลือกใบส่งของ")
   }
   }
 
@@ -244,6 +261,7 @@ const CardTruckLine = (props, { className, ...rest }) => {
                 {/* <Chip label={"พิมพ์ Boat Note"} color="primary" style={{ marginRight: 5 }} onClick={() => setOpenModalItem(true)} /> */}
                 <Chip label={"พิมพ์ใบสรุปการส่งสินค้า"} color="primary" style={{ marginRight: 5 }} onClick={() => printReportMove("Internal")} />
                 <Chip label={"แก้ไขใบส่งสินค้า"} color="primary" style={{ marginRight: 5 }} onClick={openEditPage} />
+                <Chip label={"พิมพ์รายการส่งสินค้า " + props.doc_num + " "} color="primary" style={{ marginRight: 5 }} onClick={() => printReportMoveDetail(props.STS_qty_move_line,props.doc_num)} />
                 {/* <Chip label={"รายงาน Tag ลงเรือ"} color="primary" style={{ marginRight: 5 }} onClick={setOpenModalTagBoatNote} /> */}
               </div>
             </div>
@@ -256,7 +274,7 @@ const CardTruckLine = (props, { className, ...rest }) => {
                 { title: 'id', field: 'id' },
                 { title: 'lot', field: 'lot', width: 200 },
                 { title: 'From loc', field: 'loc', width: 100 },
-                { title: 'To loc', field: 'current_loc', width: 100 },
+                { title: 'current_loc', field: 'current_loc', width: 100 },
                 { title: 'item', field: 'item', width: 300 },
                 { title: 'qty', field: 'qty1', type: 'numeric' },
                 { title: 'unit', field: 'u_m' },

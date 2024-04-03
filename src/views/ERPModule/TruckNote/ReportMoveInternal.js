@@ -145,7 +145,7 @@ function ReportMoveInternal(dataNowHeader,dataNow) {
                                 alignment: 'left',
                             },
                             {
-                                border: [false, false, false, false], text: `*${dataNow[1]["doc_num"]}*`, style: 'Barcode'
+                                border: [false, false, false, false], text: `*${dataNow[0]["doc_num"]}*`, style: 'Barcode'
                             },
                             {
                                 border: [false, false, false, false], text: 'Delivery report \n รายงานการส่งของ', fontSize: 18
