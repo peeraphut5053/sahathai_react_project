@@ -274,7 +274,7 @@ const CardTruckLine = (props, { className, ...rest }) => {
                 { title: 'id', field: 'id' },
                 { title: 'lot', field: 'lot', width: 200 },
                 { title: 'From loc', field: 'loc', width: 100 },
-                { title: 'current_loc', field: 'current_loc', width: 100 },
+                { title: 'current loc', field: 'current_loc', width: 100 },
                 { title: 'item', field: 'item', width: 300 },
                 { title: 'qty', field: 'qty1', type: 'numeric' },
                 { title: 'unit', field: 'u_m' },
