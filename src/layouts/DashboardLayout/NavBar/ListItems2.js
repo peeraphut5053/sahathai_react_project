@@ -281,7 +281,12 @@ const ListItems2 = [
             {
                 href: '/app/BoatNote',
                 Icon: AssignmentIcon,
-                title: 'Boat Note'
+                title: 'ใช้สำหรับย้ายลงเรือ (Boat Note)'
+            },
+            {
+                href: '/app/TruckNote',
+                Icon: AssignmentIcon,
+                title: 'ใช้สำหรับย้ายขึ้นรถ'
             },
             
         ]

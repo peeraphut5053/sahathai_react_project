@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const CardBoatLine = (props, { className, ...rest }) => {
+const CardTruckLine = (props, { className, ...rest }) => {
   const classes = useStyles();
 
   const [openModalItem, setOpenModalItem] = React.useState(false); // Boat NOte
@@ -241,10 +241,10 @@ const CardBoatLine = (props, { className, ...rest }) => {
                   value={values.do_num}
                   Autocomplete={false}
                 /> */}
-                <Chip label={"พิมพ์ Boat Note"} color="primary" style={{ marginRight: 5 }} onClick={() => setOpenModalItem(true)} />
-                {/* <Chip label={"พิมพ์ใบสรุปการส่งสินค้า"} color="primary" style={{ marginRight: 5 }} onClick={() => printReportMove("Internal")} /> */}
+                {/* <Chip label={"พิมพ์ Boat Note"} color="primary" style={{ marginRight: 5 }} onClick={() => setOpenModalItem(true)} /> */}
+                <Chip label={"พิมพ์ใบสรุปการส่งสินค้า"} color="primary" style={{ marginRight: 5 }} onClick={() => printReportMove("Internal")} />
                 <Chip label={"แก้ไขใบส่งสินค้า"} color="primary" style={{ marginRight: 5 }} onClick={openEditPage} />
-                <Chip label={"รายงาน Tag ลงเรือ"} color="primary" style={{ marginRight: 5 }} onClick={setOpenModalTagBoatNote} />
+                {/* <Chip label={"รายงาน Tag ลงเรือ"} color="primary" style={{ marginRight: 5 }} onClick={setOpenModalTagBoatNote} /> */}
               </div>
             </div>
 
@@ -259,7 +259,6 @@ const CardBoatLine = (props, { className, ...rest }) => {
                 { title: 'item', field: 'item', width: 300 },
                 { title: 'qty', field: 'qty1', type: 'numeric' },
                 { title: 'unit', field: 'u_m' },
-                { title: 'boat position', field: 'boat_position' },
               ]}
               data={props.STS_qty_move_line}
               options={{
@@ -283,8 +282,8 @@ const CardBoatLine = (props, { className, ...rest }) => {
   );
 };
 
-CardBoatLine.propTypes = {
+CardTruckLine.propTypes = {
   className: PropTypes.string
 };
 
-export default CardBoatLine;
+export default CardTruckLine;
