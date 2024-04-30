@@ -107,7 +107,8 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
                         ],
                         [
                             {
-                                border: [false, false, false, false], text: `${dataNow[0]["loc_description"]} ทะเบียนเรือ ${dataNow[0]["loc_no"]}` , fontSize: 14
+                                border: [false, false, false, false], text: `` , fontSize: 14
+                                // ${dataNow[0]["loc_description"]} ทะเบียนเรือ ${dataNow[0]["loc_no"]}
                             },
                             { 
                                 border: [false, false, false, false], text: ''

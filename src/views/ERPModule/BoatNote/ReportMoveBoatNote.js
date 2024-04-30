@@ -506,7 +506,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                             fontSize: 16,
                             text: [
                                 {
-                                    text: `ผู้ตรวจสอบ................................................................
+                                    text: `\n ผู้ตรวจสอบ................................................................
                                     FOMFN-08/01-Oct-20`,
                                     margin: [40, 10],
                                     fontSize: 16,
@@ -641,7 +641,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                             fontSize: 16,
                             text: [
                                 {
-                                    text: `ผู้ตรวจสอบ................................................................
+                                    text: `\n ผู้ตรวจสอบ................................................................
                                     FOMFN-08/01-Oct-20`,
                                     margin: [40, 10],
                                     fontSize: 16,
@@ -776,7 +776,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                             fontSize: 16,
                             text: [
                                 {
-                                    text: `ผู้ตรวจสอบ................................................................
+                                    text: `\n ผู้ตรวจสอบ................................................................
                                     FOMFN-08/01-Oct-20`,
                                     margin: [40, 10],
                                     fontSize: 16,
@@ -911,7 +911,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                             fontSize: 16,
                             text: [
                                 {
-                                    text: `ผู้ตรวจสอบ................................................................
+                                    text: `\n ผู้ตรวจสอบ................................................................
                                     FOMFN-08/01-Oct-20`,
                                     margin: [40, 10],
                                     fontSize: 16,
@@ -1140,7 +1140,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                         fontSize: 16,
                         text: [
                             {
-                                text: `ผู้ตรวจสอบ................................................................
+                                text: `\n ผู้ตรวจสอบ................................................................
                                 FOMFN-08/01-Oct-20`,
                                 margin: [40, 10],
                                 fontSize: 16,
