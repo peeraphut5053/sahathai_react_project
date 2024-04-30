@@ -29,7 +29,7 @@ import ReportTagBoatNote from './ReportTagBoatNote';
 import API from 'src/views/components/API';
 import CTextField from 'src/views/components/Input/CTextField';
 import CAutocompleteNameOfDoGroup from '../../components/Input/CAutocompleteNameOfDoGroup';
-import CAutocompleteLocation from '../../components/Input/CAutocompleteLocation2';
+import CAutocompleteLocationByDo from '../../components/Input/CAutocompleteLocationByDo';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -182,10 +182,11 @@ const CardBoatLine = (props, { className, ...rest }) => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} >
-                  <CAutocompleteLocation
+                  <CAutocompleteLocationByDo
                     name="loc"
                     value={loc}
                     setFieldValue={set_loc}
+                    do_group_name={do_group_name}
                   />
                 </Grid>
                 <Grid item>
