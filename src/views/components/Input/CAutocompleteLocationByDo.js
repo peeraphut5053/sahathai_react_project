@@ -11,7 +11,7 @@ function sleep(delay = 0) {
     });
 }
 
-export default function CAutocompleteLocationByDo(props) {
+export default function CAutocompleteWorkCenter(props) {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
     const loading = open && options.length === 0;
@@ -79,9 +79,9 @@ export default function CAutocompleteLocationByDo(props) {
                 onChange={(option, value) => {
                     console.log(value)
                     if (value) {
-                        props.setFieldValue('loc', value.loc)
+                        props.setFieldValue(value.loc)
                     } else {
-                        props.setFieldValue('loc', '')
+                        props.setFieldValue('')
                     }
 
                 }
