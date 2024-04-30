@@ -61,7 +61,42 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
 
     var docDefinition = {
         pageSize: 'A4',
-        pageMargins: [25, 5, 25, 10],
+        pageMargins: [25, 5, 25, 50],
+        footer: function (currentPage, pageCount) {
+            return {
+                margin: [15, 0, 0, 10],
+                columns: [
+                    {
+                        fontSize: 16,
+                        text: [
+                            {
+                                text: ``,
+                                margin: [40, 10],
+                                fontSize: 16,
+                            },
+                            {
+                                text: '',
+                            }
+                        ],
+                        alignment: 'center'
+                    },
+                    {
+                        fontSize: 16, text: [{ text: '', alignment: 'right' },], alignment: 'center'
+                    },
+                    {
+                        fontSize: 16,
+                        text: [
+                            {
+                                text: '\n' + currentPage.toString() + '/' + pageCount, alignment: 'center',
+                                margin: [0, 0, 0, 0],
+                            }
+                        ],
+                        alignment: 'center'
+                    }
+                ]
+            };
+        },
+
 
         content: [
             {
