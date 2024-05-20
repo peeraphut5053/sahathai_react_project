@@ -78,6 +78,7 @@ const BoatNote = () => {
     const [doctype_shipping, setDoctype_shipping] = useState("");
     const [boatPosition, setBoatPosition] = useState("");
     const [destination, setDestination] = useState("");
+    const [docType, setDocType] = useState("Truck");
     let [Search_STS_qty_move_hrd, setSearch_STS_qty_move_hrd] = useState([])
     
     const [editStatus, setEditStatus] = useState(false);
@@ -254,7 +255,7 @@ const BoatNote = () => {
             alert("กรุณากรอก location ปลายทาง หรือ scan barcode อย่างน้อย 1 lot")
             
         } else {
-            API.get(`API_QuantityMove/data.php?load=moveqty_create_hdr_BoatNoteOnly&toLoc=${values.loc}&w_c=${values.wc}&doc_type=${values.doc_type}&do_num=${values.do_num}&boatList=${values.boatList}&destination=${destination}&ActWeight=${values.ActualWeight}`)
+            API.get(`API_QuantityMove/data.php?load=moveqty_create_hdr_BoatNoteOnly&toLoc=${values.loc}&w_c=${values.wc}&doc_type=${docType}&do_num=${values.do_num}&boatList=${values.boatList}&destination=${destination}&ActWeight=${values.ActualWeight}`)
                 .then(res => {
                         //   setdocNum(moveqty_hdr.doc_num)
                         //   setToLocation(moveqty_hdr.loc)
@@ -415,9 +416,6 @@ const BoatNote = () => {
 
 
     const [dataListOfDoGroup, setDataListOfDoGroup] = useState([]);
-
-
-
     return (
         <Page
             className={classes.root}
@@ -610,14 +608,22 @@ const BoatNote = () => {
                                                     <Grid item lg={12} spacing={2}>
                                                         <Paper className={classes.paper}>
                                                             <Grid container spacing={2}>
-
-                                                                <Grid item lg={12} >
-                                                                    <CTextField size="small" label={"ประเภทเอกสารการขนส่ง"} id={"doc_type"}
-                                                                        // onBlur={handleBlur}
-                                                                        name="doc_type"
-                                                                        value={values.doc_type}
-                                                                        // setFieldValue={setFieldValue}
-                                                                    />
+                                                                <Grid item lg={12} xs={6}>
+                                                                    <FormControl fullWidth variant="outlined" size="small">
+                                                                        <InputLabel style={{ paddingLeft: 10}}>ประเภทเอกสารการขนส่ง</InputLabel>
+                                                                            <Select
+                                                                                style={{ padding: '0px' }}
+                                                                                variant="outlined"
+                                                                                size="small"
+                                                                                label="ประเภทเอกสารการขนส่ง"
+                                                                                fullWidth
+                                                                                value={docType}
+                                                                                onChange={(e) => setDocType(e.target.value)}
+                                                                            >
+                                                                                <MenuItem value={'Truck'}>Truck</MenuItem>
+                                                                                <MenuItem value={'Ship'}>Ship</MenuItem>
+                                                                            </Select>
+                                                                        </FormControl>
                                                                 </Grid>
                                                                 {/* <Grid item lg={12} >
                                                                     <CAutocompleteLocationPTR
@@ -716,7 +722,6 @@ const BoatNote = () => {
                                                                         </Grid>
                                                                     </> : ""
                                                                 }
-
                                                                 {(values.doc_type == "Ship") ?
                                                                     <>
                                                                         <Grid item xs={12} >
