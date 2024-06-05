@@ -621,7 +621,8 @@ const BoatNote = () => {
                                                                                 onChange={(e) => setDocType(e.target.value)}
                                                                             >
                                                                                 <MenuItem value={'Truck'}>Truck</MenuItem>
-                                                                                <MenuItem value={'Ship'}>Ship</MenuItem>
+                                                                                <MenuItem value={'Boat'}>Boat</MenuItem>
+                                                                                <MenuItem value={'Cont'}>Cont</MenuItem>
                                                                             </Select>
                                                                         </FormControl>
                                                                 </Grid>
