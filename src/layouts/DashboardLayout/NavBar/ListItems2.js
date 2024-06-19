@@ -139,34 +139,44 @@ const ListItems2 = [
         menutitle: 'การเงิน',
         submenu: [
             {
-                href: '/app/productionReport',
+                href: '/app/ARTransactionReport',
                 Icon: AssignmentIcon,
-                title: 'รายงาน AR Transaction'
+                title: 'รายงาน AR Transaction Report'
             },
             {
-                href: '/app/productionReport',
+                href: '/app/GeneralLedger',
                 Icon: AssignmentIcon,
                 title: 'General Ledger'
             },
             {
-                href: '/app/productionReport',
+                href: '/app/GeneralLedgerDetail',
+                Icon: AssignmentIcon,
+                title: 'General Ledger Detail'
+            },
+            {
+                href: '/app/ReportGeneralLedgerDomesticInvoice',
+                Icon: AssignmentIcon,
+                title: 'รายงาน GL Domestic Invoice'
+            },
+            {
+                href: '/app/CollectionDay',
                 Icon: AssignmentIcon,
                 title: 'Collection Day'
             },
             {
-                href: '/app/productionReport',
+                href: '/app/MaterialPurchase',
                 Icon: AssignmentIcon,
                 title: 'Material Purchase'
             },
             {
-                href: '/app/productionReport',
+                href: '/app/WorkbenchShipping',
                 Icon: AssignmentIcon,
-                title: 'Workbanch shipping'
+                title: 'Workbench Shipping'
             },
             {
-                href: '/app/productionReport',
+                href: '/app/PaymentInvoice',
                 Icon: AssignmentIcon,
-                title: 'Payment Invice Checking'
+                title: 'Payment Invoice Checking'
             },
             {
                 href: '/app/productionReport',
@@ -190,10 +200,15 @@ const ListItems2 = [
                 title: 'Hotroll Checking'
             },
             {
-                href: '/app/productionReport',
+                href: '/app/DoInventoryDetail',
                 Icon: AssignmentIcon,
-                title: 'DO Packing'
+                title: 'Do Inventory Detail'
             },
+            {
+                href: '/app/TagStatus',
+                Icon: AssignmentIcon,
+                title: 'Tag Status'
+            }
         ]
     },
     {

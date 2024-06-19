@@ -21,7 +21,10 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: 0,
     padding: '10px 8px',
     textTransform: 'none',
-    width: '100%'
+    width: '100%',
+    '&:hover': {
+      color: theme.palette.primary.main,
+    }
   },
   icon: {
     marginRight: theme.spacing(1)

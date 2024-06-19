@@ -17,7 +17,6 @@ import AuditByCOItemQTYView from 'src/views/ERPModule/AuditLog/ByCOItemQTY';
 import LoginView from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
 import ProductListView from 'src/views/ERPModule/Production/ProductListView';
-import ProductionReportView from 'src/views/ERPModule/Production/productionReport';
 import ProductionMatlTransView from 'src/views/ERPModule/Production/productionMatlTrans';
 
 import UpdateBarcodeQtyView from 'src/views/ERPModule/Buyer/UpdateBarcodeQty';
@@ -39,7 +38,16 @@ import PendingSubmitedReportEX from 'src/views/ERPModule/SaleExport/PendingSubmi
 
 import UsersListView from 'src/views/UserAccountManagement/users';
 import SerachReportView from 'src/views/SerachReport';
-import { useParams } from 'react-router';
+import GeneralLedgerDomesticInvoice from './views/ERPModule/Finance/GL-DomesticInvoice';
+import ARTransactionReport from './views/ERPModule/Finance/AR-TransactionReport';
+import MaterialPurchase from './views/ERPModule/Finance/MaterialPurchaseReport';
+import WorkbenchShipping from './views/ERPModule/Finance/WorkbenchShipping';
+import PaymentInvoice from './views/ERPModule/Finance/PaymentInvoice';
+import TagStatus from './views/ERPModule/QC/TagStatus';
+import GeneralLedger from './views/ERPModule/Finance/GeneralLedger';
+import CollectionDay from './views/ERPModule/Finance/CollectionDay';
+import GeneralLedgerDetail from './views/ERPModule/Finance/GL-Detail';
+import DoInventory from './views/ERPModule/QC/DoInventory';
 
 
 const routes = [
@@ -66,7 +74,16 @@ const routes = [
       { path: 'ProductionDashboard', element: <ProductionDashboardView /> },
       { path: 'products', element: <ProductListView /> },
       { path: 'ERPStep', element: <ERPStep /> },
-      { path: 'productionReport', element: <ProductionReportView /> },
+      { path: 'ReportGeneralLedgerDomesticInvoice', element: <GeneralLedgerDomesticInvoice /> },
+      { path: 'ARTransactionReport', element: <ARTransactionReport /> },
+      { path: 'GeneralLedger', element: <GeneralLedger />},
+      { path: 'GeneralLedgerDetail', element: <GeneralLedgerDetail />},
+      { path: 'MaterialPurchase', element: <MaterialPurchase /> },
+      { path: 'CollectionDay', element: <CollectionDay /> },
+      { path: 'WorkbenchShipping', element: <WorkbenchShipping /> },
+      { path: 'PaymentInvoice', element: <PaymentInvoice /> },
+      { path: 'DoInventoryDetail', element: <DoInventory /> },
+      { path: 'TagStatus', element: <TagStatus /> },
       { path: 'productionMatlTrans', element: <ProductionMatlTransView /> },
       { path: 'Stock_mthly', element: <Stock_mthlyView /> },
       { path: 'DomesticBacklog', element: <DomesticBacklogView /> },

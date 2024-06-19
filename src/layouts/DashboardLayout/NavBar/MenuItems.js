@@ -19,6 +19,7 @@ import clsx from 'clsx';
 import { Button } from '@material-ui/core'
 
 
+
 // React runtime PropTypes
 export const MenuItemPropTypes = {
   name: PropTypes.string.isRequired,
@@ -46,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1)
   },
   title: {
-    marginRight: 'auto'
+    marginRight: 'auto',
   },
   active: {
     color: theme.palette.primary.main,
@@ -59,7 +60,12 @@ const useStyles = makeStyles((theme) => ({
   },
   listItemText: {
     fontSize: '0.9em',//Insert your required size
-    paddingLeft: 15
+    paddingLeft: 15,
+  },
+  hover: {
+    '&:hover': {
+      color: theme.palette.primary.main,
+    }
   }
 }));
 
@@ -81,8 +87,7 @@ const MenuItems = (props) => {
       // className={clsx(classes.item, className)}
       // activeClassName={classes.active}
       disableGutters
-    // style={{ backgroundColor: "red" }}
-    // className={classes.active}
+      className={classes.hover}
     >
 
       {/* Display an icon if any */}

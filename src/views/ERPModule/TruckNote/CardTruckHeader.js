@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CardTruckHeader = (props, { className, ...rest }) => {
   const classes = useStyles();
+  const [selectedRow, setSelectedRow] = React.useState(null);
 
   return (
     <Card
@@ -49,7 +50,8 @@ const CardTruckHeader = (props, { className, ...rest }) => {
           <Grid item >
             <Grid
               container
-              spacing={3}
+              justify='center'
+              spacing={4}
             >
               <Grid item >
                 
@@ -91,7 +93,7 @@ const CardTruckHeader = (props, { className, ...rest }) => {
                 minBodyHeight: '65vh',
                 filtering: true,
                 rowStyle: rowData => ({
-                  // backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
+                  backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
                   fontSize: '0.8em',
                   padding: 0,
                   fontFamily: 'sans-serif'
@@ -99,7 +101,7 @@ const CardTruckHeader = (props, { className, ...rest }) => {
 
               }}
               onRowClick={(event, rowData) => {
-                console.log(event)
+                setSelectedRow(rowData.tableData.id);
                 props.handleClickSelectDoc(rowData)
               }}
 
