@@ -1,12 +1,12 @@
-import axios from "axios";
 import { useQuery } from "react-query";
+import API from "src/views/components/API";
 
 const useGetUMList = () => {
     const { data, isLoading, error } = useQuery({
         queryKey: ["UMList"],
         queryFn: async () => {
-            const response = await axios.get(
-                "http://localhost/sts_web_center/module/RPT_JOBORDERPROCESSING/data.php",
+            const response = await API.get(
+                "RPT_JOBORDERPROCESSING/data.php",
                 {
                     params: {
                         load: "GetUMList",

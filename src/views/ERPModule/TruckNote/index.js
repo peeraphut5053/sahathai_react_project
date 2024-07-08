@@ -43,6 +43,7 @@ import ModalSelectDOList from './ModalSelectDOList';
 
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake-thai/build/vfs_fonts";
+import useTruck from './useTruck';
 
 
 
@@ -66,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 
 const BoatNote = () => {
     const classes = useStyles();
-
+    const { data, isLoading, error, refetch } = useTruck();
     const [STS_qty_move_line, setSTS_qty_move_line] = useState([])
     const [STS_qty_move_hrd_Truck, setSTS_qty_move_hrd_Truck] = useState([])
     const [SelectDOList, setSelectDOList] = useState([])
@@ -134,13 +135,7 @@ const BoatNote = () => {
     };
 
 
-    useEffect(() => {
-        API.get(`API_QuantityMove/data.php?load=STS_qty_move_hrd_Truck`)
-            .then(res => {
-                setSTS_qty_move_hrd_Truck(res.data)
-            })
-    }, [])
-
+   console.log(data, 'truck');
 
 
     const handleClickSelectDoc = (row) => {
@@ -280,10 +275,7 @@ const BoatNote = () => {
                                 }
                             }).then(res => {
                                 setQtyMoveList([])
-                                API.get(`API_QuantityMove/data.php?load=STS_qty_move_hrd_Truck`)
-                                    .then(res => {
-                                        setSTS_qty_move_hrd_Truck(res.data)
-                                    })
+                                refetch()
                             })
                     }
                 })
@@ -412,6 +404,10 @@ const BoatNote = () => {
         console.log(doc_num, locEdit)
     }
 
+    const handleBlur = (event) => {
+        console.log(event)
+        let ev
+    }
 
 
 
@@ -945,7 +941,7 @@ const BoatNote = () => {
                         <label style={{ color:'red', fontSize: '36px'}}>***ใช้สำหรับย้ายขึ้นรถเท่านั้น</label>
                             <CardTruckHeader
 
-                                STS_qty_move_hrd_Truck={STS_qty_move_hrd_Truck}
+                                STS_qty_move_hrd_Truck={data}
                                 STS_QtyMoveLotLocation_GEN_Doc_num={STS_QtyMoveLotLocation_GEN_Doc_num}
                                 handleClickSelectDoc={handleClickSelectDoc}
                                 handleOpenModalCreateBoteNote={handleOpenModalCreateBoteNote}

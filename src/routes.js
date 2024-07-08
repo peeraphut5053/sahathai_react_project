@@ -48,7 +48,11 @@ import GeneralLedger from './views/ERPModule/Finance/GeneralLedger';
 import CollectionDay from './views/ERPModule/Finance/CollectionDay';
 import GeneralLedgerDetail from './views/ERPModule/Finance/GL-Detail';
 import DoInventory from './views/ERPModule/QC/DoInventory';
-
+import RPTCustomer from './views/ERPModule/SaleDomestic/RPT_Customer';
+import JobOrder from './views/ERPModule/Production/JobOrder';
+import QcLabTagDetail from './views/ERPModule/QC/QCLabTagDetail';
+import ProductionReport from './views/ExecutiveReport/ProductionReport';
+import ProductionDailyReport from './views/ERPModule/Production/productionReport';
 
 const routes = [
   {
@@ -58,6 +62,7 @@ const routes = [
       
 
       { path: 'ExecutiveReport', element: <ExecutiveReportView /> },
+      { path: 'ProductionChart', element: <ProductionReport /> },
       { path: 'ExecutiveReportPresentation', element: <ExecutiveReportPresentationView /> },
       
       { path: 'ExecutiveReportSale', element: <ExecutiveReportSaleView /> },
@@ -75,6 +80,7 @@ const routes = [
       { path: 'products', element: <ProductListView /> },
       { path: 'ERPStep', element: <ERPStep /> },
       { path: 'ReportGeneralLedgerDomesticInvoice', element: <GeneralLedgerDomesticInvoice /> },
+      { path: 'CustomerOrder', element: <RPTCustomer /> },
       { path: 'ARTransactionReport', element: <ARTransactionReport /> },
       { path: 'GeneralLedger', element: <GeneralLedger />},
       { path: 'GeneralLedgerDetail', element: <GeneralLedgerDetail />},
@@ -83,17 +89,20 @@ const routes = [
       { path: 'WorkbenchShipping', element: <WorkbenchShipping /> },
       { path: 'PaymentInvoice', element: <PaymentInvoice /> },
       { path: 'DoInventoryDetail', element: <DoInventory /> },
+      { path: 'QCLabTagDetail', element: <QcLabTagDetail />},
       { path: 'TagStatus', element: <TagStatus /> },
       { path: 'productionMatlTrans', element: <ProductionMatlTransView /> },
       { path: 'Stock_mthly', element: <Stock_mthlyView /> },
       { path: 'DomesticBacklog', element: <DomesticBacklogView /> },
       { path: 'moveItem', element: <MoveItemView /> },
+      { path: 'JobOrderProcessing', element: <JobOrder /> },
        // { path: 'BoatNote', element: <BoatNoteView /> },
       { path: 'BoatNote', element: <BoatNoteView /> },
       { path: 'TruckNote', element: <TruckNoteView /> },
       { path: 'FreeZoneApp', element: <FreeZoneApp /> },
       { path: 'PendingSubmitedReportEX', element: <PendingSubmitedReportEX /> },
       { path: 'SerachReport', element: <SerachReportView /> },
+      { path: 'ProductionReport', element: <ProductionDailyReport /> },
       { path: 'users', element: <UsersListView /> },
       { path: 'settings', element: <SettingsView /> },
       { path: '*', element: <Navigate to="/404" /> }

@@ -96,7 +96,7 @@ const GeneralLedgerDetail = () => {
                    try {
                      setSubmitting(true);
                      const response = await API.get(
-                       'http://localhost/sts_web_center/module/RPTGL_DETAIL/data.php',
+                       'RPTGL_DETAIL/data.php',
                        {
                          params: {
                            load: 'ajax',

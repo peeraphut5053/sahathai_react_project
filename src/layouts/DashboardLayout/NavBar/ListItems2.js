@@ -43,6 +43,11 @@ const ListItems2 = [
                 Icon: AssignmentIcon,
                 title: 'รายงานการผลิต'
             },
+            {
+                href: '/app/ProductionChart',
+                Icon: AssignmentIcon,
+                title: 'กราฟรายงานการผลิต'
+            }
         ]
     },
     {
@@ -111,6 +116,11 @@ const ListItems2 = [
                 Icon: AssignmentIcon,
                 title: 'รายงาน DO ที่ยังไม่เปิด INV'
             },
+            {
+                href: '/app/CustomerOrder',
+                Icon: AssignmentIcon,
+                title: 'RPT Customer Order'
+            }
         ]
     },
     {
@@ -208,6 +218,11 @@ const ListItems2 = [
                 href: '/app/TagStatus',
                 Icon: AssignmentIcon,
                 title: 'Tag Status'
+            },
+            {
+                href: '/app/QCLabTagDetail',
+                Icon: AssignmentIcon,
+                title: 'QC Lab Tag Detail'
             }
         ]
     },
@@ -253,9 +268,9 @@ const ListItems2 = [
         menutitle: 'ผลิต',
         submenu: [
             {
-                href: '/app/productionReport',
+                href: '/app/JobOrderProcessing',
                 Icon: AssignmentIcon,
-                title: 'Production report'
+                title: 'Job Order Processing'
             },
             {
                 href: '/app/productionMatlTrans',

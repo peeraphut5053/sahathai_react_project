@@ -6,17 +6,17 @@ import {
   Grid,
   TextField,
   Typography,
-  FormControlLabel,
-  Switch
 } from '@material-ui/core';
 import { Formik } from 'formik';
+import DateTimePicker from '../../../components/Input/CDatePicker';
 import tableIcons from '../../../components/table/tableIcons';
 import API from '../../../components/API';
 import MaterialTable from 'material-table';
 import { toast } from 'react-toastify';
 import CTextField from 'src/views/components/Input/CTextField';
+import moment from 'moment';
 
-const DoInventory = () => {
+const QcLabTagDetail = () => {
   const [data, setData] = useState([]);
   const [oldData, setOldData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -45,7 +45,7 @@ const DoInventory = () => {
   return (
     <Container maxWidth={false}>
       <Typography variant="h4" style={{ margin: '10px', textAlign: 'center' }}>
-        DO INVENTORY DETAIL REPORT
+      QC Lab Tag Detail
       </Typography>
       <Grid container spacing={1}>
         <Grid item sm={12} xl={12} xs={12} lg={12}>
@@ -53,22 +53,24 @@ const DoInventory = () => {
             <Grid item style={{ width: '100%', overflowX: 'auto' }}>
               <Formik
                 initialValues={{
-                  do_num: '',
+                  tag_id: '',
                   sts_no: '',
-                  cust_po: ''
+                  StartDate: moment().format('YYYY-MM-DD'),
+                  EndDate: moment().format('YYYY-MM-DD'),
                 }}
                 onSubmit={async (values, { setSubmitting }) => {
                   try {
                     console.log(values);
                     setSubmitting(true);
                     const response = await API.get(
-                      'RPT_DO_INVENTORY_DETAIL/data.php',
+                      'RPT_QC_Lab_Tag_Detail/data.php',
                       {
                         params: {
                           load: 'ajax',
-                          do_num: values.do_num,
+                          tag_id: values.tag_id,
                           sts_no: values.sts_no,
-                          cust_po: values.cust_po
+                          StartDate: values.StartDate,
+                          EndDate: values.EndDate
                         }
                       }
                     );
@@ -82,8 +84,7 @@ const DoInventory = () => {
                     const newData = response.data.map((item) => {
                       return {
                         ...item,
-                        qty_sts_no2: addComma(item.qty_sts_no2),
-                        qty_sts_no3: addComma(item.qty_sts_no3)
+                        date: moment(item.date.date).format('YYYY-MM-DD'),
                       };
                     });
 
@@ -111,22 +112,22 @@ const DoInventory = () => {
                   <form onSubmit={handleSubmit}>
                     <Grid item xs={3}></Grid>
                     <Grid container spacing={3}>
-                      <Grid item xs={3}>
+                      <Grid item xs={2}>
                         <CTextField
-                          error={Boolean(touched.do_num && errors.do_num)}
-                          helperText={touched.do_num && errors.do_num}
-                          label="Do No."
-                          name="do_num"
+                          error={Boolean(touched.tag_id && errors.tag_id)}
+                          helperText={touched.tag_id && errors.tag_id}
+                          label="Tag ID"
+                          name="tag_id"
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          value={values.do_num}
+                          value={values.tag_id}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={2}>
                         <CTextField
                           error={Boolean(touched.sts_no && errors.sts_no)}
                           helperText={touched.sts_no && errors.sts_no}
-                          label="STS NO"
+                          label="STS No"
                           name="sts_no"
                           onBlur={handleBlur}
                           onChange={handleChange}
@@ -134,14 +135,31 @@ const DoInventory = () => {
                         />
                       </Grid>
                       <Grid item xs={3}>
-                        <CTextField
-                          error={Boolean(touched.cust_po && errors.cust_po)}
-                          helperText={touched.cust_po && errors.cust_po}
-                          label="Cust PO"
-                          name="cust_po"
+                      <DateTimePicker
+                          label="วันเวลาเริ่ม"
+                          name={'StartDate'}
+                          value={values.StartDate}
                           onBlur={handleBlur}
-                          onChange={handleChange}
-                          value={values.cust_po}
+                          onChange={e =>
+                            setFieldValue(
+                              'StartDate',
+                              moment(e).format('YYYY-MM-DD')
+                            )
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={3}>
+                      <DateTimePicker
+                          label="วันเวลาสิ้นสุด"
+                          name={'EndDate'}
+                          value={values.EndDate}
+                          onBlur={handleBlur}
+                          onChange={e =>
+                            setFieldValue(
+                              'EndDate',
+                              moment(e).format('YYYY-MM-DD')
+                            )
+                          }
                         />
                       </Grid>
                       <Grid item xs={2}>
@@ -155,14 +173,6 @@ const DoInventory = () => {
                           Search
                         </Button>
                       </Grid>
-                      <Grid item xs={2}>
-                        <FormControlLabel
-                          control={
-                            <Switch onChange={handleSwitch} name="checkedA" />
-                          }
-                          label="Remove Duplicate"
-                        />
-                      </Grid>
                     </Grid>
                   </form>
                 )}
@@ -174,136 +184,93 @@ const DoInventory = () => {
                 title={`Tag Status (${data.length} รายการ) `}
                 columns={[
                   {
-                    title: 'do_num',
-                    field: 'do_num',
+                    title: 'หมายเลขปฏิบัติการ',
+                    field: 'qc_oper_num',
                     type: 'string',
-                    editable: 'never',
+                    editable: 'always',
+                    render: (rowData) => (
+                      <div>
+                        <TextField value={rowData.qc_oper_num} />
+                      </div>
+                    )
                   },
                   {
-                    title: 'co_num',
-                    field: 'co_num',
-                    type: 'string',
-                    editable: 'never'
-                  },
-                  {
-                    title: 'co_line',
-                    field: 'co_line',
-                    type: 'string',
-                    editable: 'never'
-                  },
-                  {
-                    title: 'cust_po',
-                    field: 'cust_po',
-                    type: 'string',
-                    editable: 'never'
-                  },
-                  {
-                    title: 'STS_PO',
-                    field: 'STS_PO',
-                    type: 'string',
-                    editable: 'never'
-                  },
-                  {
-                    title: 'item',
+                    title: 'Item',
                     field: 'item',
                     type: 'string',
                     editable: 'never'
                   },
                   {
-                    title: 'Type/End',
-                    field: 'Uf_typeEnd',
+                    title: 'Tag ID',
+                    field: 'id',
                     type: 'string',
                     editable: 'never'
                   },
                   {
-                    title: 'NPS',
-                    field: 'Uf_NPS',
-                    type: 'string',
-                    editable: 'never'
-                  },
-                  {
-                    title: 'Grade',
-                    field: 'Uf_Grade',
+                    title: 'Size',
+                    field: 'size',
                     type: 'string',
                     editable: 'never'
                   },
                   {
                     title: 'Schedule',
-                    field: 'Uf_Schedule',
+                    field: 'uf_schedule',
                     type: 'string',
                     editable: 'never'
                   },
                   {
                     title: 'Length',
-                    field: 'Uf_length',
+                    field: 'uf_length',
                     type: 'string',
                     editable: 'never'
                   },
                   {
-                    title: 'Uf_spec',
-                    field: 'Uf_spec',
+                    title: 'Standard',
+                    field: 'standard',
                     type: 'string',
                     editable: 'never'
                   },
                   {
-                    title: 'qty_shipped',
-                    field: 'qty_shipped',
+                    title: 'Grade',
+                    field: 'uf_grade',
                     type: 'string',
                     editable: 'never'
                   },
                   {
-                    title: 'lot',
-                    field: 'lot',
-                    type: 'string',
-                    editable: 'never'
-                  },
-                  {
-                    title: 'Location',
-                    field: 'loc',
-                    type: 'string',
-                    editable: 'never'
-                  },
-                  {
-                    title: 'sts no',
+                    title: 'STS No',
                     field: 'sts_no',
                     type: 'string',
                     editable: 'never'
                   },
                   {
-                    title: 'qty_sts_no',
-                    field: 'qty_sts_no',
-                    type: 'string',
-                    editable: 'never'
-                  },
-                  { title: 'sts no 2', field: 'sts_no2', type: 'string' },
-                  {
-                    title: 'qty_sts_no 2',
-                    field: 'qty_sts_no2',
+                    title: 'Coil No',
+                    field: 'Coil_No',
                     type: 'string',
                     editable: 'never'
                   },
                   {
-                    title: 'sts no 3',
-                    field: 'sts_no3',
+                    title: 'Heat No',
+                    field: 'Heat_no',
                     type: 'string',
                     editable: 'never'
                   },
                   {
-                    title: 'qty_sts_no 3',
-                    field: 'qty_sts_no2',
+                    title: 'FM',
+                    field: 'FM',
                     type: 'string',
                     editable: 'never'
                   },
                   {
-                    title: 'remark',
-                    field: 'remark',
+                    title: 'หนา x กว้าง',
+                    field: 'thick',
                     type: 'string',
-                    editable: 'always',
-                    render: (rowData) => (
-                      <div>
-                        <TextField />
-                      </div>
-                    )
+                    editable: 'never'
+                  },
+                  {
+                    title: 'Date',
+                    field: 'date',
+                    type: 'date',
+                    editable: 'never'
                   }
                 ]}
                 data={data}
@@ -315,22 +282,23 @@ const DoInventory = () => {
                     columnDef
                   ) => {
                     return new Promise((resolve, reject) => {
-                      if (columnDef.field === 'tag_status') {
+                      if (columnDef.field === 'qc_oper_num') {
                         API.get(
-                          'http://localhost/sts_web_center/module/REPORT_TagStatus/data.php',
+                          'RPT_QC_Lab_Tag_Detail/data.php',
                           {
                             params: {
                               load: 'update_status',
-                              id: rowData.id,
-                              status_value: newValue
+                              tag_id: rowData.id,
+                              qc_oper_num: newValue
                             }
                           }
                         );
-                        const newData = [...data];
-                        const index = data.indexOf(rowData);
-                        newData[index].tag_status = newValue;
-                        setData(newData);
                       }
+                      // update row data
+                      const dataUpdate = [...data];
+                      const index = rowData.tableData.id;
+                      dataUpdate[index] = { ...rowData, [columnDef.field]: newValue };
+                      setData([...dataUpdate]);
                       setTimeout(resolve, 1000);
                     });
                   }
@@ -368,4 +336,4 @@ const DoInventory = () => {
   );
 };
 
-export default DoInventory;
+export default QcLabTagDetail;

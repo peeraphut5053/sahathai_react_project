@@ -13,7 +13,7 @@ const queryClient = new QueryClient();
 ReactDOM.render((
   <BrowserRouter>
     <QueryClientProvider client={queryClient}>
-    {/*<ReactQueryDevtools initialIsOpen={false} />*/}
+    <ReactQueryDevtools initialIsOpen={false} />
     <ToastContainer
       position="bottom-right"
       autoClose={3000}
