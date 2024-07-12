@@ -14,7 +14,6 @@ import tableIcons from '../../../views/components/table/tableIcons';
 
 const TableDetail = ({data}) => {
   const [values, setValues] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const addComma = num => {
     return parseFloat(num)

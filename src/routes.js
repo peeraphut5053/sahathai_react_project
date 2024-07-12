@@ -53,6 +53,8 @@ import JobOrder from './views/ERPModule/Production/JobOrder';
 import QcLabTagDetail from './views/ERPModule/QC/QCLabTagDetail';
 import ProductionReport from './views/ExecutiveReport/ProductionReport';
 import ProductionDailyReport from './views/ERPModule/Production/productionReport';
+import SlitReport from './views/ERPModule/Production/SlitReport';
+import ManufacturingReport from './views/ERPModule/Production/Manufacturing';
 
 const routes = [
   {
@@ -95,6 +97,8 @@ const routes = [
       { path: 'Stock_mthly', element: <Stock_mthlyView /> },
       { path: 'DomesticBacklog', element: <DomesticBacklogView /> },
       { path: 'moveItem', element: <MoveItemView /> },
+      { path: 'ManufacturingReport', element: <ManufacturingReport /> },
+      { path: 'SlitReport', element: <SlitReport /> },
       { path: 'JobOrderProcessing', element: <JobOrder /> },
        // { path: 'BoatNote', element: <BoatNoteView /> },
       { path: 'BoatNote', element: <BoatNoteView /> },

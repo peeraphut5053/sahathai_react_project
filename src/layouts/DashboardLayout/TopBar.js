@@ -30,7 +30,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 const TopBar = ({
-  // Username,
   UserData,
   className,
   onMobileNavOpen,
@@ -47,7 +46,7 @@ const TopBar = ({
 
   const location = useLocation();
 
-  const Username = localStorage.getItem("username")
+  const username = localStorage.getItem("username")
   return (
     <>
       {/* {JSON.stringify(location.pathname)} */}
@@ -71,7 +70,7 @@ const TopBar = ({
             <Box flexGrow={1} />
             {/* <Hidden xlUp> </Hidden> */}
             <Typography variant="h5" component="h5" style={{ paddingBottom: 25, color: '#FFFFFF' }}>
-              {Username}
+              {username}
             </Typography>
             <IconButton color="inherit" style={{ marginBottom: 25 }}>
               <Badge

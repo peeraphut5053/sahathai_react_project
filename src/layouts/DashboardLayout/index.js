@@ -40,8 +40,8 @@ const DashboardLayout = (props) => {
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(true);
   const navigate = useNavigate();
-  const [Username, setUsername] = useState(null)
-  const [UserData, setUserData] = useState(null)
+  const [username, setUsername] = useState(null)
+  const [userData, setUserData] = useState(null)
   const [user, setuser] = useState(null)
   const checkAuth = () => {
    
@@ -81,11 +81,11 @@ const DashboardLayout = (props) => {
     >
       <div className={classes.root}>
         <TopBar
-          Username={Username}
+          username={username}
           onMobileNavOpen={() => setMobileNavOpen(true)}
         />
         <NavBar
-          UserData={UserData}
+          UserData={userData}
           onMobileClose={() => setMobileNavOpen(false)}
           openMobile={isMobileNavOpen}
         />

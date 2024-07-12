@@ -273,6 +273,17 @@ const ListItems2 = [
                 title: 'Job Order Processing'
             },
             {
+                href: '/app/ManufacturingReport',
+                Icon: AssignmentIcon,
+                title: 'Manufacturing Report'
+            },
+            {
+                href: '/app/SlitReport',
+                Icon: AssignmentIcon,
+                title: 'Slit Report'
+
+            },
+            {
                 href: '/app/productionMatlTrans',
                 Icon: AssignmentIcon,
                 title: 'Material Transaction'
