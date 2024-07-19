@@ -69,7 +69,7 @@ const ARTransactionReport = () => {
                   try {
                     setSubmitting(true);
                     const response = await API.get(
-                      'http://localhost/sts_web_center/module/RPTARTRAN/data.php',
+                      'RPTARTRAN/data.php',
                       {
                         params: {
                           load: 'api',

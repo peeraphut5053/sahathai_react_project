@@ -164,7 +164,7 @@ const myData = {
   const options = {
     animation: false,
     layout: { padding: 0 },
-    legend: { display: false },
+    legend: { display: true },
     maintainAspectRatio: false,
     responsive: true,
     scales: {

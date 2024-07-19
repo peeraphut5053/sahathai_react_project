@@ -317,7 +317,7 @@ const DoInventory = () => {
                     return new Promise((resolve, reject) => {
                       if (columnDef.field === 'tag_status') {
                         API.get(
-                          'http://localhost/sts_web_center/module/REPORT_TagStatus/data.php',
+                          'REPORT_TagStatus/data.php',
                           {
                             params: {
                               load: 'update_status',

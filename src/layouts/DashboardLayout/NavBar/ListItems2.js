@@ -92,6 +92,11 @@ const ListItems2 = [
                 title: 'รายงานค้างส่งในประเทศ'
             },
             {
+                href: '/app/CerDo',
+                Icon: AssignmentIcon,
+                title: 'สร้างใบ Cer DO'
+            },
+            {
                 href: '/app/DomesticItemStock',
                 Icon: AssignmentIcon,
                 title: 'รายงาน Item คงเหลือ(คลังย่อย)'
@@ -112,7 +117,7 @@ const ListItems2 = [
                 title: 'Domestic Ledger Posted '
             },
             {
-                href: '/app/5',
+                href: '/app/RPT_DO',
                 Icon: AssignmentIcon,
                 title: 'รายงาน DO ที่ยังไม่เปิด INV'
             },
@@ -142,6 +147,16 @@ const ListItems2 = [
                 Icon: AssignmentIcon,
                 title: 'Export Ledger Posted '
             },
+            {
+                href: '/app/OrderProcessing',
+                Icon: AssignmentIcon,
+                title: 'Order Processing'
+            },
+            {
+                href: '/app/ADAllTemp',
+                Icon: AssignmentIcon,
+                title: 'AD All Temp'
+            }
         ]
     },
     {
@@ -373,3 +388,20 @@ const ListItems2 = [
 
 
 export default ListItems2;
+
+
+{/* 
+    function convertAllLotReportV2(wordShow, LotFromData) {
+    let dataNotSpiltLotQty = LotFromData.split(';')
+
+    // write show word but dataNotSpiltLotQty have lotnum and lotqty
+    let word = ""
+    for (let i = 0; i < dataNotSpiltLotQty.length; i++) {
+        word = word + `${dataNotSpiltLotQty[i]}`
+        if (i !== dataNotSpiltLotQty.length - 1) {
+            word = word + '\n_____\n'
+        }
+    }
+    return word
+}
+*/}

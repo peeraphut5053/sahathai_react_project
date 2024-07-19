@@ -7,19 +7,16 @@ import tableIcons from '../../../components/table/tableIcons';
 import API from '../../../components/API';
 import MaterialTable from 'material-table';
 import { toast } from 'react-toastify';
+import CTextField from 'src/views/components/Input/CTextField';
 
-const RPTCustomer = () => {
+const CerDo = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const addComma = num => {
-    return parseFloat(num).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-  }
 
   return (
     <Container maxWidth={false}>
       <Typography variant="h4" style={{ margin: '15px', textAlign: 'center' }}>
-         Customer Order
+        สร้างใบ Cer Do
       </Typography>
       <Grid container spacing={1}>
         <Grid item sm={12} xl={12} xs={12} lg={12}>
@@ -28,39 +25,24 @@ const RPTCustomer = () => {
               <Formik
                 initialValues={{
                   StartDate: moment().format('YYYY-MM-DD'),
-                  EndDate: moment().format('YYYY-MM-DD')
+                  EndDate: moment().format('YYYY-MM-DD'),
+                  Do_num: '',
                 }}
                 onSubmit={async (values, { setSubmitting }) => {
                   try {
                     setSubmitting(true);
                     const response = await API.get(
-                      'RPT_Customer_report_order/data.php',
+                      'http://localhost/sts_web_center/module/CER_DO/data.php',
                       {
                         params: {
-                          load: 'form',
-                          txtStartDate: values.StartDate,
-                          txtToDate: values.EndDate
+                          load: 'ajax2',
+                          txtCerDate: values.StartDate,
+                          txtShipDate: values.EndDate,
+                          txtDoNum: values.Do_num,
                         }
                       }
                     );
-
-                    if (response.data.length == 0) {
-                      toast.error('ไม่พบข้อมูล');
-                       setSubmitting(false);
-                        return;
-                    }
-
-                    const newData = response.data.map(item => {
-                        return {
-                            ...item,
-                            OrderDate: moment(item.OrderDate.date).format('YYYY-MM-DD'),
-                            NetPrice: addComma(item.NetPrice),
-                            UnitPrice: addComma(item.UnitPrice),
-
-                        }
-                    });
-
-                    setData(newData);
+                    setData(response.data);
                     setLoading(false);
                     toast.success('ค้นหาเสร็จสิ้น');
                     setSubmitting(false);
@@ -71,7 +53,7 @@ const RPTCustomer = () => {
                   }
                 }}
               >
-                {({ values, handleBlur, handleSubmit, setFieldValue }) => (
+                {({ values, handleBlur, handleSubmit, handleChange, setFieldValue, touched, errors }) => (
                   <form onSubmit={handleSubmit}>
                     <Grid item xs={3}></Grid>
                     <Grid container spacing={3}>
@@ -103,6 +85,17 @@ const RPTCustomer = () => {
                           }}
                         />
                       </Grid>
+                      <Grid item xs={3}>
+                      <CTextField
+                                error={Boolean(touched.Do_num && errors.Do_num)}
+                                helperText={touched.Do_num && errors.Do_num}
+                                label="Do Num"
+                                name="Do_num"
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                value={values.Do_num}
+                              />
+                      </Grid>
                       <Grid item xs={2}>
                         <Button
                           disabled={loading}
@@ -122,39 +115,37 @@ const RPTCustomer = () => {
             <Grid item style={{ width: '100%', margin: 5, overflowX: 'auto' }}>
               <MaterialTable
                 icons={tableIcons}
-                title={`General Ledger Domestic Invoice (${data.length} รายการ) `}
+                title={`Cer Do (${data.length} รายการ) `}
                 columns={[
-                  { title: 'Order Date', field: 'OrderDate', type: 'date' },
-                  { title: 'Order', field: 'co_num', type: 'string' },
+                  { title: 'Pickup Date', field: 'pickup_date_conv', type: 'date' },
+                  { title: 'เลขที่ใบกำกับ', field: 'do_num', type: 'string' },
                   {
-                    title: 'Customer',
-                    field: 'custName',
+                    title: 'Do Seq',
+                    field: 'do_seq',
                     type: 'string'
                   },
-                  { title: 'Ship To', field: 'ShipName', type: 'string' },
-                  { title: 'Cust PO', field: 'cust_po', type: 'string' },
-                  { title: 'Terms', field: 'terms_code', type: 'string' },
-                  { title: 'Line', field: 'co_line', type: 'string' },
-                  { title: 'Item', field: 'item', type: 'string' },
-                  { title: 'QTY(PSC)', field: 'qty_ordered_conv', type: 'string' },
-                  { title: 'SALE by PCS/KG', field: 'uf_um2', type: 'string' },
-                  { title: 'Price/PCS', field: 'UnitPrice', type: 'string' },
-                  { title: 'Price/KG', field: 'Uf_PricePerKG', type: 'string' },
-                  { title: 'Net Price', field: 'NetPrice', type: 'string' },
+                  { title: 'ลูกค้า', field: 'cust_name', type: 'string' },
+                  { title: 'รายการ', field: 'item_desc', type: 'string' },
+                  { title: 'จำนวนเส้น', field: 'qty_conv', type: 'number'},
+                  { title: 'คลัง', field: 'Loc', type: 'string'},
+                  { title: 'Lot', field: 'lots', type: 'string'},
+                  { title: 'Lot Qty', field: 'QtyBundle', type: 'number' },
+                  { title: 'Qty Shipping', field: 'qty_shipped', type: 'number' },
+                  { title: 'Ship Date', field: 'ship_date_conv', type: 'date' },
                 ]}
                 data={data}
                 options={{
                   exportButton: true,
                   cellStyle: { padding: '0.1' },
                   headerStyle: { padding: '0.1' },
-                  maxBodyHeight: '70vh',
-                  minBodyHeight: '70vh',
                   search: true,
                   paging: false,
                   sorting: true,
                   filtering: false,
+                  maxBodyHeight: '70vh',
+                  minBodyHeight: '70vh',
                   exportButton: true,
-                  doubleHorizontalScroll: false,
+                  doubleHorizontalScroll: true,
                   headerStyle: {
                     backgroundColor: '#039be5',
                     color: '#FFF',
@@ -174,4 +165,4 @@ const RPTCustomer = () => {
   );
 };
 
-export default RPTCustomer;
+export default CerDo;

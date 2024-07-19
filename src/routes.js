@@ -55,6 +55,10 @@ import ProductionReport from './views/ExecutiveReport/ProductionReport';
 import ProductionDailyReport from './views/ERPModule/Production/productionReport';
 import SlitReport from './views/ERPModule/Production/SlitReport';
 import ManufacturingReport from './views/ERPModule/Production/Manufacturing';
+import CerDo from './views/ERPModule/SaleDomestic/CerDo';
+import RPT_DO from './views/ERPModule/SaleDomestic/RPT_DO';
+import OrderProcessing from './views/ERPModule/SaleDomestic/OrderProcessing';
+import ADAllTemp from './views/ERPModule/SaleDomestic/ADAllTemp';
 
 const routes = [
   {
@@ -96,6 +100,10 @@ const routes = [
       { path: 'productionMatlTrans', element: <ProductionMatlTransView /> },
       { path: 'Stock_mthly', element: <Stock_mthlyView /> },
       { path: 'DomesticBacklog', element: <DomesticBacklogView /> },
+      { path: 'CerDO', element: <CerDo /> },
+      { path: 'RPT_DO', element: <RPT_DO /> },
+      { path: 'OrderProcessing', element: <OrderProcessing /> },
+      { path: 'ADAllTemp', element: <ADAllTemp /> },
       { path: 'moveItem', element: <MoveItemView /> },
       { path: 'ManufacturingReport', element: <ManufacturingReport /> },
       { path: 'SlitReport', element: <SlitReport /> },
