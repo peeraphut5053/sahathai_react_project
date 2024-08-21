@@ -1,9 +1,10 @@
 import React, {useState } from 'react';
 import { useQuery } from "react-query";
 import clsx from 'clsx';
-import { Bar } from 'react-chartjs-2';
+import { Bar,Line } from 'react-chartjs-2';
 import {
   Box,
+  Button,
   Card,
   CardContent,
   CardHeader,
@@ -20,6 +21,8 @@ import DateMonthPicker from 'src/views/components/Input/CDateMonthPicker';
 import PieChart from './PieChart';
 import ModalManagementFullPage from 'src/views/components/ModalManagementFullPage';
 import TableDetail from './TableDetail';
+import TableDailyWorkCenter from './TableDailyWorkCenter';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -30,6 +33,7 @@ const useStyles = makeStyles(() => ({
 const GroupBarChart = ({ className, ...rest }) => {
   const [tableData, setTableData] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false);
   const [groupBy, setGroupBy] = useState('Forming');
   const [month, setMonth] = useState(moment().format('YYYY-MM'))
   const classes = useStyles();
@@ -83,7 +87,7 @@ const GroupBarChart = ({ className, ...rest }) => {
     cacheTime: 10 * 60 * 1000, 
 });
 
-  const unique = [...new Set(data?.res1.map(item => item.wc))];
+const unique = [...new Set(data?.res1.map(item => item.wc))].sort();
   const result = unique.map((item) => {
     const sumA = data?.res.filter((item1) => item1.wc === item).reduce((prev, current) => prev + current.sumA, 0);
     const sumB = data?.res.filter((item1) => item1.wc === item).reduce((prev, current) => prev + current.sumB, 0);
@@ -295,8 +299,6 @@ const myData = {
         }
   ]
 
-
-
   return (
    <>
     <ModalManagementFullPage
@@ -304,6 +306,13 @@ const myData = {
         onClose={() => setOpen(false)}
         modalDetail={
           <TableDetail data={tableData} />
+        }
+     />
+      <ModalManagementFullPage
+        open={openDetail}
+        onClose={() => setOpenDetail(false)}
+        modalDetail={
+          <TableDailyWorkCenter />
         }
      />
     <Card
@@ -319,6 +328,17 @@ const myData = {
               onChange={(e) => setMonth(moment(e).format('YYYY-MM'))}
              />
         
+        )}
+        subheader={(
+          <Button
+          color="secondary"
+          endIcon={<ArrowRightIcon />}
+          size="small"
+          variant="outlined"
+          onClick={() => setOpenDetail(true)}
+        >
+          Daily Report
+        </Button>
         )}
         title="Group Production Report"
       />

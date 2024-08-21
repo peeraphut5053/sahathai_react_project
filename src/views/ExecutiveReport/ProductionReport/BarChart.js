@@ -16,6 +16,8 @@ import API from 'src/views/components/API';
 import moment from 'moment';
 import DateMonthPicker from 'src/views/components/Input/CDateMonthPicker';
 import BarCard from './BarCard';
+import ModalManagementFullPage from 'src/views/components/ModalManagementFullPage';
+import TableDailyReport from './TableDailyReport';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -25,6 +27,7 @@ const useStyles = makeStyles(() => ({
 
 const Test = ({ className, ...rest }) => {
   const [month, setMonth] = useState(moment().format('YYYY-MM'));
+  const [open, setOpen] = useState(false);
   const classes = useStyles();
 
   // use react-query instead of useEffect
@@ -45,7 +48,14 @@ const Test = ({ className, ...rest }) => {
               EndLastMonth: moment(lastMonth.lastDay).format('YYYY-MM-DD'),
           }
       });
-      return { res: response.data[0], res1: response.data[1] };
+      const sortTypes = ['Slit','Forming','HydroTest','Galvanize','Painting','Threading','Groove','Others','Cuting','Packing'];
+      const newData = response.data[0].sort((a, b) => {
+        return sortTypes.indexOf(a.wcGroup) - sortTypes.indexOf(b.wcGroup);
+      });
+      const oldData = response.data[1].sort((a, b) => {
+        return sortTypes.indexOf(a.wcGroup) - sortTypes.indexOf(b.wcGroup);
+      });
+      return { res: newData, res1: oldData };
         
        } catch (error) {
         console.log('error', error);
@@ -54,6 +64,7 @@ const Test = ({ className, ...rest }) => {
     staleTime: 5 * 60 * 1000,
     cacheTime: 10 * 60 * 1000, 
 });
+
 
   function getFirstAndLastDayOfMonth(year, month) {
     // สร้างวันที่แรกของเดือน
@@ -73,6 +84,13 @@ const Test = ({ className, ...rest }) => {
       className={clsx(classes.root, className)}
       {...rest}
     >
+      <ModalManagementFullPage
+        open={open}
+        onClose={() => setOpen(false)}
+        modalDetail={
+          <TableDailyReport />
+        }
+     />
       <CardHeader
         action={(
             <DateMonthPicker
@@ -81,7 +99,17 @@ const Test = ({ className, ...rest }) => {
               value={month}
               onChange={(e) => setMonth(moment(e).format('YYYY-MM'))}
              />
-        
+        )}
+        subheader={(
+          <Button
+          color="secondary"
+          endIcon={<ArrowRightIcon />}
+          size="small"
+          variant="outlined"
+          onClick={() => setOpen(true)}
+        >
+          Daily Report
+        </Button>
         )}
         title="All Production Report"
       />

@@ -2,7 +2,7 @@ import React from 'react'
 import Test from './BarChart';
 import { Container, Grid, Typography } from '@material-ui/core';
 import GroupBarChart from './GroupBarChart';
-
+import { Bar,Line } from 'react-chartjs-2';
 
 const ProductionReport = () => {
   return (

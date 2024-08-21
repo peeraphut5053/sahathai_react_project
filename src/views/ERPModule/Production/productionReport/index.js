@@ -31,6 +31,7 @@ import ItemDetail from './ItemDetail';
 import ModalManagement from './ModalManagement';
 import ReasonAddNewReason from './ReasonAddNewReason';
 import ReasonAddNewMeter from './ReasonAddNewMeter';
+import ModalFinishing from './ModalFinishing';
 
 
 moment.locale("th");
@@ -46,6 +47,7 @@ const ProductionDailyReport = () => {
 	const [openModalAddNewReason, setOpenModalAddNewReason] = React.useState(false);
 	const [openModalAddNewMeter, setOpenModalAddNewMeter] = React.useState(false);
 	const [openModalItem, setOpenModalItem] = React.useState(false);
+	const [openModalFinishing, setOpenModalFinishing] = React.useState(false);
 	const [dataFormingRecord, setDataFormingRecord] = useState([])
 	const [dataFormingRecord_reason_meter, setDataFormingRecord_reason_meter] = useState([])
 	const [dataFormingRecord_description, setDataFormingRecord_description] = useState([])
@@ -158,6 +160,14 @@ const ProductionDailyReport = () => {
 		}
 	};
 
+	const handleOpenFinishingModal = (values) => {
+		if (!values.w_c) {
+			handleClickAlert()
+			return;
+		}
+		setOpenModalFinishing(true);
+	}
+
 	const handleCloseModal = () => {
 		setOpenModal(false);
 	};
@@ -185,6 +195,10 @@ const ProductionDailyReport = () => {
 
 	const handleCloseModalItem = async () => {
 		setOpenModalItem(false);
+	};
+
+	const handleCloseModalFinishing = async () => {
+		setOpenModalFinishing(false);
 	};
 
 	const setLocalStorageW_c = (w_c) => {
@@ -503,6 +517,7 @@ const ProductionDailyReport = () => {
 										startdate={values.startdate}
 									/>
 								</Modal>
+								<ModalFinishing values={values} openModal={openModalFinishing} handleCloseModal={handleCloseModalFinishing} />
 								<Modal open={openModal} onClose={handleCloseModal}  >
 									{/* {JSON.stringify(values)} */}
 									<Grid container spacing={1} className={classes.paperModal} style={{ width: '80vw', height: '98vh', marginLeft: '10vw', marginTop: '1vh' }}>
@@ -752,9 +767,9 @@ const ProductionDailyReport = () => {
 										<CButton label={"รายงานการผลิต"} onClick={() => { SearchFn("ajax2", values, "Production", "Production") }} />
 										<CButton label={"ใบตรวจสอบการผลิต"} onClick={() => { SearchFn("ajax2", values, "Production", "CheckProduction") }} disabled={false} />
 									</Grid>
-									<Grid item lg={2}>
-										{/* <CButton label={"รายงาน Forming"} onClick={() => { SearchFn("ajax2", values, "Forming", "Forming") }} disabled={false} /> */}
-										<CButton label={"บันทึกผลิต Forming"} onClick={() => { handleOpenModal(values) }} disabled={false} />
+									<Grid item lg={3}>
+									    <CButton label={"บันทึกผลิต Forming"} onClick={() => { handleOpenModal(values) }} disabled={false} />
+										<CButton label={"บันทึกเวลาหยุดเครื่อง Finishing"} onClick={() => handleOpenFinishingModal(values)} disabled={false} />
 									</Grid>
 									<Grid item lg={2}>
 										<CButton label={"ใบขนย้ายระหว่างสาขา"} onClick={() => { SearchFn("MovingProductReport", values, "", "MovingProductReport") }} disabled={false} />

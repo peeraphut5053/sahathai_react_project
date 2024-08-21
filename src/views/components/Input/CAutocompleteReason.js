@@ -24,7 +24,7 @@ export default function CAutocompleteReason(props) {
         }
 
         (async () => {
-            let response = await fetch(`${APIPath}/RPT_JOBPACKING/data.php?load=SelectForming_reason_description`);
+            let response = await fetch(`${APIPath}/RPT_JOBPACKING/data.php?load=${props.type ? props.type : "SelectForming_reason_description"}`);
 
             // const response = await fetch('https://country.register.gov.uk/records.json?page-size=5000');
             // const response = await fetch('http://172.18.1.194/sts_web_center/module/RPT_JOBPACKING/data.php?load=SelectForming_reason_description');

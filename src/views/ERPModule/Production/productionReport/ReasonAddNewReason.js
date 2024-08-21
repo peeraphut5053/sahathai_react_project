@@ -19,17 +19,18 @@ const ReasonAddNewReason = (props) => {
     // const [selectedRow, setSelectedRow] = useState(null);
     const classes = useStyles();
 
-
-
-
     const AddNewReason = async (type, values) => {
-        console.log(values)
+
+        let detail_id = values.reason_detail_id
+        if(values.reason_id === 8){
+            detail_id = null
+        }
 
         await API.get("RPT_JOBPACKING/data.php", {
             params: {
                 load: type,
                 reason_id: values.reason_id,
-                reason_detail_id: values.reason_detail_id,
+                reason_detail_id: detail_id,
                 time_stopped: values.time_stopped,
                 time_used: values.time_used,
                 create_date: values.create_date,
@@ -42,7 +43,6 @@ const ReasonAddNewReason = (props) => {
         props.handleCloseModalAddNewReason()
         props.setDataFormingRecord([...props.dataFormingRecord, values])
     }
-
 
     return (
         <>
@@ -142,7 +142,7 @@ const ReasonAddNewReason = (props) => {
                                             setFieldValue={setFieldValue}
                                         />
                                     </Grid>
-                                    <Grid item lg={12}>
+                                    {values.reason_id !== 8 && <Grid item lg={12}>
                                         <CAutocompleteReasonDetail
                                             reason_id={values.reason_id}
                                             onBlur={handleBlur}
@@ -150,9 +150,9 @@ const ReasonAddNewReason = (props) => {
                                             value={values.reason_detail_id}
                                             setFieldValue={setFieldValue}
                                         />
-                                    </Grid>
+                                    </Grid>}
                                     <Grid item lg={12}>
-                                        <CTextField
+                                     {values.reason_id === 8 &&<CTextField
                                             error={Boolean(touched.remark && errors.remark)}
                                             helperText={touched.remark && errors.remark}
                                             label="หมายเหตุ"
@@ -161,7 +161,8 @@ const ReasonAddNewReason = (props) => {
                                             onChange={handleChange}
                                             value={values.remark}
                                             Autocomplete={false}
-                                        />
+                                            
+                                     />}
                                     </Grid>
                                     <Grid item lg={12}>
                                         <CButton label={"บันทึกสาเหตุการหยุดเครื่อง"} onClick={() => AddNewReason("CreateForming", values)} disabled={false} />
