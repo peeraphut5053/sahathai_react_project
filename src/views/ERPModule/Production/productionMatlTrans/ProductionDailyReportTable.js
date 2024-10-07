@@ -1,27 +1,11 @@
 import React from 'react';
-import { Box, Button, CircularProgress, Menu, MenuItem, Typography } from '@material-ui/core';
 import MaterialTable from 'material-table';
 import tableIcons from '../../../components/table/tableIcons'
 import API from '../../../components/API';
 
 
 const ProductionDailyReportTable = (props) => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = (option) => {
-        setAnchorEl(null);
-    };
-
-
-
-
-
-
-
+  
     return (
 
         <MaterialTable

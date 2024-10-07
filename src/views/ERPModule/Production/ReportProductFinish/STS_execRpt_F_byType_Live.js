@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Button,
   Chip,
   Container,
   Grid,
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import { DataGrid } from '@material-ui/data-grid';
 import MaterialTable, { MTableToolbar } from 'material-table';
 import tableIcons from 'src/views/components/table/tableIcons';
 import API from 'src/views/components/API';
-import MenuChip from './MenuChip';
 import ModalNopaperSmall from '../../../components/ModalNopaperSmall';
 import STS_execRpt_F_byType_Live_Detail from './STS_execRpt_F_byType_Live_Detail';
 

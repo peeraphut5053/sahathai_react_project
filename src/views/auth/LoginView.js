@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -12,13 +12,11 @@ import {
   Typography,
   makeStyles,
   Hidden,
-  Paper
 } from '@material-ui/core';
 import FacebookIcon from 'src/icons/Facebook';
 import GoogleIcon from 'src/icons/Google';
 import Page from 'src/components/Page';
 import Axios from 'axios';
-import { UserLoginGetNewToken, UserLoginSetDataFromToken, UserLoginSetDataFromToken2, UserLogin } from '../components/API_WEB_STS_API'
 import API from '../components/API';
 
 
@@ -169,7 +167,7 @@ const LoginView = () => {
         flexDirection="column"
         height="100%"
         justifyContent="center"
-
+ 
       >
         <Container maxWidth="sm">
           <Formik

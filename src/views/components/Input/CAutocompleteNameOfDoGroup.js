@@ -1,6 +1,6 @@
 // *https://www.registers.service.gov.uk/registers/country/use-the-api*
 import fetch from 'cross-fetch';
-import React,{useEffect,useState} from 'react';
+import React,{ useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';

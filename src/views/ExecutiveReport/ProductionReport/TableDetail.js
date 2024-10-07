@@ -63,9 +63,6 @@ const TableDetail = ({data}) => {
                 ]}
                 data={tableData}
                 options={{
-                  exportButton: true,
-                  cellStyle: { padding: '0.1' },
-                  headerStyle: { padding: '0.1' },
                   search: true,
                   paging: false,
                   sorting: false,

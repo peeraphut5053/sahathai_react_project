@@ -14,8 +14,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import Axios from 'axios';
-import { UserRegister, UserLogin } from '../components/API_WEB_STS_API'
+import { UserRegister } from '../components/API_WEB_STS_API'
 
 const useStyles = makeStyles((theme) => ({
   root: {

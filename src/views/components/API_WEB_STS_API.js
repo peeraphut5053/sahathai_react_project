@@ -1,5 +1,4 @@
 import Axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const UserRegister = (values) => {
     const instance = Axios.create({

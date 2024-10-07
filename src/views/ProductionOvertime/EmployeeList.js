@@ -1,29 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import {
-    Avatar,
-    Box,
     Card,
-    CardContent,
     Grid,
-    Typography,
     colors,
     makeStyles,
     Container,
-    Button,
-    Modal,
-    Paper
 } from '@material-ui/core';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import MoneyIcon from '@material-ui/icons/Money';
 import MaterialTable from 'material-table';
 import tableIcons from '../components/table/tableIcons'
-import CButton from '../components/Input/CButton';
-import AddBoxIcon from '@material-ui/icons/AddBox';
-import CreateOTReport from './CreateOTReport';
-import AccessibilityIcon from '@material-ui/icons/Accessibility';
-import ModalManagementFullPage from '../components/ModalManagementFullPage';
 
 const useStyles = makeStyles((theme) => ({
     root: {

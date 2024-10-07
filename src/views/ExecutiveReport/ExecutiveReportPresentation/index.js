@@ -1,34 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import { Card, CardActions, CardContent, Grid, ListItem, ListItemText } from '@material-ui/core';
-
+import { Card, Grid, ListItem, ListItemText } from '@material-ui/core';
 import PieChartExecutiveSummary from '../PieChartExecutiveSummaryPresentation';
 import PieChartExecutiveSummary2 from '../PieChartExecutiveSummary2Presentation';
 import PresentationPageOne from '../PresentationPageOne';
-import TableExecutiveSummary from '../TableExecutiveSummary';
 import ChartExecutiveSummary from '../ChartExecutiveSummary';
 import OutStanddingPresentation from '../OutStanddingPresentation';
-import QualityManagementPresentation from '../QualityManagementPresentation';
-import QualityManagementPresentation0 from '../QualityManagementPresentation0';
-
-import CalendarActivitiesPresentation from '../CalendarActivitiesPresentation';
-import CalendarActivitiesPresentation2 from '../CalendarActivitiesPresentation2';
-import CalendarActivitiesPresentation3 from '../CalendarActivitiesPresentation3';
-import EventsActivity from '../CalendarActivitiesPresentationData'
-import ExecutiveSummaryQualityManagementChart from '../ExecutiveSummaryQualityManagementChart'
-
 import moment from "moment";
-import CertificationPresentation from '../CertificationPresentation';
 import PresentationPageEnd from '../PresentationPageEnd';
 import TableExecutiveSummaryPresentation from '../TableExecutiveSummaryPresentation';
 
 moment.locale("th");
-
-
 
 const useStyles = makeStyles((theme) => ({
     listItemText: {

@@ -77,7 +77,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
 
       <Box p={1}>
         {ListItems2.map((item, index) => (
-            <MenuItems {...item} key={index}></MenuItems>
+            <MenuItems name='' {...item} key={index}></MenuItems>
         ))}
       </Box>
       <Box flexGrow={1} />

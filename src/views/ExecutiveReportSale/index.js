@@ -1,10 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  Card,
-  CardContent,
-  CardHeader,
   Container,
-  Divider,
   Grid,
   makeStyles
 } from '@material-ui/core';

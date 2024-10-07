@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardContent, colors, Container, Dialog, DialogTitle, Grid, List, ListItem, ListItemText, makeStyles, Menu, MenuItem, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { Button, Card, CardContent, colors, Container, Dialog, DialogTitle, Grid, List, ListItem, ListItemText, makeStyles, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import Page from 'src/components/Page';
 import { isMobile } from "react-device-detect";
 import clsx from 'clsx';
 import { Formik } from 'formik';
 import moment from "moment";
-import DateTimePicker from '../../../components/Input/CDateTimePicker';
 import CDatePicker from '../../../components/Input/CDatePicker';
 import CButton from '../../../components/Input/CButton';
 import tableIcons from '../../../components/table/tableIcons'
@@ -16,7 +15,6 @@ import ModalManagementFullPage from 'src/views/components/ModalManagementFullPag
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/styles';
 import TableCell from '@material-ui/core/TableCell';
-import { DatePicker } from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -272,7 +270,6 @@ const ByCOItemQTY = ({ className, ...rest }) => {
                   color: '#FFF',
                   padding: '0.1'
                 },
-                exportButton: true,
                 cellStyle: { padding: '0.1' },
                 search: false,
                 paging: false,
@@ -453,7 +450,7 @@ const ByCOItemQTY = ({ className, ...rest }) => {
                           color: '#FFF',
                           padding: '0.1'
                         },
-                        exportButton: true,
+                       
                         cellStyle: { padding: '0.1' },
                         search: false,
                         paging: false,

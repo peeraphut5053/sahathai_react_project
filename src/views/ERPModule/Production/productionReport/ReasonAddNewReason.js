@@ -1,8 +1,6 @@
 import React from 'react';
-import MaterialTable from 'material-table';
-import tableIcons from '../../../components/table/tableIcons'
 import API from '../../../components/API';
-import { Grid, IconButton, Modal, Paper, Snackbar } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import customStyles from "./customStyles.js";
 import { Formik } from 'formik';
 import moment from "moment";

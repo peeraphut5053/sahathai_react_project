@@ -2,26 +2,18 @@ import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
-    Box,
-    Button,
     Card,
     CardActionArea,
-    CardActions,
     CardContent,
-    CardHeader,
-    CardMedia,
     Divider,
     Grid,
     List,
     ListItem,
-    ListItemAvatar,
     ListItemText,
     makeStyles,
     Typography,
     useTheme
 } from '@material-ui/core';
-
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import API from '../components/API';
 
 

@@ -206,7 +206,7 @@ const CardReportCO = ({ className, ...rest }) => {
 
 
               options={{
-                exportButton: true,
+            
                 cellStyle: { padding: '0.1' },
                 headerStyle: { padding: '0.1' },
                 search: false,

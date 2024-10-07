@@ -1,25 +1,35 @@
-import React from 'react'
+import React from 'react';
 import Test from './BarChart';
 import { Container, Grid, Typography } from '@material-ui/core';
 import GroupBarChart from './GroupBarChart';
-import { Bar,Line } from 'react-chartjs-2';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 
 const ProductionReport = () => {
+  const [value, setValue] = React.useState(0);
   return (
     <Container style={{ marginBottom: '20px' }} maxWidth={false}>
-         <Typography variant="h4" style={{ margin: '15px', textAlign: 'center' }}>
-            Production Chart
-        </Typography>
-        <Grid container spacing={3}>
-            <Grid item xs={12}>
-                <Test />
-            </Grid>
-            <Grid item xs={12}>
-                <GroupBarChart />
-            </Grid>
-        </Grid>
+      <Typography variant="h4" style={{ margin: '15px', textAlign: 'center' }}>
+        Production Chart
+      </Typography>
+      <BottomNavigation
+        style={ { marginBottom: '20px' } }
+        value={value}
+        onChange={(event, newValue) => {
+          console.log(newValue);
+          
+          setValue(newValue);
+        }}
+        showLabels
+      >
+        <BottomNavigationAction style={{ fontWeight: 'bold', fontSize: '20px', color: value === 0 ? 'white' : '#3f51b5', backgroundColor: value === 0 ? '#3f51b5' : 'white'   }} label="Monthly Report"  />
+        <BottomNavigationAction style={{ fontWeight: 'bold', fontSize: '20px', color: value === 1 ? 'white' : '#3f51b5', backgroundColor: value === 1 ? '#3f51b5' : 'white'  }} label="Group Report" />
+      </BottomNavigation>
+    
+        {value === 0 ? <Test /> : <GroupBarChart />}
+
     </Container>
-  )
-}
+  );
+};
 
 export default ProductionReport;

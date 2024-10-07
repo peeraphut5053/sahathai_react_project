@@ -9,12 +9,9 @@ import {
   Typography,
   makeStyles,
   colors,
-  LinearProgress,
-  Box
 } from '@material-ui/core';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import ModalManagement from '../components/ModalManagement';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 
 const useStyles = makeStyles(() => ({
@@ -31,7 +28,6 @@ const useStyles = makeStyles(() => ({
 const CardAppProductionOvertime = ({ className, ...rest }) => {
   const classes = useStyles();
   const [openModalItem, setOpenModalItem] = React.useState(false);
-  const navigate = useNavigate();
 
   const handleCloseModalItem = async () => {
     setOpenModalItem(false);

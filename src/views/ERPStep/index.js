@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import SubStepList from './SubStepList';
 import stepCase from './stepCase'
 import CardSubDetail from './CardSubDetail'
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({

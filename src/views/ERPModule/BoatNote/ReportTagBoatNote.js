@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Chip,
-  colors,
   Container,
   Grid,
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import MaterialTable, { MTableToolbar } from 'material-table';
+import MaterialTable from 'material-table';
 import tableIcons from 'src/views/components/table/tableIcons';
 import API from 'src/views/components/API';
-import ModalNopaperLGPage from 'src/views/components/ModalNopaperLGPage';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/core'
 import moment from "moment";

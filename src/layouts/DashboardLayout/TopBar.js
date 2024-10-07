@@ -16,7 +16,6 @@ import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
 // import Logo from 'src/components/Logo';
 import { useNavigate, useLocation } from "react-router-dom";
-import { Hidden } from '@material-ui/core';
 
 
 const useStyles = makeStyles(() => ({

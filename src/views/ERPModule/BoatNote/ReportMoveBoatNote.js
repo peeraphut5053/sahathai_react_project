@@ -1,6 +1,6 @@
 import pdfMake from "pdfmake/build/pdfmake";
 // import { convertAllLotReport, workcenterHeader, dateFormatReport,fontsReport } from './function/GroupLot';
-import { convertAllLotReport, workcenterHeader, dateFormatReport, fontsReport } from '../Production/productionReport/function/GroupLot'
+import { fontsReport } from '../Production/productionReport/function/GroupLot'
 import { logo } from './function/logo'
 
 function ReportMoveBoatNote(dataNow, loc, boatPosition) {

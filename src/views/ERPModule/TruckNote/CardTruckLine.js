@@ -1,14 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import clsx from 'clsx';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
 import {
-  Avatar,
-  Box,
   Card,
   CardContent,
   Grid,
-  Typography,
   colors,
   makeStyles,
   Button,
@@ -20,7 +15,7 @@ import {
 } from '@material-ui/core';
 import ModalManagement from '../../components/ModalManagement';
 import ModalManagementFullPage from '../../components/ModalManagementFullPage';
-import MaterialTable, { MTableToolbar } from 'material-table';
+import MaterialTable from 'material-table';
 import tableIcons from 'src/views/components/table/tableIcons';
 import { ReportMoveInternal } from './ReportMoveInternal'; 
 import { ReportMoveDetail } from './ReportMoveDetail'; 
@@ -28,7 +23,6 @@ import { ReportMoveBoatNote } from './ReportMoveBoatNote';
 import { ReportSummaryBoatNote } from './ReportSummaryBoatNote';
 import ReportTagBoatNote from './ReportTagBoatNote';
 import API from 'src/views/components/API';
-import CTextField from 'src/views/components/Input/CTextField';
 import CAutocompleteNameOfDoGroup from '../../components/Input/CAutocompleteNameOfDoGroup';
 import CAutocompleteLocation from '../../components/Input/CAutocompleteLocation2';
 

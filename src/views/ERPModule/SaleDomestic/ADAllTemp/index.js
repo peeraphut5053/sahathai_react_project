@@ -8,7 +8,6 @@ import API from '../../../components/API';
 import MaterialTable from 'material-table';
 import { toast } from 'react-toastify';
 import CTextField from 'src/views/components/Input/CTextField';
-import { addComma } from 'src/utils/getInitials';
 
 const ADAllTemp = () => {
   const [data, setData] = useState([]);
@@ -33,7 +32,7 @@ const ADAllTemp = () => {
                   try {
                     setSubmitting(true);
                     const response = await API.get(
-                      'http://localhost/sts_web_center/module/AD_All_Temp/data.php',
+                      'AD_All_Temp/data.php',
                       {
                         params: {
                           load: 'search',
@@ -177,9 +176,6 @@ const ADAllTemp = () => {
                 ]}
                 data={data}
                 options={{
-                  exportButton: true,
-                  cellStyle: { padding: '0.1' },
-                  headerStyle: { padding: '0.1' },
                   search: true,
                   paging: false,
                   sorting: true,

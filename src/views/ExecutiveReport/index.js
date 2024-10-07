@@ -20,7 +20,6 @@ import CardReportProductProductionIndex from './CardReportProductProductionIndex
 
 import PieChartExecutiveSummary from './PieChartExecutiveSummary';
 import PieChartExecutiveSummary2 from './PieChartExecutiveSummary2';
-import clsx from 'clsx';
 import { isMobile } from "react-device-detect";
 
 

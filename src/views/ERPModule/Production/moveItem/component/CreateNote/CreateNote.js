@@ -29,7 +29,7 @@ function CreateNote() {
   
 
   useEffect(() => {
-    Axios.get(`http://localhost/sts_web_center/module/RPT_DO_INVENTORY_DETAIL/data.php?do_num=${doNum}&sts_no=&load=ajax`)
+    Axios.get(`RPT_DO_INVENTORY_DETAIL/data.php?do_num=${doNum}&sts_no=&load=ajax`)
       .then(res => {
         const do_line = res.data;
         const items = res.data

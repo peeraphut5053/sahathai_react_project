@@ -4,20 +4,12 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
-
 import Filter1Icon from '@material-ui/icons/Filter1';
 import Filter2Icon from '@material-ui/icons/Filter2';
 import Filter3Icon from '@material-ui/icons/Filter3';
 
 import {
-    Button,
     Chip,
-    Container,
-    Grid,
-    makeStyles
 } from '@material-ui/core';
 import ModalNopaperLGPage from 'src/views/components/ModalNopaperLGPage';
 import STS_execRpt_W_byType_Live from './STS_execRpt_W_byType_Live';

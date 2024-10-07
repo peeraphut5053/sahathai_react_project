@@ -145,7 +145,7 @@ const PendingSubmitedReportEX = ({ className, ...rest }) => {
                                     data={dataJob}
 
                                     options={{
-                                        exportButton: true,
+                                    
                                         cellStyle: { padding: '4px' },
                                         headerStyle: { padding: '0.1px', fontSize: '12px', textAlign: 'center' },
                                         search: false,
@@ -376,7 +376,6 @@ const PendingSubmitedReportEX = ({ className, ...rest }) => {
                                 }}
 
                                 options={{
-                                    exportButton: true,
                                     cellStyle: { padding: '4px' },
                                     headerStyle: { padding: '0.1px', fontSize: '12px', textAlign: 'center' },
                                     search: false,

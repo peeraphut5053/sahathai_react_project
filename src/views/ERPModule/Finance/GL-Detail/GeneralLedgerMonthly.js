@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import moment from 'moment';
 import { Button, Grid ,FormControl, InputLabel,Select,MenuItem } from '@material-ui/core';
 import { Formik } from 'formik';
 import { default as ReactSelect } from 'react-select';
@@ -55,7 +54,7 @@ const GeneralLedgerMonthly = ({options2}) => {
                        }
                      );
                     
-                     if (response.data.length == 0) {
+                     if (response.data.length === 0) {
                        toast.error('ไม่พบข้อมูล');
                        setSubmitting(false);
                        return;
@@ -160,9 +159,6 @@ const GeneralLedgerMonthly = ({options2}) => {
                  ]}
                  data={data}
                  options={{
-                   exportButton: true,
-                   cellStyle: { padding: '0.1' },
-                   headerStyle: { padding: '0.1' },
                    search: true,
                    paging: false,
                    sorting: true,

@@ -44,7 +44,7 @@ const RPTCustomer = () => {
                       }
                     );
 
-                    if (response.data.length == 0) {
+                    if (response.data.length === 0) {
                       toast.error('ไม่พบข้อมูล');
                        setSubmitting(false);
                         return;
@@ -144,9 +144,7 @@ const RPTCustomer = () => {
                 ]}
                 data={data}
                 options={{
-                  exportButton: true,
-                  cellStyle: { padding: '0.1' },
-                  headerStyle: { padding: '0.1' },
+                 
                   maxBodyHeight: '70vh',
                   minBodyHeight: '70vh',
                   search: true,

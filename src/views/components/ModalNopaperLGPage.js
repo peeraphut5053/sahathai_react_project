@@ -1,7 +1,7 @@
 import React from 'react';
 // import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
-import { Backdrop, Button, Fade, Grid } from '@material-ui/core';
+import { Backdrop, Fade, Grid } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
 

@@ -61,7 +61,7 @@ export default function CustomizedInputBase() {
 
     // Effect change when doNum change state
     useEffect(() => {
-        Axios.get(`http://localhost/sts_web_center/module/RPT_DO_INVENTORY_DETAIL/data.php?do_num=${doNum}&sts_no=&load=ajax`)
+        Axios.get(`RPT_DO_INVENTORY_DETAIL/data.php?do_num=${doNum}&sts_no=&load=ajax`)
             .then(res => {
                 const do_line = res.data;
                 setdoLine(do_line)
@@ -114,7 +114,7 @@ export default function CustomizedInputBase() {
                 <Grid item xs={6}>
                     <InputContext.Provider
                         value={{
-                            ListsAPI: 'http://localhost/sts_web_center/module/RPT_DO_INVENTORY_DETAIL/data.php?do_num=DB19120004&sts_no=&load=GetCarSelect',
+                            ListsAPI: 'RPT_DO_INVENTORY_DETAIL/data.php?do_num=DB19120004&sts_no=&load=GetCarSelect',
                             ItemSelectDialogHeader: 'เลือกเรือส่งสินค้า',
                             placeholder: 'Ship ID',
                             getVal: handleShipNum,
@@ -138,7 +138,7 @@ export default function CustomizedInputBase() {
                 <Grid item xs={6}>
                     <InputContext.Provider
                         value={{
-                            ListsAPI: 'http://localhost/sts_web_center/module/RPT_DO_INVENTORY_DETAIL/data.php?do_num=DB19120004&sts_no=&load=GetShipSelect',
+                            ListsAPI: 'RPT_DO_INVENTORY_DETAIL/data.php?do_num=DB19120004&sts_no=&load=GetShipSelect',
                             ItemSelectDialogHeader: 'เลือกรถส่งสินค้า',
                             placeholder: 'Car ID',
                             getVal: handleCarNum,
@@ -156,7 +156,7 @@ export default function CustomizedInputBase() {
                 <Grid item xs={12}>
                     <InputContext.Provider
                         value={{
-                            ListsAPI: 'http://localhost/sts_web_center/module/RPT_DO_INVENTORY_DETAIL/data.php?do_num=DB19120004&sts_no=&load=GetDOSelect',
+                            ListsAPI: 'RPT_DO_INVENTORY_DETAIL/data.php?do_num=DB19120004&sts_no=&load=GetDOSelect',
                             ItemSelectDialogHeader: 'เลือกรถส่งสินค้า',
                             placeholder: 'DO Number',
                             getVal: handleDoNum,

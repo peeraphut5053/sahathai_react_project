@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import MaterialTable, { MTableToolbar } from 'material-table';
 import tableIcons from '../../../components/table/tableIcons'
 import API from '../../../components/API';
-import moment from "moment";
 import { Chip } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 

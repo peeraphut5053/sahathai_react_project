@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Container,
   Grid,
   Typography,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
   Chip
 } from '@material-ui/core';
 import moment from 'moment';
@@ -13,51 +10,57 @@ import MaterialTable, { MTableToolbar }  from 'material-table';
 import tableIcons from '../../../views/components/table/tableIcons';
 import API from 'src/views/components/API';
 import DateMonthPicker from 'src/views/components/Input/CDatePicker';
+import { useQuery } from 'react-query';
 
 const TableDailyReport = () => {
   const [month, setMonth] = useState(moment().format('YYYY-MM-DD'));
-  const [data, setData] = useState([]);
   const [type, setType] = useState('weight');
-  const [loading, setLoading] = useState(false);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["TableDailyReport", month, type],
+    queryFn: async () => {
+      try {
+        const res =await   API.get('RPT_QC_Lab_Tag_Detail/data.php', {
+          params: {
+            load: 'DailyReport',
+            date: month,
+            type: type
+          }
+        });
+
+        let newData = res.data[0].map((item) => {
+          return {
+            ...item,
+            date: moment(item.date.date).format('DD/MM/YYYY'),
+            '00:00-04:00': addComma(item['00:00-04:00']),
+            '04:00-08:00': addComma(item['04:00-08:00']),
+            '08:00-12:00': addComma(item['08:00-12:00']),
+            '12:00-13:00': addComma(item['12:00-13:00']),
+            '13:00-17:00': addComma(item['13:00-17:00']),
+            '17:00-17:30': addComma(item['17:00-17:30']),
+            '17:30-18:30': addComma(item['17:30-18:30']),
+            '18:30-21:00': addComma(item['18:30-21:00']),
+            '21:00-24:00': addComma(item['21:00-24:00']),
+          }
+        }).sort((a, b) => {
+          return a.wc.localeCompare(b.wc);
+        });
+       
+       return newData;
+    
+       } catch (error) {
+        console.log('error', error);
+       }
+
+    },
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 10 * 60 * 1000, 
+});
 
   const addComma = num => {
     return parseFloat(num)
       .toFixed(2)
       .replace(/\d(?=(\d{3})+\.)/g, '$&,');
   };
-
-  useEffect(() => {
-    const getData = async () => {
-      setLoading(true);
-      const res =await   API.get('http://localhost/sts_web_center/module/RPT_QC_Lab_Tag_Detail/data.php', {
-        params: {
-          load: 'DailyReport',
-          date: month,
-          type: type
-        }
-      });
-      let newData = res.data[0].map((item) => {
-        return {
-          ...item,
-          date: moment(item.date.date).format('DD/MM/YYYY'),
-          '00:00-04:00': addComma(item['00:00-04:00']),
-          '04:00-08:00': addComma(item['04:00-08:00']),
-          '08:00-12:00': addComma(item['08:00-12:00']),
-          '12:00-13:00': addComma(item['12:00-13:00']),
-          '13:00-17:00': addComma(item['13:00-17:00']),
-          '17:00-17:30': addComma(item['17:00-17:30']),
-          '17:30-18:30': addComma(item['17:30-18:30']),
-          '18:30-21:00': addComma(item['18:30-21:00']),
-          '21:00-24:00': addComma(item['21:00-24:00']),
-        }
-      }).sort((a, b) => {
-        return a.wc.localeCompare(b.wc);
-      });
-      setData(newData);
-      setLoading(false);
-    }
-    getData();
-  }, [month, type]);
 
   return (
     <Container maxWidth={false}>
@@ -76,8 +79,8 @@ const TableDailyReport = () => {
             <Grid item style={{ width: '100%', margin: 5, overflowX: 'auto' }}>
               <MaterialTable
                 icons={tableIcons}
-                isLoading={loading}
-                title={` Productions Daily Report (${data.length} รายการ) `}
+                isLoading={isLoading}
+                title={` Productions Daily Report (${data?.length} รายการ) `}
                 columns={[
                   { title: 'wc', field: 'wc', type: 'string', minWidth: 100 },
                   { title: 'Description', field: 'description', type: 'string', minWidth: 200 },
@@ -97,7 +100,6 @@ const TableDailyReport = () => {
                 ]}
                 data={data}
                 options={{
-                  exportButton: true,
                   search: true,
                   paging: false,
                   sorting: true,

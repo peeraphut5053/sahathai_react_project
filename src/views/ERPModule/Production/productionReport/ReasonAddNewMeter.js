@@ -3,7 +3,6 @@ import API from '../../../components/API';
 import { Grid } from '@material-ui/core';
 import customStyles from "./customStyles.js";
 import { Formik } from 'formik';
-import moment from "moment";
 import CTextField from 'src/views/components/Input/CTextField';
 import CButton from 'src/views/components/Input/CButton';
 

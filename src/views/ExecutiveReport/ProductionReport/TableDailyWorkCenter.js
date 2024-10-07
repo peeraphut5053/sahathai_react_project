@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
+import { useQuery } from 'react-query';
 import {
   Container,
   Grid,
   Typography,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
   Chip
 } from '@material-ui/core';
 import moment from 'moment';
@@ -17,38 +15,36 @@ import Select from 'react-select';
 
 const TableDailyWorkCenter = () => {
   const [month, setMonth] = useState( moment().format('YYYY-MM'));
-  const [wcList, setWcList] = useState([]);
   const [wc, setWc] = useState('P2FM01');
-  const [data, setData] = useState([]);
   const [type, setType] = useState('weight');
-  const [loading, setLoading] = useState(false);
+  const { data:wcList, isWcListLoading } = useQuery({
+    queryKey: ["WcList"],
+    queryFn: async () => {
+      try {
+          const res = await API.get('RPT_JOBPACKING/data.php?load=workcenter');
+          const newWcList = res.data.map((item) => {
+            return {
+              value: item.wc,
+              label: item.wc + ' - ' + item.description
+            }
+          })
+          return newWcList;
+       } catch (error) {
+        console.log('error', error);
+       }
 
-  const addComma = num => {
-    return parseFloat(num)
-      .toFixed(2)
-      .replace(/\d(?=(\d{3})+\.)/g, '$&,');
-  };
-
-  function getFirstAndLastDayOfMonth(year, month) {
-    // สร้างวันที่แรกของเดือน
-    const firstDay = new Date(year, month - 1, 1);
-    
-    // สร้างวันที่แรกของเดือนถัดไป แล้วลบออก 1 วัน เพื่อได้วันสุดท้ายของเดือนปัจจุบัน
-    const lastDay = new Date(year, month, 0);
-    
-    return {
-      firstDay: firstDay,
-      lastDay: lastDay
-    };
-  }
-
-  useEffect(() => {
-    const getData = async () => {
-     const y = moment(month).format('YYYY');
-     const m = moment(month).format('MM');
-     const date = getFirstAndLastDayOfMonth(y, m);
-     setLoading(true);
-     const res =await   API.get('http://localhost/sts_web_center/module/RPT_QC_Lab_Tag_Detail/data.php', {
+    },
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 10 * 60 * 1000, 
+  });
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["DailyWorkCenter", month, type],
+    queryFn: async () => {
+      try {
+        const y = moment(month).format('YYYY');
+        const m = moment(month).format('MM');
+        const date = getFirstAndLastDayOfMonth(y, m);
+        const res =await   API.get('RPT_QC_Lab_Tag_Detail/data.php', {
         params: {
           load: 'DailyWorkCenter',
           StartDate: moment(date.firstDay).format('YYYY-MM-DD'),
@@ -72,24 +68,36 @@ const TableDailyWorkCenter = () => {
           '21:00-24:00': addComma(item['21:00-24:00']),
         }
       });
-      setData(newData);
-      setLoading(false);
-    }
+       
+       return newData;
+    
+       } catch (error) {
+        console.log('error', error);
+       }
 
-    const getWcList = async () => {
-      const res = await API.get('RPT_JOBPACKING/data.php?load=workcenter');
-      const newWcList = res.data.map((item) => {
-        return {
-          value: item.wc,
-          label: item.wc + ' - ' + item.description
-        }
-      })
-      setWcList(newWcList);
-      };
-  
-    getWcList();
-    getData();
-  }, [month, wc, type]);
+    },
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 10 * 60 * 1000, 
+});
+
+  const addComma = num => {
+    return parseFloat(num)
+      .toFixed(2)
+      .replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  };
+
+  function getFirstAndLastDayOfMonth(year, month) {
+    // สร้างวันที่แรกของเดือน
+    const firstDay = new Date(year, month - 1, 1);
+    
+    // สร้างวันที่แรกของเดือนถัดไป แล้วลบออก 1 วัน เพื่อได้วันสุดท้ายของเดือนปัจจุบัน
+    const lastDay = new Date(year, month, 0);
+    
+    return {
+      firstDay: firstDay,
+      lastDay: lastDay
+    };
+  }
 
   return (
     <Container maxWidth={false}>
@@ -111,7 +119,8 @@ const TableDailyWorkCenter = () => {
            styles={{ menuPortal: base => ({ ...base, zIndex: 9999  }) }}
             label="Work center"
             options={wcList}
-            value={wcList.filter((item) => item.value === wc)}
+            isDisabled={isWcListLoading}
+            value={wcList?.filter((item) => item.value === wc)}
             onChange={(e) => setWc(e.value)}
             closeMenuOnSelect={true}
          />
@@ -121,7 +130,7 @@ const TableDailyWorkCenter = () => {
             <Grid item style={{ width: '100%', margin: 5, overflowX: 'auto' }}>
               <MaterialTable
                 icons={tableIcons}
-                title={` Productions Daily Report (${data.length} รายการ) `}
+                title={` Productions Daily Report (${data?.length} รายการ) `}
                 columns={[
                 { title: 'wc', field: 'wc', type: 'string', minWidth: 100 },
                 { title: 'Description', field: 'description', type: 'string', minWidth: 200 },
@@ -140,9 +149,8 @@ const TableDailyWorkCenter = () => {
                 { title: '21:00-24:00', field: '21:00-24:00', type: 'number', minWidth: 150 },
                 ]}
                 data={data}
-                isLoading={loading}
+                isLoading={isLoading}
                 options={{
-                  exportButton: true,
                   search: true,
                   paging: false,
                   sorting: true,

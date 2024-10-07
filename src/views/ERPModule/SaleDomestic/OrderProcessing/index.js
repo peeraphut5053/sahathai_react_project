@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Container, Grid, Typography } from '@material-ui/core';
 import { Formik } from 'formik';
-import moment from 'moment';
-import DateTimePicker from '../../../components/Input/CDatePicker';
 import tableIcons from '../../../components/table/tableIcons';
 import API from '../../../components/API';
 import MaterialTable from 'material-table';
 import { toast } from 'react-toastify';
 import CTextField from 'src/views/components/Input/CTextField';
-import { addComma } from 'src/utils/getInitials';
 
 const OrderProcessing = () => {
   const [data, setData] = useState([]);
@@ -33,7 +30,7 @@ const OrderProcessing = () => {
                   try {
                     setSubmitting(true);
                     const response = await API.get(
-                      'http://localhost/sts_web_center/module/RPT_OrderProcessing/data.php',
+                      'RPT_OrderProcessing/data.php',
                       {
                         params: {
                           load: 'V_WebApp_OrderProcessing',
@@ -137,9 +134,6 @@ const OrderProcessing = () => {
                 ]}
                 data={data}
                 options={{
-                  exportButton: true,
-                  cellStyle: { padding: '0.1' },
-                  headerStyle: { padding: '0.1' },
                   search: true,
                   paging: false,
                   sorting: true,

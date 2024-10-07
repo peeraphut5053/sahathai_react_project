@@ -32,7 +32,7 @@ const CerDo = () => {
                   try {
                     setSubmitting(true);
                     const response = await API.get(
-                      'http://localhost/sts_web_center/module/CER_DO/data.php',
+                      'CER_DO/data.php',
                       {
                         params: {
                           load: 'ajax2',
@@ -135,9 +135,6 @@ const CerDo = () => {
                 ]}
                 data={data}
                 options={{
-                  exportButton: true,
-                  cellStyle: { padding: '0.1' },
-                  headerStyle: { padding: '0.1' },
                   search: true,
                   paging: false,
                   sorting: true,

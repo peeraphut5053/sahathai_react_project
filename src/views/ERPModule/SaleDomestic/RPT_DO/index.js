@@ -7,7 +7,6 @@ import tableIcons from '../../../components/table/tableIcons';
 import API from '../../../components/API';
 import MaterialTable from 'material-table';
 import { toast } from 'react-toastify';
-import CTextField from 'src/views/components/Input/CTextField';
 import { addComma } from 'src/utils/getInitials';
 
 const RPT_DO = () => {
@@ -33,7 +32,7 @@ const RPT_DO = () => {
                   try {
                     setSubmitting(true);
                     const response = await API.get(
-                      'http://localhost/sts_web_center/module/RPTDO_PENDING_1/data.php',
+                      'RPTDO_PENDING_1/data.php',
                       {
                         params: {
                           load: 'RPTDO_PENDING_1',
@@ -161,9 +160,6 @@ const RPT_DO = () => {
                 ]}
                 data={data}
                 options={{
-                  exportButton: true,
-                  cellStyle: { padding: '0.1' },
-                  headerStyle: { padding: '0.1' },
                   search: true,
                   paging: false,
                   sorting: true,

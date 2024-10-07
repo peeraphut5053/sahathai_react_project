@@ -59,7 +59,7 @@ const CollectionDay = () => {
                       }
                     );
 
-                    if (response.data.length == 0) {
+                    if (response.data.length === 0) {
                       toast.error('ไม่พบข้อมูล');
                        setSubmitting(false);
                         return;
@@ -170,9 +170,6 @@ const CollectionDay = () => {
                 ]}
                 data={data}
                 options={{
-                  exportButton: true,
-                  cellStyle: { padding: '0.1' },
-                  headerStyle: { padding: '0.1' },
                   search: true,
                   paging: false,
                   sorting: true,

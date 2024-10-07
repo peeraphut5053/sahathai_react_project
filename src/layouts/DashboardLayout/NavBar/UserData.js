@@ -1,7 +1,5 @@
 import React, { Fragment} from 'react';
-import { Link as RouterLink} from 'react-router-dom';
 import {
-  Avatar,
   Typography,
   makeStyles
 } from '@material-ui/core';

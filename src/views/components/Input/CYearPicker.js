@@ -5,8 +5,7 @@ import MomentUtils from "@date-io/moment";
 
 moment.locale("th");
 
-const DateTimePicker = (props) => {
-
+const CYearPicker = (props) => {
     return (
         <MuiPickersUtilsProvider utils={MomentUtils} >
             <KeyboardDatePicker
@@ -21,7 +20,8 @@ const DateTimePicker = (props) => {
                 onChange={props.onChange}
                 onError={console.log}
                 style={{fontSize:5}}
-                format="YYYY-MM-DD"
+                format="YYYY"
+                views={["year"]}
                 type="text"
                 fullWidth
             />
@@ -30,4 +30,4 @@ const DateTimePicker = (props) => {
 
     );
 };
-export default DateTimePicker
+export default CYearPicker;

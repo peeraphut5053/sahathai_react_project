@@ -1,12 +1,9 @@
 import React,{ useState} from 'react';
 import {
-  Box,
   Button,
-  Container,
   Grid,
   makeStyles,
   Paper,
-  TextField,
   Typography
 } from '@material-ui/core';
 import Page from 'src/components/Page';
@@ -62,7 +59,7 @@ const DomesticBacklogView = () => {
                 setSubmitting(true);
                 console.log(values);
                 const response = await API.get(
-                  'http://localhost/sts_web_center/module/RPTINV_OUTSTANDING/data.php',
+                  'RPTINV_OUTSTANDING/data.php',
                   {
                     params: {
                       load: 'ajax',

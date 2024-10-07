@@ -24,6 +24,13 @@ const MaterialPurchase = () => {
         }
         return yearList;
     };
+  
+    const getMonth = () => {
+        let monthList = [];
+        for (let i = 1 ; i <= 12; i++) {
+        monthList.unshift(i);
+        }
+    };
 
   return (
     <Container maxWidth={false}>
@@ -56,7 +63,7 @@ const MaterialPurchase = () => {
                       }
                     );
                    
-                    if (response.data.length == 0) {
+                    if (response.data.length === 0) {
                       toast.error('ไม่พบข้อมูล');
                       setSubmitting(false);
                       return;
@@ -175,9 +182,6 @@ const MaterialPurchase = () => {
                 ]}
                 data={data}
                 options={{
-                  exportButton: true,
-                  cellStyle: { padding: '0.1' },
-                  headerStyle: { padding: '0.1' },
                   search: true,
                   paging: false,
                   sorting: true,

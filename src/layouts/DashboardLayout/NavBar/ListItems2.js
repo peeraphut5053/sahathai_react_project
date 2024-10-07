@@ -1,9 +1,7 @@
 import BallotIcon from '@material-ui/icons/Ballot';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
-import DirectionsBoatIcon from '@material-ui/icons/DirectionsBoat';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import FindInPageIcon from '@material-ui/icons/FindInPage';
 import HomeWorkIcon from '@material-ui/icons/HomeWork';
 import FaceIcon from '@material-ui/icons/Face';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
@@ -14,16 +12,8 @@ import HomeIcon from '@material-ui/icons/Home';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import WatchLaterIcon from '@material-ui/icons/WatchLater';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
-
 import {
-    AlertCircle as AlertCircleIcon,
-    BarChart as BarChartIcon,
-    Lock as LockIcon,
-    Settings as SettingsIcon,
-    ShoppingBag as ShoppingBagIcon,
     User as UserIcon,
-    UserPlus as UserPlusIcon,
-    Users as UsersIcon
 } from 'react-feather';
 
 

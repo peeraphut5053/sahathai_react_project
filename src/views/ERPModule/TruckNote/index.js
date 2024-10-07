@@ -11,7 +11,6 @@ import {
     TextField,
     Modal,
     InputLabel,
-    Box
 } from '@material-ui/core';
 
 import Page from 'src/components/Page';
@@ -21,8 +20,6 @@ import CardTruckLine from './CardTruckLine';
 import API from '../../components/API';
 import ModalManagementFullPage from '../../components/ModalManagementFullPage';
 import CAutocompleteWorkCenter from '../../components/Input/CAutocompleteWorkCenter';
-import CAutocompleteDoctypeShipping from '../../components/Input/CAutocompleteDoctypeShipping';
-import CAutocompleteLocation from '../../components/Input/CAutocompleteLocation';
 
 import CAutocompleteLocationPTR from '../../components/Input/CAutocompleteLocationPTR';
 

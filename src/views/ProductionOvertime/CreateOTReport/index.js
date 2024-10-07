@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  Box,
   Button,
-  Checkbox,
   Container,
   FormControl,
   FormControlLabel,
-  FormGroup,
   FormLabel,
   Grid,
   makeStyles,
@@ -16,15 +13,8 @@ import {
   TextField
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import CTextField from 'src/views/components/Input/CTextField';
-
-
 import { Formik } from 'formik';
 import moment from "moment";
-import CAutocompleteReason from '../../components/Input/CAutocompleteReason';
-import CAutocompleteReasonDetail from '../../components/Input/CAutocompleteReasonDetail';
-import DateTimePicker from '../../components/Input/CDateTimePicker';
-import CButton from 'src/views/components/Input/CButton';
 import TransferEmployeeList from './TransferEmployeeList';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelPresentationIcon from '@material-ui/icons/CancelPresentation';

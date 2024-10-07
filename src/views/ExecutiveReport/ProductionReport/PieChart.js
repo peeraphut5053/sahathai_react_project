@@ -1,30 +1,30 @@
-import { Box, Card, CardHeader, Paper, Typography } from '@material-ui/core';
-
+import { Box, Card, CardHeader, Typography } from '@material-ui/core';
+import { Chart } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import React from 'react'
 import { Pie } from 'react-chartjs-2';
 
 const PieChart = ({data }) => {
   const {wc, totalTimes, breakTimes,realTime} = data;
-
+  const total = Number(breakTimes) + Number(realTime);
+  Chart.plugins.unregister(ChartDataLabels);
   return (
     <Card>
         <CardHeader title={wc} />
         <Pie
         data={{
-          labels: ['Total Time', 'Break Time', 'Real Time'],
+          labels: ['Downtime', 'Actual Time'],
           datasets: [
             {
               label: '# of Votes',
-              data: [totalTimes, breakTimes, realTime],
+              data: [breakTimes, realTime],
               backgroundColor: [
-                'rgba(54, 162, 235, 0.2)',
                 'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 206, 86, 0.2)'
+                'rgba(54, 162, 235, 0.2)',
               ],
               borderColor: [
-                'rgba(54, 162, 235, 1)',
                 'rgba(255, 99, 132, 1)',
-                'rgba(255, 206, 86, 1)'
+                'rgba(54, 162, 235, 1)',
               ],
               borderWidth: 1,
             },
@@ -57,15 +57,20 @@ const PieChart = ({data }) => {
                   let sum = 0;
                   let dataArr = ctx.chart.data.datasets[0].data;
                   dataArr.map(data => {
-                      sum += data;
+                      sum += Number(data);
                   });
                   let percentage = (value*100 / sum).toFixed(2)+"%";
                   return percentage;
                 },
-                color: '#fff',
+                color: 'black',
+                font: {
+                  weight: 'bold',
+                  size: 9
+                }
               }
             }
           }}
+          plugins={[ChartDataLabels]}
          />
          <Box
               display="flex"
@@ -76,12 +81,12 @@ const PieChart = ({data }) => {
                   <Typography
                     color="textPrimary"
                     variant="body2"
-                    style={{  color: 'rgba(54, 162, 235, 1)' }}
+                    style={{  color: 'black' }}
                   >
                     Total Time
                   </Typography>
                   <Typography
-                    style={{ color: 'rgba(54, 162, 235, 1)' }}
+                    style={{ color: 'black' }}
                     variant="h4"
                   >
                     {totalTimes}
@@ -93,7 +98,7 @@ const PieChart = ({data }) => {
                     variant="body2"
                     style={{ color: 'rgba(255, 99, 132, 1)'}}
                   >
-                    Break Time
+                   Downtime
                   </Typography>
                   <Typography
                     style={{ color: 'rgba(255, 99, 132, 1)' }}
@@ -106,12 +111,12 @@ const PieChart = ({data }) => {
                   <Typography
                     color="textPrimary"
                     variant="body2"
-                    style={{ color: 'rgba(255, 99, 132, 1)'}}
+                    style={{ color: 'rgba(54, 162, 235, 1)'}}
                   >
-                    Real Time
+                    Actual Time
                   </Typography>
                   <Typography
-                    style={{ color: 'rgba(255, 99, 132, 1)' }}
+                    style={{ color: 'rgba(54, 162, 235, 1)' }}
                     variant="h4"
                   >
                     {realTime}

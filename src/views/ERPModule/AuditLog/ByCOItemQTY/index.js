@@ -9,7 +9,6 @@ import DateTimePicker from '../../../components/Input/CDateTimePicker';
 import CButton from '../../../components/Input/CButton';
 import tableIcons from '../../../components/table/tableIcons'
 import API from '../../../components/API';
-import CTextField from '../../../components/Input/CTextField';
 import MaterialTable from 'material-table';
 
 const useStyles = makeStyles((theme) => ({
@@ -164,9 +163,6 @@ const ByCOItemQTY = ({ className, ...rest }) => {
 
 
                       options={{
-                        exportButton: true,
-                        cellStyle: { padding: '0.1' },
-                        headerStyle: { padding: '0.1' },
                         search: false,
                         paging: false,
                         maxBodyHeight: '60vh',

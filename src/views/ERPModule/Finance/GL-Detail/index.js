@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Container, Grid, Typography,FormControl,Select , InputLabel,MenuItem, Paper, Tabs, Tab,Box, makeStyles } from '@material-ui/core';
+import { Button, Container, Grid, Typography,FormControl,Select , InputLabel,MenuItem, Paper, Tabs, Tab, makeStyles } from '@material-ui/core';
 import { Formik } from 'formik';
 import { default as ReactSelect } from 'react-select';
 import makeAnimated from 'react-select/animated';
@@ -8,7 +8,6 @@ import API from '../../../components/API';
 import MaterialTable from 'material-table';
 import { toast } from 'react-toastify';
 import useAccountList from '../GeneralLedger/useAccountList';
-import moment from 'moment';
 import useDepartments from './useDepartment';
 import GeneralLedgerMonthly from './GeneralLedgerMonthly';
 
@@ -109,7 +108,7 @@ const GeneralLedgerDetail = () => {
                        }
                      );
                     
-                     if (response.data.length == 0) {
+                     if (response.data.length === 0) {
                        toast.error('ไม่พบข้อมูล');
                        setSubmitting(false);
                        return;
@@ -259,9 +258,7 @@ const GeneralLedgerDetail = () => {
                  ]}
                  data={data}
                  options={{
-                   exportButton: true,
-                   cellStyle: { padding: '0.1' },
-                   headerStyle: { padding: '0.1' },
+              
                    search: true,
                    paging: false,
                    sorting: true,

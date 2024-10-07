@@ -70,7 +70,7 @@ const JobOrder = () => {
                       }
                     );
 
-                    if (response.data.length == 0) {
+                    if (response.data.length === 0) {
                       toast.error('ไม่พบข้อมูล');
                       setSubmitting(false);
                       return;
@@ -290,9 +290,6 @@ const JobOrder = () => {
                 ]}
                 data={data}
                 options={{
-                  exportButton: true,
-                  cellStyle: { padding: '0.1' },
-                  headerStyle: { padding: '0.1' },
                   maxBodyHeight: '65vh',
                   minBodyHeight: '65vh',
                   search: true,

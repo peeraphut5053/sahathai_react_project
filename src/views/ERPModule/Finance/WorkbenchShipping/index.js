@@ -198,10 +198,7 @@ const WorkbenchShipping = () => {
                 ]}
                 data={data}
                 options={{
-                  exportButton: true,
                   printButton: true,
-                  cellStyle: { padding: '0.1' },
-                  headerStyle: { padding: '0.1' },
                   search: true,
                   paging: false,
                   sorting: true,

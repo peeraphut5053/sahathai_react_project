@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
   Avatar,
-  Box,
   Card,
   CardContent,
   Grid,
@@ -11,9 +10,7 @@ import {
   colors,
   makeStyles
 } from '@material-ui/core';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
-import PeopleIcon from '@material-ui/icons/PeopleOutlined';
 import ModalManagementFullPage from '../components/ModalManagementFullPage';
 import ReportProductForming from '../ERPModule/Production/ReportProductForming';
 
