@@ -19,7 +19,7 @@ import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/picker
 import moment from "moment";
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import MomentUtils from "@date-io/moment";
 import API from '../components/API';
 import { Fragment } from 'react';
@@ -145,6 +145,11 @@ const PieChartExecutiveSummary2 = ({ className, ...rest }) => {
     layout: { padding: 0 },
     legend: {
       display: false
+    },
+    plugins: {
+      datalabels: {
+        display: false, // ปิดการแสดง datalabels
+      },
     },
     maintainAspectRatio: false,
     responsive: true,
@@ -314,6 +319,7 @@ const PieChartExecutiveSummary2 = ({ className, ...rest }) => {
 
               <Pie
                 data={dataCoilNow}
+                plugins={[ChartDataLabels]}
                 options={options}
               />
             </Box>
@@ -367,6 +373,7 @@ const PieChartExecutiveSummary2 = ({ className, ...rest }) => {
 
               <Pie
                 data={dataPipeNow}
+                plugins={[ChartDataLabels]}
                 options={options}
               />
             </Box>

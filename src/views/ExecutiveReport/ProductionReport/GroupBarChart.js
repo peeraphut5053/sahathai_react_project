@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import clsx from 'clsx';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Bar } from 'react-chartjs-2';
 import {
   Box,
@@ -11,7 +12,8 @@ import {
   useTheme,
   Divider,
   makeStyles,
-  Grid
+  Grid,
+  Typography
 } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Select from 'react-select';
@@ -23,10 +25,61 @@ import ModalManagementFullPage from 'src/views/components/ModalManagementFullPag
 import TableDetail from './TableDetail';
 import TableDailyWorkCenter from './TableDailyWorkCenter';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import ParetoChart from './ParetoChart';
+import { addComma } from 'src/utils/getInitials';
 
 const useStyles = makeStyles(() => ({
   root: {}
 }));
+
+
+const group = [
+  {
+    value: 'Forming',
+    label: 'Forming',
+    color: '#9c27b0'
+  },
+  {
+    value: 'Slit',
+    label: 'Slit',
+    color: '#e91e63'
+  },
+  {
+    value: 'HydroTest',
+    label: 'HydroTest',
+    color: '#795548'
+  },
+  {
+    value: 'Galvanize',
+    label: 'Galvanize',
+    color: '#00bcd4'
+  },
+  {
+    value: 'Painting',
+    label: 'Painting',
+    color: '#2196f3'
+  },
+  {
+    value: 'Threading',
+    label: 'Threading',
+    color: '#673ab7'
+  },
+  {
+    value: 'Groove',
+    label: 'Groove',
+    color: '#ff9800'
+  },
+  {
+    value: 'Cutting',
+    label: 'Cuting',
+    color: '#f44336'
+  },
+  {
+    value: 'Packing',
+    label: 'Packing',
+    color: '#4caf50'
+  },
+];
 
 const GroupBarChart = ({ className, ...rest }) => {
   const [tableData, setTableData] = useState([]);
@@ -47,7 +100,7 @@ const GroupBarChart = ({ className, ...rest }) => {
         const lastMonth = getFirstAndLastDayOfMonth(y, m - 1);
         const response = await API.get('RPT_QC_Lab_Tag_Detail/data.php', {
           params: {
-            load: 'group',
+            load: 'group2',
             StartDate: moment(date.firstDay).format('YYYY-MM-DD'),
             EndDate: moment(date.lastDay).format('YYYY-MM-DD'),
             StartLastMonth: moment(lastMonth.firstDay).format('YYYY-MM-DD'),
@@ -143,7 +196,7 @@ const GroupBarChart = ({ className, ...rest }) => {
     ]
   };
 
-  const myData2= {
+  const myData2 = {
     labels: unique,
     datasets: [
       {
@@ -157,7 +210,8 @@ const GroupBarChart = ({ className, ...rest }) => {
         data: result.map((item) => (item.sumC / 1000).toFixed(2)),
         backgroundColor: '#990000',
         borderWidth: 1
-      }
+      },
+  
     ]
   };
 
@@ -202,6 +256,23 @@ const GroupBarChart = ({ className, ...rest }) => {
           }
         }
       ]
+    },
+    plugins: {
+      datalabels: {
+        color: '#000',  // เปลี่ยนเป็นสีดำเพื่อให้เห็นชัดเจน
+        anchor: 'end',   // ยึดกับจุดบนสุดของแท่งกราฟ
+        align: 'top',    // จัดตำแหน่งให้อยู่เหนือจุดยึด
+        offset: 5,       // ระยะห่างจากแท่งกราฟ 5 pixels
+        formatter: (value) => value.toLocaleString(),
+        font: {
+          weight: 'bold',
+          size: 12
+        },
+        // เพิ่มพื้นหลังสีขาวโปร่งใสเพื่อให้อ่านง่ายขึ้น
+        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+        borderRadius: 4,
+        padding: 4
+      }
     },
     tooltips: {
       backgroundColor: theme.palette.background.default,
@@ -284,6 +355,34 @@ const GroupBarChart = ({ className, ...rest }) => {
         }
       ]
     },
+    plugins: {
+      datalabels: {
+        color: '#000',  // เปลี่ยนเป็นสีดำเพื่อให้เห็นชัดเจน
+        anchor: 'end',   // ยึดกับจุดบนสุดของแท่งกราฟ
+        align: 'top',    // จัดตำแหน่งให้อยู่เหนือจุดยึด
+        offset: 5,       // ระยะห่างจากแท่งกราฟ 5 pixels
+        display: (ctx) => ctx.dataset.data[ctx.dataIndex] > 5,
+        formatter: (value, ctx) => {
+          // legend ของ แท่งกราฟ
+          const label = ctx.chart.data.datasets[ctx.datasetIndex].label;
+
+          if (label === 'B') {
+            return 'B = ' + value.toLocaleString()
+          } else {
+            return 'C = ' + value.toLocaleString()
+          }
+
+        },
+        font: {
+          weight: 'bold',
+          size: 12
+        },
+        // เพิ่มพื้นหลังสีขาวโปร่งใสเพื่อให้อ่านง่ายขึ้น
+        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+        borderRadius: 4,
+        padding: 4
+      }
+    },
     tooltips: {
       backgroundColor: theme.palette.background.default,
       bodyFontColor: theme.palette.text.secondary,
@@ -334,48 +433,16 @@ const GroupBarChart = ({ className, ...rest }) => {
     };
   }
 
-  const group = [
-    {
-      value: 'Cuting',
-      label: 'Cuting'
-    },
-    {
-      value: 'Forming',
-      label: 'Forming'
-    },
-    {
-      value: 'Galvanize',
-      label: 'Galvanize'
-    },
-    {
-      value: 'Groove',
-      label: 'Groove'
-    },
-    {
-      value: 'HydroTest',
-      label: 'HydroTest'
-    },
-    {
-      value: 'Others',
-      label: 'Others'
-    },
-    {
-      value: 'Packing',
-      label: 'Packing'
-    },
-    {
-      value: 'Painting',
-      label: 'Painting'
-    },
-    {
-      value: 'Slit',
-      label: 'Slit'
-    },
-    {
-      value: 'Threading',
-      label: 'Threading'
-    }
-  ];
+  const sumA = result.reduce((sum, item) => sum + item.sumA , 0) / 1000;
+  const sumB = result.reduce((sum, item) => sum + item.sumB + item.sumC, 0) / 1000;
+
+  const percentageDif = result.map((item) => {
+    const sumA = item.sumA / 1000;
+    const sumB = (item.sumB + item.sumC) / 1000;
+     // sumB how many % of sumA
+    const percentage = (sumB / sumA) * 100;
+    return percentage.toFixed(2);
+  });
 
   return (
     <>
@@ -400,18 +467,26 @@ const GroupBarChart = ({ className, ...rest }) => {
             />
           }
           subheader={
-            <Button
+            <Box style={{ display: 'flex' }}>
+              <Button
               color="secondary"
               endIcon={<ArrowRightIcon />}
               size="small"
               variant="outlined"
+              style={{ width: '15%' }}
               onClick={() => setOpenDetail(true)}
             >
               Daily Report
             </Button>
+            <Typography style={{  fontWeight: 'bold', fontSize: '20px', color: 'Crimson', width: '40%', textAlign: 'center' }}>Total A : {addComma(sumA)} Tons</Typography>
+            <Typography style={{  fontWeight: 'bold', fontSize: '20px' ,color: 'Crimson', width: '40%', textAlign: 'center' }}>Total B+C  : {addComma(sumB)} Tons</Typography>
+            </Box>
           }
           title="Group Production Report"
+          // want many subheader
+          
         />
+        
         <Divider />
         <CardContent>
           <Grid container spacing={3}>
@@ -426,7 +501,7 @@ const GroupBarChart = ({ className, ...rest }) => {
                 {isLoading ? (
                   <CircularProgress />
                 ) : (
-                  <Bar data={myData} options={options} />
+                  <Bar data={myData} plugins={[ChartDataLabels]} options={options} />
                 )}
               </Box>
             </Grid>
@@ -441,33 +516,59 @@ const GroupBarChart = ({ className, ...rest }) => {
                 {isLoading ? (
                   <CircularProgress />
                 ) : (
-                  <Bar data={myData2} options={options2} />
+                  <Bar data={myData2} plugins={[ChartDataLabels]} options={options2} />
                 )}
               </Box>
             </Grid>
           </Grid>
         </CardContent>
         <Divider />
-        <Box display="flex" justifyContent="flex-end" p={2}>
-          <Select
-            menuPortalTarget={document.body}
-            styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
-            options={group}
-            value={group.filter((item) => item.value === groupBy)}
-            onChange={(e) => setGroupBy(e.value)}
-            closeMenuOnSelect={true}
-          />
+        <Box display="flex-col" justifyContent="flex-end" p={2}>
+        <Grid container spacing={2}>
+            {unique.map((item, index) => (
+              <Grid item key={item}>
+                <Typography variant="body1" style={{ fontWeight: 'bold' }}>{item} : <span style={{ color: 'red' }}>{(percentageDif[index])}%</span></Typography>
+              </Grid>
+            ))}
+          </Grid>
+          <Grid container spacing={2}>
+            {group.map((item) => (
+              <Grid item key={item.value}>
+                <Button
+                  style={{ color: item.color, backgroundColor: item.value === groupBy ? 'gray' : 'transparent' }}
+                  variant="outlined"
+                  endIcon={<ArrowRightIcon />}
+                  size="small"
+                  color="primary"
+                  onClick={() => setGroupBy(item.value)}
+                >
+                  {item.label}
+                </Button>
+              </Grid>
+            ))}
+          </Grid>
         </Box>
       </Card>
       <Divider />
+      <Typography style={{ marginTop: '30px' }} variant="h2">Working Hours of Machines </Typography>
       <div style={{ marginTop: '30px' }}>
         <Grid container spacing={3}>
-          {times?.length > 0 &&
-            times.map((item, index) => (
-              <Grid item lg={2} key={index}>
-                <PieChart data={item} />
-              </Grid>
-            ))}
+          {/* Grid ฝั่งซ้าย */}
+          <Grid item xs={6}>
+            <Grid container spacing={3}>
+              {times?.length > 0 &&
+                times.map((item, index) => (
+                  <Grid item xs={4} key={index}>
+                    <PieChart data={item} />
+                  </Grid>
+                ))}
+            </Grid>
+          </Grid>
+
+          {/* Grid ฝั่งขวา */}
+          <Grid item xs={6}>
+          <ParetoChart month={month} group={groupBy} />
+          </Grid>
         </Grid>
       </div>
     </>

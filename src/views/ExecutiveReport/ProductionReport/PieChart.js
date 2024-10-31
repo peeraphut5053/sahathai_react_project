@@ -87,7 +87,7 @@ const PieChart = ({data }) => {
                   </Typography>
                   <Typography
                     style={{ color: 'black' }}
-                    variant="h4"
+                    variant="body1"
                   >
                     {totalTimes}
                   </Typography>
@@ -102,7 +102,7 @@ const PieChart = ({data }) => {
                   </Typography>
                   <Typography
                     style={{ color: 'rgba(255, 99, 132, 1)' }}
-                    variant="h4"
+                    variant="body1"
                   >
                     {breakTimes}
                   </Typography>
@@ -117,7 +117,7 @@ const PieChart = ({data }) => {
                   </Typography>
                   <Typography
                     style={{ color: 'rgba(54, 162, 235, 1)' }}
-                    variant="h4"
+                    variant="body1"
                   >
                     {realTime}
                   </Typography>

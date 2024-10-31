@@ -40,7 +40,7 @@ const ExportModule = props => {
   useEffect(() => {
     Axios({
       method: 'get',
-      url: `http://localhost:88/sts_web_center_new/module/API_FREEZONE/data.php?load=exportItemSelect`,
+      url: `API_FREEZONE/data.php?load=exportItemSelect`,
     })
       .then(function (response) {
         setexportItemSelect(response.data)
@@ -62,7 +62,7 @@ const ExportModule = props => {
 
   const SelectItemToModal = (rowData) => {
     handleOpen()
-    Axios({ method: 'get', url: `http://localhost:88/sts_web_center_new/module/API_FREEZONE/data.php?load=exportPoItemSelect&item=${rowData.item}`, })
+    Axios({ method: 'get', url: `API_FREEZONE/data.php?load=exportPoItemSelect&item=${rowData.item}`, })
       .then(function (response) {
         setSelectItemTmp(response.data)
       })

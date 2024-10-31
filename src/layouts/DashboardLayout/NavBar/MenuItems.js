@@ -107,7 +107,7 @@ const MenuItems = (props) => {
         {submenu.map((item, index) => (
           <NavItem
             href={item.href}
-            key={item.title}
+            key={index}
             title={item.title}
             Icon={() => IconExpandLess}
           />

@@ -41,7 +41,7 @@
     "autoprefixer": "^10.4.19",
     "axios": "^1.7.5",
     "chart.js": "^2.9.4",
-    "chartjs-plugin-datalabels": "^1.0.0",
+    "chartjs-plugin-datalabels": "^0.7.0",
     "clsx": "^2.1.1",
     "cross-fetch": "^3.1.5",
     "date-fns": "^2.16.1",

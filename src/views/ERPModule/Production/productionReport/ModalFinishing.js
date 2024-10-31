@@ -16,6 +16,7 @@ import CTextField from 'src/views/components/Input/CTextField';
 import CButton from 'src/views/components/Input/CButton';
 import API from 'src/views/components/API';
 import { useEffect } from 'react';
+import MyDateTimePicker from 'src/views/components/Input/MyDateTimePicker';
 const useStyles = customStyles;
 const ModalFinishing = ({values, openModal,handleCloseModal }) => {
   const classes = useStyles();
@@ -37,8 +38,10 @@ const ModalFinishing = ({values, openModal,handleCloseModal }) => {
     const newData = response.data.map((item) => {
       return {
         ...item,
-        time_stopped: moment(item.time_stopped.date).format('DD-MM-YYYY'),
-        time: moment(item.time_stopped.date).format('HH:mm:ss'),
+        time_stopped: moment(item.time_stopped.date).format('DD/MM/YYYY'),
+        start: moment(item.time_stopped.date).format('HH:mm:ss'),
+        time_end: item.time_end ? moment(item.time_end?.date).format('DD/MM/YYYY') : '',
+        end: item.time_end ? moment(item.time_end?.date).format('HH:mm:ss') : '',
       };
     })
    setData(newData);
@@ -51,15 +54,26 @@ const ModalFinishing = ({values, openModal,handleCloseModal }) => {
   }, [openModal]);
   
   const AddNewReason = async (values) => {
+
+  if (values.reason_id === '') {
+    alert('กรุณาเลือกสาเหตุการหยุดเครื่อง');
+    return false;
+  }
+
+  const time_start = moment(values.time_stopped).format('YYYY-MM-DD HH:mm');
+  const time_end = moment(values.time_end).format('YYYY-MM-DD HH:mm');
+    
+
   try {
     await API.get("RPT_JOBPACKING/data.php", {
       params: {
           load: 'AddNewReasonFinishing',
           reason_id: values.reason_id,
-          time_stopped: values.time_stopped,
+          time_stopped: time_start,
           down_time: values.down_time,
           w_c: values.w_c,
-          remark: values.remark
+          remark: values.remark,
+          time_end: time_end,
       }
     });
     setOpen(false);
@@ -89,13 +103,23 @@ const ModalFinishing = ({values, openModal,handleCloseModal }) => {
             title={`บันทึกสาเหตุการหยุดเครื่อง : ${values.w_c}`}
             columns={[
               {
-                title: 'เวลาหยุดเครื่อง',
+                title: 'วันที่เริ่มต้น',
                 field: 'time_stopped',
                 type: 'date',
               },
               {
-                title: 'เวลา',
-                field: 'time',
+                title: 'วันที่สิ้นสุด',
+                field: 'time_end',
+                type: 'date',
+              },
+              {
+                title: 'เวลาเริ่มต้น',
+                field: 'start',
+                type: 'date',
+              },
+              {
+                title: 'เวลาสิ้นสุด',
+                field: 'end',
                 type: 'date',
               },
               { title: 'สาเหตุหลัก', field: 'reason_description', width: 100 },
@@ -123,8 +147,8 @@ const ModalFinishing = ({values, openModal,handleCloseModal }) => {
             options={{
               search: false,
               paging: false,
-              maxBodyHeight: '30vh',
-              minBodyHeight: '30vh',
+              maxBodyHeight: '80vh',
+              minBodyHeight: '80vh',
               exportButton: true,
               filtering: false,
               rowStyle: (rowData) => ({
@@ -163,7 +187,8 @@ const ModalFinishing = ({values, openModal,handleCloseModal }) => {
         initialValues={
             {
                 reason_id: '',
-                time_stopped: values.startdate,
+                time_stopped: moment().format('YYYY-MM-DD HH:mm:ss'),
+                time_end: moment().format('YYYY-MM-DD HH:mm:ss'),
                 down_time: '',
                 w_c: values.w_c,
                 remark: ''
@@ -196,7 +221,7 @@ const ModalFinishing = ({values, openModal,handleCloseModal }) => {
                 {/* {JSON.stringify(values)} */}
                 <Grid container spacing={2}>
                     <Grid item lg={12}>บันทึกสาเหตุการหยุดเครื่อง </Grid>
-                    <Grid item lg={6}>
+                    <Grid item lg={12}>
                         <CTextField
                             error={Boolean(touched.time_used && errors.time_used)}
                             helperText={touched.time_used && errors.time_used}
@@ -209,12 +234,21 @@ const ModalFinishing = ({values, openModal,handleCloseModal }) => {
                         />
                     </Grid>
                     <Grid item lg={6}>
-                        <DateTimePicker
+                        <MyDateTimePicker
                             label="วันเวลาเริ่ม"
                             name={"time_stopped"}
                             value={values.time_stopped}
                             onBlur={handleBlur}
-                            onChange={e => setFieldValue('time_stopped', moment(e).format('YYYY-MM-DD HH:mm:ss'))}
+                            onChange={e => setFieldValue('time_stopped', e)}
+                        />
+                    </Grid>
+                    <Grid item lg={6}>
+                        <MyDateTimePicker
+                            label="วันเวลาสิ้นสุด"
+                            name={"time_end"}
+                            value={values.time_end}
+                            onBlur={handleBlur}
+                            onChange={e => setFieldValue('time_end',e)}
                         />
                     </Grid>
                     <Grid item lg={12}>

@@ -14,7 +14,7 @@ import tableIcons from '../../../views/components/table/tableIcons';
 
 const TableProduction = ({ data }) => {
   const [type, setType] = useState('sumA');
-
+  
   const transformData = (data, type) => {
     const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
@@ -49,6 +49,8 @@ const TableProduction = ({ data }) => {
       .replace(/\d(?=(\d{3})+\.)/g, '$&,');
   };
 
+  let title = type === 'sumA' ? 'Monthly Production Volumes by Department (Grade A)' : 'Monthly Production Volumes by Department (Grade B + C)';
+
   return (
     <Container maxWidth={false}>
       <Typography variant="h4" style={{ margin: '15px', textAlign: 'center' }}>
@@ -69,7 +71,7 @@ const TableProduction = ({ data }) => {
         <Grid item style={{ width: '100%', margin: 5, overflowX: 'auto' }}>
           <MaterialTable
             icons={tableIcons}
-            title={`Monthly Production Volumes by Department (Grade A)`}
+            title={title}
             columns={[
               { title: 'wcGroup', field: 'wcGroup', type: 'string' },
               {
@@ -78,7 +80,11 @@ const TableProduction = ({ data }) => {
                 type: 'number',
                 render: (row) => {
                   const val = row['1'] / 1000;
-                  return addComma(val ? val : 0);
+                  if (val > 0) {
+                    return addComma(val ? val : 0);
+                  } else {
+                    return '-';
+                  }
                 }
               },
               {
@@ -87,7 +93,11 @@ const TableProduction = ({ data }) => {
                 type: 'number',
                 render: (row) => {
                   const val = row['2'] / 1000;
-                  return addComma(val ? val : 0);
+                  if (val > 0) {
+                    return addComma(val ? val : 0);
+                  } else {
+                    return '-';
+                  }
                 }
               },
               {
@@ -96,7 +106,11 @@ const TableProduction = ({ data }) => {
                 type: 'number',
                 render: (row) => {
                   const val = row['3'] / 1000;
-                  return addComma(val ? val : 0);
+                  if (val > 0) {
+                    return addComma(val ? val : 0);
+                  } else {
+                    return '-';
+                  }
                 }
               },
               {
@@ -105,7 +119,11 @@ const TableProduction = ({ data }) => {
                 type: 'number',
                 render: (row) => {
                   const val = row['4'] / 1000;
-                  return addComma(val ? val : 0);
+                  if (val > 0) {
+                    return addComma(val ? val : 0);
+                  } else {
+                    return '-';
+                  }
                 }
               },
               {
@@ -114,7 +132,11 @@ const TableProduction = ({ data }) => {
                 type: 'number',
                 render: (row) => {
                   const val = row['5'] / 1000;
-                  return addComma(val ? val : 0);
+                  if (val > 0) {
+                    return addComma(val ? val : 0);
+                  } else {
+                    return '-';
+                  }
                 }
               },
               {
@@ -123,7 +145,11 @@ const TableProduction = ({ data }) => {
                 type: 'number',
                 render: (row) => {
                   const val = row['6'] / 1000;
-                  return addComma(val ? val : 0);
+                  if (val > 0) {
+                    return addComma(val ? val : 0);
+                  } else {
+                    return '-';
+                  }
                 }
               },
               {
@@ -132,7 +158,11 @@ const TableProduction = ({ data }) => {
                 type: 'number',
                 render: (row) => {
                   const val = row['7'] / 1000;
-                  return addComma(val ? val : 0);
+                  if (val > 0) {
+                    return addComma(val ? val : 0);
+                  } else {
+                    return '-';
+                  }
                 }
               },
               {
@@ -141,7 +171,11 @@ const TableProduction = ({ data }) => {
                 type: 'number',
                 render: (row) => {
                   const val = row['8'] / 1000;
-                  return addComma(val ? val : 0);
+                  if (val > 0) {
+                    return addComma(val ? val : 0);
+                  } else {
+                    return '-';
+                  }
                 }
               },
               {
@@ -150,7 +184,11 @@ const TableProduction = ({ data }) => {
                 type: 'number',
                 render: (row) => {
                   const val = row['9'] / 1000;
-                  return addComma(val ? val : 0);
+                  if (val > 0) {
+                    return addComma(val ? val : 0);
+                  } else {
+                    return '-';
+                  }
                 }
               },
               {
@@ -159,7 +197,11 @@ const TableProduction = ({ data }) => {
                 type: 'number',
                 render: (row) => {
                   const val = row['10'] / 1000;
-                  return addComma(val ? val : 0);
+                  if (val > 0) {
+                    return addComma(val ? val : 0);
+                  } else {
+                    return '-';
+                  }
                 }
               },
               {
@@ -168,7 +210,11 @@ const TableProduction = ({ data }) => {
                 type: 'number',
                 render: (row) => {
                   const val = row['11'] / 1000;
-                  return addComma(val ? val : 0);
+                  if (val > 0) {
+                    return addComma(val ? val : 0);
+                  } else {
+                    return '-';
+                  }
                 }
               },
               {
@@ -177,7 +223,11 @@ const TableProduction = ({ data }) => {
                 type: 'number',
                 render: (row) => {
                   const val = row['12'] / 1000;
-                  return addComma(val ? val : 0);
+                  if (val > 0) {
+                    return addComma(val ? val : 0);
+                  } else {
+                    return '-';
+                  }
                 }
               }
             ]}

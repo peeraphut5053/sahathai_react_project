@@ -40,12 +40,12 @@ const TopBar = ({
 
   const logout = () => {
     navigate('/login')
-    localStorage.removeItem('username');
+    localStorage.removeItem('token');
   }
 
   const location = useLocation();
 
-  const username = localStorage.getItem("username")
+  const token = JSON.parse(localStorage.getItem("token"));
   return (
     <>
       {/* {JSON.stringify(location.pathname)} */}
@@ -69,7 +69,7 @@ const TopBar = ({
             <Box flexGrow={1} />
             {/* <Hidden xlUp> </Hidden> */}
             <Typography variant="h5" component="h5" style={{ paddingBottom: 25, color: '#FFFFFF' }}>
-              {username}
+              {token?.username}
             </Typography>
             <IconButton color="inherit" style={{ marginBottom: 25 }}>
               <Badge

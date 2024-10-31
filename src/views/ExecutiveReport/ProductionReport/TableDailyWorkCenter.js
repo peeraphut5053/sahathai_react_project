@@ -38,7 +38,7 @@ const TableDailyWorkCenter = () => {
     cacheTime: 10 * 60 * 1000, 
   });
   const { data, isLoading, error } = useQuery({
-    queryKey: ["DailyWorkCenter", month, type],
+    queryKey: ["DailyWorkCenter", month, type, wc],
     queryFn: async () => {
       try {
         const y = moment(month).format('YYYY');

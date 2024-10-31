@@ -22,7 +22,7 @@ import { useState } from 'react';
 import API from '../components/API';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import moment from "moment";
-
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 moment.locale("th");
 
 const useStyles = makeStyles((theme) => ({
@@ -313,7 +313,11 @@ const ChartExecutiveSummary = ({ className, ...rest }) => {
     //   titleFontColor: theme.palette.text.primary
     // }
 
-
+    plugins: {
+      datalabels: {
+        display: false, // ปิดการแสดง datalabels
+      },
+    },
     tooltips: {
       enabled: false,
 
@@ -465,6 +469,7 @@ const ChartExecutiveSummary = ({ className, ...rest }) => {
         >
           <Line
             data={(Item_Group == 'all') ? data_all : data}
+            plugins={[ChartDataLabels]}
             options={optionsLine}
           />
         </Box>

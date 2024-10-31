@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTheme } from '@material-ui/core';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Line } from 'react-chartjs-2';
 
 const LineCard = ({ data: dataLine, options }) => {
@@ -57,14 +58,6 @@ const LineCard = ({ data: dataLine, options }) => {
         borderWidth: 1
       },
       {
-        label: 'Packing',
-        data: loopFill(dataLine.packing).map((item) => (item.sumA / 1000).toFixed(2)),
-        borderColor: '#663300',
-        backgroundColor: '#663300',
-        fill: false,
-        borderWidth: 1
-      },
-      {
         label: 'Galvanize',
         data: loopFill(dataLine.galvanize).map((item) => (item.sumA / 1000).toFixed(2)),
         borderColor: '#009933',
@@ -95,12 +88,20 @@ const LineCard = ({ data: dataLine, options }) => {
         backgroundColor: '#00ffff',
         fill: false,
         borderWidth: 1
-      }
+      },
+      {
+        label: 'Packing',
+        data: loopFill(dataLine.packing).map((item) => (item.sumA / 1000).toFixed(2)),
+        borderColor: '#663300',
+        backgroundColor: '#663300',
+        fill: false,
+        borderWidth: 1
+      },
     ]
   };
 
   return (
-      <Line data={data} options={options}  />
+      <Line data={data} plugins={[ChartDataLabels]} options={options}  />
   );
 };
 

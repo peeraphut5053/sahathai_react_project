@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -26,6 +26,16 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     // paddingBottom: theme.spacing(3),
     // paddingTop: theme.spacing(3)
+  },
+  box: {
+    border: '1px solid #3f51b5',
+    borderRadius: '5px',
+    padding: '100px',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
+    transition: 'all 0.3s cubic-bezier(.25,.8,.25,1)',
+    '&:hover': {
+      background: 'white',
+    }
   }
 }));
 
@@ -95,7 +105,12 @@ const LoginView = () => {
     // await navigate('/app/dashboard', { replace: true });
   }
 
-
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      navigate('/app/dashboard', { replace: true });
+    }
+  }, [])
+  
 
   async function UserLogin2(values) {
     // navigate('/app/dashboard', { replace: true });
@@ -103,20 +118,16 @@ const LoginView = () => {
     let token = ""
     let userData = ""
 
-    API.post(`User.php`, values)
+    API.post(`SignIn.php?action=Login&username=${values.username}&password=${values.password}`, values)
       .then(response => {
         let data = response.data;
-        if (data[0].data.length > 0) {
-          localStorage.setItem('username', username);
-          localStorage.setItem('token', token);
-          localStorage.setItem('userData', userData);
-        }
+        localStorage.setItem('token', JSON.stringify({
+          token: data.token,
+          username: data.username
+      }));
+      navigate('/app/dashboard', { replace: true });
       }).catch(function (error) {
-        localStorage.setItem('username', username);
-        localStorage.setItem('token', token);
-        localStorage.setItem('userData', userData);
-        // navigate('/app/dashboard', { replace: true });
-
+           localStorage.removeItem("token")
       })
 
     // await navigate('/app/dashboard', { replace: true });
@@ -169,15 +180,16 @@ const LoginView = () => {
         justifyContent="center"
  
       >
-        <Container maxWidth="sm">
+        <Container maxWidth="sm" className={classes.box}>
           <Formik
             initialValues={{
-              email: 'asdf@gmail.com',
-              password: '123456',
-              remember: true
+              ajax: true,
+              username: '',
+              password: '',
+              action: "GetPropertiesLogin"
             }}
             validationSchema={Yup.object().shape({
-              email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+              username: Yup.string(),
               password: Yup.string().max(255).required('Password is required')
             })}
             onSubmit={(values, actions) => {
@@ -199,24 +211,17 @@ const LoginView = () => {
               values
             }) => (
               <form onSubmit={handleSubmit}>
-                <Box mb={3}>
+                <Box mb={3}
+                >
                   <Typography
                     color="textPrimary"
                     variant="h2"
+                    align='center'
                   >
-                    Sign in
+                    SAHATHAI DASHBOARD
                   </Typography>
-                  <Typography
-                    color="textSecondary"
-                    gutterBottom
-                    variant="body2"
-                  >
-                    Sign in on the internal platform
-                  </Typography>
-
-
                 </Box>
-                <Hidden only="lg">
+                {/*<Hidden only="lg">
 
                   <Grid
                     container
@@ -268,18 +273,18 @@ const LoginView = () => {
                       or login with email address
                   </Typography>
                   </Box>
-                </Hidden>
+                </Hidden>*/}
                 <TextField
-                  error={Boolean(touched.email && errors.email)}
+                  error={Boolean(touched.username && errors.username)}
                   fullWidth
-                  helperText={touched.email && errors.email}
-                  label="Email Address"
+                  helperText={touched.username && errors.username}
+                  label="Username"
                   margin="normal"
-                  name="email"
+                  name="username"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  type="email"
-                  value={values.email}
+                  type="text"
+                  value={values.username}
                   variant="outlined"
                 />
                 <TextField
@@ -307,20 +312,6 @@ const LoginView = () => {
                     Sign in now
                   </Button>
                 </Box>
-                <Typography
-                  color="textSecondary"
-                  variant="body1"
-                >
-                  Don&apos;t have an account?
-                  {' '}
-                  <Link
-                    component={RouterLink}
-                    to="/register"
-                    variant="h6"
-                  >
-                    Sign up
-                  </Link>
-                </Typography>
               </form>
             )}
           </Formik>
