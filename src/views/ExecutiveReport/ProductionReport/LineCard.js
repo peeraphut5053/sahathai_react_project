@@ -1,9 +1,11 @@
 import React from 'react';
 import { useTheme } from '@material-ui/core';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { Line } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
+import { add } from 'lodash';
+import { addComma } from 'src/utils/getInitials';
 
-const LineCard = ({ data: dataLine, options }) => {
+const LineCard = ({ data: dataLine, options, currentData, Types }) => {
   const theme = useTheme();
 
   let threading = [];
@@ -100,8 +102,150 @@ const LineCard = ({ data: dataLine, options }) => {
     ]
   };
 
+  let delayed = true;
+
+  const optionsBar = {
+    animation: true,
+    layout: { padding: 0 },
+    legend: {
+      display: true,
+    },
+    maintainAspectRatio: false,
+    responsive: true,
+    width: '100%',
+    scales: {
+      xAxes: [
+        {
+          barThickness: 40,
+          maxBarThickness: 40,
+          barPercentage: 1,
+          categoryPercentage: 1,
+          ticks: {
+            fontColor: theme.palette.text.secondary
+          },
+          gridLines: {
+            display: false,
+            drawBorder: false
+          }
+        }
+      ],
+      yAxes: [
+        {
+          ticks: {
+            fontColor: theme.palette.text.secondary,
+            beginAtZero: true,
+            min: 0
+          },
+          gridLines: {
+            borderDash: [2],
+            borderDashOffset: [2],
+            color: theme.palette.divider,
+            drawBorder: false,
+            zeroLineBorderDash: [2],
+            zeroLineBorderDashOffset: [2],
+            zeroLineColor: theme.palette.divider
+          }
+        }
+      ]
+    },
+    dataLabels: {
+      enabled: true,
+    },
+    plugins: {
+      datalabels: {
+        color: '#000',  // เปลี่ยนเป็นสีดำเพื่อให้เห็นชัดเจน
+        anchor: 'end',   // ยึดกับจุดบนสุดของแท่งกราฟ
+        align: 'top',    // จัดตำแหน่งให้อยู่เหนือจุดยึด
+        offset: 5,       // ระยะห่างจากแท่งกราฟ 5 pixels
+        formatter: (value) => addComma(value),
+        font: {
+          weight: 'bold',
+          size: 12
+        },
+        // เพิ่มพื้นหลังสีขาวโปร่งใสเพื่อให้อ่านง่ายขึ้น
+        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+        borderRadius: 4,
+        padding: 4
+      },
+    },
+    tooltips: {
+      backgroundColor: theme.palette.background.default,
+      bodyFontColor: theme.palette.text.secondary,
+      borderColor: theme.palette.divider,
+      borderWidth: 1,
+      enabled: true,
+      fontSize: 16, // คุณสามารถเพิ่มหรือลดขนาดตัวอักษรตรงนี้
+      footerFontColor: theme.palette.text.secondary,
+      intersect: false,
+      mode: 'index',
+      titleFontColor: theme.palette.text.primary,
+
+      // เพิ่มตัวเลือกต่อไปนี้เพื่อปรับขนาดและรูปแบบเพิ่มเติม:
+      padding: 12, // ปรับระยะขอบภายใน tooltip
+      cornerRadius: 4, // ปรับความโค้งของมุม tooltip
+      caretSize: 6, // ปรับขนาดของลูกศรชี้
+      bodySpacing: 8, // ระยะห่างระหว่างบรรทัดในส่วน body
+      titleSpacing: 6, // ระยะห่างระหว่างหัวข้อและเนื้อหา
+
+      // ถ้าต้องการกำหนดความกว้างสูงสุด:
+      bodyFontSize: 14, // ขนาดตัวอักษรส่วน body แยกจาก title
+      titleFontSize: 16, // ขนาดตัวอักษรส่วน title
+      xPadding: 12, // padding แนวนอน
+      yPadding: 12 // padding แนวตั้ง
+    },
+    animation: {
+      onComplete: () => {
+        delayed = true;
+      },
+      delay: (context) => {
+        let delay = 0;
+        if (context.type === 'data' && context.mode === 'default' && !delayed) {
+          delay = context.dataIndex * 300 + context.datasetIndex * 100;
+        }
+        return delay;
+      },
+    },
+  };
+  
+  const dataBar = {
+    labels: ['Slit', 'Forming', 'HydroTest', 'Galvanize', 'Painting', 'Threading', 'Cuting', 'Packing'],
+    datasets: [
+      {
+        label: Types,
+        data: [currentData[0], currentData[1], currentData[2], currentData[3], currentData[4], currentData[5], currentData[6], currentData[7]],
+        backgroundColor: [
+          '#ffb200',
+          '#cc0000',
+          '#0051ff',
+          '#009933',
+          '#9900cc',
+          '#cccc00',
+          '#00ffff',
+          '#663300',
+        ],
+        borderColor: [
+          '#ffb200',
+          '#cc0000',
+          '#0051ff',
+          '#009933',
+          '#9900cc',
+          '#cccc00',
+          '#00ffff',
+          '#663300',
+        ],
+       
+      },
+    ],
+  }
+
   return (
-      <Line data={data} plugins={[ChartDataLabels]} options={options}  />
+      <>
+      {Types === 'Main' ? (
+        <Line data={data} plugins={[ChartDataLabels]} options={options}   />
+      ) : (
+        <Bar data={dataBar} plugins={[ChartDataLabels]} options={optionsBar}   />
+      )}
+      </>
   );
 };
 

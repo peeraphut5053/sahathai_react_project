@@ -24,6 +24,7 @@ const MyDateTimePicker = (props) => {
                 format="DD/MM/YYYY HH:mm:ss"
                 type="text"
                 fullWidth
+                disabled={props.disabled}
             />
         </MuiPickersUtilsProvider>
 

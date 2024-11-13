@@ -6,6 +6,8 @@ import { Pie } from 'react-chartjs-2';
 
 const PieChart = ({data }) => {
   const {wc, totalTimes, breakTimes,realTime} = data;
+  console.log(data);
+  
   const total = Number(breakTimes) + Number(realTime);
   Chart.plugins.unregister(ChartDataLabels);
   return (

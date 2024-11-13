@@ -31,43 +31,53 @@ const useStyles = makeStyles(() => ({
     
   }
 }));
+
 const label = [
   {
     value: ["P2FM01", "P2FM05", "P2FM06", "P2FM08", "P2FM09", "W2FM02", "W2FM04", "W2FM07", "W2FMC1"],
+    name: [["P2FM01", "สถานี Forming 01"], ["P2FM05","สถานี Forming 05"], ["P2FM06", "สถานี Forming 06"], ["P2FM08","สถานี Forming 08"], ["P2FM09", "สถานี Forming 08"], ["W2FM02", "สถานี Forming 02"], ["W2FM04", "สถานี Forming 04"], ["W2FM07", "สถานี Forming 07"], ["W2FMC1", "สถานีตัวซีเครื่อง 1"]],
     label: 'Forming'
   },
   {
     value: ["P1SL03", "P1SL05", "W1SL04"],
+    name: [["P1SL03", "สถานี Slit 03"], ["P1SL05", "สถานี Slit 05"], ["W1SL04", "สถานี Slit 04 วังน้อย"]],
     label: 'Slit'
   },
   {
     value: ["P5HTF2", "P5HTF5", "P5HTO1", "P5HTO2", "W5HT02", "W5HT04", "W5HT06"],
+    name: [["P5HTF2", "สถานีเทสน้ำ F2"], ["P5HTF5", "สถานีเทสน้ำ F5"], ["P5HTO1"," สถานีเทสน้ำ O1 A6"], ["P5HTO2", "สถานีเทสน้ำ O2 A6"], ["W5HT02","สถานีเทสน้ำ 02 วังน้อย"], ["W5HT04", "สถานีเทสน้ำ 04 วังน้อย"], ["W5HT06", "สถานีเทสน้ำ 06 วังน้อย"]],
     label: 'HydroTest'
   },
   {
     value: ["P6GL01"],
+    name: [["P6GL01", "สถานีชุป 01"]],
     label: 'Galvanize'
   },
   {
     value: ["P6PT01",
       "P6PT0B",
       "P6PT0C"],
+    name: [["P6PT01", "สถานีพ่นสี 01"], ["P6PT0B", "สถานีพ่นสี B"], ["P6PT0C", "สถานีพ่นสี C"]],
     label: 'Painting'
   },
   {
-    value: ["P6TH01", "P6TH02", "P6TH03", "P6TH05", "W6TH04"],
+    value: ["P6TH01", "P6TH02", "P6TH03", "P6TH05"],
+    name: [["P6TH01","สถานนีต๊าป 01"], ["P6TH02", "สถานนีต๊าป 02"], ["P6TH03", "สถานนีต๊าป 03"], ["P6TH05", "สถานนีต๊าป 05"]],
     label: 'Threading'
   },
   {
     value: ["P6RG01", "P6RG02", "W6RG02"],
+    name: [["P6RG01", "สถานี Groove 1"], ["P6RG02", "สถานี Groove 2"], ["W6RG02", "สถานี Groove 2 วังน้อย"]],
     label: 'Groove'
   },
   {
     value: ["P6CT01", "P6CT02", "P6CT03", "W6CT01"],
+    name: [["P6CT01", "สถานีตัดแบ่งความยาว No.1"], ["P6CT02", " สถานีตัดแบ่งความยาว No.3 เลเซอร์"], ["P6CT03", "สถานีตัดแบ่งความยาว No.3 เลเซอร์"], ["W6CT01", "สถานีตัดท่อ"]],
     label: 'Cuting'
   },
   {
     value: ["P7PK00", "P7PKP1", "P7PKPB", "P7PKPC", "W7PK01"],
+    name: [["P7PK00", "สถานีแพ๊ค"], ["P7PKP1", "สถานีแพ๊ค ท้ายเครื่องพ่นสี 1"], ["P7PKPB", "สถานีแพ๊คท้ายเครื่องพ่นสี PB"], ["P7PKPC", "สถานีแพ๊คท้ายเครื่องพ่นสี PC"], ["W7PK01", "สถานีแพ็ควังน้อย"]],
     label: 'Packing'
   }
 ]
@@ -120,15 +130,20 @@ const group = [
   },
 ];
 
+const months = ['Main','Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 const Test = ({ className, ...rest }) => {
   const theme = useTheme();
   const [month, setMonth] = useState(moment().format('YYYY-MM'));
   const [currentMonth, setCurrentMonth] = useState(moment().format('M') -1);
+  const [currentData, setCurrentData] = useState([]);
+  const [Types, setTypes] = useState('Main');
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [barModal, setBarModal] = useState(false);
   const [groupBy, setGroupBy] = useState('Forming');
   const [day, setDay] = useState(moment().format('YYYY-MM-DD'));
+  const [dayEnd, setDayEnd] = useState(moment().format('YYYY-MM-DD'));
   const classes = useStyles();
 
   const addComma = (num) => {
@@ -184,14 +199,14 @@ const Test = ({ className, ...rest }) => {
 
 
 const { data: data2 , isLoading: isLoading2, error: error2 } = useQuery({
-  queryKey: ['GroupBarChart', day, groupBy],
+  queryKey: ['GroupBarChart', day, dayEnd, groupBy],
   queryFn: async () => {
     try {
       const response = await API.get('RPT_QC_Lab_Tag_Detail/data.php', {
         params: {
           load: 'group',
           StartDate: moment(day).format('YYYY-MM-DD'),
-          EndDate: moment(day).format('YYYY-MM-DD'),
+          EndDate: moment(dayEnd).format('YYYY-MM-DD'),
           StartLastMonth: moment("2024-09-01").format('YYYY-MM-DD'),
           EndLastMonth: moment("2024-09-30").format('YYYY-MM-DD'),
           GroupBy: groupBy
@@ -233,7 +248,7 @@ const { data: data2 , isLoading: isLoading2, error: error2 } = useQuery({
   const color = group.filter((item) => item.value === groupBy)[0]?.color;
 
   const myData = {
-    labels: label.find((item) => item.label === groupBy).value,
+    labels: label.find((item) => item.label === groupBy).name,
     datasets: [
       {
         label: groupBy,
@@ -359,10 +374,34 @@ const { data: data2 , isLoading: isLoading2, error: error2 } = useQuery({
         var label = chartData.labels[idx];   
         setCurrentMonth(moment(label, 'MMM').format('M') - 1);
       }
-    }
+    },
 
   };
-  
+
+  const handleData = (item) => {
+
+    if (item !== 'Main') {
+      setTypes(item);
+    } else {
+      setTypes(item);
+      return false;
+    }
+
+    const m = moment(item, 'MMM').format('M') - 1;
+    const month = Number(m);
+    setCurrentMonth(month);
+    setCurrentData([
+      (data?.slit[month].sumA / 1000).toFixed(2),
+      (data?.forming[month].sumA / 1000).toFixed(2),
+      (data?.hydro[month].sumA / 1000).toFixed(2),
+      (data?.galvanize[month].sumA / 1000).toFixed(2),
+      (data?.painting[month].sumA / 1000).toFixed(2),
+      ((data?.threading[month].sumA || 0  / 1000 + data?.groove[month].sumA || 0) / 1000).toFixed(2),
+      (data?.cuting[month].sumA / 1000).toFixed(2),
+      (data?.packing[month].sumA / 1000).toFixed(2)
+     ])
+  };
+
   const optionsBar = {
     animation: false,
     layout: { padding: 0 },
@@ -534,7 +573,7 @@ const { data: data2 , isLoading: isLoading2, error: error2 } = useQuery({
           position="relative"
           display="flex"  justifyContent="center" alignItems="center"
                 >
-           {isLoading ? <CircularProgress /> : <LineCard data={data} options={options}  />}
+           {isLoading ? <CircularProgress /> : <LineCard data={data} options={options} currentData={currentData} Types={Types} />}
            </Box>
        </Grid>
           <Grid item xs={2}>
@@ -548,8 +587,8 @@ const { data: data2 , isLoading: isLoading2, error: error2 } = useQuery({
                 <Typography style={{ fontWeight: 'bold', color: '#0051ff' }}>HydroTest : {addComma((data?.hydro[currentMonth].sumA / 1000).toFixed(2))}</Typography>
                 <Typography style={{ fontWeight: 'bold', color: '#009933' }}>Galvanize : {addComma((data?.galvanize[currentMonth].sumA / 1000).toFixed(2))}</Typography>
                 <Typography style={{ fontWeight: 'bold', color: '#9900cc' }}>Painting : {addComma((data?.painting[currentMonth].sumA / 1000).toFixed(2))}</Typography>
-                <Typography style={{ fontWeight: 'bold', color: '#cccc00' }}>Threading :{addComma((data?.threading[currentMonth].sumA / 1000).toFixed(2))}</Typography>
-                <Typography style={{ fontWeight: 'bold', color: '#00ffff' }}>Cuting :{addComma((data?.cuting[currentMonth].sumA / 1000).toFixed(2))}</Typography>
+                <Typography style={{ fontWeight: 'bold', color: '#cccc00' }}>Threading : {addComma(((data?.threading[currentMonth]?.sumA || 0 + data?.groove[currentMonth]?.sumA || 0) / 1000).toFixed(2))}</Typography>
+                <Typography style={{ fontWeight: 'bold', color: '#00ffff' }}>Cuting : {addComma((data?.cuting[currentMonth].sumA / 1000).toFixed(2))}</Typography>
                 <Typography style={{ fontWeight: 'bold', color: '#663300' }}>Packing : {addComma((data?.packing[currentMonth].sumA / 1000).toFixed(2))}</Typography>
                 </>
               }
@@ -564,6 +603,25 @@ const { data: data2 , isLoading: isLoading2, error: error2 } = useQuery({
         justifyContent="flex-end"
         p={2}
       >
+        {!isLoading && (
+          <>
+          <Grid container spacing={2}>
+            {months.map((item, index) => (
+              <Grid item key={index}>
+                <Button
+                  style={{ backgroundColor: item === Types ? '#4169E1' : 'transparent', color: 'black' }}
+                  variant="outlined"
+                  endIcon={<ArrowRightIcon />}
+                  size="small"
+                  color="primary"
+                  onClick={() => handleData(item)}
+                >
+                  {item}
+                </Button>
+              </Grid>
+            ))}
+            
+          </Grid>
         <Button
           color="primary"
           endIcon={<ArrowRightIcon />}
@@ -573,6 +631,8 @@ const { data: data2 , isLoading: isLoading2, error: error2 } = useQuery({
         >
           Overview
         </Button>
+          </>
+        )}
       </Box>
     </Card>
     </Grid>
@@ -587,12 +647,20 @@ const { data: data2 , isLoading: isLoading2, error: error2 } = useQuery({
      />
         <CardHeader
           action={
-            <DateTimePicker
-              label="Day"
+            <div style={{ display: 'flex', margin: '10px' }}>
+             <DateTimePicker
+              label="StartDate"
               name="day"
               value={day}
               onChange={(e) => setDay(moment(e).format('YYYY-MM-DD'))}
             />
+            <DateTimePicker
+              label="EndDate"
+              name="day"
+              value={dayEnd}
+              onChange={(e) => setDayEnd(moment(e).format('YYYY-MM-DD'))}
+            />
+            </div>
           }
           title={`${groupBy} Production Report`}
           subheader={`Total Production : ${sum ? sum : 0} Tons`}

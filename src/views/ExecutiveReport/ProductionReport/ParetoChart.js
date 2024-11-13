@@ -38,7 +38,7 @@ const label = [
   },
   {
     value: ["P6CT01", "P6CT02", "P6CT03","W6CT01"],
-    label: 'Cutting'
+    label: 'Cuting'
   },
   {
     value: ["P7PK00", "P7PKP1", "P7PKPB", "P7PKPC", "W7PK01"],

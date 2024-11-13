@@ -38,9 +38,7 @@ const App = () => {
       }
   }
   checkAuth();
-  }, [])
-  
-console.log('test app');
+  }, []);
 
   return (
       <ThemeProvider theme={theme}>

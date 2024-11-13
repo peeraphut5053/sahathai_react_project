@@ -61,7 +61,7 @@ const TopBar = ({
               {/* <Logo style={{marginBottom:25}} /> */}
 
               <Typography variant="h3" component="h2" style={{ marginTop: '-20px', color: '#FFFFFF' }}>
-                SAHATHAI
+              <span style={{color: '#00BFFF'}}>SAHA</span><span style={{color: 'red'}}>THAI</span>
           </Typography>
 
 

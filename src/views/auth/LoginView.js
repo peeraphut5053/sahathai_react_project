@@ -18,7 +18,7 @@ import GoogleIcon from 'src/icons/Google';
 import Page from 'src/components/Page';
 import Axios from 'axios';
 import API from '../components/API';
-
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -126,8 +126,10 @@ const LoginView = () => {
           username: data.username
       }));
       navigate('/app/dashboard', { replace: true });
+      toast.success(`Welcome ${data.username}`);
       }).catch(function (error) {
-           localStorage.removeItem("token")
+           localStorage.removeItem("token");
+           alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
       })
 
     // await navigate('/app/dashboard', { replace: true });
@@ -189,7 +191,7 @@ const LoginView = () => {
               action: "GetPropertiesLogin"
             }}
             validationSchema={Yup.object().shape({
-              username: Yup.string(),
+              username: Yup.string().max(255).required('Username is required'),
               password: Yup.string().max(255).required('Password is required')
             })}
             onSubmit={(values, actions) => {
@@ -218,7 +220,7 @@ const LoginView = () => {
                     variant="h2"
                     align='center'
                   >
-                    SAHATHAI DASHBOARD
+                   <span style={{color: '#00BFFF'}}>SAHA</span><span style={{color: 'red'}}>THAI</span> DASHBOARD
                   </Typography>
                 </Box>
                 {/*<Hidden only="lg">

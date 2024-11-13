@@ -32,6 +32,46 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
+const label = [
+  {
+    value: ["P2FM01", "P2FM05", "P2FM06", "P2FM08", "P2FM09", "W2FM02", "W2FM04", "W2FM07", "W2FMC1"],
+    label: 'Forming'
+  },
+  {
+    value: ["P1SL03", "P1SL05", "W1SL04"],
+    label: 'Slit'
+  },
+  {
+    value: ["P5HTF2", "P5HTF5", "P5HTO1", "P5HTO2", "W5HT02", "W5HT04", "W5HT06"],
+    label: 'HydroTest'
+  },
+  {
+    value: ["P6GL01"],
+    label: 'Galvanize'
+  },
+  {
+    value: ["P6PT01",
+      "P6PT0B",
+      "P6PT0C"],
+    label: 'Painting'
+  },
+  {
+    value: ["P6TH01", "P6TH02", "P6TH03", "P6TH05"],
+    label: 'Threading'
+  },
+  {
+    value: ["P6RG01", "P6RG02", "W6RG02"],
+    label: 'Groove'
+  },
+  {
+    value: ["P6CT01", "P6CT02", "P6CT03", "W6CT01"],
+    label: 'Cuting'
+  },
+  {
+    value: ["P7PK00", "P7PKP1", "P7PKPB", "P7PKPC", "W7PK01"],
+    label: 'Packing'
+  }
+]
 
 const group = [
   {
@@ -70,7 +110,7 @@ const group = [
     color: '#ff9800'
   },
   {
-    value: 'Cutting',
+    value: 'Cuting',
     label: 'Cuting',
     color: '#f44336'
   },
@@ -80,6 +120,8 @@ const group = [
     color: '#4caf50'
   },
 ];
+
+
 
 const GroupBarChart = ({ className, ...rest }) => {
   const [tableData, setTableData] = useState([]);
@@ -136,7 +178,9 @@ const GroupBarChart = ({ className, ...rest }) => {
     cacheTime: 10 * 60 * 1000
   });
 
-  const unique = [...new Set(data?.res1.map((item) => item.wc))].sort();
+
+  const unique = label.find((item) => item.label === groupBy).value;
+  
   const result = unique.map((item) => {
     const sumA = data?.res
       .filter((item1) => item1.wc === item)
@@ -163,6 +207,14 @@ const GroupBarChart = ({ className, ...rest }) => {
     return { wc: item, sumA, sumB, sumC };
   });
 
+  const renderUiTime = () => (
+    times.map((item, index) => (
+      <Grid item xs={4} key={index}>
+        <PieChart data={item} />
+      </Grid>
+    ))
+  );
+
   const times = unique.map((item) => {
     const data1 = data?.res.filter((item1) => item1.wc === item);
     const totalTimes = sumTimes(data1?.map((item) => item.work_hour));
@@ -172,6 +224,9 @@ const GroupBarChart = ({ className, ...rest }) => {
   });
 
   function sumTimes(times) {
+    if (!times || times.length === 0) {
+      return '00:00';
+    }
     let totalMinutes = 0;
     for (let time of times) {
       const [hours, minutes] = time.split(':').map(Number);
@@ -437,6 +492,9 @@ const GroupBarChart = ({ className, ...rest }) => {
   const sumB = result.reduce((sum, item) => sum + item.sumB + item.sumC, 0) / 1000;
 
   const percentageDif = result.map((item) => {
+    if (!item.sumA) {
+      return 0;
+    }
     const sumA = item.sumA / 1000;
     const sumB = (item.sumB + item.sumC) / 1000;
      // sumB how many % of sumA
@@ -478,8 +536,8 @@ const GroupBarChart = ({ className, ...rest }) => {
             >
               Daily Report
             </Button>
-            <Typography style={{  fontWeight: 'bold', fontSize: '20px', color: 'Crimson', width: '40%', textAlign: 'center' }}>Total A : {addComma(sumA)} Tons</Typography>
-            <Typography style={{  fontWeight: 'bold', fontSize: '20px' ,color: 'Crimson', width: '40%', textAlign: 'center' }}>Total B+C  : {addComma(sumB)} Tons</Typography>
+            <Typography style={{  fontWeight: 'bold', fontSize: '20px', color: 'Crimson', width: '40%', textAlign: 'center' }}>Total A : {addComma(sumA ? sumA : 0)} Tons</Typography>
+            <Typography style={{  fontWeight: 'bold', fontSize: '20px' ,color: 'Crimson', width: '40%', textAlign: 'center' }}>Total B+C  : {addComma(sumB ? sumB : 0)} Tons</Typography>
             </Box>
           }
           title="Group Production Report"
@@ -556,7 +614,7 @@ const GroupBarChart = ({ className, ...rest }) => {
           {/* Grid ฝั่งซ้าย */}
           <Grid item xs={6}>
             <Grid container spacing={3}>
-              {times?.length > 0 &&
+              {!isLoading &&
                 times.map((item, index) => (
                   <Grid item xs={4} key={index}>
                     <PieChart data={item} />
