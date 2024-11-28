@@ -8,7 +8,6 @@ import theme from 'src/theme';
 import routes from 'src/routes';
 import API from './views/components/API';
 
-
 const App = () => {
   const routing = useRoutes(routes);
   const navigate = useNavigate();

@@ -32,6 +32,8 @@ import ModalManagement from './ModalManagement';
 import ReasonAddNewReason from './ReasonAddNewReason';
 import ReasonAddNewMeter from './ReasonAddNewMeter';
 import ModalFinishing from './ModalFinishing';
+import WorkCenter from 'src/views/reports/DashboardView/WorkCenter';
+import ModalPassword from './ModalPassword';
 
 
 moment.locale("th");
@@ -40,8 +42,12 @@ const useStyles = customStyles
 const ProductionDailyReport = () => {
 	const classes = useStyles();
 	const [data, setdata] = useState([])
+	const [types, setTypes] = useState(1);
+	const [dataReason, setDataReason] = useState({});
 	const [isLoadingData, setisLoadingData] = useState(false)
 	const [openModal, setOpenModal] = React.useState(false);
+	const [statusModal, setStatusModal] = React.useState(false);
+	const [passModal, setPassModal] = React.useState(false);
 	const [openModalReasonMaster, setOpenModalReasonMaster] = React.useState(false);
 	const [openModalReasonMasterDetail, setOpenModalReasonMasterDetail] = React.useState(false);
 	const [openModalAddNewReason, setOpenModalAddNewReason] = React.useState(false);
@@ -427,6 +433,14 @@ const ProductionDailyReport = () => {
 		return Math.abs(diff);
 	}
 
+	const handlePassModal = (wc) => {
+		if (!wc) {
+			alert('กรุณาเลือก work center');
+			return false;
+		}
+		setPassModal(true);
+	}
+
 	return (
 		<Paper className={classes.paper}>
 			<Snackbar
@@ -464,7 +478,6 @@ const ProductionDailyReport = () => {
 						}}
 						onSubmit={(values, { setSubmitting }) => {
 							setTimeout(() => {
-								alert(JSON.stringify(values, null, 2));
 								setSubmitting(false);
 							}, 400);
 						}}
@@ -506,6 +519,10 @@ const ProductionDailyReport = () => {
 										dataFormingRecord={dataFormingRecord}
 										setDataFormingRecord={setDataFormingRecord}
 										startdate={values.startdate}
+										enddate={values.enddate}
+										item={values.item}
+										types={types}
+										dataReason={dataReason}
 									/>
 								</Modal>
 								<Modal open={openModalAddNewMeter} onClose={handleCloseModalAddNewMeter} >
@@ -517,6 +534,8 @@ const ProductionDailyReport = () => {
 										startdate={values.startdate}
 									/>
 								</Modal>
+								<ModalPassword open={passModal} onClose={() => setPassModal(false)} setStatusModal={setStatusModal} />
+								<ModalManagement open={statusModal} onClose={() => setStatusModal(false)} modalDetail={<WorkCenter wc={values.w_c} onClose={() => setStatusModal(false)} />} />
 								<ModalFinishing values={values} openModal={openModalFinishing} handleCloseModal={handleCloseModalFinishing} />
 								<Modal open={openModal} onClose={handleCloseModal}  >
 									{/* {JSON.stringify(values)} */}
@@ -667,6 +686,8 @@ const ProductionDailyReport = () => {
 												setOpenModalReasonMaster={setOpenModalReasonMaster}
 												setOpenModalReasonMasterDetail={setOpenModalReasonMasterDetail}
 												setOpenModalAddNewReason={setOpenModalAddNewReason}
+												setTypes={setTypes}
+												setDataReason={setDataReason}
 											/>
 										</Grid>
 									</Grid>
@@ -774,6 +795,9 @@ const ProductionDailyReport = () => {
 									<Grid item lg={2}>
 										<CButton label={"ใบขนย้ายระหว่างสาขา"} onClick={() => { SearchFn("MovingProductReport", values, "", "MovingProductReport") }} disabled={false} />
 										<CButton label={"รายงานพิมพ์ตรา"} onClick={() => { SearchFn("StampingReport", values, "Stamping", "Stamping") }} disabled={false} />
+									</Grid>
+									<Grid item lg={2}>
+										<Button variant="contained" color="primary" style={{ backgroundColor: "red", marginTop: '3px' }} onClick={() => handlePassModal(values.w_c)}>ปรับเปลี่ยนสถานะเครื่อง</Button>
 									</Grid>
 								</Grid>
 							</form>

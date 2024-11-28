@@ -11,16 +11,17 @@ import moment from 'moment';
 import { Chip } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CAutocompleteReason from '../../../components/Input/CAutocompleteReason';
-import DateTimePicker from '../../../components/Input/CDateTimePicker';
 import CTextField from 'src/views/components/Input/CTextField';
 import CButton from 'src/views/components/Input/CButton';
 import API from 'src/views/components/API';
 import { useEffect } from 'react';
-import MyDateTimePicker from 'src/views/components/Input/MyDateTimePicker';
+
 const useStyles = customStyles;
 const ModalFinishing = ({values, openModal,handleCloseModal }) => {
   const classes = useStyles();
+  const [types, setTypes] = useState(1);
   const [data, setData] = useState([]);
+  const [reason, setReason] = useState({});
   const [open, setOpen] = useState(false);
 
   const loadFinishingReason = async (type) => {
@@ -42,6 +43,7 @@ const ModalFinishing = ({values, openModal,handleCloseModal }) => {
         start: moment(item.time_stopped.date).format('HH:mm:ss'),
         time_end: item.time_end ? moment(item.time_end?.date).format('DD/MM/YYYY') : '',
         end: item.time_end ? moment(item.time_end?.date).format('HH:mm:ss') : '',
+        time_stop: item.time_stopped.date
       };
     })
    setData(newData);
@@ -55,25 +57,25 @@ const ModalFinishing = ({values, openModal,handleCloseModal }) => {
   
   const AddNewReason = async (values) => {
 
-  if (values.reason_id === '') {
+  if (values.w_c === '' && types === 1) {
+    alert('กรุณาเลือก Work Center');
+    return false;
+  }
+
+  if (values.reason_id === '' && types === 1) {
     alert('กรุณาเลือกสาเหตุการหยุดเครื่อง');
     return false;
   }
 
-  const time_start = moment(values.time_stopped).format('YYYY-MM-DD HH:mm');
-  const time_end = moment(values.time_end).format('YYYY-MM-DD HH:mm');
-    
-
   try {
     await API.get("RPT_JOBPACKING/data.php", {
       params: {
-          load: 'AddNewReasonFinishing',
-          reason_id: values.reason_id,
-          time_stopped: time_start,
-          down_time: values.down_time,
-          w_c: values.w_c,
-          remark: values.remark,
-          time_end: time_end,
+        load: types === 1 ? 'AddNewReasonFinishing' : 'UpdateReasonFinishing',
+        time_stopped: types === 2 ? reason.time_stop : '',
+        w_c: values.w_c,
+        reason_id: values.reason_id,
+        remark: values.remark,
+        id: types === 2 ? reason.id : ''
       }
     });
     setOpen(false);
@@ -82,6 +84,16 @@ const ModalFinishing = ({values, openModal,handleCloseModal }) => {
     console.log(error);
   }
 }
+
+const handleOpen = (type) => {
+  if (type === 'Add') {
+    setTypes(1);
+  } else {
+    setTypes(2);
+  }
+  
+  setOpen(true);
+};
 
   return (
     <>
@@ -101,7 +113,26 @@ const ModalFinishing = ({values, openModal,handleCloseModal }) => {
             style={{ width: '98%', margin: '0%', overflowX: 'scroll' }}
             icons={tableIcons}
             title={`บันทึกสาเหตุการหยุดเครื่อง : ${values.w_c}`}
+            selectable={true}
             columns={[
+              {
+                title: 'Status',
+                field: 'down_time',
+                type: 'text',
+                render: rowData => {
+                  return rowData.down_time === null ? 'กําลังดําเนินการ' : 'เสร็จสิ้น';
+                },
+                cellStyle: (rowData) => {
+                  return {
+                    backgroundColor: rowData === null ? '#ff6666' : '#99ff99',
+                    textAlign: 'center',
+                  };
+                },
+                headerStyle: {
+                  textAlign: 'center'
+                }
+                
+              },
               {
                 title: 'วันที่เริ่มต้น',
                 field: 'time_stopped',
@@ -154,7 +185,15 @@ const ModalFinishing = ({values, openModal,handleCloseModal }) => {
               rowStyle: (rowData) => ({
                 fontSize: 12,
                 padding: 0
-              })
+              }),
+            }}
+            onRowClick={(event, rowData) => {
+              if (rowData.down_time !== null) {
+                alert('สาเหตุการหยุดเครื่องนี้เป็นสถานะเสร็จสิ้นแล้ว');
+                return false;
+              }
+              handleOpen('Edit');
+              setReason(rowData);
             }}
             components={{
               Toolbar: (props) => (
@@ -165,7 +204,7 @@ const ModalFinishing = ({values, openModal,handleCloseModal }) => {
                       label={<AddCircleIcon />}
                       color="default"
                       style={{ marginRight: 5 }}
-                      onClick={() => setOpen(true)}
+                      onClick={() => handleOpen('Add')}
                     />
                     <Chip
                       label="แสดงทุก Work Center"
@@ -182,14 +221,11 @@ const ModalFinishing = ({values, openModal,handleCloseModal }) => {
       </Modal>
       <Modal open={open} onClose={() => setOpen(false)}>
       <Grid container spacing={0} className={classes.paperModalSM}>
-<Grid item xs={12} >
-    <Formik
+      <Grid item xs={12} >
+      <Formik
         initialValues={
             {
                 reason_id: '',
-                time_stopped: moment().format('YYYY-MM-DD HH:mm:ss'),
-                time_end: moment().format('YYYY-MM-DD HH:mm:ss'),
-                down_time: '',
                 w_c: values.w_c,
                 remark: ''
             }
@@ -228,49 +264,33 @@ const ModalFinishing = ({values, openModal,handleCloseModal }) => {
                             label="Work center"
                             name="w_c"
                             onBlur={handleBlur}
-                            onChange={handleChange}
-                            value={values.w_c}
+                            value={types === 1 ? values.w_c : reason.w_c}
                             Autocomplete={false}
-                        />
-                    </Grid>
-                    <Grid item lg={6}>
-                        <MyDateTimePicker
-                            label="วันเวลาเริ่ม"
-                            name={"time_stopped"}
-                            value={values.time_stopped}
-                            onBlur={handleBlur}
-                            onChange={e => setFieldValue('time_stopped', e)}
-                        />
-                    </Grid>
-                    <Grid item lg={6}>
-                        <MyDateTimePicker
-                            label="วันเวลาสิ้นสุด"
-                            name={"time_end"}
-                            value={values.time_end}
-                            onBlur={handleBlur}
-                            onChange={e => setFieldValue('time_end',e)}
+                            disabled={types === 2}
                         />
                     </Grid>
                     <Grid item lg={12}>
-                        <CTextField
-                            error={Boolean(touched.down_time && errors.down_time)}
-                            helperText={touched.down_time && errors.down_time}
-                            label="รวมเวลาหยุดเครื่อง"
-                            name="down_time"
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            value={values.down_time}
-                            Autocomplete={false}
-                        />
-                    </Grid>
-                    <Grid item lg={12}>
-                        <CAutocompleteReason
-                            onBlur={handleBlur}
-                            name="reason_description"
-                            value={values.reason_id}
-                            setFieldValue={setFieldValue}
-                            type="FinishingReason"
-                        />
+                        {types === 1 ? (
+                          <CAutocompleteReason
+                          onBlur={handleBlur}
+                          name="reason_description"
+                          value={values.reason_description}
+                          setFieldValue={setFieldValue}
+                          type="FinishingReason"
+                      />
+                        ) : (
+                          <CTextField
+                          error={Boolean(touched.reason_description && errors.reason_description)}
+                          helperText={touched.reason_description && errors.reason_description}
+                          label="สาเหตุการหยุดเครื่อง"
+                          name="reason_description"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={reason.reason_description}
+                          Autocomplete={false}
+                          disabled
+                          />
+                        )}
                     </Grid>
                     <Grid item lg={12}>
                         <CTextField
@@ -280,12 +300,13 @@ const ModalFinishing = ({values, openModal,handleCloseModal }) => {
                             name="remark"
                             onBlur={handleBlur}
                             onChange={handleChange}
-                            value={values.remark}
+                            value={types === 1 ? values.remark : reason.remark}
                             Autocomplete={false}
+                            disabled={types === 2}
                         />
                     </Grid>
                     <Grid item lg={12}>
-                        <CButton label={"บันทึกสาเหตุการหยุดเครื่อง"} onClick={() => AddNewReason( values)} disabled={false} />
+                        <CButton label={types === 1 ? 'บันทึกสาเหตุการหยุดเครื่อง' : 'เสร็จสิ้นการหยุดเครื่อง'} onClick={() => AddNewReason(values)} disabled={false} />
                     </Grid>
                 </Grid>
             </form>

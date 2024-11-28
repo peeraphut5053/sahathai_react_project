@@ -1,22 +1,16 @@
 import React, { useEffect } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import {
   Box,
   Button,
   Container,
-  Grid,
-  Link,
   TextField,
   Typography,
   makeStyles,
-  Hidden,
 } from '@material-ui/core';
-import FacebookIcon from 'src/icons/Facebook';
-import GoogleIcon from 'src/icons/Google';
 import Page from 'src/components/Page';
-import Axios from 'axios';
 import API from '../components/API';
 import { toast } from 'react-toastify';
 
@@ -39,85 +33,17 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
-
 const LoginView = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-
-
-
-
-  // const gotoDashBoard = async () => {
-  //   let userData = ""
-  //   setTimeout(() => {
-  //     console.log(123)
-  //   }, 1000)
-  //   return userData
-  // }
-
-  const gotoDashBoard = async function (user) {
-    return user;
-  };
-
-
-
-
-  async function UserLogin(values) {
-    navigate('/app/dashboard', { replace: true });
-
-    let token = ""
-    let userData = ""
-    token = Axios.post(`http://172.18.1.194:99/STS_Web_API/api/account/login`, values)
-      .then(res => {
-        token = res.data;
-        console.log('token', token)
-        localStorage.setItem('token', token.accessToken);
-        Axios.create({
-          baseURL: `http://172.18.1.194:99/STS_web_api/api/member/data`,
-          timeout: 1000,
-          headers: { 'Authorization': 'Bearer ' + token.accessToken }
-        }).get(`http://172.18.1.194:99/STS_web_api/api/member/data`)
-          .then(response => {
-            userData = response.data;
-            localStorage.setItem('username', userData.email);
-            console.log(userData)
-            navigate('/app/dashboard', { replace: true });
-          })
-      }).catch(function (error) {
-        localStorage.setItem('username', 'guest');
-        localStorage.setItem('token', "");
-        localStorage.setItem('userData', "");
-        if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          console.log(error.request);
-        } else {
-          console.log('Error', error.message);
-        }
-        console.log(error.config);
-        navigate('/app/dashboard', { replace: true });
-
-      })
-
-    // await navigate('/app/dashboard', { replace: true });
-  }
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
       navigate('/app/dashboard', { replace: true });
     }
   }, [])
-  
 
   async function UserLogin2(values) {
-    // navigate('/app/dashboard', { replace: true });
-    let username = ""
-    let token = ""
-    let userData = ""
-
     API.post(`SignIn.php?action=Login&username=${values.username}&password=${values.password}`, values)
       .then(response => {
         let data = response.data;
@@ -131,40 +57,7 @@ const LoginView = () => {
            localStorage.removeItem("token");
            alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
       })
-
-    // await navigate('/app/dashboard', { replace: true });
   }
-
-
-
-
-
-  async function longTimeHello() {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve("Delay Hello1");
-      }, 5000);
-    });
-  }
-
-  async function longTimeHello2() {
-
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve("Delay Hello2");
-      }, 3000);
-    });
-  }
-
-  async function main() {
-    let a = await longTimeHello();
-    let b = await longTimeHello2();
-  }
-
-
-
-
-
 
   return (
     <Page

@@ -43,11 +43,12 @@ export default function ModalManagement(props) {
         },
         paper: {
             position: 'absolute',
-            width: '80%',
-            backgroundColor: theme.palette.background.paper,
-            border: '2px solid #000',
-            boxShadow: theme.shadows[5],
-            padding: theme.spacing(2, 4, 3),
+            width: '70%',
+            backgroundColor: "#e6e6e6",
+            borderBottom: '6px solid #3f51b5',
+            borderRadius: '5px',
+            boxShadow: `0 0 0 50vmax rgba(0,0,0,.5)`,
+            outline: 'none',
         },
     }));
 

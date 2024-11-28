@@ -50,11 +50,6 @@ const TableGroupDetail = ({day,wc}) => {
     cacheTime: 10 * 60 * 1000, 
 });
 
-  const addComma = num => {
-    return parseFloat(num)
-      .toFixed(2)
-      .replace(/\d(?=(\d{3})+\.)/g, '$&,');
-  };
 
   return (
     <Container maxWidth={false}>

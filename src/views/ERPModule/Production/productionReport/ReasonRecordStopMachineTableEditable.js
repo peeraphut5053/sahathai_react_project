@@ -41,6 +41,7 @@ const ReasonRecordStopMachineTableEditable = (props) => {
 
 
   const handleOpenModalAddnewReason = async () => {
+    props.setTypes(1);
     props.setOpenModalAddNewReason(true);
   };
 
@@ -110,6 +111,23 @@ const ReasonRecordStopMachineTableEditable = (props) => {
       title={`บันทึกสาเหตุการหยุดเครื่อง : ${props.w_c}`}
       columns={[
         {
+          title: 'Status',
+          field: 'time_used',
+          type: 'numeric',
+          render: rowData => {
+            return rowData.time_used === null ? 'กําลังดําเนินการ' : 'เสร็จสิ้น';
+          },
+          cellStyle: (rowData) => {
+            return {
+              backgroundColor: rowData === null ? '#ff6666' : '#99ff99',
+              textAlign: 'center',
+            };
+          },
+          headerStyle: {
+            textAlign: 'center'
+          }
+        },
+        {
           title: 'เวลาหยุดเครื่อง', field: 'time_stopped', editable: 'always',
           initialEditValue: moment().format('YYYY-MM-DD HH:mm:ss'), width: 200,
           headerStyle: {
@@ -118,9 +136,9 @@ const ReasonRecordStopMachineTableEditable = (props) => {
           // ,type:'datetime'
           // ,dateSetting:{ locale: 'ko-KR'}
         },
-        { title: 'สาเหตุหลัก', field: 'reason_id',  width: 100 },
-        { title: 'รายละเอียด', field: 'reason_detail_id',  width: 100 },
-        { title: 'หมายเหตุ', field: 'remark',  width: 100 },
+        { title: 'สาเหตุหลัก', field: 'reason_id', width: 100 },
+        { title: 'รายละเอียด', field: 'reason_detail_id', width: 100 },
+        { title: 'หมายเหตุ', field: 'remark', width: 100 },
         {
           title: 'รวมเวลา', field: 'time_used', type: 'numeric', width: 100,
           headerStyle: {
@@ -152,6 +170,15 @@ const ReasonRecordStopMachineTableEditable = (props) => {
           padding: 0
         }
         ),
+      }}
+      onRowClick={(event, rowData) => {
+        if (rowData.time_used !== null) {
+          alert('สาเหตุการหยุดเครื่องนี้เป็นสถานะเสร็จสิ้นแล้ว');
+          return false;
+        }
+        props.setDataReason(rowData);
+        props.setTypes(2);
+        props.setOpenModalAddNewReason(true);
       }}
 
       editable={{

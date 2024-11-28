@@ -26,20 +26,33 @@ const ReasonAddNewReason = (props) => {
 
         await API.get("RPT_JOBPACKING/data.php", {
             params: {
-                load: type,
+                load: props.types === 1 ? 'CreateForming' : 'UpdateForming',
                 reason_id: values.reason_id,
                 reason_detail_id: detail_id,
-                time_stopped: values.time_stopped,
-                time_used: values.time_used,
-                create_date: values.create_date,
+                time_stopped: props.types === 2 ? props.dataReason.time_stopped : '',
                 w_c: values.w_c,
                 remark: values.remark,
                 times_count: values.times_count,
+                id: props.types === 2 ? props.dataReason.id : ''
                 
             }
         });
         props.handleCloseModalAddNewReason()
-        props.setDataFormingRecord([...props.dataFormingRecord, values])
+        // if same id update setDataFormingRecord
+        const response = await API.get("RPT_JOBPACKING/data.php", {
+            params: {
+                load: "SelectFormingModal",
+                txtFromDate: props.startdate,
+                txtToDate: props.enddate,
+                txtItem: props.item,
+                txtref_num: '',
+                txtw_c: props.w_c,
+            }
+        });
+
+        props.setDataFormingRecord(response.data)
+        
+       
     }
 
     return (
@@ -86,37 +99,16 @@ const ReasonAddNewReason = (props) => {
                             <form onSubmit={handleSubmit}>
                                 {/* {JSON.stringify(values)} */}
                                 <Grid container spacing={2}>
-                                    <Grid item lg={12}>บันทึกสาเหตุการหยุดเครื่อง </Grid>
+                                    <Grid item lg={12}>บันทึกสาเหตุการหยุดเครื่อง</Grid>
                                     <Grid item lg={6}>
                                         <CTextField
-                                            error={Boolean(touched.time_used && errors.time_used)}
-                                            helperText={touched.time_used && errors.time_used}
+                                            error={Boolean(touched.w_c && errors.w_c)}
+                                            helperText={touched.w_c && errors.w_c}
                                             label="Work center"
                                             name="w_c"
                                             onBlur={handleBlur}
                                             onChange={handleChange}
                                             value={props.w_c}
-                                            Autocomplete={false}
-                                        />
-                                    </Grid>
-                                    <Grid item lg={6}>
-                                        <DateTimePicker
-                                            label="วันเวลาเริ่ม"
-                                            name={"time_stopped"}
-                                            value={values.time_stopped}
-                                            onBlur={handleBlur}
-                                            onChange={e => setFieldValue('time_stopped', moment(e).format('YYYY-MM-DD HH:mm:ss'))}
-                                        />
-                                    </Grid>
-                                    <Grid item lg={6}>
-                                        <CTextField
-                                            error={Boolean(touched.time_used && errors.time_used)}
-                                            helperText={touched.time_used && errors.time_used}
-                                            label="รวมเวลาหยุดเครื่อง"
-                                            name="time_used"
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            value={values.time_used}
                                             Autocomplete={false}
                                         />
                                     </Grid>
@@ -128,19 +120,30 @@ const ReasonAddNewReason = (props) => {
                                             name="times_count"
                                             onBlur={handleBlur}
                                             onChange={handleChange}
-                                            value={values.times_count}
+                                            value={props.types === 2 ? props.dataReason?.times_count : values.times_count}
                                             Autocomplete={false}
+                                       disabled
                                         />
                                     </Grid>
+                                    {props.types === 1 && 
                                     <Grid item lg={12}>
-                                        <CAutocompleteReason
-                                            onBlur={handleBlur}
+                                    <CAutocompleteReason
+                                        onBlur={handleBlur}
+                                        name="reason_description"
+                                        value={values.reason_id}
+                                        setFieldValue={setFieldValue}
+                                    />
+                                    </Grid>}
+                                    {props.types === 2 && <Grid item lg={12}>
+                                    <CTextField
+                                            label="สาเหตุการหยุดเครื่อง"
                                             name="reason_description"
-                                            value={values.reason_id}
-                                            setFieldValue={setFieldValue}
-                                        />
-                                    </Grid>
-                                    {values.reason_id !== 8 && <Grid item lg={12}>
+                                            value={props.dataReason?.reason_id}
+                                            Autocomplete={false}
+                                            disabled
+                                     />
+                                    </Grid>}
+                                    {values.reason_id !== 8 && props.types === 1 && <Grid item lg={12}>
                                         <CAutocompleteReasonDetail
                                             reason_id={values.reason_id}
                                             onBlur={handleBlur}
@@ -149,21 +152,30 @@ const ReasonAddNewReason = (props) => {
                                             setFieldValue={setFieldValue}
                                         />
                                     </Grid>}
+                                    {props.types === 2 && <Grid item lg={12}>
+                                    <CTextField
+                                            label="รายละเอียดการหยุดเครื่อง"
+                                            name="description"
+                                            value={props.dataReason?.reason_detail_id}
+                                            Autocomplete={false}
+                                            disabled
+                                     />
+                                    </Grid>}
                                     <Grid item lg={12}>
-                                     {values.reason_id === 8 &&<CTextField
+                                     {values.reason_id === 8 && <CTextField
                                             error={Boolean(touched.remark && errors.remark)}
                                             helperText={touched.remark && errors.remark}
                                             label="หมายเหตุ"
                                             name="remark"
                                             onBlur={handleBlur}
                                             onChange={handleChange}
-                                            value={values.remark}
+                                            value={props.types === 1 ? values.remark : props.dataReason?.remark}
                                             Autocomplete={false}
                                             
                                      />}
                                     </Grid>
                                     <Grid item lg={12}>
-                                        <CButton label={"บันทึกสาเหตุการหยุดเครื่อง"} onClick={() => AddNewReason("CreateForming", values)} disabled={false} />
+                                        <CButton label={props.types === 1 ? 'บันทึกสาเหตุการหยุดเครื่อง' : 'เสร็จสิ้นการหยุดเครื่อง'} onClick={() => AddNewReason("CreateForming", values)} disabled={false} />
                                     </Grid>
                                 </Grid>
 
