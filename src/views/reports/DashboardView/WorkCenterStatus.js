@@ -24,7 +24,7 @@ const WorkCenterStatus = ({wc, status, sum, reason, name,time, size, onClose}) =
       </p>
       <div style={{ margin: '25px', fontSize: '30px' }}>Size: {size}</div>
       <p style={{ margin: '25px', fontSize: '30px', fontWeight: 'bold', }} id="simple-modal-description">
-       Daily Production: {(sum / 1000).toFixed(2)} Tons
+       Daily Production: {sum} Tons
       </p>
     </div>
   )

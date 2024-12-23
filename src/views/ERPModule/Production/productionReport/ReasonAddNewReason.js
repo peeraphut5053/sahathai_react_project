@@ -24,33 +24,38 @@ const ReasonAddNewReason = (props) => {
             detail_id = null
         }
 
-        await API.get("RPT_JOBPACKING/data.php", {
-            params: {
-                load: props.types === 1 ? 'CreateForming' : 'UpdateForming',
-                reason_id: values.reason_id,
-                reason_detail_id: detail_id,
-                time_stopped: props.types === 2 ? props.dataReason.time_stopped : '',
-                w_c: values.w_c,
-                remark: values.remark,
-                times_count: values.times_count,
-                id: props.types === 2 ? props.dataReason.id : ''
-                
-            }
-        });
-        props.handleCloseModalAddNewReason()
-        // if same id update setDataFormingRecord
-        const response = await API.get("RPT_JOBPACKING/data.php", {
-            params: {
-                load: "SelectFormingModal",
-                txtFromDate: props.startdate,
-                txtToDate: props.enddate,
-                txtItem: props.item,
-                txtref_num: '',
-                txtw_c: props.w_c,
-            }
-        });
-
-        props.setDataFormingRecord(response.data)
+        try {
+            await API.get("RPT_JOBPACKING/data.php", {
+                params: {
+                    load: props.types === 1 ? 'CreateForming' : 'UpdateForming',
+                    reason_id: values.reason_id,
+                    reason_detail_id: detail_id,
+                    time_stopped: props.types === 2 ? props.dataReason.time_stopped : '',
+                    w_c: values.w_c,
+                    remark: values.remark,
+                    times_count: values.times_count,
+                    id: props.types === 2 ? props.dataReason.id : ''
+                    
+                }
+            });
+            props.handleCloseModalAddNewReason()
+            // if same id update setDataFormingRecord
+            const response = await API.get("RPT_JOBPACKING/data.php", {
+                params: {
+                    load: "SelectFormingModal",
+                    txtFromDate: props.startdate,
+                    txtToDate: props.enddate,
+                    txtItem: props.item,
+                    txtref_num: '',
+                    txtw_c: props.w_c,
+                }
+            });
+            props.setDataFormingRecord(response.data)
+        } catch (error) {
+            if (error.response.status === 400) {  
+                alert('Work Center นี้มีการบันทึกสาเหตุการหยุดเครื่องแล้ว');
+              }
+        }
         
        
     }

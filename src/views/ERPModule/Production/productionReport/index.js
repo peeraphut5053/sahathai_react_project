@@ -34,6 +34,7 @@ import ReasonAddNewMeter from './ReasonAddNewMeter';
 import ModalFinishing from './ModalFinishing';
 import WorkCenter from 'src/views/reports/DashboardView/WorkCenter';
 import ModalPassword from './ModalPassword';
+import ModalMachineRecord from './ModalMachineRecord';
 
 
 moment.locale("th");
@@ -48,6 +49,7 @@ const ProductionDailyReport = () => {
 	const [openModal, setOpenModal] = React.useState(false);
 	const [statusModal, setStatusModal] = React.useState(false);
 	const [passModal, setPassModal] = React.useState(false);
+	const [machineRecord, setMachineRecord] = React.useState(false);
 	const [openModalReasonMaster, setOpenModalReasonMaster] = React.useState(false);
 	const [openModalReasonMasterDetail, setOpenModalReasonMasterDetail] = React.useState(false);
 	const [openModalAddNewReason, setOpenModalAddNewReason] = React.useState(false);
@@ -206,6 +208,10 @@ const ProductionDailyReport = () => {
 	const handleCloseModalFinishing = async () => {
 		setOpenModalFinishing(false);
 	};
+
+	const handleCloseModalMachine = async () => {
+		setMachineRecord(false);
+	}
 
 	const setLocalStorageW_c = (w_c) => {
 		localStorage.setItem("w_c", w_c);
@@ -537,6 +543,7 @@ const ProductionDailyReport = () => {
 								<ModalPassword open={passModal} onClose={() => setPassModal(false)} setStatusModal={setStatusModal} />
 								<ModalManagement open={statusModal} onClose={() => setStatusModal(false)} modalDetail={<WorkCenter wc={values.w_c} onClose={() => setStatusModal(false)} />} />
 								<ModalFinishing values={values} openModal={openModalFinishing} handleCloseModal={handleCloseModalFinishing} />
+								<ModalMachineRecord values={values} openModal={machineRecord} handleCloseModal={handleCloseModalMachine} />
 								<Modal open={openModal} onClose={handleCloseModal}  >
 									{/* {JSON.stringify(values)} */}
 									<Grid container spacing={1} className={classes.paperModal} style={{ width: '80vw', height: '98vh', marginLeft: '10vw', marginTop: '1vh' }}>
@@ -797,7 +804,8 @@ const ProductionDailyReport = () => {
 										<CButton label={"รายงานพิมพ์ตรา"} onClick={() => { SearchFn("StampingReport", values, "Stamping", "Stamping") }} disabled={false} />
 									</Grid>
 									<Grid item lg={2}>
-										<Button variant="contained" color="primary" style={{ backgroundColor: "red", marginTop: '3px' }} onClick={() => handlePassModal(values.w_c)}>ปรับเปลี่ยนสถานะเครื่อง</Button>
+										<Button variant="contained" color="primary" style={{ width: "100%", backgroundColor: "red", marginTop: '3px' }} onClick={() => handlePassModal(values.w_c)}>ปรับเปลี่ยนสถานะเครื่อง</Button>
+										<CButton label={"รายการปรับเปลี่ยนสถานะเครื่อง"} onClick={() => setMachineRecord(true)} disabled={false} />
 									</Grid>
 								</Grid>
 							</form>

@@ -159,7 +159,7 @@ const Test = ({ className, ...rest }) => {
        try {
         const y = moment(month).format('YYYY');
         const date = getFirstAndLastDayOfYear(y);
-        const response = await API.get('RPT_QC_Lab_Tag_Detail/data.php', {
+        const response = await API.get('http://localhost/sts_web_center/module/RPT_QC_Lab_Tag_Detail/data.php', {
           params: {
               load: 'grape',
               StartDate: moment(date.firstDay).format('YYYY-MM-DD'),
@@ -216,9 +216,9 @@ const { data: data2 , isLoading: isLoading2, error: error2 } = useQuery({
       const currentMonth = response.data[0].map((item) => {
         return {
           ...item,
-          sumA: item.sumA > 0 ? parseInt(item.sumA) : 0,
-          sumB: item.sumB > 0 ? parseInt(item.sumB) : 0,
-          sumC: item.sumC > 0 ? parseInt(item.sumC) : 0
+          sumA: item.sumA > 0 ? Number(item.sumA) : 0,
+          sumB: item.sumB > 0 ? Number(item.sumB) : 0,
+          sumC: item.sumC > 0 ? Number(item.sumC) : 0
         };
       });
       return { res: currentMonth };
@@ -235,7 +235,7 @@ const { data: data2 , isLoading: isLoading2, error: error2 } = useQuery({
   const result = unique.map((item) => {
     const sumA = data2?.res
       .filter((item1) => item1.wc === item)
-      .reduce((prev, current) => prev + current.sumA, 0);
+      .reduce((prev, current) => prev + current.sumA, 0).toFixed(2);
     const sumB = data2?.res
       .filter((item1) => item1.wc === item)
       .reduce((prev, current) => prev + current.sumB, 0);
@@ -246,13 +246,14 @@ const { data: data2 , isLoading: isLoading2, error: error2 } = useQuery({
   });
 
   const color = group.filter((item) => item.value === groupBy)[0]?.color;
+console.log('result', result);
 
   const myData = {
     labels: label.find((item) => item.label === groupBy).name,
     datasets: [
       {
         label: groupBy,
-        data: result.map((item) => (item.sumA / 1000).toFixed(2)),
+        data: result.map((item) => item.sumA),
         backgroundColor: color,
         borderColor: color,
         borderWidth: 1
@@ -510,7 +511,7 @@ const { data: data2 , isLoading: isLoading2, error: error2 } = useQuery({
     };
   }
  
-  const sum = result.reduce((acc , item) => acc + item.sumA , 0) / 1000
+  const sum = result.reduce((acc , item) => acc + Number(item.sumA) , 0);
 
   const handleYearChange = (year) => {
     const currentYear = moment().format('YYYY');
@@ -663,7 +664,7 @@ const { data: data2 , isLoading: isLoading2, error: error2 } = useQuery({
             </div>
           }
           title={`${groupBy} Production Report`}
-          subheader={`Total Production : ${sum ? sum : 0} Tons`}
+          subheader={`Total Production : ${sum ? (sum).toFixed(2) : 0} Tons`}
           subheaderTypographyProps={{ align: 'center', color: 'secondary', variant: 'h4', fontWeight: 'bold' }}
         />
         <Divider />

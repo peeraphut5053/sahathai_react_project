@@ -81,7 +81,9 @@ const ModalFinishing = ({values, openModal,handleCloseModal }) => {
     setOpen(false);
     loadFinishingReason(1);
   } catch (error) {
-    console.log(error);
+    if (error.response.status === 400) {  
+      alert('Work Center นี้มีการบันทึกสาเหตุการหยุดเครื่องแล้ว');
+    }
   }
 }
 

@@ -54,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
     padding: '15px 5px 15px 5px',
     display: 'flex',
     flexDirection: 'column',
+    fontSize: '13px',
+    fontFamily: 'Sans-serif',
+    border: '1px solid #000',
     boxShadow: 'rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;',
     "&:hover": {
       cursor: 'pointer',
@@ -124,7 +127,7 @@ const label = [
   },
   {
     value: ["P6CT01", "P6CT02", "P6CT03", "W6CT01"],
-    name: [["P6CT01", "สถานีตัดแบ่งความยาว No.1"], ["P6CT02", " สถานีตัดแบ่งความยาว No.3 เลเซอร์"], ["P6CT03", "สถานีตัดแบ่งความยาว No.3 เลเซอร์"], ["W6CT01", "สถานีตัดท่อ"]],
+    name: [["P6CT01", "สถานีตัดแบ่งความยาว No.1"], ["P6CT02", "สถานีตัดแบ่งความยาว No.2"], ["P6CT03", "สถานีตัดแบ่งความยาว No.3 เลเซอร์"], ["W6CT01", "สถานีตัดท่อ"]],
     label: 'Cuting'
   },
   {
@@ -141,24 +144,23 @@ const Dashboard = () => {
     queryKey: ['WorkCenter'],
     queryFn: async () => {
       try {
-        const response = await API.get('http://localhost/sts_web_center/module/RPT_QC_Lab_Tag_Detail/data.php', {
+        const response = await API.get('RPT_QC_Lab_Tag_Detail/data.php', {
           params: {
             load: 'work',
             StartDate: moment().format('YYYY-MM-DD'),
             EndDate: moment().format('YYYY-MM-DD'),
           }
         });
-        const currentDay = response.data[0].map((item) => {
-          return {
-            ...item,
-            sumA: item.sumA > 0 ? parseInt(item.sumA) : 0,
-          };
+        const date = moment().format('YYYY-MM-DD');
+      
+        const currentDay = response.data[0].filter((item) => {
+          return moment(item.date.date).format('YYYY-MM-DD') === date;
         });
 
-        const currentMonth = response.data[2].map((item) => {
+        const currentMonth = response.data[0].map((item) => {
           return {
             ...item,
-            sumA: item.sumA > 0 ? parseInt(item.sumA) : 0,
+            sumA: item.sumA > 0 ? Number(item.sumA) : 0,
           };
         });
 
@@ -168,20 +170,18 @@ const Dashboard = () => {
         console.log('error', error);
       }
     },
-    refetchInterval: 10000,
+    refetchInterval: 30000,
     staleTime: 0,
-    cacheTime: 10 * 1000,
+    cacheTime: 30 * 1000, //  
   });
 
   const workCenters = ['Forming', 'Packing', 'Threading', 'Cuting', 'Groove', 'HydroTest', 'Slit', 'Painting', 'Galvanize'];
   const [forming, packing, threading, cutting, groove, hydro, slit, painting, galvanize] = workCenters.map(labelName => label.find(item => item.label === labelName));
 
   const fm = forming.value.map((item, index) => {
-    const sumA = data?.res
-      .filter((item1) => item1.wc === item)
-      .reduce((prev, current) => prev + current.sumA, 0);
+    const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: forming.name[index][1], sum: sumA, status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: forming.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const fmMonth = forming.value.map((item, index) => {
@@ -192,11 +192,9 @@ const Dashboard = () => {
   })
 
   const pk = packing.value.map((item, index) => {
-    const sumA = data?.res
-      .filter((item1) => item1.wc === item)
-      .reduce((prev, current) => prev + current.sumA, 0);
+    const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: packing.name[index][1], sum: sumA, status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: packing.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const pkMonth = packing.value.map((item, index) => {
@@ -207,11 +205,9 @@ const Dashboard = () => {
   })
 
   const th = threading.value.map((item, index) => {
-    const sumA = data?.res
-      .filter((item1) => item1.wc === item)
-      .reduce((prev, current) => prev + current.sumA, 0);
+    const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: threading.name[index][1], sum: sumA, status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: threading.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const thMonth = threading.value.map((item, index) => {
@@ -222,11 +218,9 @@ const Dashboard = () => {
   })
 
   const ct = cutting.value.map((item, index) => {
-    const sumA = data?.res
-      .filter((item1) => item1.wc === item)
-      .reduce((prev, current) => prev + current.sumA, 0);
+    const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: cutting.name[index][1], sum: sumA, status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: cutting.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const ctMonth = cutting.value.map((item, index) => {    
@@ -237,11 +231,9 @@ const Dashboard = () => {
   });
 
   const gr = groove.value.map((item, index) => {
-    const sumA = data?.res
-      .filter((item1) => item1.wc === item)
-      .reduce((prev, current) => prev + current.sumA, 0);
+    const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: groove.name[index][1], sum: sumA, status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: groove.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const grMonth = groove.value.map((item, index) => {
@@ -252,11 +244,9 @@ const Dashboard = () => {
   });
 
   const ht = hydro.value.map((item, index) => {
-    const sumA = data?.res
-      .filter((item1) => item1.wc === item)
-      .reduce((prev, current) => prev + current.sumA, 0);
+    const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: hydro.name[index][1], sum: sumA, status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: hydro.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const htMonth = hydro.value.map((item, index) => {
@@ -267,11 +257,9 @@ const Dashboard = () => {
   });
 
   const sl = slit.value.map((item, index) => {
-    const sumA = data?.res
-      .filter((item1) => item1.wc === item)
-      .reduce((prev, current) => prev + current.sumA, 0);
+    const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: slit.name[index][1], sum: sumA, status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: slit.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const slMonth = slit.value.map((item, index) => {
@@ -282,11 +270,9 @@ const Dashboard = () => {
   });
 
   const pt = painting.value.map((item, index) => {
-    const sumA = data?.res
-      .filter((item1) => item1.wc === item)
-      .reduce((prev, current) => prev + current.sumA, 0);
+    const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: painting.name[index][1], sum: sumA, status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: painting.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const ptMonth = painting.value.map((item, index) => {
@@ -297,11 +283,9 @@ const Dashboard = () => {
   });
 
   const ga = galvanize.value.map((item, index) => {
-    const sumA = data?.res
-      .filter((item1) => item1.wc === item)
-      .reduce((prev, current) => prev + current.sumA, 0);
+    const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: galvanize.name[index][1], sum: sumA, status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: galvanize.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const gaMonth = galvanize.value.map((item, index) => {
@@ -312,7 +296,7 @@ const Dashboard = () => {
   });
 
   const all = [...fm, ...pk, ...sl, ...ht, ...pt, ...ga, ...gr, ...ct, ...th];
-  const total = all.reduce((prev, current) => prev + current.sum, 0);
+  const total = all.reduce((prev, current) => prev + Number(current.sum), 0);
   const allMonth = [...fmMonth, ...pkMonth, ...slMonth, ...htMonth, ...ptMonth, ...gaMonth, ...grMonth, ...ctMonth, ...thMonth];
   const totalMonth = allMonth.reduce((prev, current) => prev + current, 0);
 
@@ -347,8 +331,8 @@ const Dashboard = () => {
               <Grid item xs={3} md={1}>
                 <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div>D : {(sl?.reduce((prev, current) => prev + current.sum, 0) / 1000).toFixed(2)}</div>
-                    <div>M : {addComma((slMonth?.reduce((prev, current) => prev + current, 0) / 1000).toFixed(2))}</div>
+                    <div>D: {sl?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
+                    <div>M: {addComma(slMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
                 </Paper>
               </Grid>
@@ -376,8 +360,8 @@ const Dashboard = () => {
               <Grid item xs={3} md={1}>
                 <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div>D : {(fm?.reduce((prev, current) => prev + current.sum, 0) / 1000).toFixed(2)}</div>
-                    <div>M : {addComma((fmMonth?.reduce((prev, current) => prev + current, 0) / 1000).toFixed(2))}</div>
+                    <div>D: {fm?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
+                    <div>M: {addComma(fmMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
                 </Paper>
               </Grid>
@@ -405,8 +389,8 @@ const Dashboard = () => {
               <Grid item xs={3} md={1}>
                 <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div>D : {(ht?.reduce((prev, current) => prev + current.sum, 0) / 1000).toFixed(2)}</div>
-                    <div>M : {addComma((htMonth?.reduce((prev, current) => prev + current, 0) / 1000).toFixed(2))}</div>
+                    <div>D: {ht?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
+                    <div>M: {addComma(htMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
                 </Paper>
               </Grid>
@@ -434,8 +418,8 @@ const Dashboard = () => {
               <Grid item xs={3} md={1}>
                 <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div>D : {(ga?.reduce((prev, current) => prev + current.sum, 0) / 1000).toFixed(2)}</div>
-                    <div>M : {addComma((gaMonth?.reduce((prev, current) => prev + current, 0) / 1000).toFixed(2))}</div>
+                    <div>D: {ga?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
+                    <div>M: {addComma(gaMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
                 </Paper>
               </Grid>
@@ -463,8 +447,8 @@ const Dashboard = () => {
               <Grid item xs={3} md={1}>
                 <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div>D : {(pt?.reduce((prev, current) => prev + current.sum, 0) / 1000).toFixed(2)}</div>
-                    <div>M : {addComma((ptMonth?.reduce((prev, current) => prev + current, 0) / 1000).toFixed(2))}</div>
+                    <div>D: {pt?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
+                    <div>M: {addComma(ptMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
                 </Paper>
               </Grid>
@@ -492,8 +476,8 @@ const Dashboard = () => {
               <Grid item xs={3} md={1}>
                 <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div>D : {(th?.reduce((prev, current) => prev + current.sum, 0) / 1000).toFixed(2)}</div>
-                    <div>M : {addComma((thMonth?.reduce((prev, current) => prev + current, 0) / 1000).toFixed(2))}</div>
+                    <div>D: {th?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
+                    <div>M: {addComma(thMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
                 </Paper>
               </Grid>
@@ -521,8 +505,8 @@ const Dashboard = () => {
               <Grid item xs={3} md={1}>
                 <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div>D : {(gr?.reduce((prev, current) => prev + current.sum, 0) / 1000).toFixed(2)}</div>
-                    <div>M : {addComma((grMonth?.reduce((prev, current) => prev + current, 0) / 1000).toFixed(2))}</div>
+                    <div>D: {gr?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
+                    <div>M: {addComma(grMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
                 </Paper>
               </Grid>
@@ -550,8 +534,8 @@ const Dashboard = () => {
               <Grid item xs={3} md={1}>
                 <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div>D : {(ct?.reduce((prev, current) => prev + current.sum, 0) / 1000).toFixed(2)}</div>
-                    <div>M : {addComma((ctMonth?.reduce((prev, current) => prev + current, 0) / 1000).toFixed(2))}</div>
+                    <div>D: {ct?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
+                    <div>M: {addComma(ctMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
                 </Paper>
               </Grid>
@@ -579,8 +563,8 @@ const Dashboard = () => {
               <Grid item xs={3} md={1}>
                 <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div>D : {(pk?.reduce((prev, current) => prev + current.sum, 0) / 1000).toFixed(2)}</div>
-                    <div>M : {addComma((pkMonth?.reduce((prev, current) => prev + current, 0) / 1000).toFixed(2))}</div>
+                    <div>D: {pk?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
+                    <div>M: {addComma(pkMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
                 </Paper>
               </Grid>
@@ -611,8 +595,8 @@ const Dashboard = () => {
             <Grid item xs={3} md={1}>
                 <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div>D : {(total / 1000).toFixed(2)}</div>
-                    <div>M : {addComma((totalMonth / 1000).toFixed(2))}</div>
+                    <div>D: {(total).toFixed(2)} Mt</div>
+                    <div>M: {addComma((totalMonth).toFixed(2))} Mt</div>
                   </div>
                 </Paper>
               </Grid>
