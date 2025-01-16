@@ -279,6 +279,7 @@ const handleOpen = (type) => {
                           value={values.reason_description}
                           setFieldValue={setFieldValue}
                           type="FinishingReason"
+                          wc={values.w_c}
                       />
                         ) : (
                           <CTextField

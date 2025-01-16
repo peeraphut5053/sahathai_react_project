@@ -160,16 +160,7 @@ const GroupBarChart = ({ className, ...rest }) => {
           };
         });
 
-        const newDate = response.data[1].map((item) => {
-          return {
-            ...item,
-            sumA: item.sumA > 0 ? parseInt(item.sumA) : 0,
-            sumB: item.sumB > 0 ? parseInt(item.sumB) : 0,
-            sumC: item.sumC > 0 ? parseInt(item.sumC) : 0
-          };
-        });
-
-        return { res: currentMonth, res1: newDate };
+        return { res: currentMonth };
       } catch (error) {
         console.log('error', error);
       }
@@ -194,19 +185,6 @@ const GroupBarChart = ({ className, ...rest }) => {
     return { wc: item, sumA, sumB, sumC };
   });
 
-  const result1 = unique.map((item) => {
-    const sumA = data?.res1
-      .filter((item1) => item1.wc === item)
-      .reduce((prev, current) => prev + current.sumA, 0);
-    const sumB = data?.res1
-      .filter((item1) => item1.wc === item)
-      .reduce((prev, current) => prev + current.sumB, 0);
-    const sumC = data?.res1
-      .filter((item1) => item1.wc === item)
-      .reduce((prev, current) => prev + current.sumC, 0);
-    return { wc: item, sumA, sumB, sumC };
-  });
-
   const renderUiTime = () => (
     times.map((item, index) => (
       <Grid item xs={4} key={index}>
@@ -220,6 +198,7 @@ const GroupBarChart = ({ className, ...rest }) => {
     const totalTimes = sumTimes(data1?.map((item) => item.work_hour));
     const breakTimes = sumTimes(data1?.map((item) => item.stop_hour));
     const realTime = sumTimes(data1?.map((item) => item.TOT_work_hour));
+    
     return { wc: item, totalTimes, breakTimes, realTime };
   });
 

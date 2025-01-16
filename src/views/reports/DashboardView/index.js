@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.dark,
     minHeight: '100%',
     paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
+    paddingTop: theme.spacing(2)
   },
   title: {
     borderBottom: `3px solid #3f51b5`,
@@ -161,6 +161,7 @@ const Dashboard = () => {
           return {
             ...item,
             sumA: item.sumA > 0 ? Number(item.sumA) : 0,
+            sumApcs: item.sumApcs > 0 ? Number(item.sumApcs) : 0,
           };
         });
 
@@ -180,8 +181,9 @@ const Dashboard = () => {
 
   const fm = forming.value.map((item, index) => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
+    const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: forming.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: forming.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const fmMonth = forming.value.map((item, index) => {
@@ -193,8 +195,9 @@ const Dashboard = () => {
 
   const pk = packing.value.map((item, index) => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
+    const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: packing.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: packing.name[index][1], sum: Number(sumA).toFixed(2), piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const pkMonth = packing.value.map((item, index) => {
@@ -206,8 +209,9 @@ const Dashboard = () => {
 
   const th = threading.value.map((item, index) => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
+    const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: threading.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: threading.name[index][1], sum: Number(sumA).toFixed(2), piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const thMonth = threading.value.map((item, index) => {
@@ -219,8 +223,9 @@ const Dashboard = () => {
 
   const ct = cutting.value.map((item, index) => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
+    const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: cutting.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: cutting.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const ctMonth = cutting.value.map((item, index) => {    
@@ -232,8 +237,9 @@ const Dashboard = () => {
 
   const gr = groove.value.map((item, index) => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
+    const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: groove.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: groove.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const grMonth = groove.value.map((item, index) => {
@@ -245,8 +251,9 @@ const Dashboard = () => {
 
   const ht = hydro.value.map((item, index) => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
+    const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: hydro.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: hydro.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const htMonth = hydro.value.map((item, index) => {
@@ -258,8 +265,9 @@ const Dashboard = () => {
 
   const sl = slit.value.map((item, index) => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
+    const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: slit.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: slit.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const slMonth = slit.value.map((item, index) => {
@@ -271,8 +279,9 @@ const Dashboard = () => {
 
   const pt = painting.value.map((item, index) => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
+    const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: painting.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: painting.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const ptMonth = painting.value.map((item, index) => {
@@ -284,8 +293,9 @@ const Dashboard = () => {
 
   const ga = galvanize.value.map((item, index) => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
+    const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: galvanize.name[index][1], sum: Number(sumA).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: galvanize.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
   });
 
   const gaMonth = galvanize.value.map((item, index) => {
@@ -305,12 +315,13 @@ const Dashboard = () => {
   const red = all.filter((item) => item.status === 'red').length;
 
   const classes = useStyles();
+  
   return (
     <Page
       className={classes.root}
       title="Dashboard"
     >
-      <ModalManagement open={open} onClose={() => setOpen(false)} modalDetail={<WorkCenterStatus wc={workCenter.wc} status={workCenter.status} sum={workCenter.sum} reason={workCenter.reason} name={workCenter.name} time={workCenter.time} size={workCenter.size} onClose={() => setOpen(false)} />} />
+      <ModalManagement open={open} onClose={() => setOpen(false)} modalDetail={<WorkCenterStatus wc={workCenter.wc} status={workCenter.status} sum={workCenter.sum} piece={workCenter.piece}  reason={workCenter.reason} name={workCenter.name} time={workCenter.time} size={workCenter.size} onClose={() => setOpen(false)} />} />
       <Container maxWidth={false}>
         <Typography className={classes.title} align='center' variant="h1" gutterBottom>
           Work Center
@@ -623,3 +634,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

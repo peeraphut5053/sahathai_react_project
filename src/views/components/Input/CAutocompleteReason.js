@@ -29,15 +29,34 @@ export default function CAutocompleteReason(props) {
             // const response = await fetch('https://country.register.gov.uk/records.json?page-size=5000');
             // const response = await fetch('http://172.18.1.194/sts_web_center/module/RPT_JOBPACKING/data.php?load=SelectForming_reason_description');
             // const response2 = await API_sts_web_center.get("RPT_JOBPACKING/data.php?load=workcenter");
-            console.log("response", response)
             await sleep(1e3); // For demo purposes.
             const countries = await response.json();
-
-
             if (active) {
-                console.log("countries",countries)
-                setOptions(countries)
+                if (props.type) {
+                    if (props.wc === "P6PT01" || props.wc === "P6PT0B" || props.wc === "P6PT0C") {
+                        // Filter out records with reason_id not equal to 7,11,12,10,14,5,6,99
+                        const validReasonIds = [7, 11, 12, 10, 14, 5, 6, 99];
+                        const reason = countries.filter(item => validReasonIds.includes(Number(item.reason_id)));
+                        setOptions(reason.sort((a, b) => a.reason_id - b.reason_id));
+                    } else if (props.wc === "P6TH01" || props.wc === "P6TH02" || props.wc === "P6TH03" || props.wc === "P6TH05" || props.wc === "W6TH04") {
+                        const validReasonIds = [7, 11, 10, 8, 14, 5, 6, 99];
+                        const reason = countries.filter(item => validReasonIds.includes(Number(item.reason_id)));
+                        setOptions(reason.sort((a, b) => a.reason_id - b.reason_id));
+                    }    else if (props.wc === "P1SL03" || props.wc === "P1SL05" || props.wc === "W1SL04") {
+                         const validReasonIds = [7, 11, 9, 10, 13, 14, 5, 6, 99]; 
+                         const reason = countries.filter(item => validReasonIds.includes(Number(item.reason_id)));
+                         setOptions(reason.sort((a, b) => a.reason_id - b.reason_id));
+                    } else {
+                         const validReasonIds = [7, 11, 10, 14, 5, 6, 99];
+                         const reason = countries.filter(item => validReasonIds.includes(Number(item.reason_id)));
+                         setOptions(reason.sort((a, b) => a.reason_id - b.reason_id));
+                    }
+                } else {
+                    setOptions(countries)
+                }
+                
             }
+
         })();
 
         return () => {

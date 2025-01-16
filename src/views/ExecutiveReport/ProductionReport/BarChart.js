@@ -28,14 +28,14 @@ import DateTimePicker from 'src/views/components/Input/CDatePicker';
 import TableGroupDetail from './TableGroupDetail';
 const useStyles = makeStyles(() => ({
   root: {
-    
+
   }
 }));
 
 const label = [
   {
     value: ["P2FM01", "P2FM05", "P2FM06", "P2FM08", "P2FM09", "W2FM02", "W2FM04", "W2FM07", "W2FMC1"],
-    name: [["P2FM01", "สถานี Forming 01"], ["P2FM05","สถานี Forming 05"], ["P2FM06", "สถานี Forming 06"], ["P2FM08","สถานี Forming 08"], ["P2FM09", "สถานี Forming 08"], ["W2FM02", "สถานี Forming 02"], ["W2FM04", "สถานี Forming 04"], ["W2FM07", "สถานี Forming 07"], ["W2FMC1", "สถานีตัวซีเครื่อง 1"]],
+    name: [["P2FM01", "สถานี Forming 01"], ["P2FM05", "สถานี Forming 05"], ["P2FM06", "สถานี Forming 06"], ["P2FM08", "สถานี Forming 08"], ["P2FM09", "สถานี Forming 08"], ["W2FM02", "สถานี Forming 02"], ["W2FM04", "สถานี Forming 04"], ["W2FM07", "สถานี Forming 07"], ["W2FMC1", "สถานีตัวซีเครื่อง 1"]],
     label: 'Forming'
   },
   {
@@ -45,7 +45,7 @@ const label = [
   },
   {
     value: ["P5HTF2", "P5HTF5", "P5HTO1", "P5HTO2", "W5HT02", "W5HT04", "W5HT06"],
-    name: [["P5HTF2", "สถานีเทสน้ำ F2"], ["P5HTF5", "สถานีเทสน้ำ F5"], ["P5HTO1"," สถานีเทสน้ำ O1 A6"], ["P5HTO2", "สถานีเทสน้ำ O2 A6"], ["W5HT02","สถานีเทสน้ำ 02 วังน้อย"], ["W5HT04", "สถานีเทสน้ำ 04 วังน้อย"], ["W5HT06", "สถานีเทสน้ำ 06 วังน้อย"]],
+    name: [["P5HTF2", "สถานีเทสน้ำ F2"], ["P5HTF5", "สถานีเทสน้ำ F5"], ["P5HTO1", " สถานีเทสน้ำ O1 A6"], ["P5HTO2", "สถานีเทสน้ำ O2 A6"], ["W5HT02", "สถานีเทสน้ำ 02 วังน้อย"], ["W5HT04", "สถานีเทสน้ำ 04 วังน้อย"], ["W5HT06", "สถานีเทสน้ำ 06 วังน้อย"]],
     label: 'HydroTest'
   },
   {
@@ -62,7 +62,7 @@ const label = [
   },
   {
     value: ["P6TH01", "P6TH02", "P6TH03", "P6TH05"],
-    name: [["P6TH01","สถานนีต๊าป 01"], ["P6TH02", "สถานนีต๊าป 02"], ["P6TH03", "สถานนีต๊าป 03"], ["P6TH05", "สถานนีต๊าป 05"]],
+    name: [["P6TH01", "สถานนีต๊าป 01"], ["P6TH02", "สถานนีต๊าป 02"], ["P6TH03", "สถานนีต๊าป 03"], ["P6TH05", "สถานนีต๊าป 05"]],
     label: 'Threading'
   },
   {
@@ -130,12 +130,12 @@ const group = [
   },
 ];
 
-const months = ['Main','Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const months = ['Main', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 const Test = ({ className, ...rest }) => {
   const theme = useTheme();
   const [month, setMonth] = useState(moment().format('YYYY-MM'));
-  const [currentMonth, setCurrentMonth] = useState(moment().format('M') -1);
+  const [currentMonth, setCurrentMonth] = useState(moment().format('M') - 1);
   const [currentData, setCurrentData] = useState([]);
   const [Types, setTypes] = useState('Main');
   const [open, setOpen] = useState(false);
@@ -156,80 +156,80 @@ const Test = ({ className, ...rest }) => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["BarChart", month],
     queryFn: async () => {
-       try {
+      try {
         const y = moment(month).format('YYYY');
         const date = getFirstAndLastDayOfYear(y);
-        const response = await API.get('http://localhost/sts_web_center/module/RPT_QC_Lab_Tag_Detail/data.php', {
+        const response = await API.get('RPT_QC_Lab_Tag_Detail/data.php', {
           params: {
-              load: 'grape',
-              StartDate: moment(date.firstDay).format('YYYY-MM-DD'),
-              EndDate: moment(date.lastDay).format('YYYY-MM-DD'),
+            load: 'grape',
+            StartDate: moment(date.firstDay).format('YYYY-MM-DD'),
+            EndDate: moment(date.lastDay).format('YYYY-MM-DD'),
           }
-      });
-  
-      const slit = response.data[0].filter((item) => item.wcGroup === 'Slit');
-      const forming = response.data[0].filter((item) => item.wcGroup === 'Forming');
-      const packing = response.data[0].filter((item) => item.wcGroup === 'Packing');
-      const hydro = response.data[0].filter((item) => item.wcGroup === 'HydroTest');
-      const galvanize = response.data[0].filter((item) => item.wcGroup === 'Galvanize');
-      const groove = response.data[0].filter((item) => item.wcGroup === 'Groove');
-      const painting = response.data[0].filter((item) => item.wcGroup === 'Painting');
-      const cuting = response.data[0].filter((item) => item.wcGroup === 'Cuting');
-      const threading = response.data[0].filter((item) => item.wcGroup === 'Threading');
+        });
 
-      return {
-        slit,
-        forming,
-        packing,
-        hydro,
-        galvanize,
-        groove,
-        painting,
-        cuting,
-        threading
-      }
-        
-       } catch (error) {
+        const slit = response.data[0].filter((item) => item.wcGroup === 'Slit');
+        const forming = response.data[0].filter((item) => item.wcGroup === 'Forming');
+        const packing = response.data[0].filter((item) => item.wcGroup === 'Packing');
+        const hydro = response.data[0].filter((item) => item.wcGroup === 'HydroTest');
+        const galvanize = response.data[0].filter((item) => item.wcGroup === 'Galvanize');
+        const groove = response.data[0].filter((item) => item.wcGroup === 'Groove');
+        const painting = response.data[0].filter((item) => item.wcGroup === 'Painting');
+        const cuting = response.data[0].filter((item) => item.wcGroup === 'Cuting');
+        const threading = response.data[0].filter((item) => item.wcGroup === 'Threading');
+
+        return {
+          slit,
+          forming,
+          packing,
+          hydro,
+          galvanize,
+          groove,
+          painting,
+          cuting,
+          threading
+        }
+
+      } catch (error) {
         console.log('error', error);
-       }
+      }
     },
     staleTime: 5 * 60 * 1000,
-    cacheTime: 10 * 60 * 1000, 
-});
+    cacheTime: 10 * 60 * 1000,
+  });
 
 
-const { data: data2 , isLoading: isLoading2, error: error2 } = useQuery({
-  queryKey: ['GroupBarChart', day, dayEnd, groupBy],
-  queryFn: async () => {
-    try {
-      const response = await API.get('RPT_QC_Lab_Tag_Detail/data.php', {
-        params: {
-          load: 'group',
-          StartDate: moment(day).format('YYYY-MM-DD'),
-          EndDate: moment(dayEnd).format('YYYY-MM-DD'),
-          StartLastMonth: moment("2024-09-01").format('YYYY-MM-DD'),
-          EndLastMonth: moment("2024-09-30").format('YYYY-MM-DD'),
-          GroupBy: groupBy
-        }
-      });
+  const { data: data2, isLoading: isLoading2, error: error2 } = useQuery({
+    queryKey: ['GroupBarChart', day, dayEnd, groupBy],
+    queryFn: async () => {
+      try {
+        const response = await API.get('RPT_QC_Lab_Tag_Detail/data.php', {
+          params: {
+            load: 'group',
+            StartDate: moment(day).format('YYYY-MM-DD'),
+            EndDate: moment(dayEnd).format('YYYY-MM-DD'),
+            StartLastMonth: moment("2024-09-01").format('YYYY-MM-DD'),
+            EndLastMonth: moment("2024-09-30").format('YYYY-MM-DD'),
+            GroupBy: groupBy
+          }
+        });
 
-      const currentMonth = response.data[0].map((item) => {
-        return {
-          ...item,
-          sumA: item.sumA > 0 ? Number(item.sumA) : 0,
-          sumB: item.sumB > 0 ? Number(item.sumB) : 0,
-          sumC: item.sumC > 0 ? Number(item.sumC) : 0
-        };
-      });
-      return { res: currentMonth };
-      
-    } catch (error) {
-      console.log('error', error);
-    }
-  },
-  staleTime: 5 * 60 * 1000,
-  cacheTime: 10 * 60 * 1000
-});
+        const currentMonth = response.data[0].map((item) => {
+          return {
+            ...item,
+            sumA: item.sumA > 0 ? Number(item.sumA) : 0,
+            sumB: item.sumB > 0 ? Number(item.sumB) : 0,
+            sumC: item.sumC > 0 ? Number(item.sumC) : 0
+          };
+        });
+        return { res: currentMonth };
+
+      } catch (error) {
+        console.log('error', error);
+      }
+    },
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 10 * 60 * 1000
+  });
 
   const unique = label.find((item) => item.label === groupBy).value;
   const result = unique.map((item) => {
@@ -246,14 +246,13 @@ const { data: data2 , isLoading: isLoading2, error: error2 } = useQuery({
   });
 
   const color = group.filter((item) => item.value === groupBy)[0]?.color;
-console.log('result', result);
 
   const myData = {
     labels: label.find((item) => item.label === groupBy).name,
     datasets: [
       {
         label: groupBy,
-        data: result.map((item) => item.sumA),
+        data: result.map((item) => item.sumA / 1000),
         backgroundColor: color,
         borderColor: color,
         borderWidth: 1
@@ -281,7 +280,7 @@ console.log('result', result);
     const firstDay = new Date(year, 0, 1);
 
     const lastDay = new Date(year, 11, 31);
-    
+
     return {
       firstDay: firstDay,
       lastDay: lastDay
@@ -360,7 +359,7 @@ console.log('result', result);
       caretSize: 6, // ปรับขนาดของลูกศรชี้
       bodySpacing: 8, // ระยะห่างระหว่างบรรทัดในส่วน body
       titleSpacing: 6, // ระยะห่างระหว่างหัวข้อและเนื้อหา
-      
+
       // ถ้าต้องการกำหนดความกว้างสูงสุด:
       bodyFontSize: 14, // ขนาดตัวอักษรส่วน body แยกจาก title
       titleFontSize: 16, // ขนาดตัวอักษรส่วน title
@@ -372,7 +371,7 @@ console.log('result', result);
       if (activePoints.length > 0) {
         var chartData = activePoints[0]._chart.config.data;
         var idx = activePoints[0]._index;
-        var label = chartData.labels[idx];   
+        var label = chartData.labels[idx];
         setCurrentMonth(moment(label, 'MMM').format('M') - 1);
       }
     },
@@ -392,15 +391,16 @@ console.log('result', result);
     const month = Number(m);
     setCurrentMonth(month);
     setCurrentData([
-      (data?.slit[month].sumA / 1000).toFixed(2),
-      (data?.forming[month].sumA / 1000).toFixed(2),
-      (data?.hydro[month].sumA / 1000).toFixed(2),
-      (data?.galvanize[month].sumA / 1000).toFixed(2),
-      (data?.painting[month].sumA / 1000).toFixed(2),
-      ((data?.threading[month].sumA || 0  / 1000 + data?.groove[month].sumA || 0) / 1000).toFixed(2),
-      (data?.cuting[month].sumA / 1000).toFixed(2),
-      (data?.packing[month].sumA / 1000).toFixed(2)
-     ])
+      // if undefined, set to 0
+      data.slit[month]?.sumA ? (data?.slit[month].sumA / 1000).toFixed(2) : 0,
+      data?.forming[month]?.sumA ? (data?.forming[month].sumA / 1000).toFixed(2) : 0,
+      data?.hydro[month]?.sumA ? (data?.hydro[month].sumA / 1000).toFixed(2) : 0,
+      data?.galvanize[month]?.sumA ? (data?.galvanize[month].sumA / 1000).toFixed(2) : 0,
+      data?.painting[month]?.sumA ? (data?.painting[month].sumA / 1000).toFixed(2) : 0,
+      data?.threading[month]?.sumA ? ((data?.threading[month].sumA || 0 / 1000 + data?.groove[month].sumA || 0) / 1000).toFixed(2) : 0,
+      data?.cuting[month]?.sumA ? (data?.cuting[month].sumA / 1000).toFixed(2) : 0,
+      data?.packing[month]?.sumA ? (data?.packing[month].sumA / 1000).toFixed(2) : 0
+    ])
   };
 
   const optionsBar = {
@@ -493,7 +493,7 @@ console.log('result', result);
       xPadding: 12, // padding แนวนอน
       yPadding: 12 // padding แนวตั้ง
     },
-    onClick: function() {
+    onClick: function () {
       setBarModal(true)
     }
   };
@@ -510,203 +510,219 @@ console.log('result', result);
       lastDay: lastDay
     };
   }
- 
-  const sum = result.reduce((acc , item) => acc + Number(item.sumA) , 0);
+
+  const sum = result.reduce((acc, item) => acc + Number(item.sumA), 0);
 
   const handleYearChange = (year) => {
     const currentYear = moment().format('YYYY');
 
-    if (year >= currentYear || year < 2023) {
-        return  alert('ไม่มีข้อมูลในปีนี้');
+    if (year > currentYear || year < 2023) {
+      return alert('ไม่มีข้อมูลในปีนี้');
     }
     setMonth(year);
   };
 
   return (
     <Grid container spacing={3}>
-    <Grid item xs={12}>
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
-      <ModalManagementFullPage
-        open={open}
-        onClose={() => setOpen(false)}
-        modalDetail={
-          <TableDailyReport />
-        }
-     />
-      <ModalManagementFullPage
-        open={openModal}
-        onClose={() => setOpenModal(false)}
-        modalDetail={
-          <TableProduction data={data} />
-        }
-     />
-      <CardHeader
-        action={(
-            <CYearPicker
-              label="Month"
-              name="month"
-              value={month}
-              onChange={(date) => handleYearChange(moment(date).format('YYYY'))}
-             />
-        )}
-        subheader={(
-          <Button
-          color="secondary"
-          endIcon={<ArrowRightIcon />}
-          size="small"
-          variant="outlined"
-          onClick={() => setOpen(true)}
+      <Grid item xs={12}>
+        <Card
+          className={clsx(classes.root, className)}
+          {...rest}
         >
-          Daily Report
-        </Button>
-        )}
-        title="Monthly Production Volumes by Department (Grade A)"
-      />
-      <Divider />
-      <CardContent>
-        <Grid container spacing={3}>
-         <Grid item xs={10}>
-           <Box
-          height={400}
-          position="relative"
-          display="flex"  justifyContent="center" alignItems="center"
-                >
-           {isLoading ? <CircularProgress /> : <LineCard data={data} options={options} currentData={currentData} Types={Types} />}
-           </Box>
-       </Grid>
-          <Grid item xs={2}>
-           <Card style={{ border: 'solid 1px red' }}>
-            <CardHeader style={{ textAlign: 'center' }} title={moment().month(currentMonth).format('MMMM')} />
-            <CardContent style={{ textAlign: 'center' }}>
-              {!isLoading &&  
-                <>
-                <Typography style={{ fontWeight: 'bold', color: '#ffb200' }}>Slit : {addComma((data?.slit[currentMonth].sumA / 1000).toFixed(2))}</Typography>
-                <Typography style={{ fontWeight: 'bold', color: '#cc0000' }}>Forming : {addComma((data?.forming[currentMonth].sumA / 1000).toFixed(2))}</Typography>
-                <Typography style={{ fontWeight: 'bold', color: '#0051ff' }}>HydroTest : {addComma((data?.hydro[currentMonth].sumA / 1000).toFixed(2))}</Typography>
-                <Typography style={{ fontWeight: 'bold', color: '#009933' }}>Galvanize : {addComma((data?.galvanize[currentMonth].sumA / 1000).toFixed(2))}</Typography>
-                <Typography style={{ fontWeight: 'bold', color: '#9900cc' }}>Painting : {addComma((data?.painting[currentMonth].sumA / 1000).toFixed(2))}</Typography>
-                <Typography style={{ fontWeight: 'bold', color: '#cccc00' }}>Threading : {addComma(((data?.threading[currentMonth]?.sumA || 0 + data?.groove[currentMonth]?.sumA || 0) / 1000).toFixed(2))}</Typography>
-                <Typography style={{ fontWeight: 'bold', color: '#00ffff' }}>Cuting : {addComma((data?.cuting[currentMonth].sumA / 1000).toFixed(2))}</Typography>
-                <Typography style={{ fontWeight: 'bold', color: '#663300' }}>Packing : {addComma((data?.packing[currentMonth].sumA / 1000).toFixed(2))}</Typography>
-                </>
-              }
-            </CardContent>
-           </Card>
-          </Grid>
-        </Grid>
-      </CardContent>
-      <Divider />
-      <Box
-        display="flex"
-        justifyContent="flex-end"
-        p={2}
-      >
-        {!isLoading && (
-          <>
-          <Grid container spacing={2}>
-            {months.map((item, index) => (
-              <Grid item key={index}>
-                <Button
-                  style={{ backgroundColor: item === Types ? '#4169E1' : 'transparent', color: 'black' }}
-                  variant="outlined"
-                  endIcon={<ArrowRightIcon />}
-                  size="small"
-                  color="primary"
-                  onClick={() => handleData(item)}
-                >
-                  {item}
-                </Button>
-              </Grid>
-            ))}
-            
-          </Grid>
-        <Button
-          color="primary"
-          endIcon={<ArrowRightIcon />}
-          size="small"
-          variant="outlined"
-          onClick={() => setOpenModal(true)}
-        >
-          Overview
-        </Button>
-          </>
-        )}
-      </Box>
-    </Card>
-    </Grid>
-    <Grid item xs={12}>
-    <Card className={clsx(classes.root, className)} {...rest}>
-    <ModalManagementFullPage
-        open={barModal}
-        onClose={() => setBarModal(false)}
-        modalDetail={
-        <TableGroupDetail day={day} wc={groupBy} />
-        }
-     />
-        <CardHeader
-          action={
-            <div style={{ display: 'flex', margin: '10px' }}>
-             <DateTimePicker
-              label="StartDate"
-              name="day"
-              value={day}
-              onChange={(e) => setDay(moment(e).format('YYYY-MM-DD'))}
-            />
-            <DateTimePicker
-              label="EndDate"
-              name="day"
-              value={dayEnd}
-              onChange={(e) => setDayEnd(moment(e).format('YYYY-MM-DD'))}
-            />
-            </div>
-          }
-          title={`${groupBy} Production Report`}
-          subheader={`Total Production : ${sum ? (sum).toFixed(2) : 0} Tons`}
-          subheaderTypographyProps={{ align: 'center', color: 'secondary', variant: 'h4', fontWeight: 'bold' }}
-        />
-        <Divider />
-        <CardContent>
-              <Box
-                   height={400}
-                   position="relative"
-                   display="flex"  justifyContent="center" alignItems="center"
+          <ModalManagementFullPage
+            open={open}
+            onClose={() => setOpen(false)}
+            modalDetail={
+              <TableDailyReport />
+            }
+          />
+          <ModalManagementFullPage
+            open={openModal}
+            onClose={() => setOpenModal(false)}
+            modalDetail={
+              <TableProduction data={data} />
+            }
+          />
+          <CardHeader
+            action={(
+              <CYearPicker
+                label="Month"
+                name="month"
+                value={month}
+                onChange={(date) => handleYearChange(moment(date).format('YYYY'))}
+              />
+            )}
+            subheader={(
+              <Button
+                color="secondary"
+                endIcon={<ArrowRightIcon />}
+                size="small"
+                variant="outlined"
+                onClick={() => setOpen(true)}
               >
-                {isLoading2 ? (
-                  <CircularProgress />
-                ) : (
-                  <Bar data={myData} plugins={[ChartDataLabels]} options={optionsBar} />
-                )}
-              </Box>
-        </CardContent>
-        <Divider />
-        <Box display="flex" justifyContent="flex-end" p={2}>
-          <Grid container spacing={2}>
-            {group.map((item) => (
-              <Grid item key={item.value}>
+                Daily Report
+              </Button>
+            )}
+            title="Monthly Production Volumes by Department (Grade A)"
+          />
+          <Divider />
+          <CardContent>
+            <Grid container spacing={3}>
+              <Grid item xs={10}>
+                <Box
+                  height={400}
+                  position="relative"
+                  display="flex" justifyContent="center" alignItems="center"
+                >
+                  {isLoading ? <CircularProgress /> : <LineCard data={data} options={options} currentData={currentData} Types={Types} />}
+                </Box>
+              </Grid>
+              <Grid item xs={2}>
+                <Card style={{ border: 'solid 1px red' }}>
+                  <CardHeader style={{ textAlign: 'center' }} title={moment().month(currentMonth).format('MMMM')} />
+                  <CardContent style={{ textAlign: 'center' }}>
+                    {!isLoading &&
+                      <>
+                        <Typography style={{ fontWeight: 'bold', color: '#ffb200' }}>
+                          Slit : {data.slit?.length > 0 ? addComma((data?.slit[currentMonth].sumA / 1000).toFixed(2)) : 0}
+                        </Typography>
+                        <Typography style={{ fontWeight: 'bold', color: '#cc0000' }}>
+                          Forming : {data.forming?.length > 0 ? addComma((data?.forming[currentMonth].sumA / 1000).toFixed(2)) : 0}
+                        </Typography>
+                        <Typography style={{ fontWeight: 'bold', color: '#0051ff' }}>
+                          HydroTest : {data.hydro?.length > 0 ? addComma((data?.hydro[currentMonth].sumA / 1000).toFixed(2)) : 0}
+                        </Typography>
+                        <Typography style={{ fontWeight: 'bold', color: '#009933' }}>
+                          Galvanize : {data.galvanize?.length > 0 ? addComma((data?.galvanize[currentMonth].sumA / 1000).toFixed(2)) : 0}
+                        </Typography>
+                        <Typography style={{ fontWeight: 'bold', color: '#9900cc' }}>
+                          Painting : {data.painting?.length > 0 ? addComma((data?.painting[currentMonth].sumA / 1000).toFixed(2)) : 0}
+                        </Typography>
+                        <Typography style={{ fontWeight: 'bold', color: '#cccc00' }}>
+                          Threading : {addComma(((data?.threading?.length > 0 ? data?.threading[currentMonth].sumA : 0 + data?.groove?.length > 0 ? data?.groove[currentMonth].sumA : 0) / 1000).toFixed(2))}
+                        </Typography>
+                        <Typography style={{ fontWeight: 'bold', color: '#00ffff' }}>
+                          Cuting : {data.cuting?.length > 0 ? addComma((data?.cuting[currentMonth].sumA / 1000).toFixed(2)) : 0}
+                        </Typography>
+                        <Typography style={{ fontWeight: 'bold', color: '#663300' }}>
+                          Packing : {data.packing?.length > 0 ? addComma((data?.packing[currentMonth].sumA / 1000).toFixed(2)) : 0}
+                        </Typography>
+                      </>
+                    }
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+          </CardContent>
+          <Divider />
+          <Box
+            display="flex"
+            justifyContent="flex-end"
+            p={2}
+          >
+            {!isLoading && (
+              <>
+                <Grid container spacing={2}>
+                  {months.map((item, index) => (
+                    <Grid item key={index}>
+                      <Button
+                        style={{ backgroundColor: item === Types ? '#4169E1' : 'transparent', color: 'black' }}
+                        variant="outlined"
+                        endIcon={<ArrowRightIcon />}
+                        size="small"
+                        color="primary"
+                        onClick={() => handleData(item)}
+                      >
+                        {item}
+                      </Button>
+                    </Grid>
+                  ))}
+
+                </Grid>
                 <Button
-                  style={{ color: item.color, backgroundColor: item.value === groupBy ? 'gray' : 'transparent' }}
-                  variant="outlined"
+                  color="primary"
                   endIcon={<ArrowRightIcon />}
                   size="small"
-                  color="primary"
-                  onClick={() => setGroupBy(item.value)}
+                  variant="outlined"
+                  onClick={() => setOpenModal(true)}
                 >
-                  {item.label}
+                  Overview
                 </Button>
-              </Grid>
-            ))}
-            
-          </Grid>
-          
-        </Box>
-      </Card>
-    </Grid>
-    
-  
-    {/*<Grid item xs={12}>
+              </>
+            )}
+          </Box>
+        </Card>
+      </Grid>
+      <Grid item xs={12}>
+        <Card className={clsx(classes.root, className)} {...rest}>
+          <ModalManagementFullPage
+            open={barModal}
+            onClose={() => setBarModal(false)}
+            modalDetail={
+              <TableGroupDetail day={day} wc={groupBy} />
+            }
+          />
+          <CardHeader
+            action={
+              <div style={{ display: 'flex', margin: '10px' }}>
+                <DateTimePicker
+                  label="StartDate"
+                  name="day"
+                  value={day}
+                  onChange={(e) => setDay(moment(e).format('YYYY-MM-DD'))}
+                />
+                <DateTimePicker
+                  label="EndDate"
+                  name="day"
+                  value={dayEnd}
+                  onChange={(e) => setDayEnd(moment(e).format('YYYY-MM-DD'))}
+                />
+              </div>
+            }
+            title={`${groupBy} Production Report`}
+            subheader={`Total Production : ${sum ? (sum / 1000).toFixed(2) : 0} Tons`}
+            subheaderTypographyProps={{ align: 'center', color: 'secondary', variant: 'h4', fontWeight: 'bold' }}
+          />
+          <Divider />
+          <CardContent>
+            <Box
+              height={400}
+              position="relative"
+              display="flex" justifyContent="center" alignItems="center"
+            >
+              {isLoading2 ? (
+                <CircularProgress />
+              ) : (
+                <Bar data={myData} plugins={[ChartDataLabels]} options={optionsBar} />
+              )}
+            </Box>
+          </CardContent>
+          <Divider />
+          <Box display="flex" justifyContent="flex-end" p={2}>
+            <Grid container spacing={2}>
+              {group.map((item) => (
+                <Grid item key={item.value}>
+                  <Button
+                    style={{ color: item.color, backgroundColor: item.value === groupBy ? 'gray' : 'transparent' }}
+                    variant="outlined"
+                    endIcon={<ArrowRightIcon />}
+                    size="small"
+                    color="primary"
+                    onClick={() => setGroupBy(item.value)}
+                  >
+                    {item.label}
+                  </Button>
+                </Grid>
+              ))}
+
+            </Grid>
+
+          </Box>
+        </Card>
+      </Grid>
+
+
+      {/*<Grid item xs={12}>
     <Card
       className={clsx(classes.root, className)}
       {...rest}
@@ -748,7 +764,7 @@ console.log('result', result);
       </Box>
     </Card>
     </Grid>*/}
-</Grid>
+    </Grid>
   );
 };
 
