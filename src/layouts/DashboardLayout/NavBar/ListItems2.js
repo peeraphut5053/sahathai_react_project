@@ -236,9 +236,9 @@ const ListItems2 = [
         menutitle: 'คลัง',
         submenu: [
             {
-                href: '/app/productionReport',
+                href: '/app/JobRecicpt',
                 Icon: AssignmentIcon,
-                title: 'รายงานสต็อคเหล็กม้วนคงเหลือ'
+                title: 'JobRecicpt'
             },
             {
                 href: '/app/productionReport',

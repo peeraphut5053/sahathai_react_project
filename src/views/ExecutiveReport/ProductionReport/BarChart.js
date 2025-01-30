@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery } from "react-query";
+import Select from 'react-select';
 import clsx from 'clsx';
 import {
   Box,
@@ -144,6 +145,7 @@ const Test = ({ className, ...rest }) => {
   const [groupBy, setGroupBy] = useState('Forming');
   const [day, setDay] = useState(moment().format('YYYY-MM-DD'));
   const [dayEnd, setDayEnd] = useState(moment().format('YYYY-MM-DD'));
+  const [grade, setGrade] = useState('sumA');
   const classes = useStyles();
 
   const addComma = (num) => {
@@ -238,10 +240,10 @@ const Test = ({ className, ...rest }) => {
       .reduce((prev, current) => prev + current.sumA, 0).toFixed(2);
     const sumB = data2?.res
       .filter((item1) => item1.wc === item)
-      .reduce((prev, current) => prev + current.sumB, 0);
+      .reduce((prev, current) => prev + current.sumB, 0).toFixed(2);
     const sumC = data2?.res
       .filter((item1) => item1.wc === item)
-      .reduce((prev, current) => prev + current.sumC, 0);
+      .reduce((prev, current) => prev + current.sumC, 0).toFixed(2);
     return { wc: item, sumA, sumB, sumC };
   });
 
@@ -252,7 +254,7 @@ const Test = ({ className, ...rest }) => {
     datasets: [
       {
         label: groupBy,
-        data: result.map((item) => item.sumA / 1000),
+        data: result.map((item) => item?.[grade] / 1000),
         backgroundColor: color,
         borderColor: color,
         borderWidth: 1
@@ -384,6 +386,22 @@ const Test = ({ className, ...rest }) => {
       setTypes(item);
     } else {
       setTypes(item);
+      // get number current month
+      const currentMonthNumber = moment().format('M') - 1;
+      setCurrentMonth(currentMonthNumber);
+      const mainData = [
+        data?.slit[currentMonthNumber]?.sumA ? (data?.slit[currentMonthNumber].sumA / 1000).toFixed(2) : 0,
+        data?.forming[currentMonthNumber]?.sumA ? (data?.forming[currentMonthNumber].sumA / 1000).toFixed(2) : 0,
+        data?.hydro[currentMonthNumber]?.sumA ? (data?.hydro[currentMonthNumber].sumA / 1000).toFixed(2) : 0,
+        data?.galvanize[currentMonthNumber]?.sumA ? (data?.galvanize[currentMonthNumber].sumA / 1000).toFixed(2) : 0,
+        data?.painting[currentMonthNumber]?.sumA ? (data?.painting[currentMonthNumber].sumA / 1000).toFixed(2) : 0,
+        data?.threading[currentMonthNumber]?.sumA ? ((data?.threading[currentMonthNumber].sumA || 0 / 1000 + data?.groove[currentMonthNumber].sumA || 0) / 1000).toFixed(2) : 0,
+        data?.cuting[currentMonthNumber]?.sumA ? (data?.cuting[currentMonthNumber].sumA / 1000).toFixed(2) : 0,
+        data?.packing[currentMonthNumber]?.sumA ? (data?.packing[currentMonthNumber].sumA / 1000).toFixed(2) : 0
+      ];
+      setCurrentData(mainData);
+      
+      
       return false;
     }
 
@@ -521,6 +539,21 @@ const Test = ({ className, ...rest }) => {
     }
     setMonth(year);
   };
+
+  const grades = [
+    {
+      value: 'sumA',
+      label: 'A'
+    },
+    {
+      value: 'sumB',
+      label: 'B'
+    },
+    {
+      value: 'sumC',
+      label: 'C'
+    }
+  ]
 
   return (
     <Grid container spacing={3}>
@@ -716,7 +749,22 @@ const Test = ({ className, ...rest }) => {
               ))}
 
             </Grid>
-
+            <Select
+                          menuPortalTarget={document.body}
+                          styles={{
+                            menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                            control: (baseStyles, state) => ({
+                              ...baseStyles,
+                              width: '100px',
+                            }),
+                          }}
+                          autosize={true}
+                          options={grades}
+                          closeMenuOnSelect={true}
+                          defaultValue={grades[0]}
+                          placeholder="Grade"
+                          onChange={(e) => setGrade(e.value)}
+                        />
           </Box>
         </Card>
       </Grid>

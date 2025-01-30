@@ -59,6 +59,8 @@ import CerDo from './views/ERPModule/SaleDomestic/CerDo';
 import RPT_DO from './views/ERPModule/SaleDomestic/RPT_DO';
 import OrderProcessing from './views/ERPModule/SaleDomestic/OrderProcessing';
 import ADAllTemp from './views/ERPModule/SaleDomestic/ADAllTemp';
+import JobRecicpt from './views/ERPModule/Stock/JobReceipt/JobRecipt';
+import ProductionJob from './views/ERPModule/Stock/JobReceipt';
 
 const routes = [
   {
@@ -108,6 +110,7 @@ const routes = [
       { path: 'ManufacturingReport', element: <ManufacturingReport /> },
       { path: 'SlitReport', element: <SlitReport /> },
       { path: 'JobOrderProcessing', element: <JobOrder /> },
+      { path: 'JobRecicpt', element: <ProductionJob /> },
        // { path: 'BoatNote', element: <BoatNoteView /> },
       { path: 'BoatNote', element: <BoatNoteView /> },
       { path: 'TruckNote', element: <TruckNoteView /> },

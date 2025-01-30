@@ -175,7 +175,7 @@ const Dashboard = () => {
     staleTime: 0,
     cacheTime: 30 * 1000, //  
   });
-
+  
   const workCenters = ['Forming', 'Packing', 'Threading', 'Cuting', 'Groove', 'HydroTest', 'Slit', 'Painting', 'Galvanize'];
   const [forming, packing, threading, cutting, groove, hydro, slit, painting, galvanize] = workCenters.map(labelName => label.find(item => item.label === labelName));
 
@@ -183,7 +183,7 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: forming.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: forming.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
   });
 
   const fmMonth = forming.value.map((item, index) => {
@@ -197,7 +197,7 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: packing.name[index][1], sum: Number(sumA).toFixed(2), piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: packing.name[index][1], sum: Number(sumA).toFixed(2), piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
   });
 
   const pkMonth = packing.value.map((item, index) => {
@@ -211,7 +211,7 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: threading.name[index][1], sum: Number(sumA).toFixed(2), piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: threading.name[index][1], sum: Number(sumA).toFixed(2), piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
   });
 
   const thMonth = threading.value.map((item, index) => {
@@ -225,7 +225,7 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: cutting.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: cutting.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
   });
 
   const ctMonth = cutting.value.map((item, index) => {    
@@ -239,7 +239,7 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: groove.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: groove.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
   });
 
   const grMonth = groove.value.map((item, index) => {
@@ -253,7 +253,7 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: hydro.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: hydro.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
   });
 
   const htMonth = hydro.value.map((item, index) => {
@@ -267,7 +267,7 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: slit.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: slit.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
   });
 
   const slMonth = slit.value.map((item, index) => {
@@ -281,7 +281,7 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: painting.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: painting.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
   });
 
   const ptMonth = painting.value.map((item, index) => {
@@ -295,7 +295,7 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: galvanize.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '' };
+    return { wc: item, name: galvanize.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
   });
 
   const gaMonth = galvanize.value.map((item, index) => {
@@ -321,7 +321,7 @@ const Dashboard = () => {
       className={classes.root}
       title="Dashboard"
     >
-      <ModalManagement open={open} onClose={() => setOpen(false)} modalDetail={<WorkCenterStatus wc={workCenter.wc} status={workCenter.status} sum={workCenter.sum} piece={workCenter.piece}  reason={workCenter.reason} name={workCenter.name} time={workCenter.time} size={workCenter.size} onClose={() => setOpen(false)} />} />
+      <ModalManagement open={open} onClose={() => setOpen(false)} modalDetail={<WorkCenterStatus wc={workCenter.wc} status={workCenter.status} sum={workCenter.sum} piece={workCenter.piece}  reason={workCenter.reason} name={workCenter.name} time={workCenter.time} size={workCenter.size} totalTime={workCenter.totalTime} totalStop={workCenter.totalStop} onClose={() => setOpen(false)} />} />
       <Container maxWidth={false}>
         <Typography className={classes.title} align='center' variant="h1" gutterBottom>
           Work Center

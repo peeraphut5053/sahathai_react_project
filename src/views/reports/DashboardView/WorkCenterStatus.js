@@ -18,11 +18,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const WorkCenterStatus = ({wc, status, sum,piece, reason, name,time, size, onClose}) => {
+const WorkCenterStatus = ({wc, status, sum,piece, reason, name,time, size, onClose,totalTime,totalStop}) => {
  const classes = useStyles();
  
  const timeDiff = Math.abs(moment(time?.date).diff(moment(), 'minutes'));
 
+ const total =timeDiff + totalTime;
+
+ const stop = status === 'yellow' ? totalStop + 1 : totalStop;
 
   return (
     <div style={{ textAlign: 'center', paddingTop: '15px', paddingBottom: '20px', borderRadius: '10px'}}>
@@ -31,21 +34,16 @@ const WorkCenterStatus = ({wc, status, sum,piece, reason, name,time, size, onClo
       <p style={{ margin: '25px', fontSize: '30px', color: `red` }} id="simple-modal-description">
         สถานะเครื่อง : {status === 'green' ? 'เปิด' : status === 'red' ? 'ปิด' : `${reason} (หยุดไปแล้ว ${timeDiff} นาที)`} 
       </p>
+      <p style={{ margin: '25px', fontSize: '30px', color: `red` }} id="simple-modal-description">
+        รวมหยุดวันนี้ {total} นาที {stop ? stop: 0} ครั้ง 
+      </p>
       <div style={{ margin: '25px', fontSize: '30px' }}>Size: {size}</div>
       <div className={classes.root}>
         <div>
            <p style={{fontSize: '30px', fontWeight: 'bold', }} id="simple-modal-description">
-            Daily Production :
+            Daily Production : {sum} Tons { wc !== 'P1SL03' && wc !== 'P1SL05' && wc !== 'W1SL04' && <span>| {piece} Pieces</span>}
           </p>
         </div>
-         <div className={classes.box}>
-         <p style={{ fontSize: '30px', fontWeight: 'bold', }} id="simple-modal-description">
-            Weight = {sum} Tons
-          </p>
-           {wc !== 'P1SL03' && wc !== 'P1SL05' && wc !== 'W1SL04' && 
-            <p style={{ fontSize: '30px', fontWeight: 'bold', }} id="simple-modal-description"> Pieces = {(Number(piece)).toLocaleString()} Pieces</p>
-           }
-         </div>
       </div>
     </div>
   )
