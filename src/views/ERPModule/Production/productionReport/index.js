@@ -804,7 +804,7 @@ const ProductionDailyReport = () => {
 										<CButton label={"รายงานพิมพ์ตรา"} onClick={() => { SearchFn("StampingReport", values, "Stamping", "Stamping") }} disabled={false} />
 									</Grid>
 									<Grid item lg={2}>
-										<Button variant="contained" color="primary" style={{ width: "100%", backgroundColor: "red", marginTop: '3px' }} onClick={() => handlePassModal(values.w_c)}>ปรับเปลี่ยนสถานะเครื่อง</Button>
+										<CButton color="red" label={"ปรับเปลี่ยนสถานะเครื่อง"} onClick={() => handlePassModal(values.w_c)} />
 										<CButton label={"รายการปรับเปลี่ยนสถานะเครื่อง"} onClick={() => setMachineRecord(true)} disabled={false} />
 									</Grid>
 								</Grid>

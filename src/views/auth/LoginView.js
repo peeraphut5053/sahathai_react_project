@@ -210,6 +210,17 @@ const LoginView = () => {
               </form>
             )}
           </Formik>
+          <div style={{ margin: '20px'}}><hr /></div>
+                  <Button
+                    style={{ backgroundColor: '#00BFFF', color: 'white' }}
+                    fullWidth
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                    onClick={() => navigate('/app/dashboard', { replace: true })}
+                  >
+                    Go To Dashboard
+                  </Button>
         </Container>
       </Box>
     </Page>

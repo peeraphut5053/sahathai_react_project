@@ -183,7 +183,7 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: forming.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
+    return { wc: item, name: forming.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '', operationSpeed: status?.operationSpeed, operationTime: status?.operationtime };
   });
 
   const fmMonth = forming.value.map((item, index) => {
@@ -315,13 +315,14 @@ const Dashboard = () => {
   const red = all.filter((item) => item.status === 'red').length;
 
   const classes = useStyles();
+  console.log(workCenter, 'workCenter');
   
   return (
     <Page
       className={classes.root}
       title="Dashboard"
     >
-      <ModalManagement open={open} onClose={() => setOpen(false)} modalDetail={<WorkCenterStatus wc={workCenter.wc} status={workCenter.status} sum={workCenter.sum} piece={workCenter.piece}  reason={workCenter.reason} name={workCenter.name} time={workCenter.time} size={workCenter.size} totalTime={workCenter.totalTime} totalStop={workCenter.totalStop} onClose={() => setOpen(false)} />} />
+      <ModalManagement open={open} onClose={() => setOpen(false)} modalDetail={<WorkCenterStatus wc={workCenter.wc} status={workCenter.status} sum={workCenter.sum} piece={workCenter.piece}  reason={workCenter.reason} name={workCenter.name} time={workCenter.time} size={workCenter.size} totalTime={workCenter.totalTime} totalStop={workCenter.totalStop} operationSpeed={workCenter.operationSpeed} operationTime={workCenter.operationTime} onClose={() => setOpen(false)} />} />
       <Container maxWidth={false}>
         <Typography className={classes.title} align='center' variant="h1" gutterBottom>
           Work Center

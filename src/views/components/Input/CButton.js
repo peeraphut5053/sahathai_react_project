@@ -13,7 +13,7 @@ const CButton = (props) => {
             variant="contained"
             onClick={props.onClick}
             disabled={props.disabled}
-            style={{margin:3}}
+            style={{margin:3 , backgroundColor:props.color}}
         >{props.label}
         
         </Button>
