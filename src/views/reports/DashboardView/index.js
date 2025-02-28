@@ -89,8 +89,8 @@ const useStyles = makeStyles((theme) => ({
 
 const label = [
   {
-    value: ["P2FM01", "P2FM05", "P2FM06", "P2FM08", "P2FM09", "W2FM02", "W2FM04", "W2FM07", "W2FMC1"],
-    name: [["P2FM01", "สถานี Forming 01"], ["P2FM05", "สถานี Forming 05"], ["P2FM06", "สถานี Forming 06"], ["P2FM08", "สถานี Forming 08"], ["P2FM09", "สถานี Forming 09"], ["W2FM02", "สถานี Forming 02"], ["W2FM04", "สถานี Forming 04"], ["W2FM07", "สถานี Forming 07"], ["W2FMC1", "สถานีตัวซีเครื่อง 1"]],
+    value: ["P2FM01", "P2FM05", "P2FM06", "P2FM08", "P2FM09","P2FM10", "W2FM02", "W2FM04", "W2FM07", "W2FM11", "W2FMC1"],
+    name: [["P2FM01", "สถานี Forming 01"], ["P2FM05", "สถานี Forming 05"], ["P2FM06", "สถานี Forming 06"], ["P2FM08", "สถานี Forming 08"], ["P2FM09", "สถานี Forming 09"],["P2FM10", "สถานี Forming 10"], ["W2FM02", "สถานี Forming 02"], ["W2FM04", "สถานี Forming 04"], ["W2FM07", "สถานี Forming 07"],["W2FM11", "สถานี Forming 11 วังน้อย"], ["W2FMC1", "สถานีตัวซีเครื่อง 1"]],
     label: 'Forming'
   },
   {
@@ -370,7 +370,7 @@ const Dashboard = () => {
                 </Typography>
               </Grid>
               <Grid item xs={3} md={1}>
-                <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
+                <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" suare>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <div>D: {fm?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
                     <div>M: {addComma(fmMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
@@ -380,11 +380,15 @@ const Dashboard = () => {
               {!isLoading && (
                 <>
                   {fm?.map((item, index) => (
+                    <>
+                    {index === fm.length - 1 && <Grid item xs={3} md={1}></Grid>} 
+                    {index === fm.length - 1 && <Grid item xs={3} md={1}></Grid>} 
                     <Grid key={index} item xs={3} md={1}>
-                      <Paper onClick={() => { setOpen(true); setWorkCenter(item) }} className={classes.paper} style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderRadius: 10, backgroundColor: item.status === 'red' ? '#ff4d4d' : item.status === 'yellow' ? ' #ffff66' : '#66ff99' }} variant="outlined" square>
+                      <Paper onClick={() => { setOpen(true); setWorkCenter(item) }} className={classes.paper} style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderRadius: 10, backgroundColor: item.status === 'red' ? '#ff4d4d' : item.status === 'yellow' ? ' #ffff66' : '#66ff99', marginBottom: index === fm.length -1 ? '4px' : '' }} variant="outlined" square>
                         {item.wc} {item.status === 'green' && <SettingsIcon className={item.status == 'green' ? classes.rotating : ''} />} {item.status === 'red' && <SettingsIcon />} {item.status === 'yellow' && <BuildIcon style={{ paddingLeft: '3px' }} />}
                       </Paper>
                     </Grid>
+                    </>
                   ))}
                 </>
               )}

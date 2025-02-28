@@ -20,7 +20,6 @@ import API from '../../../components/API';
 import MaterialTable from 'material-table';
 import { toast } from 'react-toastify';
 import CTextField from 'src/views/components/Input/CTextField';
-import axios from 'axios';
 import DatePicker from 'src/views/components/Input/DatePicker';
 
 const JobRecicpt = () => {
@@ -31,8 +30,8 @@ const JobRecicpt = () => {
   useEffect(() => {
     const loadOptions = async () => {
       try {
-        const response = await axios.get(
-          'http://localhost/sts_web_center/module/APP_JOB_JobReceipt/data.php',
+        const response = await API.get(
+          'APP_JOB_JobReceipt/data.php',
           {
             params: {
               load: 'loc_list'
@@ -54,8 +53,8 @@ const JobRecicpt = () => {
 
   const tagScan = async (tag_id, setFieldValue) => {
     try {
-      const response = await axios.get(
-        'http://localhost/sts_web_center/module/APP_JOB_JobReceipt/data.php',
+      const response = await API.get(
+        'APP_JOB_JobReceipt/data.php',
         {
           params: {
             load: 'tag_scan',
@@ -144,8 +143,8 @@ const JobRecicpt = () => {
                   }
                   try {
                     setSubmitting(true);
-                    const response = await axios.get(
-                      'http://localhost/sts_web_center/module/APP_JOB_JobReceipt/data.php',
+                    const response = await API.get(
+                      'APP_JOB_JobReceipt/data.php',
                       {
                         params: {
                           load: 'process_job_receipt',
@@ -172,6 +171,7 @@ const JobRecicpt = () => {
                     setFieldValue('lot', '');
                     setFieldValue('uf_sts_job', '');
                     setProcess(1);
+                    alert('บันทึกเรียบร้อยแล้ว');
                   } catch (error) {
                     console.log(error);
                   }
@@ -252,7 +252,7 @@ const JobRecicpt = () => {
                           color="primary"
                           size="meldium"
                           onClick={handleSubmit}
-                          disabled={0}
+                          disabled={process}
                         >
                           Process
                         </Button>

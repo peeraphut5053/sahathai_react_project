@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { useFormik } from 'formik';
 import Select from 'react-select';
 import {
@@ -10,7 +10,8 @@ import {
   Grid,
   Paper,
   TextField,
-  Typography
+  Typography,
+  CircularProgress
 } from '@material-ui/core';
 import { Formik } from 'formik';
 import moment from 'moment';
@@ -22,18 +23,22 @@ import { toast } from 'react-toastify';
 import CTextField from 'src/views/components/Input/CTextField';
 import axios from 'axios';
 import DatePicker from 'src/views/components/Input/DatePicker';
+import ModalManagement from 'src/views/components/ModalNopaperSmall';
 
 const JobMaterial = () => {
   const [data, setData] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const tableRef = useRef();
   const [step, setStep] = useState(1);
   const [options, setOptions] = useState([]);
   const [process, setProcess] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const loadOptions = async () => {
       try {
-        const response = await axios.get(
-          'http://localhost/sts_web_center/module/APP_JOB_JobReceipt/data.php',
+        const response = await API.get(
+          'APP_JOB_JobReceipt/data.php',
           {
             params: {
               load: 'loc_list'
@@ -53,16 +58,26 @@ const JobMaterial = () => {
     loadOptions();
   }, []);
 
+  useEffect(() => {
+    if (tableRef.current && data.length > 0) {
+      // เลือกแถวแรก (index 0)
+      tableRef.current.dataManager.changeRowSelected(true, [data.length - 1]);
+      selectedRows.push(data[data.length - 1]);
+    }
+  }, [data]);
+
   const tagScan = async (job, setFieldValue,jobScan) => {
     try {
       if (step === 1) {
-        const response = await axios.get(
-            'http://localhost/sts_web_center/module/APP_JOB_JobMaterialTransactions/data.php',
+  
+        const response = await API.get(
+            'APP_JOB_JobMaterialTransactions/data.php',
             {
               params: {
                 load: 'GetJob',
                 job: job
               }
+            
             }
           );
           console.log(response.data[0]);
@@ -71,19 +86,30 @@ const JobMaterial = () => {
             setProcess(1);
             return;
           }
+
+          // job 10 char
+
+          const newJob = job.substring(0, 10);
+
           setFieldValue('jobScan', job);
           setFieldValue('doc', response.data[0].DocRef);
           setFieldValue('production', response.data[0].QtyOrd);
           setFieldValue('produced', response.data[0].QtyRcvd);
-          setFieldValue('job', response.data[0].jobname);
+          setFieldValue('job', newJob);
           setFieldValue('wc', response.data[0].wc);
           setFieldValue('resource', response.data[0].rgid);
           setFieldValue('BarCode', '');
           setStep(2);
 
       } else {
-        const response = await axios.get(
-          'http://localhost/sts_web_center/module/APP_JOB_JobMaterialTransactions/data.php',
+        const check = data.find((item) => item.tag_id === job);
+
+        if (check) {
+          alert('Tag ซ้ํา');
+          return false;
+        }
+        const response = await API.get(
+          'APP_JOB_JobMaterialTransactions/data.php',
           {
             params: {
               load: 'GetTag',
@@ -94,6 +120,7 @@ const JobMaterial = () => {
         );
 
         if (response.data.length === 0) {
+          alert('Tag นี้ถูกใช้งานแล้ว');
           toast.error('ไม่พบข้อมูล');
           setProcess(1);
           return;
@@ -112,9 +139,15 @@ const JobMaterial = () => {
         setFieldValue('um2', response.data[0].um2);
         setFieldValue('BarCode', '');
         setProcess(0);
+
+        setData([...data, {
+          ...response.data[0],
+          tag_id: job,
+          qty2: response.data[0].qty2 !== null ? Number(response.data[0].qty2).toFixed(2) : response.data[0].qty2
+        }]);
       }
 
-      setProcess(0);
+   
     } catch (error) {
       toast.error('ไม่สามารถเชื่อมต่อ Server ได้');
     }
@@ -126,6 +159,7 @@ const JobMaterial = () => {
       <Typography variant="h4" style={{ marginBottom: '10px', textAlign: 'center' }}>
         JobMaterial
       </Typography>
+      <ModalManagement open={loading} modalDetail={<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '20px' }}><CircularProgress /></div>} />
       <Grid container spacing={1}>
         <Grid item sm={12} xl={12} xs={12} lg={12}>
           <Grid container spacing={3}>
@@ -155,37 +189,57 @@ const JobMaterial = () => {
                    um2: '',
                 }}
                 onSubmit={async (values, { setSubmitting, setFieldValue }) => {
-
-                  if (values.Location === '') {
-                    toast.error('กรุณาเลือก Location');
+                  if (selectedRows.length === 0) {
+                    toast.error('กรุณาเลือก Tag อย่างน้อย 1 Tag');
                     return;
                   }
+                  setLoading(true);
                   try {
                     setSubmitting(true);
-                    const response = await axios.get(
-                      'http://localhost/sts_web_center/module/APP_JOB_JobMaterialTransactions/data.php',
+                    const response = await API.post(
+                      'APP_JOB_JobMaterialTransactions/data.php?load=MatProcess',
                       {
-                        params: {
+                       
                           load: 'MatProcess',
                           job: values.job,
                           suffix: 0,
                           operNum: 10,
-                          um: values.um,
-                          item: values.item,
-                          itemDesc: values.item_desc,
-                          wc: values.wc,
-                          loc: values.loc,
-                          lot: values.lot,
-                          qty1: values.qty1,
-                          qty2: values.qty2,
-                          doc: values.doc,
-                        }
-                      }
+                          data: selectedRows
+                      },
                     );
+
+                    setLoading(false);
                     setProcess(1);
+                    setFieldValue('doc', '');
+                    setFieldValue('production', '');
+                    setFieldValue('BarCode', '');
+                    setFieldValue('jobScan', '');
+                    setFieldValue('totalWithdraw', '');
+                    setFieldValue('withdraw', '');
+                    setFieldValue('produced', '');
+                    setFieldValue('date', moment().format('DD/MM/YYYY'));
+                    setFieldValue('job', '');
+                    setFieldValue('wc', '');
+                    setFieldValue('resource', '');
+                    setFieldValue('tag', '');
+                    setFieldValue('loc', '');
+                    setFieldValue('lot', '');
+                    setFieldValue('item', '');
+                    setFieldValue('item_desc', '');
+                    setFieldValue('id', '');
+                    setFieldValue('qty1', '');
+                    setFieldValue('um', '');
+                    setFieldValue('qty2', '');
+                    setFieldValue('um2', '');
+                    setProcess(1);
+                    setStep(1);
+                    setData([]);
+                    setSelectedRows([]);
                   } catch (error) {
                     console.log(error);
+                    setLoading(false);
                   }
+
                 }}
               >
                 {({ values, handleBlur, handleSubmit, setFieldValue }) => (
@@ -228,6 +282,33 @@ const JobMaterial = () => {
                           variant="contained"
                           style={{ backgroundColor: 'red', color: 'white', marginLeft: '10px' }}
                           size="meldium"
+                          onClick={() => {
+                            setFieldValue('doc', '');
+                            setFieldValue('production', '');
+                            setFieldValue('BarCode', '');
+                            setFieldValue('jobScan', '');
+                            setFieldValue('totalWithdraw', '');
+                            setFieldValue('withdraw', '');
+                            setFieldValue('produced', '');
+                            setFieldValue('date', moment().format('DD/MM/YYYY'));
+                            setFieldValue('job', '');
+                            setFieldValue('wc', '');
+                            setFieldValue('resource', '');
+                            setFieldValue('tag', '');
+                            setFieldValue('loc', '');
+                            setFieldValue('lot', '');
+                            setFieldValue('item', '');
+                            setFieldValue('item_desc', '');
+                            setFieldValue('id', '');
+                            setFieldValue('qty1', '');
+                            setFieldValue('um', '');
+                            setFieldValue('qty2', '');
+                            setFieldValue('um2', '');
+                            setProcess(1);
+                            setStep(1);
+                            setData([]);
+                            setSelectedRows([]);
+                          }}
                         >
                           Clear
                         </Button>
@@ -496,6 +577,47 @@ const JobMaterial = () => {
         </Grid>
       </Grid>
       </Paper>
+      <hr style={{ margin: '10px' }} />
+      <MaterialTable
+                      tableRef={tableRef}
+                      icons={tableIcons}
+                      title={` Tag List (${data.length}) `}
+                      columns={[
+                      { title: 'Tag ID', field: 'tag_id', type: 'string' },
+                      { title: 'Item', field: 'item', type: 'string' },
+                      { title: 'Description', field: 'itemName', type: 'string' },
+                      { title: 'loc', field: 'loc', type: 'string'},
+                      { title: 'lot', field: 'lot', type: 'numerics' },
+                      { title: 'qty1', field: 'qty1', type: 'numerics' },
+                      { title: 'qty2', field: 'qty2', type: 'numerics' },
+                      { title: 'UM', field: 'UM', type: 'string' },
+                      { title: 'UM2', field: 'UM2', type: 'string' },
+                      { title: 'Doc', field: 'DocRef', type: 'string' },
+                      ]}
+                      data={data}
+                      options={{
+                        search: true,
+                        paging: false,
+                        sorting: false,
+                        filtering: false,
+                        exportButton: true,
+                        selection: true,
+                        doubleHorizontalScroll: false,
+                        headerStyle: {
+                          backgroundColor: '#039be5',
+                          color: '#FFF',
+                          textAlign: 'center'
+                        },
+                        cellStyle: {
+                          textAlign: 'center',
+                          fontSize: '14px',
+                          padding: '5px'
+                        }
+                      }}
+                      onSelectionChange={(rows) => {
+                        setSelectedRows(rows);
+                      }}
+                    />
     </Container>
   );
 };

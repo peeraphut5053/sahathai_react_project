@@ -236,11 +236,6 @@ const ListItems2 = [
         menutitle: 'คลัง',
         submenu: [
             {
-                href: '/app/JobRecicpt',
-                Icon: AssignmentIcon,
-                title: 'JobRecicpt'
-            },
-            {
                 href: '/app/productionReport',
                 Icon: AssignmentIcon,
                 title: 'Check Item Location'
@@ -272,6 +267,11 @@ const ListItems2 = [
         Icon: HomeWorkIcon,
         menutitle: 'ผลิต',
         submenu: [
+            {
+                href: '/app/JobRecicpt',
+                Icon: AssignmentIcon,
+                title: 'JobRecicpt'
+            },
             {
                 href: '/app/JobOrderProcessing',
                 Icon: AssignmentIcon,
