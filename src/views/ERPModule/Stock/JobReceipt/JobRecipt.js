@@ -10,7 +10,8 @@ import {
   Grid,
   Paper,
   TextField,
-  Typography
+  Typography,
+  CircularProgress
 } from '@material-ui/core';
 import { Formik } from 'formik';
 import moment from 'moment';
@@ -20,12 +21,13 @@ import API from '../../../components/API';
 import MaterialTable from 'material-table';
 import { toast } from 'react-toastify';
 import CTextField from 'src/views/components/Input/CTextField';
-import DatePicker from 'src/views/components/Input/DatePicker';
+import ModalManagement from 'src/views/components/ModalNopaperSmall';
 
 const JobRecicpt = () => {
   const [data, setData] = useState([]);
   const [options, setOptions] = useState([]);
   const [process, setProcess] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const loadOptions = async () => {
@@ -62,8 +64,6 @@ const JobRecicpt = () => {
           }
         }
       );
-
-      console.log(response.data[0]);
 
       if (response.data.length === 0) {
         toast.error('ไม่พบข้อมูล');
@@ -117,6 +117,7 @@ const JobRecicpt = () => {
       <Typography variant="h4" style={{ marginBottom: '10px', textAlign: 'center' }}>
         JobRecicpt
       </Typography>
+       <ModalManagement open={loading} modalDetail={<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '20px' }}><CircularProgress /></div>} />
       <Grid container spacing={1}>
         <Grid item sm={12} xl={12} xs={12} lg={12}>
           <Grid container spacing={3}>
@@ -136,11 +137,18 @@ const JobRecicpt = () => {
                   uf_sts_job: ''
                 }}
                 onSubmit={async (values, { setSubmitting, setFieldValue }) => {
-
+              
                   if (values.Location === '') {
                     toast.error('กรุณาเลือก Location');
                     return;
                   }
+
+                  setProcess(1);
+                  setLoading(true);
+
+                  // want delay 2sec
+                  await new Promise((resolve) => setTimeout(resolve, 2000));
+
                   try {
                     setSubmitting(true);
                     const response = await API.get(
@@ -170,10 +178,11 @@ const JobRecicpt = () => {
                     setFieldValue('qty1', '');
                     setFieldValue('lot', '');
                     setFieldValue('uf_sts_job', '');
-                    setProcess(1);
                     alert('บันทึกเรียบร้อยแล้ว');
+                    setLoading(false);
                   } catch (error) {
                     console.log(error);
+                    setLoading(false);
                   }
                 }}
               >
