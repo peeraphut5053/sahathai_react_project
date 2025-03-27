@@ -45,7 +45,7 @@ const WorkCenterStatus = ({wc, status, sum,piece, reason, name,time, size, onClo
           </p>
       
            <p style={{fontSize: '30px', fontWeight: 'bold', }} id="simple-modal-description">
-            { wc == 'P2FM01' || wc == 'P2FM05' || wc == 'P2FM06' || wc == 'P2FM08' || wc == 'P2FM09' || wc == 'W2FM02' || wc == 'W2FM04' || wc == 'W2FM07' || wc == 'W2FMC1' ? <span>ความเร็วในการเดินเครื่อง : {operationSpeed} | เดินเครื่องจริง: {operationTime}</span> : ''}
+            { wc == 'P2FM01' || wc == 'P2FM05' || wc == 'P2FM06' || wc == 'P2FM08' || wc == 'P2FM09' || wc == 'W2FM02' || wc == 'W2FM04' || wc == 'W2FM07' || wc == 'W2FMC1' || wc == 'P2FM10' || wc == 'W2FM11' ? <span>ความเร็วในการเดินเครื่อง : {operationSpeed} | เดินเครื่องจริง: {operationTime}</span> : ''}
           </p>
         </div>
       </div>

@@ -133,6 +133,8 @@ const CardBoatLine = (props, { className, ...rest }) => {
     setOpenModalItem(false);
     setOpenModalTagBoatNote(false);
   };
+
+  let ActualWeight = props.Search_STS_qty_move_hrd[0] ? Number(props.Search_STS_qty_move_hrd[0].ActWeight) : 0
   return (
     <Card
 
@@ -246,7 +248,7 @@ const CardBoatLine = (props, { className, ...rest }) => {
             <MaterialTable
               style={{ width: '62vw', margin: 5, overflowX: "scroll" }}
               icons={tableIcons}
-              title={"Quantity Move List (" + props.doc_num + ") : " + props.STS_qty_move_line.length + " รายการ"}
+              title={"Quantity Move List (" + props.doc_num + ") : " + props.STS_qty_move_line.length + " รายการ | น้ำหนักชั่งจริง : " + ActualWeight}
               columns={[
                 { title: 'id', field: 'id' },
                 { title: 'lot', field: 'lot', width: 200 },

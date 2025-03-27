@@ -100,6 +100,7 @@ const BoatNote = () => {
 
     const [STS_QtyMoveLotLocation_GEN_Doc_num, setSTS_QtyMoveLotLocation_GEN_Doc_num] = useState("")
 
+console.log(do_group_list, 'do_group_list');
 
     const handleProcessSuccess = (ProcessSuccess) => {
         setOpenModalProcess(true);
@@ -200,6 +201,8 @@ const BoatNote = () => {
     }
 
     const handleScanTagCheckByDO = (event, do_num) => {
+        console.log('CheckDO');
+        
         if (event.key === 'Enter') {
             if (do_group_list !== '') {
                 API.get(`API_QuantityMove/data.php?load=SearchTagDetailCheckByDO&tag_id=${event.target.value}&do_num=${do_group_list}`)
@@ -247,7 +250,7 @@ const BoatNote = () => {
             alert("กรุณากรอก location ปลายทาง หรือ scan barcode อย่างน้อย 1 lot")
             
         } else {
-            API.get(`API_QuantityMove/data.php?load=moveqty_create_hdr_BoatNoteOnly&toLoc=${values.loc}&w_c=${values.wc}&doc_type=${docType}&do_num=${values.do_num}&boatList=${values.boatList}&destination=${destination}&ActWeight=${values.ActualWeight}`)
+            API.get(`API_QuantityMove/data.php?load=moveqty_create_hdr_BoatNoteOnly&toLoc=${values.loc}&w_c=${values.wc}&doc_type=${docType}&do_num=${values.do_num}&boatList=${values.boatList}&destination=${destination}&ActWeight=${values.ActualWeight}&round=${do_group_list?.id ?? ''}`)
                 .then(res => {
                         //   setdocNum(moveqty_hdr.doc_num)
                         //   setToLocation(moveqty_hdr.loc)
@@ -268,6 +271,7 @@ const BoatNote = () => {
                                     load: "moveqty_create_line_Truck",
                                     tagnum: tagnumArray,
                                     toLoc: values.loc,
+                                    doc_num: res.data[0].doc_no
                                     // boatPosition: boatPositionArray
                                 }
                             }).then(res => {
@@ -374,13 +378,13 @@ const BoatNote = () => {
         console.log(values, doc_num)
     }
 
-    const editActualWeight = (event, doc_num, eActualWeight) => {
-        if (event.key === 'Enter') {
+    const editActualWeight = (doc_num, eActualWeight) => {
+
 
             API.get(`API_QuantityMove/data.php?load=editActualWeight&doc_num=${doc_num}&eActualWeight=${eActualWeight}`, {
             
             });
-        console.log(event, doc_num, eActualWeight)
+      
 
         const timer = setInterval(() => {
             API.get(`API_QuantityMove/data.php?load=Search_STS_qty_move_hrd&doc_num=${doc_num}`)
@@ -391,7 +395,7 @@ const BoatNote = () => {
         clearInterval(timer)
     }, 1000)
 
-        }
+        
     }
 
     const Editloc = (doc_num, locEdit) => {
@@ -664,10 +668,9 @@ const BoatNote = () => {
                                                                         name="eActualWeight"
                                                                         onBlur={handleBlur}
                                                                         onChange={handleChange}
-                                                                        value={values.eActualWeight}
-                                                                        onKeyUp={(e) => editActualWeight(e, doc_num, values.eActualWeight) }
-                                                                                                                                     
+                                                                        value={values.eActualWeight}                                                                                                                      
                                                                     />
+                                                                    <Button variant="contained" color="primary" startIcon={<SaveIcon />} style={{ margin: 10 }} onClick={() => editActualWeight(doc_num, values.eActualWeight)} >Save  </Button>
                                                                 </Grid>
                                                             
                                                                      </> : 
@@ -703,7 +706,6 @@ const BoatNote = () => {
                                                     <Grid item lg={12} spacing={2}>
                                                         <Paper className={classes.paper}>
                                                             <Grid container spacing={2}>
-
                                                                 {(values.doc_type == "Internal") ?
                                                                     <>
                                                                         <Grid item xs={12}>
@@ -716,7 +718,7 @@ const BoatNote = () => {
                                                                         </Grid>
                                                                     </> : ""
                                                                 }
-                                                                {(values.doc_type == "Ship") ?
+                                                                {(docType == "Boat") ?
                                                                     <>
                                                                         <Grid item xs={12} >
                                                                             <CAutocompleteListOfDoGroup
@@ -736,7 +738,7 @@ const BoatNote = () => {
                                                                                 name="do_num"
                                                                                 onBlur={handleBlur}
                                                                                 onChange={handleChange}
-                                                                                value={do_group_list}
+                                                                                value={do_group_list.do_group_list}
                                                                                 Autocomplete={false}
                                                                             />
                                                                         </Grid>
@@ -748,7 +750,7 @@ const BoatNote = () => {
                                                                                 setFieldValue={setFieldValue}
                                                                             />
                                                                         </Grid>
-                                                                        <Grid item xs={12} >
+                                                                        {/*<Grid item xs={12} >
                                                                             <CTextField
                                                                                 error={Boolean(touched.item && errors.item)}
                                                                                 helperText={touched.item && errors.item}
@@ -759,7 +761,7 @@ const BoatNote = () => {
                                                                                 value={values.round}
                                                                                 Autocomplete={false}
                                                                             />
-                                                                        </Grid>
+                                                                        </Grid>*/}
                                                                     </>
                                                                     : ""
                                                                 }
@@ -810,7 +812,7 @@ const BoatNote = () => {
                                                                         const index = oldData.tableData.id;
                                                                         dataDelete.splice(index, 1);
                                                                         setQtyMoveList([...dataDelete]);
-
+                                                                        BoatPfn("DeleteTruckQtyMoveLine", oldData, doc_num)
                                                                         resolve()
                                                                     }, 1000)
                                                                 }),
@@ -866,7 +868,7 @@ const BoatNote = () => {
                                                                         <TextField size="small" label={"Scan tag"} id={"tagScan"}
                                                                             variant="outlined"
                                                                             className={classes.textField}
-                                                                            onKeyUp={(e) => (values.doc_type == "Ship") ? handleScanTagCheckByDO(e, values.do_num) : handleScanTag(e)}
+                                                                            onKeyUp={(e) => (docType == "Boat") ? handleScanTagCheckByDO(e, values.do_num) : handleScanTag(e)}
                                                                             // (values.doc_type == "Ship") ? handleScanTagCheckByDO(e, values.do_num) : handleScanTag(e)}
                                                                             autoFocus={focusScanTagState} />
 
@@ -948,6 +950,7 @@ const BoatNote = () => {
                         <Grid item xs={8} >
                             <CardTruckLine
                                 STS_qty_move_line={STS_qty_move_line}
+                                Search_STS_qty_move_hrd={Search_STS_qty_move_hrd}
                                 doc_num={doc_num}
                                 doc_type={doc_type}
                                 // handleOpenModalCreateDoGroup={handleOpenModalCreateDoGroup}

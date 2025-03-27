@@ -193,6 +193,9 @@ const JobMaterial = () => {
                     toast.error('กรุณาเลือก Tag อย่างน้อย 1 Tag');
                     return;
                   }
+
+                  const token = JSON.parse(localStorage.getItem("token"));
+                  
                   setLoading(true);
                   try {
                     setSubmitting(true);
@@ -204,6 +207,7 @@ const JobMaterial = () => {
                           job: values.job,
                           suffix: 0,
                           operNum: 10,
+                          user: token?.username,
                           data: selectedRows
                       },
                     );

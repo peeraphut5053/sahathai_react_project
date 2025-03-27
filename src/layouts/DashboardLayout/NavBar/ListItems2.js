@@ -270,7 +270,7 @@ const ListItems2 = [
             {
                 href: '/app/JobRecicpt',
                 Icon: AssignmentIcon,
-                title: 'JobRecicpt'
+                title: 'JobReceipt'
             },
             {
                 href: '/app/JobOrderProcessing',

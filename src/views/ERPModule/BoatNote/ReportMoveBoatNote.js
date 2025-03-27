@@ -5,7 +5,8 @@ import { logo } from './function/logo'
 
 function ReportMoveBoatNote(dataNow, loc, boatPosition) {
     pdfMake.fonts = fontsReport
-
+  console.log(dataNow);
+  
     const data = []
     // data.push([
     //     { text: `No.`, fontSize: 11, alignment: 'center', style: 'header' },
@@ -20,6 +21,37 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
     //     // { text: "ตำแหน่งสินค้า \n boat position", fontSize: 11, alignment: 'center' },
 
     // ])
+
+    const createTable = (data) => {
+  
+      const tables = [];
+      let rowsPerPage = 17;
+      let startIdx = 0;
+      
+      while (startIdx < data.length) {
+          // หน้าแรกใช้ 17 แถว หน้าถัดไปใช้ 20 แถว
+          rowsPerPage = startIdx === 0 ? 18 : 22;
+          
+          // คำนวณข้อมูลที่จะแสดงในหน้านี้
+          const currentData = data.slice(startIdx, startIdx + rowsPerPage);
+          
+          tables.push({
+              table: {
+                  widths: [15, 30, 45, 25, 65, 34, 44, 38, 40, 30, 30, 50],
+                  headerRows: 1,
+                  body: currentData,
+              },
+              // if data length < 15, do not add page break
+
+              pageBreak: 'after',
+          });
+          
+          // เลื่อนตำแหน่งเริ่มต้นสำหรับหน้าถัดไป
+          startIdx += rowsPerPage;
+      }
+
+      return tables;
+    };
 
     data.push([
         { text: `No.`, fontSize: 11, alignment: 'center', style: 'header' },
@@ -1012,6 +1044,18 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                                 text: `Total Weight : ${total_weight + total_weight2 + total_weight3 + total_weight4 + total_weight5}`, fontSize: 14 
                             },
                         ],
+                        [
+                            {
+                                border: [false, false, false, false], text: '', fontSize: 14, colSpan: 2
+                            },
+                            {
+                                border: [false, false, false, false], text: ''
+                            },
+                            {
+                                border: [false, false, false, false],
+                                text: `Total ActualWeight : ${dataNow[0]["sumActWeight"]}`, fontSize: 14 
+                            },
+                        ],
                     ],
                 },
             },
@@ -1031,14 +1075,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                     ],
                 },
             },
-            {
-                table: {
-                    widths: [15, 30, 45, 25, 65, 34, 44, 38, 40, 30, 30, 50],
-                    headerRows: 1,
-                    body: data,
-                },
-            },
-
+            ...createTable(data),
             {
                 margin: [0, 0, 0, 0],
                 table: {
@@ -1055,14 +1092,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                     ],
                 },
             },
-            {
-                table: {
-                    widths: [15, 30, 45, 25, 65, 34, 44, 38, 40, 30, 30, 50],
-                    headerRows: 1,
-                    body: data2,
-                },
-            },
-
+            ...createTable(data2),
             {
                 margin: [0, 0, 0, 0],
                 table: {
@@ -1079,13 +1109,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                     ],
                 },
             },
-            {
-                table: {
-                    widths: [15, 30, 45, 25, 65, 34, 44, 38, 40, 30, 30, 50],
-                    headerRows: 1,
-                    body: data3,
-                },
-            },
+            ...createTable(data3),
             {
                 margin: [0, 0, 0, 0],
                 table: {
@@ -1102,13 +1126,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                     ],
                 },
             },
-            {
-                table: {
-                    widths: [15, 30, 45, 25, 65, 34, 44, 38, 40, 30, 30, 50],
-                    headerRows: 1,
-                    body: data4,
-                },
-            },
+            ...createTable(data4),
             {
                 margin: [0, 0, 0, 0],
                 table: {
@@ -1125,14 +1143,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                     ],
                 },
             },
-            {
-                table: {
-                    widths: [15, 30, 45, 25, 65, 34, 44, 38, 40, 30, 30, 50],
-                    headerRows: 1,
-                    body: data5,
-                },
-            },
-
+            ...createTable(data5),
             {
                 margin: [15, 0, 0, 10],
                 columns: [

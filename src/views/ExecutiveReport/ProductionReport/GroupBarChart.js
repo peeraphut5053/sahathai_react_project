@@ -34,7 +34,7 @@ const useStyles = makeStyles(() => ({
 
 const label = [
   {
-    value: ["P2FM01", "P2FM05", "P2FM06", "P2FM08", "P2FM09", "W2FM02", "W2FM04", "W2FM07", "W2FMC1"],
+    value: ["P2FM01", "P2FM05", "P2FM06", "P2FM08", "P2FM09","P2FM10", "W2FM02", "W2FM04", "W2FM07", "W2FM11", "W2FMC1"],
     label: 'Forming'
   },
   {
@@ -197,7 +197,14 @@ const GroupBarChart = ({ className, ...rest }) => {
     const data1 = data?.res.filter((item1) => item1.wc === item);
     const totalTimes = sumTimes(data1?.map((item) => item.work_hour));
     const breakTimes = sumTimes(data1?.map((item) => item.stop_hour));
-    const realTime = sumTimes(data1?.map((item) => item.TOT_work_hour));
+    const realTime = sumTimes(data1?.map((item) => {
+      // If work_hour < stop_hour, use work_hour, else use TOT_work_hour
+      // ถ้า work_hour < stop_hour ใช้ช่อง work_hour else TOT_work_hour
+      const hourToUse = item.work_hour < item.stop_hour ? item.work_hour : item.TOT_work_hour;
+      
+      // Assuming the hours are already in "HH:MM:SS" format
+      return hourToUse;
+    }));
     
     return { wc: item, totalTimes, breakTimes, realTime };
   });

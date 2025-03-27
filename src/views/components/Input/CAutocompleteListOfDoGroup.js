@@ -77,7 +77,7 @@ export default function CAutocompleteListOfDoGroup(props) {
                 onChange={(option, value) => {
                     console.log(value)
                     if (value) {
-                        props.setDo_group_list(value.do_group_list)
+                        props.setDo_group_list(value)
                     } else {
                         props.setDo_group_list('')
                     }

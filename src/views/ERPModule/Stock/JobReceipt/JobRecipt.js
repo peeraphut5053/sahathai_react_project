@@ -115,7 +115,7 @@ const JobRecicpt = () => {
     <Container maxWidth={false}>
       <Paper style={{ padding: '40px', marginTop: '10px' }}>
       <Typography variant="h4" style={{ marginBottom: '10px', textAlign: 'center' }}>
-        JobRecicpt
+      JobReceipt
       </Typography>
        <ModalManagement open={loading} modalDetail={<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '20px' }}><CircularProgress /></div>} />
       <Grid container spacing={1}>
@@ -143,6 +143,8 @@ const JobRecicpt = () => {
                     return;
                   }
 
+                  const token = JSON.parse(localStorage.getItem("token"));
+
                   setProcess(1);
                   setLoading(true);
 
@@ -165,7 +167,8 @@ const JobRecicpt = () => {
                           qty2: data.qty2,
                           lot: data.lot,
                           loc: values.Location.value,
-                          tag_id: values.BarCode
+                          tag_id: values.BarCode,
+                          user: token?.username
                         }
                       }
                     );
