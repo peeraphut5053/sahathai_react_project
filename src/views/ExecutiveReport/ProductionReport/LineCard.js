@@ -31,12 +31,48 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
     return sortedData;
   }
 
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const currentMonth = new Date().getMonth() + 1; // 1-12
+
+  function fillDataToCurrentMonth(arr) {
+    // arr: ข้อมูล 1-12 เดือน (อาจขาด)
+    const filled = [];
+    for (let i = 0; i < 12; i++) {
+      if (i < currentMonth) {
+        filled.push(arr[i] ? Number(arr[i].sumA / 1000).toFixed(2) : null);
+      } else {
+        filled.push(null); // เดือนถัดไปเป็น null
+      }
+    }
+    return filled;
+  }
+
+  function fillDataToLastMonth(arr) {
+    // arr: ข้อมูล 1-12 เดือน (อาจขาด)
+    // หาว่าเดือนสุดท้ายที่มีข้อมูลจริง (sumA > 0)
+    let lastMonth = 0;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] && Number(arr[i].sumA) > 0) {
+        lastMonth = i + 1;
+      }
+    }
+    const filled = [];
+    for (let i = 0; i < 12; i++) {
+      if (i < lastMonth) {
+        filled.push(arr[i] ? Number(arr[i].sumA / 1000).toFixed(2) : null);
+      } else {
+        filled.push(null); // หลังจากเดือนสุดท้ายที่มีข้อมูล ให้เป็น null
+      }
+    }
+    return filled;
+  }
+
   const data = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    labels: monthNames,
     datasets: [
       {
         label: 'Slit',
-        data: loopFill(dataLine.slit).map((item) => (item.sumA / 1000).toFixed(2)),
+        data: fillDataToLastMonth(loopFill(dataLine.slit)),
         borderColor: '#ffb200',
         backgroundColor: '#ffb200',
         fill: false,
@@ -44,7 +80,7 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
       },
       {
         label: 'Forming',
-        data: loopFill(dataLine.forming).map((item) => (item.sumA / 1000).toFixed(2)),
+        data: fillDataToLastMonth(loopFill(dataLine.forming)),
         borderColor: '#cc0000',
         backgroundColor: '#cc0000',
         fill: false,
@@ -52,7 +88,7 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
       },
       {
         label: 'HydroTest',
-        data: loopFill(dataLine.hydro).map((item) => (item.sumA / 1000).toFixed(2)),
+        data: fillDataToLastMonth(loopFill(dataLine.hydro)),
         borderColor: '#0051ff',
         backgroundColor: '#0051ff',
         fill: false,
@@ -60,7 +96,7 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
       },
       {
         label: 'Galvanize',
-        data: loopFill(dataLine.galvanize).map((item) => (item.sumA / 1000).toFixed(2)),
+        data: fillDataToLastMonth(loopFill(dataLine.galvanize)),
         borderColor: '#009933',
         backgroundColor: '#009933',
         fill: false,
@@ -68,7 +104,7 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
       },
       {
         label: 'Painting',
-        data: loopFill(dataLine.painting).map((item) => (item.sumA / 1000).toFixed(2)),
+        data: fillDataToLastMonth(loopFill(dataLine.painting)),
         borderColor: '#9900cc',
         backgroundColor: '#9900cc',
         fill: false,
@@ -76,7 +112,7 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
       },
       {
         label: 'Threading',
-        data: loopFill(threading).map((item) => (item.sumA / 1000).toFixed(2)),
+        data: fillDataToLastMonth(threading),
         borderColor: '#cccc00',
         backgroundColor: '#cccc00',
         fill: false,
@@ -84,7 +120,7 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
       },
       {
         label: 'Cuting',
-        data: loopFill(dataLine.cuting).map((item) => (item.sumA / 1000).toFixed(2)),
+        data: fillDataToLastMonth(loopFill(dataLine.cuting)),
         borderColor: '#00ffff',
         backgroundColor: '#00ffff',
         fill: false,
@@ -92,7 +128,7 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
       },
       {
         label: 'Packing',
-        data: loopFill(dataLine.packing).map((item) => (item.sumA / 1000).toFixed(2)),
+        data: fillDataToLastMonth(loopFill(dataLine.packing)),
         borderColor: '#663300',
         backgroundColor: '#663300',
         fill: false,

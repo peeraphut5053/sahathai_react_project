@@ -201,11 +201,10 @@ console.log(do_group_list, 'do_group_list');
     }
 
     const handleScanTagCheckByDO = (event, do_num) => {
-        console.log('CheckDO');
-        
+       
         if (event.key === 'Enter') {
             if (do_group_list !== '') {
-                API.get(`API_QuantityMove/data.php?load=SearchTagDetailCheckByDO&tag_id=${event.target.value}&do_num=${do_group_list}`)
+                API.get(`API_QuantityMove/data.php?load=SearchTagDetailCheckByDO&tag_id=${event.target.value}&do_num=${do_group_list.do_group_list}`)
                     .then(res => {
                         const items = res.data
                         if (res.data.length > 0) {

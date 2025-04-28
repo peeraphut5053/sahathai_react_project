@@ -44,6 +44,7 @@ export default function ModalManagement(props) {
         paper: {
             position: 'absolute',
             width: '70%',
+            padding: '20px',
             backgroundColor: "#e6e6e6",
             borderBottom: '6px solid #3f51b5',
             borderRadius: '5px',

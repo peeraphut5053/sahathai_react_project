@@ -534,7 +534,7 @@ const Test = ({ className, ...rest }) => {
   const handleYearChange = (year) => {
     const currentYear = moment().format('YYYY');
 
-    if (year > currentYear || year < 2023) {
+    if (year > currentYear) {
       return alert('ไม่มีข้อมูลในปีนี้');
     }
     setMonth(year);

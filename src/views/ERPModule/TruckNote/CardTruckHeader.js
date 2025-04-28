@@ -81,6 +81,9 @@ const CardTruckHeader = (props, { className, ...rest }) => {
                 { title: 'date', field: 'create_date.date', type: 'date' },
                 { title: 'To location', field: 'loc' },
                 { title: 'type', field: 'doc_type' },
+                { title: 'round', field: 'round', 
+                  render: rowData => rowData.doc_type === 'Boat' ? (rowData.round === 0 ? '' : rowData.round) : ''
+                 },
               ]}
               // onRowClick={(event, rowData) => {
               //   SelectItemToModal(rowData)

@@ -20,6 +20,7 @@ import tableIcons from 'src/views/components/table/tableIcons';
 import { ReportMoveInternal } from './ReportMoveInternal';
 import { ReportMoveBoatNote } from './ReportMoveBoatNote';
 import { ReportSummaryBoatNote } from './ReportSummaryBoatNote';
+import { ExcelReportMoveBoatNote } from './ExcelReportMoveBoatNote';
 import ReportTagBoatNote from './ReportTagBoatNote';
 import API from 'src/views/components/API';
 import CAutocompleteNameOfDoGroup from '../../components/Input/CAutocompleteNameOfDoGroup';
@@ -91,6 +92,17 @@ const CardBoatLine = (props, { className, ...rest }) => {
         }
       })
       ReportMoveBoatNote(response.data, loc, boatPosition)
+
+    } else if (doc_type == "ExcelBoatNoteSelectByDoGroup") {
+      const response = await API.get("RPT_JOBPACKING/data.php", {
+        params: {
+          load: 'BoatNoteSelectByDoGroup',
+          do_group_name: do_group_name,
+          loc : loc,
+          boatPosition : boatPosition
+        }
+      })
+      ExcelReportMoveBoatNote(response.data, loc, boatPosition)
 
     } else if (doc_type == "BoatNoteSummaryByDoGroup") {
       const response = await API.get("RPT_JOBPACKING/data.php", {
@@ -191,11 +203,18 @@ const CardBoatLine = (props, { className, ...rest }) => {
                     พิมพ์ BoatNote {do_group_name}
                   </Button>
                 </Grid>
-
+             
                 <Grid item>
                   <Button variant="contained" label={""} color="primary"
                     onClick={() => printReportMove("BoatNoteSummaryByDoGroup")} >
                     พิมพ์สรุป BoatNote {do_group_name}
+                  </Button>
+                </Grid>
+
+                <Grid item>
+                  <Button variant="contained" label={""} color="primary"
+                    onClick={() => printReportMove("ExcelBoatNoteSelectByDoGroup")} >
+                    Excel BoatNote {do_group_name}
                   </Button>
                 </Grid>
               </Grid>
