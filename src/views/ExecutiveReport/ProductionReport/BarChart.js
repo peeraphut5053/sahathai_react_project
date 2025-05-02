@@ -617,28 +617,28 @@ const Test = ({ className, ...rest }) => {
                     {!isLoading &&
                       <>
                         <Typography style={{ fontWeight: 'bold', color: '#ffb200' }}>
-                          Slit : {data.slit?.length > 0 ? addComma((data?.slit[currentMonth].sumA / 1000).toFixed(2)) : 0}
+                          Slit : {data.slit?.length > 0 ? addComma((data?.slit[currentMonth]?.sumA / 1000).toFixed(2)) : 0}
                         </Typography>
                         <Typography style={{ fontWeight: 'bold', color: '#cc0000' }}>
-                          Forming : {data.forming?.length > 0 ? addComma((data?.forming[currentMonth].sumA / 1000).toFixed(2)) : 0}
+                          Forming : {data.forming?.length > 0 ? addComma((data?.forming[currentMonth]?.sumA / 1000).toFixed(2)) : 0}
                         </Typography>
                         <Typography style={{ fontWeight: 'bold', color: '#0051ff' }}>
-                          HydroTest : {data.hydro?.length > 0 ? addComma((data?.hydro[currentMonth].sumA / 1000).toFixed(2)) : 0}
+                          HydroTest : {data.hydro?.length > 0 ? addComma((data?.hydro[currentMonth]?.sumA / 1000).toFixed(2)) : 0}
                         </Typography>
                         <Typography style={{ fontWeight: 'bold', color: '#009933' }}>
-                          Galvanize : {data.galvanize?.length > 0 ? addComma((data?.galvanize[currentMonth].sumA / 1000).toFixed(2)) : 0}
+                          Galvanize : {data.galvanize?.length > 0 ? addComma((data?.galvanize[currentMonth]?.sumA / 1000).toFixed(2)) : 0}
                         </Typography>
                         <Typography style={{ fontWeight: 'bold', color: '#9900cc' }}>
-                          Painting : {data.painting?.length > 0 ? addComma((data?.painting[currentMonth].sumA / 1000).toFixed(2)) : 0}
+                          Painting : {data.painting?.length > 0 ? addComma((data?.painting[currentMonth]?.sumA / 1000).toFixed(2)) : 0}
                         </Typography>
                         <Typography style={{ fontWeight: 'bold', color: '#cccc00' }}>
-                          Threading : {addComma(((data?.threading?.length > 0 ? data?.threading[currentMonth].sumA : 0 + data?.groove?.length > 0 ? data?.groove[currentMonth].sumA : 0) / 1000).toFixed(2))}
+                          Threading : {addComma(((data?.threading?.length > 0 ? data?.threading[currentMonth]?.sumA : 0 + data?.groove?.length > 0 ? data?.groove[currentMonth]?.sumA : 0) / 1000).toFixed(2))}
                         </Typography>
                         <Typography style={{ fontWeight: 'bold', color: '#00ffff' }}>
-                          Cuting : {data.cuting?.length > 0 ? addComma((data?.cuting[currentMonth].sumA / 1000).toFixed(2)) : 0}
+                          Cuting : {data.cuting?.length > 0 ? addComma((data?.cuting[currentMonth]?.sumA / 1000).toFixed(2)) : 0}
                         </Typography>
                         <Typography style={{ fontWeight: 'bold', color: '#663300' }}>
-                          Packing : {data.packing?.length > 0 ? addComma((data?.packing[currentMonth].sumA / 1000).toFixed(2)) : 0}
+                          Packing : {data.packing?.length > 0 ? addComma((data?.packing[currentMonth]?.sumA / 1000).toFixed(2)) : 0}
                         </Typography>
                       </>
                     }
