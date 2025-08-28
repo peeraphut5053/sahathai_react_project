@@ -25,8 +25,6 @@ import ReportTagBoatNote from './ReportTagBoatNote';
 import API from 'src/views/components/API';
 import CAutocompleteNameOfDoGroup from '../../components/Input/CAutocompleteNameOfDoGroup';
 import CAutocompleteLocation from '../../components/Input/CAutocompleteLocationByDo';
-import CTextField from 'src/views/components/Input/CTextField';
-import { ExcelReportByPo } from './ExcelReportByPo';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -48,11 +46,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const CardBoatLine = (props, { className, ...rest }) => {
+const CardBoatPo = (props, { className, ...rest }) => {
   const classes = useStyles();
 
   const [openModalItem, setOpenModalItem] = React.useState(false); // Boat NOte
-  const [sts_po, setStsPo] = React.useState("");
   const [OpenModalTagBoatNote, setOpenModalTagBoatNote] = React.useState(false);
   const [do_group_name, setdo_group_name] = useState("")
   const [loc, set_loc] = useState("")
@@ -106,18 +103,6 @@ const CardBoatLine = (props, { className, ...rest }) => {
         }
       })
       ExcelReportMoveBoatNote(response.data, loc, boatPosition)
-
-    } else if (doc_type == "ExcelBoatNoteSelectByPo") {
-      const response = await API.get("RPT_JOBPACKING/data.php", {
-        params: {
-          load: 'ExcelReportPo',
-          do_group_name: do_group_name,
-          loc : loc,
-          boatPosition : boatPosition,
-          sts_po : sts_po
-        }
-      })
-      ExcelReportByPo(response.data, loc, boatPosition)
 
     } else if (doc_type == "BoatNoteSummaryByDoGroup") {
       const response = await API.get("RPT_JOBPACKING/data.php", {
@@ -212,12 +197,6 @@ const CardBoatLine = (props, { className, ...rest }) => {
                     do_group_name={do_group_name}
                   />
                 </Grid>
-                <Grid item xs={12} >
-                <CTextField label="STS_PO" name="sts_po" 
-                      onChange={(e) => setStsPo(e.target.value)}
-                      value={sts_po}
-                />
-                </Grid>
                 <Grid item>
                   <Button variant="contained" label={""} color="primary"
                     onClick={() => printReportMove("BoatNoteSelectByDoGroup")} >
@@ -236,12 +215,6 @@ const CardBoatLine = (props, { className, ...rest }) => {
                   <Button variant="contained" label={""} color="primary"
                     onClick={() => printReportMove("ExcelBoatNoteSelectByDoGroup")} >
                     Excel BoatNote {do_group_name}
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="contained" label={""} color="primary"
-                    onClick={() => printReportMove("ExcelBoatNoteSelectByPo")} >
-                    Excel BoatNote By PO {do_group_name}
                   </Button>
                 </Grid>
               </Grid>
@@ -326,8 +299,8 @@ const CardBoatLine = (props, { className, ...rest }) => {
   );
 };
 
-CardBoatLine.propTypes = {
+CardBoatPo.propTypes = {
   className: PropTypes.string
 };
 
-export default CardBoatLine;
+export default CardBoatPo;

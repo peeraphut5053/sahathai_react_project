@@ -47,6 +47,7 @@ const ReasonStopMachineTableEditable = (props) => {
             }}
 
             editable={{
+                /*
                 onRowAdd: newData =>
                     new Promise((resolve, reject) => {
                         setTimeout(() => {
@@ -84,6 +85,7 @@ const ReasonStopMachineTableEditable = (props) => {
                             resolve()
                         }, 1000)
                     }),
+                */
             }}
         />
     );

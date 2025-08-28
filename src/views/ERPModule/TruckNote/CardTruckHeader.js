@@ -96,7 +96,7 @@ const CardTruckHeader = (props, { className, ...rest }) => {
                 minBodyHeight: '65vh',
                 filtering: true,
                 rowStyle: rowData => ({
-                  backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
+                  backgroundColor: (selectedRow === rowData.tableData.id) ? 'skyblue' : '#FFF',
                   fontSize: '0.8em',
                   padding: 0,
                   fontFamily: 'sans-serif'

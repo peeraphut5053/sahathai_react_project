@@ -126,6 +126,12 @@ const JobMaterial = () => {
           return;
         }
 
+        if (response.data[0].tag_status === 'Reject') {
+          alert('Tag id : ' + job + ' สถานะเป็น : ' + response.data[0].tag_status + ' กรุณาติดต่อ QC');
+          setProcess(1);
+          return;
+        }
+
         setFieldValue('totalWithdraw', response.data[0].QtyRem);
         setFieldValue('withdraw', response.data[0].QtyIss);
         setFieldValue('tag', job);

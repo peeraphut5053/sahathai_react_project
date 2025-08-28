@@ -15,35 +15,40 @@ const App = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-       if (localStorage.getItem("token")) {
-        const token = localStorage.getItem("token");
-        const jwt = JSON.parse(token);
-        const response = await API.post(`SignIn.php?action=CheckAuth&token=${jwt.token}`)
+        // ถ้าเป็นหน้า PipeCounter ให้ข้ามการตรวจสอบ token
+        const path = window.location.pathname.replace(/\/$/, '').toLowerCase();
+        if (path === '/pipecounter') {
+          return;
+        }
 
-        if (response.data) {
-          console.log('Good');
+        if (localStorage.getItem("token")) {
+          const token = localStorage.getItem("token");
+          const jwt = JSON.parse(token);
+          const response = await API.post(`SignIn.php?action=CheckAuth&token=${jwt.token}`)
+
+          if (response.data) {
+            console.log('Good');
+          } else {
+            localStorage.removeItem("token");
+            navigate("/login");
+          }
         } else {
-          localStorage.removeItem("token");
           navigate("/login");
         }
-       } else {
-         navigate("/login");
-       }
-     
       } catch (error) {
         localStorage.removeItem("token");
         navigate("/login");
         console.log(error);
       }
-  }
-  checkAuth();
+    }
+    checkAuth();
   }, []);
 
   return (
-      <ThemeProvider theme={theme}>
-        <GlobalStyles />
-        {routing}
-      </ThemeProvider>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      {routing}
+    </ThemeProvider>
   );
 };
 

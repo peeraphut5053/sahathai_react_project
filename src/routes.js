@@ -62,6 +62,7 @@ import ADAllTemp from './views/ERPModule/SaleDomestic/ADAllTemp';
 import JobRecicpt from './views/ERPModule/Stock/JobReceipt/JobRecipt';
 import ProductionJob from './views/ERPModule/Stock/JobReceipt';
 import ProtectRoute from './components/ProtectRoute';
+import PipeCounterApp from './views/PipeCounter/PipeCounterApp';
 
 const routes = [
   {
@@ -129,6 +130,7 @@ const routes = [
     element: <MainLayout />,
     children: [
       { path: 'login', element: <LoginView /> },
+      { path: 'PipeCounter', element: <PipeCounterApp /> },
       { path: 'register', element: <RegisterView /> },
       { path: '404', element: <NotFoundView /> },
       { path: '/', element: <Navigate to="/app/dashboard" /> },

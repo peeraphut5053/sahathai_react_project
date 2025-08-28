@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CardBoatHeader = (props, { className, ...rest }) => {
   const classes = useStyles();
+  const [selectedRow, setSelectedRow] = React.useState(null);
 
   return (
     <Card
@@ -92,7 +93,7 @@ const CardBoatHeader = (props, { className, ...rest }) => {
                 minBodyHeight: '65vh',
                 filtering: true,
                 rowStyle: rowData => ({
-                  // backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
+                  backgroundColor: (selectedRow === rowData.tableData.id) ? 'skyblue' : '#FFF',
                   fontSize: '0.8em',
                   padding: 0,
                   fontFamily: 'sans-serif'
@@ -100,7 +101,7 @@ const CardBoatHeader = (props, { className, ...rest }) => {
 
               }}
               onRowClick={(event, rowData) => {
-                console.log(event)
+                setSelectedRow(rowData.tableData.id);
                 props.handleClickSelectDoc(rowData)
               }}
 
