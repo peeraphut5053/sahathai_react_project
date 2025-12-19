@@ -78,7 +78,7 @@ const BoatNote = () => {
     const [destination, setDestination] = useState("");
     const [docType, setDocType] = useState("Truck");
     let [Search_STS_qty_move_hrd, setSearch_STS_qty_move_hrd] = useState([])
-    
+
     const [editStatus, setEditStatus] = useState(false);
 
     const [isDisabled, setDisabled] = useState(false);
@@ -100,7 +100,7 @@ const BoatNote = () => {
 
     const [STS_QtyMoveLotLocation_GEN_Doc_num, setSTS_QtyMoveLotLocation_GEN_Doc_num] = useState("")
 
-console.log(do_group_list, 'do_group_list');
+    console.log(do_group_list, 'do_group_list');
 
     const handleProcessSuccess = (ProcessSuccess) => {
         setOpenModalProcess(true);
@@ -133,7 +133,7 @@ console.log(do_group_list, 'do_group_list');
     };
 
 
-   console.log(data, 'truck');
+    console.log(data, 'truck');
 
 
     const handleClickSelectDoc = (row) => {
@@ -148,8 +148,8 @@ console.log(do_group_list, 'do_group_list');
                 console.log(res.data)
                 // handlecheckItemLotLoc(res.data)
             })
-        
-            API.get(`API_QuantityMove/data.php?load=Search_STS_qty_move_hrd&doc_num=${row.doc_num}`)
+
+        API.get(`API_QuantityMove/data.php?load=Search_STS_qty_move_hrd&doc_num=${row.doc_num}`)
             .then(res => {
                 console.log(res.data)
                 setSearch_STS_qty_move_hrd(res.data)
@@ -201,7 +201,7 @@ console.log(do_group_list, 'do_group_list');
     }
 
     const handleScanTagCheckByDO = (event, do_num) => {
-       
+
         if (event.key === 'Enter') {
             if (do_group_list !== '') {
                 API.get(`API_QuantityMove/data.php?load=SearchTagDetailCheckByDO&tag_id=${event.target.value}&do_num=${do_group_list.do_group_list}`)
@@ -247,36 +247,36 @@ console.log(do_group_list, 'do_group_list');
 
         if (!values.loc || qtyMoveList.length === 0) {
             alert("กรุณากรอก location ปลายทาง หรือ scan barcode อย่างน้อย 1 lot")
-            
+
         } else {
             API.get(`API_QuantityMove/data.php?load=moveqty_create_hdr_BoatNoteOnly&toLoc=${values.loc}&w_c=${values.wc}&doc_type=${docType}&do_num=${values.do_num}&boatList=${values.boatList}&destination=${destination}&ActWeight=${values.ActualWeight}&round=${do_group_list?.id ?? ''}`)
                 .then(res => {
-                        //   setdocNum(moveqty_hdr.doc_num)
-                        //   setToLocation(moveqty_hdr.loc)
-                    if (qtyMoveList.length > 0 ) {
+                    //   setdocNum(moveqty_hdr.doc_num)
+                    //   setToLocation(moveqty_hdr.loc)
+                    if (qtyMoveList.length > 0) {
                         setEditStatus(false)
                         setOpenModalCreateBoteNote(false)
                         setOpenModalProcess(true)
                         let tagnumArray = []
                         // let boatPositionArray = []
-                        
-                        for (let i=0; i<qtyMoveList.length; i++){
+
+                        for (let i = 0; i < qtyMoveList.length; i++) {
                             tagnumArray.push(qtyMoveList[i].id)
                             // boatPositionArray.push(qtyMoveList[i].boat_position)
-                            }
+                        }
                         //Insert QTY LINE 
-                             API.get(`API_QuantityMove/data.php`, {
-                                params: {
-                                    load: "moveqty_create_line_Truck",
-                                    tagnum: tagnumArray,
-                                    toLoc: values.loc,
-                                    doc_num: res.data[0].doc_no
-                                    // boatPosition: boatPositionArray
-                                }
-                            }).then(res => {
-                                setQtyMoveList([])
-                                refetch()
-                            })
+                        API.get(`API_QuantityMove/data.php`, {
+                            params: {
+                                load: "moveqty_create_line_Truck",
+                                tagnum: tagnumArray,
+                                toLoc: values.loc,
+                                doc_num: res.data[0].doc_no
+                                // boatPosition: boatPositionArray
+                            }
+                        }).then(res => {
+                            setQtyMoveList([])
+                            refetch()
+                        })
                     }
                 })
         }
@@ -380,27 +380,27 @@ console.log(do_group_list, 'do_group_list');
     const editActualWeight = (doc_num, eActualWeight) => {
 
 
-            API.get(`API_QuantityMove/data.php?load=editActualWeight&doc_num=${doc_num}&eActualWeight=${eActualWeight}`, {
-            
-            });
-      
+        API.get(`API_QuantityMove/data.php?load=editActualWeight&doc_num=${doc_num}&eActualWeight=${eActualWeight}`, {
+
+        });
+
 
         const timer = setInterval(() => {
             API.get(`API_QuantityMove/data.php?load=Search_STS_qty_move_hrd&doc_num=${doc_num}`)
-            .then(res => {
-                console.log(res.data)
-                setSearch_STS_qty_move_hrd(res.data)
-            })
-        clearInterval(timer)
-    }, 1000)
+                .then(res => {
+                    console.log(res.data)
+                    setSearch_STS_qty_move_hrd(res.data)
+                })
+            clearInterval(timer)
+        }, 1000)
 
-        
+
     }
 
     const Editloc = (doc_num, locEdit) => {
-            API.get(`API_QuantityMove/data.php?load=locEdit_Truck&doc_num=${doc_num}&loc=${locEdit}`, {
-            
-            });
+        API.get(`API_QuantityMove/data.php?load=locEdit_Truck&doc_num=${doc_num}&loc=${locEdit}`, {
+
+        });
         console.log(doc_num, locEdit)
     }
 
@@ -596,7 +596,7 @@ console.log(do_group_list, 'do_group_list');
                                 >
                                     {/* <Button color="primary" variant="contained" onClick={() => { handleOpenModalItem(123) }}>1234</Button> */}
                                     {/* {JSON.stringify(values)} */}
-                                    
+
                                     <Grid container spacing={2}>
                                         <Grid item lg={12} >
                                             <Grid container spacing={2}>
@@ -606,21 +606,21 @@ console.log(do_group_list, 'do_group_list');
                                                             <Grid container spacing={2}>
                                                                 <Grid item lg={12} xs={6}>
                                                                     <FormControl fullWidth variant="outlined" size="small">
-                                                                        <InputLabel style={{ paddingLeft: 10}}>ประเภทเอกสารการขนส่ง</InputLabel>
-                                                                            <Select
-                                                                                style={{ padding: '0px' }}
-                                                                                variant="outlined"
-                                                                                size="small"
-                                                                                label="ประเภทเอกสารการขนส่ง"
-                                                                                fullWidth
-                                                                                value={docType}
-                                                                                onChange={(e) => setDocType(e.target.value)}
-                                                                            >
-                                                                                <MenuItem value={'Truck'}>Truck</MenuItem>
-                                                                                <MenuItem value={'Boat'}>Boat</MenuItem>
-                                                                                <MenuItem value={'Cont'}>Cont</MenuItem>
-                                                                            </Select>
-                                                                        </FormControl>
+                                                                        <InputLabel style={{ paddingLeft: 10 }}>ประเภทเอกสารการขนส่ง</InputLabel>
+                                                                        <Select
+                                                                            style={{ padding: '0px' }}
+                                                                            variant="outlined"
+                                                                            size="small"
+                                                                            label="ประเภทเอกสารการขนส่ง"
+                                                                            fullWidth
+                                                                            value={docType}
+                                                                            onChange={(e) => setDocType(e.target.value)}
+                                                                        >
+                                                                            <MenuItem value={'Truck'}>Truck</MenuItem>
+                                                                            <MenuItem value={'Boat'}>Boat</MenuItem>
+                                                                            <MenuItem value={'Cont'}>Cont</MenuItem>
+                                                                        </Select>
+                                                                    </FormControl>
                                                                 </Grid>
                                                                 {/* <Grid item lg={12} >
                                                                     <CAutocompleteLocationPTR
@@ -630,74 +630,74 @@ console.log(do_group_list, 'do_group_list');
                                                                         setFieldValue={setFieldValue}
                                                                     />
                                                                 </Grid> */}
-                                                                    
 
-                                                            {(editStatus == true) ?
-                                                                <>
-                                                                <Grid item lg={12} >
-                                                                    <CAutocompleteLocationPTRedit
-                                                                            //  onChange={handleChange}
-                                                                             name="loc"
-                                                                             value={values.loc}
-                                                                             setFieldValue={setFieldValue}
-                                                                             onChange={Editloc(doc_num, values.loc) }
-                                                                         />
-                                                                     </Grid>
-                                                                     
-                                                                <Grid item lg={12} >
-                                                                    <CTextField size="small" fullWidth                       
-                                                                           
-                                                                        error={Boolean(touched.item && errors.item)}
-                                                                        helperText={touched.item && errors.item}
-                                                                        label="น้ำหนักชั่งจริง"
-                                                                        name="ActWeight"
-                                                                        onBlur={handleBlur}
-                                                                        onChange={handleChange}
-                                                                        value={Search_STS_qty_move_hrd[0]["ActWeight"]}
-                                                                                                                                       
-                                                                    />
-                                                                </Grid>
 
-                                                                <Grid item lg={12} >
-                                                                    <TextField size="small" fullWidth                       
-                                                                        
-                                                                        error={Boolean(touched.item && errors.item)}
-                                                                        helperText={touched.item && errors.item}
-                                                                        label="แก้ไขน้ำหนักชั่งจริง"
-                                                                        name="eActualWeight"
-                                                                        onBlur={handleBlur}
-                                                                        onChange={handleChange}
-                                                                        value={values.eActualWeight}                                                                                                                      
-                                                                    />
-                                                                    <Button variant="contained" color="primary" startIcon={<SaveIcon />} style={{ margin: 10 }} onClick={() => editActualWeight(doc_num, values.eActualWeight)} >Save  </Button>
-                                                                </Grid>
-                                                            
-                                                                     </> : 
-                                                                     <>
-                                                                    <Grid item lg={12} >
-                                                                    <CAutocompleteLocationPTR
-                                                                             onBlur={handleBlur}
-                                                                             name="loc"
-                                                                             value={values.loc}
-                                                                             setFieldValue={setFieldValue}
-                                                                         />
-                                                                     </Grid>
+                                                                {(editStatus == true) ?
+                                                                    <>
+                                                                        <Grid item lg={12} >
+                                                                            <CAutocompleteLocationPTRedit
+                                                                                //  onChange={handleChange}
+                                                                                name="loc"
+                                                                                value={values.loc}
+                                                                                setFieldValue={setFieldValue}
+                                                                                onChange={Editloc(doc_num, values.loc)}
+                                                                            />
+                                                                        </Grid>
 
-                                                                <Grid item lg={12} >
-                                                                    <CTextField size="small" fullWidth
-                                                                                                                                                                                                                                                                
-                                                                        error={Boolean(touched.item && errors.item)}
-                                                                        helperText={touched.item && errors.item}
-                                                                        label="น้ำหนักชั่งจริง"
-                                                                        name="ActualWeight"
-                                                                        onBlur={handleBlur}
-                                                                        onChange={handleChange}
-                                                                        value={values.ActualWeight}
-                                                                                                              
-                                                                    />
-                                                                </Grid>
-                                                                </>
-                                                            }
+                                                                        <Grid item lg={12} >
+                                                                            <CTextField size="small" fullWidth
+
+                                                                                error={Boolean(touched.item && errors.item)}
+                                                                                helperText={touched.item && errors.item}
+                                                                                label="น้ำหนักชั่งจริง"
+                                                                                name="ActWeight"
+                                                                                onBlur={handleBlur}
+                                                                                onChange={handleChange}
+                                                                                value={Search_STS_qty_move_hrd[0]["ActWeight"]}
+
+                                                                            />
+                                                                        </Grid>
+
+                                                                        <Grid item lg={12} >
+                                                                            <TextField size="small" fullWidth
+
+                                                                                error={Boolean(touched.item && errors.item)}
+                                                                                helperText={touched.item && errors.item}
+                                                                                label="แก้ไขน้ำหนักชั่งจริง"
+                                                                                name="eActualWeight"
+                                                                                onBlur={handleBlur}
+                                                                                onChange={handleChange}
+                                                                                value={values.eActualWeight}
+                                                                            />
+                                                                            <Button variant="contained" color="primary" startIcon={<SaveIcon />} style={{ margin: 10 }} onClick={() => editActualWeight(doc_num, values.eActualWeight)} >Save  </Button>
+                                                                        </Grid>
+
+                                                                    </> :
+                                                                    <>
+                                                                        <Grid item lg={12} >
+                                                                            <CAutocompleteLocationPTR
+                                                                                onBlur={handleBlur}
+                                                                                name="loc"
+                                                                                value={values.loc}
+                                                                                setFieldValue={setFieldValue}
+                                                                            />
+                                                                        </Grid>
+
+                                                                        <Grid item lg={12} >
+                                                                            <CTextField size="small" fullWidth
+
+                                                                                error={Boolean(touched.item && errors.item)}
+                                                                                helperText={touched.item && errors.item}
+                                                                                label="น้ำหนักชั่งจริง"
+                                                                                name="ActualWeight"
+                                                                                onBlur={handleBlur}
+                                                                                onChange={handleChange}
+                                                                                value={values.ActualWeight}
+
+                                                                            />
+                                                                        </Grid>
+                                                                    </>
+                                                                }
                                                             </Grid>
                                                         </Paper>
                                                     </Grid>
@@ -807,27 +807,25 @@ console.log(do_group_list, 'do_group_list');
                                                             onRowDelete: oldData =>
                                                                 new Promise((resolve, reject) => {
                                                                     setTimeout(() => {
-                                                                        const dataDelete = [...qtyMoveList];
-                                                                        const index = oldData.tableData.id;
-                                                                        dataDelete.splice(index, 1);
-                                                                        setQtyMoveList([...dataDelete]);
+                                                                        const newData = qtyMoveList.filter((item, idx) => item.id !== oldData.id);
+                                                                        setQtyMoveList(newData);
                                                                         BoatPfn("DeleteTruckQtyMoveLine", oldData, doc_num)
                                                                         resolve()
                                                                     }, 1000)
                                                                 }),
 
-                                                                onRowUpdate: (newData, oldData) =>
+                                                            onRowUpdate: (newData, oldData) =>
                                                                 new Promise((resolve, reject) => {
-                                                                  setTimeout(() => {
-                                                                    const dataUpdate = [...qtyMoveList];
-                                                                    const index = oldData.tableData.id;
-                                                                    dataUpdate[index] = newData;
-                                                                    // console.log(doc_num)
-                                                                    // console.log(newData)
-                                                                    setQtyMoveList([...dataUpdate]);
-                                                                    BoatPfn("UpdateBoat_Position", newData, doc_num)
-                                                                    resolve();
-                                                                  }, 1000)
+                                                                    setTimeout(() => {
+                                                                        const dataUpdate = [...qtyMoveList];
+                                                                        const index = oldData.tableData.id;
+                                                                        dataUpdate[index] = newData;
+                                                                        // console.log(doc_num)
+                                                                        // console.log(newData)
+                                                                        setQtyMoveList([...dataUpdate]);
+                                                                        BoatPfn("UpdateBoat_Position", newData, doc_num)
+                                                                        resolve();
+                                                                    }, 1000)
                                                                 }),
                                                         }}
 
@@ -844,7 +842,7 @@ console.log(do_group_list, 'do_group_list');
                                                                             className={classes.textField}
                                                                             onKeyUp={setBoatPositionState}
                                                                         /> */}
-                                                                        
+
                                                                         {/* <FormControl style={{ paddingRight: 10 , width: 120}} variant="outlined" size="small">
                                                                         <InputLabel>ระวางเรือ</InputLabel>
                                                                             <Select
@@ -863,7 +861,7 @@ console.log(do_group_list, 'do_group_list');
                                                                                 <MenuItem value={'ท้ายเรือ'}>ท้ายเรือ</MenuItem>
                                                                             </Select>
                                                                         </FormControl> */}
-                                                                      
+
                                                                         <TextField size="small" label={"Scan tag"} id={"tagScan"}
                                                                             variant="outlined"
                                                                             className={classes.textField}
@@ -871,9 +869,9 @@ console.log(do_group_list, 'do_group_list');
                                                                             // (values.doc_type == "Ship") ? handleScanTagCheckByDO(e, values.do_num) : handleScanTag(e)}
                                                                             autoFocus={focusScanTagState} />
 
-                                                                        <FormControl style={{ paddingLeft: 10 ,paddingRight: 10, width: 170}} variant="outlined" size="small">
-                                                                        <InputLabel style={{ paddingLeft: 10}}>ปลายทางขนส่ง</InputLabel>
-                                                                        
+                                                                        <FormControl style={{ paddingLeft: 10, paddingRight: 10, width: 170 }} variant="outlined" size="small">
+                                                                            <InputLabel style={{ paddingLeft: 10 }}>ปลายทางขนส่ง</InputLabel>
+
                                                                             <Select
                                                                                 value={destination}
                                                                                 variant="outlined"
@@ -888,6 +886,7 @@ console.log(do_group_list, 'do_group_list');
                                                                                 <MenuItem value={'โกดัง A5'}>โกดัง A5</MenuItem>
                                                                                 <MenuItem value={'โกดัง A6'}>โกดัง A6</MenuItem>
                                                                                 <MenuItem value={'โกดัง A7'}>โกดัง A7</MenuItem>
+                                                                                <MenuItem value={'โกดัง 6 ไร่'}>โกดัง 6 ไร่</MenuItem>
                                                                                 <MenuItem value={'โรงงานวังน้อย'}>โรงงานวังน้อย</MenuItem>
                                                                                 <MenuItem value={'โรงงานปู่เจ้าสมิงพราย'}>โรงงานปู้เจ้าสมิงพราย</MenuItem>
                                                                                 <MenuItem value={'ลงเรือฉลอม'}>ลงเรือฉลอม</MenuItem>
@@ -910,14 +909,14 @@ console.log(do_group_list, 'do_group_list');
 
                                                 </Grid>
                                                 {(editStatus == true) ?
-                                                ""
-                                                : 
-                                                <Grid item xs={12}>
-                                                    <Paper className={classes.paper}>
-                                                        <Button disabled={isDisabled} type="button" variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => saveDocumentBoatNoteOnly(values, qtyMoveList)}>Save</Button>
-                                                    </Paper>
-                                                    {/* <Button variant="contained" color="primary" startIcon={<SaveIcon />} style={{ margin: 10 }} onClick={handleSubmit} >Save  </Button> */}
-                                                </Grid>
+                                                    ""
+                                                    :
+                                                    <Grid item xs={12}>
+                                                        <Paper className={classes.paper}>
+                                                            <Button disabled={isDisabled} type="button" variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => saveDocumentBoatNoteOnly(values, qtyMoveList)}>Save</Button>
+                                                        </Paper>
+                                                        {/* <Button variant="contained" color="primary" startIcon={<SaveIcon />} style={{ margin: 10 }} onClick={handleSubmit} >Save  </Button> */}
+                                                    </Grid>
                                                 }
                                             </Grid>
                                         </Grid>
@@ -936,7 +935,7 @@ console.log(do_group_list, 'do_group_list');
                     <Grid container spacing={2}>
 
                         <Grid item xs={4} >
-                        <label style={{ color:'red', fontSize: '36px'}}>***ใช้สำหรับย้ายขึ้นรถเท่านั้น</label>
+                            <label style={{ color: 'red', fontSize: '36px' }}>***ใช้สำหรับย้ายขึ้นรถเท่านั้น</label>
                             <CardTruckHeader
 
                                 STS_qty_move_hrd_Truck={data}

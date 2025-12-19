@@ -24,7 +24,7 @@ export default function CAutocompleteWorkCenter(props) {
         }
 
         (async () => {
-            let response = await fetch(`${APIPath}/RPT_JOBPACKING/data.php?load=LocationByDo&do=${props.do_group_name}`);
+            let response = await fetch(`${APIPath}/RPT_JOBPACKING/data.php?load=LocationByDo&do=${props.do_group_name}&startDate=${(props.startDate)}&endDate=${props.endDate}`);
 
             // const response = await fetch('https://country.register.gov.uk/records.json?page-size=5000');
             // const response2 = await API_sts_web_center.get("RPT_JOBPACKING/data.php?load=workcenter");

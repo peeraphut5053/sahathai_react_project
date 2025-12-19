@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Box,
   Container,
@@ -13,7 +13,13 @@ import {
   makeStyles,
   createMuiTheme,
   ThemeProvider,
-  IconButton
+  IconButton,
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel
+
 } from '@material-ui/core';
 import {
   CloudUpload,
@@ -24,9 +30,13 @@ import {
   GetApp,
   Visibility,
   CheckCircle,
-  Camera
+  Camera,
 } from '@material-ui/icons';
+import SaveIcon from '@material-ui/icons/Save';
 import { Alert } from '@material-ui/lab';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import API from '../components/API';
+
 
 const theme = createMuiTheme({
   palette: {
@@ -41,6 +51,7 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    marginTop: '10px',
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
   },
@@ -98,7 +109,13 @@ const useStyles = makeStyles((theme) => ({
 
 const PipeCounterApp = () => {
   const classes = useStyles();
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState([]);
+  const [userName, setUserName] = useState('');
+  const [doNum, setDoNum] = useState('');
+  const [doNumOptions, setDoNumOptions] = useState([]);
+  const [systemCount, setSystemCount] = useState('');
+  const [totalCount, setTotalCount] = useState('');
+  const [remark, setRemark] = useState('');
   const [previewUrl, setPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
@@ -108,16 +125,47 @@ const PipeCounterApp = () => {
   const videoRef = useRef(null);
   const streamRef = useRef(null);
 
-  const API_BASE_URL = 'http://172.18.3.140:8000';
+  const API_BASE_URL = 'http://172.18.1.195:8000';
+
+  useEffect(() => {
+    const getDoNum = async () => {
+      const response = await API.get('APP_COUNT_PIPE/data.php?load=GetDoList', {
+      });
+      try {
+         // get username
+        const token = localStorage.getItem("token");
+        const jwt = JSON.parse(token);
+        setUserName(jwt.username);
+        const payload = Array.isArray(response.data) ? response.data : [];
+        const normalized = payload.map((item) => {
+          if (item == null) return '';
+          if (typeof item === 'string' || typeof item === 'number') return String(item);
+          return String(item.do_num || item.DO_NUM || item.value || item.label || '');
+        }).filter(Boolean);
+        setDoNumOptions(normalized);
+      } catch (e) {
+        setDoNumOptions([]);
+      }
+    };
+    getDoNum();
+  }, []);
 
   const handleFileSelect = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      setPreviewUrl(URL.createObjectURL(file));
-      setResult(null);
-      setError(null);
-    }
+    const files = event.target.files; // ได้ FileList
+  
+  if (files && files.length > 0) {
+    // แปลง FileList เป็น Array
+    const fileArray = Array.from(files);
+    
+    setSelectedFile(fileArray); // เก็บเป็น array
+    
+    // สร้าง preview URLs สำหรับทุกไฟล์
+    const previewUrls = fileArray.map(file => URL.createObjectURL(file));
+    setPreviewUrl(previewUrls); // เก็บเป็น array
+    
+    setResult(null);
+    setError(null);
+  }
   };
 
   const handleDrop = (event) => {
@@ -210,6 +258,7 @@ const PipeCounterApp = () => {
 
       const data = await response.json();
       setResult(data);
+      setTotalCount(data.pipe_count);
       setHiddenUI(true);
     } catch (err) {
       setError(err.message);
@@ -227,8 +276,61 @@ const PipeCounterApp = () => {
     }
   };
 
+  const SaveCountPipe = async () => {
+    if (!selectedFile) {
+      setError('กรุณาเลือกไฟล์รูปภาพก่อน');
+      return;
+    }
+    if (!doNum) {
+      setError('กรุณาเลือก DO NUM');
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    const api = 'http://172.18.1.194/sts_web_center/module/APP_COUNT_PIPE/upload.php?load=CreateCountPipe';
+
+    // ใช้ไฟล์ต้นฉบับ ไม่ต้องแปลง base64
+
+    try {
+      const formData = new FormData();
+      formData.append('load', 'CreateCountPipe');
+
+      selectedFile.forEach((file, index) => {
+        formData.append(`file[]`, file);
+      });
+
+      formData.append('do_num', doNum);
+      formData.append('qty_system', String(systemCount ?? ''));
+      formData.append('qty_human', String(totalCount ?? ''));
+      formData.append('user', userName);
+      formData.append('remark', remark);
+
+      const response = await fetch(api, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || 'เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+      }
+      resetAll();
+      setSystemCount('');
+      setTotalCount('');
+      setRemark('');
+      alert('บันทึกข้อมูลเรียบร้อยแล้ว' + response.errors ? response.errors : '');
+    } catch (err) {
+      alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const resetAll = () => {
-    setSelectedFile(null);
+    setSelectedFile([]);
     setPreviewUrl(null);
     setResult(null);
     setError(null);
@@ -252,12 +354,31 @@ const PipeCounterApp = () => {
             </Box>
           </Box>
         </Paper>
-
+        <Box style={{ width: '100%', marginBottom: '20px' }}>
+                <Autocomplete
+                  options={doNumOptions}
+                  getOptionLabel={(option) => (typeof option === 'string' ? option : String(option))}
+                  value={doNum || null}
+                  onChange={(event, newValue) => setDoNum(newValue || '')}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      size="small"
+                      label="DO NUM"
+                    />
+                  )}
+                  clearOnEscape
+                  autoHighlight
+                  disableClearable={false}
+                  openOnFocus
+                />
+        </Box>
         <Grid container spacing={3}>
           {/* Left Column - Upload */}
           <Grid item xs={12} md={12}>
             {/* File Upload */}
-            <Card hidden={hiddenUI} elevation={2} style={{ marginBottom: '8px' }}>
+            <Card hidden={hiddenUI}  elevation={2} style={{ marginBottom: '8px' }}>
               <CardContent>
                 <Typography variant="h6" gutterBottom>
                   <CloudUpload style={{ verticalAlign: 'middle', marginRight: '8px' }} />
@@ -270,6 +391,7 @@ const PipeCounterApp = () => {
                   id="file-upload"
                   type="file"
                   onChange={handleFileSelect}
+                  multiple
                 />
                 
                 <label htmlFor="file-upload">
@@ -304,14 +426,21 @@ const PipeCounterApp = () => {
                         </Box>
                       </Box>
                     ) : previewUrl ? (
-                      <img
-                        src={previewUrl}
-                        alt="Preview"
-                        className={classes.previewImage}
-                      />
+                      <div className="preview-container" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', marginBottom: '16px' }}>
+                          {previewUrl.map((url, index) => (
+                            <div key={index} >
+                              <img
+                                src={url}
+                                alt={`Preview ${index + 1}`}
+                                style={{ width: '200px', margin: '10px' }}
+                              />
+                             
+                            </div>
+                          ))}
+                        </div>
                     ) : (
                       <Box>
-                        <PhotoCamera style={{ fontSize: 48, color: '#ccc', marginBottom: '16px' }} />
+                        <PhotoCamera style={{ fontSize: 48, color: '#ccc', marginBottom: '8px' }} />
                         <Typography variant="body1" color="textSecondary">
                           คลิกเพื่อเลือกไฟล์หรือถ่ายภาพ
                         </Typography>
@@ -346,8 +475,8 @@ const PipeCounterApp = () => {
               </CardContent>
             </Card>
 
-            {/* Action Buttons */}
-            <Box display="flex" gap={1} flexWrap="wrap">
+            {/* Action Buttons 
+            <Box display="flex" style={{ alignItems: 'center' }} gap={1} flexWrap="wrap">
               <Button
                 variant="contained"
                 color="primary"
@@ -357,19 +486,20 @@ const PipeCounterApp = () => {
                 startIcon={loading ? <CircularProgress size={20} /> : <PlayArrow />}
                 className={classes.actionButton}
               >
-                {loading ? 'กำลังประมวลผล...' : 'เริ่มนับท่อ'}
+                {loading ? 'Loading...' : 'Start'}
               </Button>
               
               <Button
                 variant="outlined"
                 onClick={resetAll}
+                size="large"
                 startIcon={<Refresh />}
                 className={classes.actionButton}
               >
-                รีเซ็ตทั้งหมด
+                Reset
               </Button>
             </Box>
-
+*/}
             {/* Error Display */}
             {error && (
               <Alert severity="error" className={classes.errorAlert}>
@@ -383,7 +513,7 @@ const PipeCounterApp = () => {
             {loading && (
               <Card elevation={2} className={classes.processingCard}>
                 <CircularProgress size={60} />
-                <Typography variant="h6" style={{ marginTop: '16px' }}>
+                <Typography variant="h6" style={{ marginTop: '8px' }}>
                   กำลังประมวลผลรูปภาพ...
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
@@ -392,62 +522,50 @@ const PipeCounterApp = () => {
               </Card>
             )}
 
-            {result && (
-              <>
+          
                 {/* Statistics */}
                 <Grid container spacing={2} style={{ marginBottom: '16px' }}>
                   <Grid item xs={12}>
-                    <Card className={classes.statCard}>
-                      <Typography variant="h4" color="primary">
-                        {result.pipe_count}
+                    <Card style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center', justifyContent: 'center' }} className={classes.statCard}>
+                      <Typography variant="h5" color="primary">
+                        กรอกจำนวนท่อที่นับได้
                       </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        จำนวนท่อที่พบ
-                      </Typography>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        label="จำนวนที่ระบบนับ"
+                        value={systemCount}
+                        onChange={(e) => setSystemCount(e.target.value)}
+                        fullWidth
+                      />
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        label="จำนวนนับจริง"
+                        value={totalCount}
+                        onChange={(e) => setTotalCount(e.target.value)}
+                        fullWidth
+                      />
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        label="หมายเหตุ"
+                        value={remark}
+                        onChange={(e) => setRemark(e.target.value)}
+                        fullWidth
+                      />
+                      <Button
+                        variant="contained"
+                        color='primary'
+                        onClick={SaveCountPipe}
+                        disabled={loading || !doNum || !totalCount || !systemCount || !selectedFile}
+                        startIcon={<SaveIcon />}
+                      >
+                        Save
+                      </Button>
                     </Card>
                   </Grid>
                 </Grid>
-
-                {/* Result Image */}
-                <Card elevation={2} className={classes.resultCard}>
-                  <CardContent>
-                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                      <Typography variant="h6">
-                        <Assessment style={{ verticalAlign: 'middle', marginRight: '8px' }} />
-                        ผลลัพธ์การนับท่อ
-                      </Typography>
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        size="small"
-                        onClick={downloadResult}
-                        startIcon={<GetApp />}
-                      >
-                        ดาวน์โหลด
-                      </Button>
-                    </Box>
-                    
-                    {result.image_with_numbers && (
-                      <img
-                        style={{ width: '100%', height: '100%' }}
-                        src={`data:image/png;base64,${result.image_with_numbers}`}
-                        alt="Result"
-                        className={classes.resultImage}
-                      />
-                    )}
-                  </CardContent>
-                </Card>
-              </>
-            )}
-
-            {!loading && !result && !error && (
-              <Card elevation={2} className={classes.processingCard}>
-                <Visibility style={{ fontSize: 60, color: '#ccc', marginBottom: '16px' }} />
-                <Typography variant="h6" color="textSecondary">
-                  อัปโหลดรูปภาพเพื่อดูผลลัพธ์
-                </Typography>
-              </Card>
-            )}
           </Grid>
         </Grid>
       </Container>

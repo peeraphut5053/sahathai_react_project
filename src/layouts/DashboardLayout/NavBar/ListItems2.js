@@ -12,6 +12,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import WatchLaterIcon from '@material-ui/icons/WatchLater';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
+import ImageIcon from '@material-ui/icons/Image';
 import {
     User as UserIcon,
 } from 'react-feather';
@@ -23,7 +24,11 @@ const ListItems2 = [
         menutitle: 'ERPStep',
         href: '/app/ERPStep',
     },
-    
+    {
+        Icon: ImageIcon,
+        menutitle: 'ระบบนับท่อ',
+        href: '/app/PipeCounter',
+    },
     {
         Icon: LocalLibraryIcon,
         menutitle: 'รายงานผู้บริหาร',
@@ -37,6 +42,11 @@ const ListItems2 = [
                 href: '/app/ProductionChart',
                 Icon: AssignmentIcon,
                 title: 'กราฟรายงานการผลิต'
+            },
+            {
+                href: '/app/LocationItemReport',
+                Icon: AssignmentIcon,
+                title: 'สต๊อกท่อคงคลัง'
             }
         ]
     },

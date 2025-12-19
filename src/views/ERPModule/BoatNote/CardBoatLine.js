@@ -11,7 +11,8 @@ import {
   FormControl,
   InputLabel,
   Select,
-  Chip
+  Chip,
+  TextField
 } from '@material-ui/core';
 import ModalManagement from '../../components/ModalManagement';
 import ModalManagementFullPage from '../../components/ModalManagementFullPage';
@@ -57,6 +58,8 @@ const CardBoatLine = (props, { className, ...rest }) => {
   const [do_group_name, setdo_group_name] = useState("")
   const [loc, set_loc] = useState("")
   const [boatPosition, setBoatPosition] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   const printReportMove = async (doc_type) => {
     if (props.doc_num) {
@@ -90,8 +93,8 @@ const CardBoatLine = (props, { className, ...rest }) => {
         params: {
           load: 'BoatNoteSelectByDoGroup',
           do_group_name: do_group_name,
-          loc : loc,
-          boatPosition : boatPosition
+          loc: loc,
+          boatPosition: boatPosition
         }
       })
       ReportMoveBoatNote(response.data, loc, boatPosition)
@@ -101,8 +104,8 @@ const CardBoatLine = (props, { className, ...rest }) => {
         params: {
           load: 'BoatNoteSelectByDoGroup',
           do_group_name: do_group_name,
-          loc : loc,
-          boatPosition : boatPosition
+          loc: loc,
+          boatPosition: boatPosition
         }
       })
       ExcelReportMoveBoatNote(response.data, loc, boatPosition)
@@ -112,9 +115,9 @@ const CardBoatLine = (props, { className, ...rest }) => {
         params: {
           load: 'ExcelReportPo',
           do_group_name: do_group_name,
-          loc : loc,
-          boatPosition : boatPosition,
-          sts_po : sts_po
+          loc: loc,
+          boatPosition: boatPosition,
+          sts_po: sts_po
         }
       })
       ExcelReportByPo(response.data, loc, boatPosition)
@@ -124,7 +127,7 @@ const CardBoatLine = (props, { className, ...rest }) => {
         params: {
           load: 'BoatNoteSummaryByDoGroup',
           do_group_name: do_group_name,
-          loc : loc,
+          loc: loc,
         }
       })
       ReportSummaryBoatNote(response.data, loc, response.data, response.data)
@@ -145,11 +148,11 @@ const CardBoatLine = (props, { className, ...rest }) => {
 
 
   const openEditPage = () => {
-    if (props.doc_num){
+    if (props.doc_num) {
       props.handlesetEditStatus()
-    }else{
-    alert("เลือกใบส่งของที่ต้องการแก้ไข")
-  }
+    } else {
+      alert("เลือกใบส่งของที่ต้องการแก้ไข")
+    }
   }
 
   const setBoatPositionState = (event) => {
@@ -205,18 +208,56 @@ const CardBoatLine = (props, { className, ...rest }) => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} >
-                  <CAutocompleteLocation
-                    name="loc"
-                    value={loc}
-                    setFieldValue={set_loc}
-                    do_group_name={do_group_name}
-                  />
+                  <Grid container spacing={2}>
+                    <Grid item xs={2}>
+                      <TextField
+                        fullWidth
+                        id="startDate"
+                        label="วันที่เริ่ม"
+                        type="date"
+                        variant="outlined"
+                        size="small"
+                        placeholder="เลือกวันที่เริ่ม"
+
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        onChange={(e) => setStartDate(e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={2}>
+                      <TextField
+                        fullWidth
+                        id="endDate"
+                        label="วันที่สิ้นสุด"
+                        type="date"
+                        variant="outlined"
+                        size="small"
+                        placeholder="เลือกวันที่สิ้นสุด"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        onChange={(e) => setEndDate(e.target.value)}
+                      />
+                    </Grid>
+
+                    <Grid item xs={8}>
+                      <CAutocompleteLocation
+                        name="loc"
+                        value={loc}
+                        setFieldValue={set_loc}
+                        do_group_name={do_group_name}
+                        startDate={startDate}
+                        endDate={endDate}
+                      />
+                    </Grid>
+                  </Grid>
                 </Grid>
                 <Grid item xs={12} >
-                <CTextField label="STS_PO" name="sts_po" 
-                      onChange={(e) => setStsPo(e.target.value)}
-                      value={sts_po}
-                />
+                  <CTextField label="STS_PO" name="sts_po"
+                    onChange={(e) => setStsPo(e.target.value)}
+                    value={sts_po}
+                  />
                 </Grid>
                 <Grid item>
                   <Button variant="contained" label={""} color="primary"
@@ -224,7 +265,7 @@ const CardBoatLine = (props, { className, ...rest }) => {
                     พิมพ์ BoatNote {do_group_name}
                   </Button>
                 </Grid>
-             
+
                 <Grid item>
                   <Button variant="contained" label={""} color="primary"
                     onClick={() => printReportMove("BoatNoteSummaryByDoGroup")} >
@@ -254,17 +295,17 @@ const CardBoatLine = (props, { className, ...rest }) => {
       />
 
       <ModalManagementFullPage
-          // modalHeader={
-          //   <>รายงาน Tag ลงเรือ</>
-          // }
-          modalDetail={
-            <ReportTagBoatNote />
-          }
+        // modalHeader={
+        //   <>รายงาน Tag ลงเรือ</>
+        // }
+        modalDetail={
+          <ReportTagBoatNote />
+        }
 
-          open={OpenModalTagBoatNote}
-          onClose={handleCloseModalItem}
+        open={OpenModalTagBoatNote}
+        onClose={handleCloseModalItem}
       />
-                 
+
       <CardContent>
         <Grid
           container
@@ -299,6 +340,7 @@ const CardBoatLine = (props, { className, ...rest }) => {
                 { title: 'id', field: 'id' },
                 { title: 'lot', field: 'lot', width: 200 },
                 { title: 'From loc', field: 'loc', width: 100 },
+                { title: 'To loc', field: 'toLoc', width: 100 },
                 { title: 'item', field: 'item', width: 300 },
                 { title: 'qty', field: 'qty1', type: 'numeric' },
                 { title: 'unit', field: 'u_m' },

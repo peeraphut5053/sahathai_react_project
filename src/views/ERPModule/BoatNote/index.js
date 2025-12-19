@@ -72,7 +72,7 @@ const BoatNote = () => {
     const [boatPosition, setBoatPosition] = useState("");
     const [destination, setDestination] = useState("");
     let [Search_STS_qty_move_hrd, setSearch_STS_qty_move_hrd] = useState([])
-    
+
     const [editStatus, setEditStatus] = useState(false);
 
     const [isDisabled, setDisabled] = useState(false);
@@ -147,8 +147,8 @@ const BoatNote = () => {
                 console.log(res.data)
                 // handlecheckItemLotLoc(res.data)
             })
-        
-            API.get(`API_QuantityMove/data.php?load=Search_STS_qty_move_hrd&doc_num=${row.doc_num}`)
+
+        API.get(`API_QuantityMove/data.php?load=Search_STS_qty_move_hrd&doc_num=${row.doc_num}`)
             .then(res => {
                 console.log(res.data)
                 setSearch_STS_qty_move_hrd(res.data)
@@ -206,19 +206,18 @@ const BoatNote = () => {
                     .then(res => {
                         const items = res.data
                         if (res.data.length > 0) {
-                            setQtyMoveList(qtyMoveList => [...qtyMoveList,
-                            {
-                                id: items[0].id,
-                                lot: items[0].lot,
-                                loc: items[0].loc,
-                                item: items[0].item,
-                                qty1: items[0].qty1,
-                                u_m: items[0].u_m,
-                                boat_position: boatPosition,
-                            }])
-                            removeDuplicatesFromArrayByProperty(qtyMoveList, 'id');
-                            setQtyMoveList(qtyMoveList => removeDuplicatesFromArrayByProperty(qtyMoveList, 'id'))
-
+                            setQtyMoveList(prevList => {
+                                const newItems = items.map(item => ({
+                                    id: item.id,
+                                    lot: item.lot,
+                                    loc: item.loc,
+                                    item: item.item,
+                                    qty1: item.qty1,
+                                    u_m: item.u_m,
+                                    boat_position: boatPosition,
+                                }));
+                                return removeDuplicatesFromArrayByProperty([...prevList, ...newItems], 'id');
+                            });
                         } else {
                             alert("ไม่พบ Tags")
                         }
@@ -244,39 +243,39 @@ const BoatNote = () => {
 
         if (!values.loc || qtyMoveList.length === 0) {
             alert("กรุณากรอก location ปลายทาง หรือ scan barcode อย่างน้อย 1 lot")
-            
+
         } else {
             API.get(`API_QuantityMove/data.php?load=moveqty_create_hdr_BoatNoteOnly&toLoc=${values.loc}&w_c=${values.wc}&doc_type=${values.doc_type}&do_num=${values.do_num}&boatList=${values.boatList}&destination=${"ลงเรือฉลอม"}&ActWeight=${values.ActualWeight}&round=${do_group_list?.id}`)
                 .then(res => {
-                        //   setdocNum(moveqty_hdr.doc_num)
-                        //   setToLocation(moveqty_hdr.loc)
-                    if (qtyMoveList.length > 0 ) {
+                    //   setdocNum(moveqty_hdr.doc_num)
+                    //   setToLocation(moveqty_hdr.loc)
+                    if (qtyMoveList.length > 0) {
                         setEditStatus(false)
                         setOpenModalCreateBoteNote(false)
                         setOpenModalProcess(true)
                         let tagnumArray = []
                         let boatPositionArray = []
-                        
-                        for (let i=0; i<qtyMoveList.length; i++){
+
+                        for (let i = 0; i < qtyMoveList.length; i++) {
                             tagnumArray.push(qtyMoveList[i].id)
                             boatPositionArray.push(qtyMoveList[i].boat_position)
-                            }
+                        }
                         //Insert QTY LINE 
-                             API.get(`API_QuantityMove/data.php`, {
-                                params: {
-                                    load: "moveqty_create_line_BoatNoteOnly",
-                                    tagnum: tagnumArray,
-                                    toLoc: values.loc,
-                                    boatPosition: boatPositionArray,
-                                    doc_num: res.data[0].doc_no
-                                }
-                            }).then(res => {
-                                setQtyMoveList([])
-                                API.get(`API_QuantityMove/data.php?load=STS_qty_move_hrd_ship`)
-                                    .then(res => {
-                                        setSTS_qty_move_hrd_ship(res.data)
-                                    })
-                            })
+                        API.get(`API_QuantityMove/data.php`, {
+                            params: {
+                                load: "moveqty_create_line_BoatNoteOnly",
+                                tagnum: tagnumArray,
+                                toLoc: values.loc,
+                                boatPosition: boatPositionArray,
+                                doc_num: res.data[0].doc_no
+                            }
+                        }).then(res => {
+                            setQtyMoveList([])
+                            API.get(`API_QuantityMove/data.php?load=STS_qty_move_hrd_ship`)
+                                .then(res => {
+                                    setSTS_qty_move_hrd_ship(res.data)
+                                })
+                        })
                     }
                 })
         }
@@ -378,19 +377,19 @@ const BoatNote = () => {
     }
 
     const editActualWeight = (doc_num, eActualWeight) => {
-            API.get(`API_QuantityMove/data.php?load=editActualWeight&doc_num=${doc_num}&eActualWeight=${eActualWeight}`, {
-            
-            });
+        API.get(`API_QuantityMove/data.php?load=editActualWeight&doc_num=${doc_num}&eActualWeight=${eActualWeight}`, {
+
+        });
 
 
         const timer = setInterval(() => {
             API.get(`API_QuantityMove/data.php?load=Search_STS_qty_move_hrd&doc_num=${doc_num}`)
-            .then(res => {
-                console.log(res.data)
-                setSearch_STS_qty_move_hrd(res.data)
-            })
-        clearInterval(timer)
-    }, 1000)
+                .then(res => {
+                    console.log(res.data)
+                    setSearch_STS_qty_move_hrd(res.data)
+                })
+            clearInterval(timer)
+        }, 1000)
 
     }
 
@@ -585,7 +584,7 @@ const BoatNote = () => {
                                 >
                                     {/* <Button color="primary" variant="contained" onClick={() => { handleOpenModalItem(123) }}>1234</Button> */}
                                     {/* {JSON.stringify(values)} */}
-                                    
+
                                     <Grid container spacing={2}>
                                         <Grid item lg={12} >
                                             <Grid container spacing={2}>
@@ -599,7 +598,7 @@ const BoatNote = () => {
                                                                         // onBlur={handleBlur}
                                                                         name="doc_type"
                                                                         value={values.doc_type}
-                                                                        // setFieldValue={setFieldValue}
+                                                                    // setFieldValue={setFieldValue}
                                                                     />
                                                                 </Grid>
                                                                 <Grid item lg={12} >
@@ -610,53 +609,53 @@ const BoatNote = () => {
                                                                         setFieldValue={setFieldValue}
                                                                     />
                                                                 </Grid>
-                                                                    
 
-                                                            {(editStatus == true) ?
-                                                                <>
-                                                                <Grid item lg={12} >
-                                                                    <CTextField size="small" fullWidth                       
-                                                                           
-                                                                        error={Boolean(touched.item && errors.item)}
-                                                                        helperText={touched.item && errors.item}
-                                                                        label="น้ำหนักชั่งจริง"
-                                                                        name="ActWeight"
-                                                                        onBlur={handleBlur}
-                                                                        onChange={handleChange}
-                                                                        value={Search_STS_qty_move_hrd[0]["ActWeight"]}
-                                                                                                                                       
-                                                                    />
-                                                                </Grid>
 
-                                                                <Grid item lg={12} >
-                                                                    <TextField size="small" fullWidth                       
-                                                                        
-                                                                        error={Boolean(touched.item && errors.item)}
-                                                                        helperText={touched.item && errors.item}
-                                                                        label="แก้ไขน้ำหนักชั่งจริง"
-                                                                        name="eActualWeight"
-                                                                        onBlur={handleBlur}
-                                                                        onChange={handleChange}
-                                                                        value={values.eActualWeight}                                                                                                       
-                                                                    />
-                                                                    <Button color="primary" variant="contained" startIcon={<SaveIcon />} style={{ margin: 10 }}  onClick={() => { editActualWeight(doc_num, values.eActualWeight) }}>Save</Button>
-                                                                </Grid>
-                                                            
-                                                                     </> : 
-                                                                <Grid item lg={12} >
-                                                                    <CTextField size="small" fullWidth
-                                                                                                                                                                                                                                                                
-                                                                        error={Boolean(touched.item && errors.item)}
-                                                                        helperText={touched.item && errors.item}
-                                                                        label="น้ำหนักชั่งจริง"
-                                                                        name="ActualWeight"
-                                                                        onBlur={handleBlur}
-                                                                        onChange={handleChange}
-                                                                        value={values.ActualWeight}
-                                                                                                              
-                                                                    />
-                                                                </Grid>
-                                                            }
+                                                                {(editStatus == true) ?
+                                                                    <>
+                                                                        <Grid item lg={12} >
+                                                                            <CTextField size="small" fullWidth
+
+                                                                                error={Boolean(touched.item && errors.item)}
+                                                                                helperText={touched.item && errors.item}
+                                                                                label="น้ำหนักชั่งจริง"
+                                                                                name="ActWeight"
+                                                                                onBlur={handleBlur}
+                                                                                onChange={handleChange}
+                                                                                value={Search_STS_qty_move_hrd[0]["ActWeight"]}
+
+                                                                            />
+                                                                        </Grid>
+
+                                                                        <Grid item lg={12} >
+                                                                            <TextField size="small" fullWidth
+
+                                                                                error={Boolean(touched.item && errors.item)}
+                                                                                helperText={touched.item && errors.item}
+                                                                                label="แก้ไขน้ำหนักชั่งจริง"
+                                                                                name="eActualWeight"
+                                                                                onBlur={handleBlur}
+                                                                                onChange={handleChange}
+                                                                                value={values.eActualWeight}
+                                                                            />
+                                                                            <Button color="primary" variant="contained" startIcon={<SaveIcon />} style={{ margin: 10 }} onClick={() => { editActualWeight(doc_num, values.eActualWeight) }}>Save</Button>
+                                                                        </Grid>
+
+                                                                    </> :
+                                                                    <Grid item lg={12} >
+                                                                        <CTextField size="small" fullWidth
+
+                                                                            error={Boolean(touched.item && errors.item)}
+                                                                            helperText={touched.item && errors.item}
+                                                                            label="น้ำหนักชั่งจริง"
+                                                                            name="ActualWeight"
+                                                                            onBlur={handleBlur}
+                                                                            onChange={handleChange}
+                                                                            value={values.ActualWeight}
+
+                                                                        />
+                                                                    </Grid>
+                                                                }
                                                             </Grid>
                                                         </Paper>
                                                     </Grid>
@@ -745,10 +744,10 @@ const BoatNote = () => {
                                                             { title: 'item', field: 'item', width: 300 },
                                                             { title: 'qty', field: 'qty1', type: 'numeric' },
                                                             { title: 'unit', field: 'u_m' },
-                                                            { 
-                                                                title: 'boat position', 
+                                                            {
+                                                                title: 'boat position',
                                                                 field: 'boat_position',
-                                                                lookup: { หัวเรือ: 'หัวเรือ', กลางหัว: 'กลางหัว', กลางท้าย: 'กลางท้าย', ท้ายเรือ: 'ท้ายเรือ' }, 
+                                                                lookup: { หัวเรือ: 'หัวเรือ', กลางหัว: 'กลางหัว', กลางท้าย: 'กลางท้าย', ท้ายเรือ: 'ท้ายเรือ' },
                                                             },
                                                         ]}
                                                         // onRowClick={(event, rowData) => {
@@ -773,28 +772,26 @@ const BoatNote = () => {
                                                             onRowDelete: oldData =>
                                                                 new Promise((resolve, reject) => {
                                                                     setTimeout(() => {
-                                                                        const dataDelete = [...qtyMoveList];
-                                                                        const index = oldData.tableData.id;
-                                                                        dataDelete.splice(index, 1);
-                                                                        setQtyMoveList([...dataDelete]);
+                                                                        const newData = qtyMoveList.filter((item, idx) => item.id !== oldData.id);
+                                                                        setQtyMoveList(newData);
                                                                         BoatPfn("DeleteQtyMoveLine", oldData, doc_num)
-
                                                                         resolve()
                                                                     }, 1000)
+
                                                                 }),
 
-                                                                onRowUpdate: (newData, oldData) =>
+                                                            onRowUpdate: (newData, oldData) =>
                                                                 new Promise((resolve, reject) => {
-                                                                  setTimeout(() => {
-                                                                    const dataUpdate = [...qtyMoveList];
-                                                                    const index = oldData.tableData.id;
-                                                                    dataUpdate[index] = newData;
-                                                                    // console.log(doc_num)
-                                                                    // console.log(newData)
-                                                                    setQtyMoveList([...dataUpdate]);
-                                                                    BoatPfn("UpdateBoat_Position", newData, doc_num)
-                                                                    resolve();
-                                                                  }, 1000)
+                                                                    setTimeout(() => {
+                                                                        const dataUpdate = [...qtyMoveList];
+                                                                        const index = oldData.tableData.id;
+                                                                        dataUpdate[index] = newData;
+                                                                        // console.log(doc_num)
+                                                                        // console.log(newData)
+                                                                        setQtyMoveList([...dataUpdate]);
+                                                                        BoatPfn("UpdateBoat_Position", newData, doc_num)
+                                                                        resolve();
+                                                                    }, 1000)
                                                                 }),
                                                         }}
 
@@ -811,9 +808,9 @@ const BoatNote = () => {
                                                                             className={classes.textField}
                                                                             onKeyUp={setBoatPositionState}
                                                                         /> */}
-                                                                        
-                                                                        <FormControl style={{ paddingRight: 10 , width: 120}} variant="outlined" size="small">
-                                                                        <InputLabel>ระวางเรือ</InputLabel>
+
+                                                                        <FormControl style={{ paddingRight: 10, width: 120 }} variant="outlined" size="small">
+                                                                            <InputLabel>ระวางเรือ</InputLabel>
                                                                             <Select
                                                                                 value={boatPosition}
                                                                                 variant="outlined"
@@ -830,7 +827,7 @@ const BoatNote = () => {
                                                                                 <MenuItem value={'ท้ายเรือ'}>ท้ายเรือ</MenuItem>
                                                                             </Select>
                                                                         </FormControl>
-                                                                      
+
                                                                         <TextField size="small" label={"Scan tag"} id={"tagScan"}
                                                                             variant="outlined"
                                                                             className={classes.textField}
@@ -838,16 +835,16 @@ const BoatNote = () => {
                                                                             // (values.doc_type == "Ship") ? handleScanTagCheckByDO(e, values.do_num) : handleScanTag(e)}
                                                                             autoFocus={focusScanTagState} />
 
-                                                                        <FormControl style={{ paddingLeft: 10 ,paddingRight: 10, width: 170}} variant="outlined" size="small">
-                                                                        {/* <InputLabel style={{ paddingLeft: 10}}>ปลายทางขนส่ง</InputLabel> */}
-                                                                        <CTextField size="small" label={"ปลายทางขนส่ง"} id={"destination"}
-                                                                        // onBlur={handleBlur}
-                                                                        name="destination"
-                                                                        variant="outlined"
-                                                                        value="ลงเรือฉลอม"
-                                                                        // setFieldValue={setFieldValue}
-                                                                    />
-                                                                        
+                                                                        <FormControl style={{ paddingLeft: 10, paddingRight: 10, width: 170 }} variant="outlined" size="small">
+                                                                            {/* <InputLabel style={{ paddingLeft: 10}}>ปลายทางขนส่ง</InputLabel> */}
+                                                                            <CTextField size="small" label={"ปลายทางขนส่ง"} id={"destination"}
+                                                                                // onBlur={handleBlur}
+                                                                                name="destination"
+                                                                                variant="outlined"
+                                                                                value="ลงเรือฉลอม"
+                                                                            // setFieldValue={setFieldValue}
+                                                                            />
+
                                                                             {/* <Select
                                                                                 value={destination}
                                                                                 variant="outlined"
@@ -884,14 +881,14 @@ const BoatNote = () => {
 
                                                 </Grid>
                                                 {(editStatus == true) ?
-                                                ""
-                                                : 
-                                                <Grid item xs={12}>
-                                                    <Paper className={classes.paper}>
-                                                        <Button disabled={isDisabled} type="button" variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => saveDocumentBoatNoteOnly(values, qtyMoveList)}>Save</Button>
-                                                    </Paper>
-                                                    {/* <Button variant="contained" color="primary" startIcon={<SaveIcon />} style={{ margin: 10 }} onClick={handleSubmit} >Save  </Button> */}
-                                                </Grid>
+                                                    ""
+                                                    :
+                                                    <Grid item xs={12}>
+                                                        <Paper className={classes.paper}>
+                                                            <Button disabled={isDisabled} type="button" variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => saveDocumentBoatNoteOnly(values, qtyMoveList)}>Save</Button>
+                                                        </Paper>
+                                                        {/* <Button variant="contained" color="primary" startIcon={<SaveIcon />} style={{ margin: 10 }} onClick={handleSubmit} >Save  </Button> */}
+                                                    </Grid>
                                                 }
                                             </Grid>
                                         </Grid>
@@ -910,7 +907,7 @@ const BoatNote = () => {
                     <Grid container spacing={2}>
 
                         <Grid item xs={4} >
-                        <label style={{ color:'red', fontSize: '36px'}}>***ใช้สำหรับย้ายลงเรือเท่านั้น</label>
+                            <label style={{ color: 'red', fontSize: '36px' }}>***ใช้สำหรับย้ายลงเรือเท่านั้น</label>
                             <CardBoatHeader
 
                                 STS_qty_move_hrd_ship={STS_qty_move_hrd_ship}

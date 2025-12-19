@@ -63,6 +63,7 @@ import JobRecicpt from './views/ERPModule/Stock/JobReceipt/JobRecipt';
 import ProductionJob from './views/ERPModule/Stock/JobReceipt';
 import ProtectRoute from './components/ProtectRoute';
 import PipeCounterApp from './views/PipeCounter/PipeCounterApp';
+import LocationItemReport from './views/ExecutiveReport/LocationItemReport';
 
 const routes = [
   {
@@ -73,6 +74,7 @@ const routes = [
 
       { path: 'ExecutiveReport', element: <ProtectRoute><ExecutiveReportView /></ProtectRoute> },
       { path: 'ProductionChart', element: <ProtectRoute><ProductionReport /></ProtectRoute> },
+      { path: 'LocationItemReport', element: <ProtectRoute><LocationItemReport /></ProtectRoute> },
       { path: 'ExecutiveReportPresentation', element: <ProtectRoute><ExecutiveReportPresentationView /></ProtectRoute> },
       
       { path: 'ExecutiveReportSale', element: <ProtectRoute><ExecutiveReportSaleView /></ProtectRoute> },
@@ -120,6 +122,7 @@ const routes = [
       { path: 'PendingSubmitedReportEX', element: <ProtectRoute><PendingSubmitedReportEX /></ProtectRoute> },
       { path: 'SerachReport', element: <ProtectRoute><SerachReportView /></ProtectRoute> },
       { path: 'ProductionReport', element: <ProtectRoute><ProductionDailyReport /></ProtectRoute> },
+      { path: 'PipeCounter', element: <ProtectRoute><PipeCounterApp /></ProtectRoute> },
       { path: 'users', element: <UsersListView /> },
       { path: 'settings', element: <SettingsView /> },
       { path: '*', element: <Navigate to="/404" /> }
@@ -130,7 +133,6 @@ const routes = [
     element: <MainLayout />,
     children: [
       { path: 'login', element: <LoginView /> },
-      { path: 'PipeCounter', element: <PipeCounterApp /> },
       { path: 'register', element: <RegisterView /> },
       { path: '404', element: <NotFoundView /> },
       { path: '/', element: <Navigate to="/app/dashboard" /> },
