@@ -52,6 +52,8 @@ const PackingReport = (props) => {
                             }
                         });
 
+                    
+
                         console.log('newValue: ' + newValue);
                         console.log('rowData: ', rowData);
                         console.log('columnDef', columnDef)

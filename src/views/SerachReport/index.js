@@ -23,7 +23,7 @@ const SerachReportView = () => {
       className={classes.root}
       title="Customers"
     >
-        <CreateSearchReport />
+      <CreateSearchReport />
     </Page>
   );
 };

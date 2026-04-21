@@ -7,7 +7,7 @@ import CustomerListView from 'src/views/customer/CustomerListView';
 import DashboardView from 'src/views/reports/DashboardView';
 import ProductionOvertimeView from 'src/views/ProductionOvertime/';
 import ExecutiveReportView from 'src/views/ExecutiveReport/';
-import ExecutiveReportPresentationView from 'src/views/ExecutiveReport/ExecutiveReportPresentation/';  
+import ExecutiveReportPresentationView from 'src/views/ExecutiveReport/ExecutiveReportPresentation/';
 
 import ExecutiveReportSaleView from 'src/views/ExecutiveReportSale/';
 
@@ -61,25 +61,28 @@ import OrderProcessing from './views/ERPModule/SaleDomestic/OrderProcessing';
 import ADAllTemp from './views/ERPModule/SaleDomestic/ADAllTemp';
 import JobRecicpt from './views/ERPModule/Stock/JobReceipt/JobRecipt';
 import ProductionJob from './views/ERPModule/Stock/JobReceipt';
+import JobReport from './views/ERPModule/Production/JobReport';
 import ProtectRoute from './components/ProtectRoute';
 import PipeCounterApp from './views/PipeCounter/PipeCounterApp';
 import LocationItemReport from './views/ExecutiveReport/LocationItemReport';
+import ProductionReportByMonth from './views/ExecutiveReport/ProductionReportByMonth/ProductionReportByMonth';
 
 const routes = [
   {
     path: 'app',
     element: <DashboardLayout />,
     children: [
-      
+
 
       { path: 'ExecutiveReport', element: <ProtectRoute><ExecutiveReportView /></ProtectRoute> },
       { path: 'ProductionChart', element: <ProtectRoute><ProductionReport /></ProtectRoute> },
       { path: 'LocationItemReport', element: <ProtectRoute><LocationItemReport /></ProtectRoute> },
+      { path: 'ProductionReportByMonth', element: <ProtectRoute><ProductionReportByMonth /></ProtectRoute> },
       { path: 'ExecutiveReportPresentation', element: <ProtectRoute><ExecutiveReportPresentationView /></ProtectRoute> },
-      
+
       { path: 'ExecutiveReportSale', element: <ProtectRoute><ExecutiveReportSaleView /></ProtectRoute> },
       { path: 'UpdateBarcodeQty', element: <ProtectRoute><UpdateBarcodeQtyView /></ProtectRoute> },
-      
+
 
       { path: 'COItemSummary', element: <ProtectRoute><COItemSummaryView /></ProtectRoute> },
       { path: 'ByCOItemQTY', element: <ProtectRoute><AuditByCOItemQTYView /></ProtectRoute> },
@@ -87,21 +90,22 @@ const routes = [
       { path: 'account', element: <ProtectRoute><AccountView /></ProtectRoute> },
       { path: 'customers', element: <ProtectRoute><CustomerListView /></ProtectRoute> },
       { path: 'dashboard', element: <DashboardView /> },
-      { path: 'dashboard?username=1', element: <ProtectRoute><DashboardView  /></ProtectRoute> },
+      { path: 'dashboard?username=1', element: <ProtectRoute><DashboardView /></ProtectRoute> },
       { path: 'ProductionDashboard', element: <ProtectRoute><ProductionDashboardView /></ProtectRoute> },
+      { path: 'JobReport', element: <ProtectRoute><JobReport /></ProtectRoute> },
       { path: 'products', element: <ProtectRoute><ProductListView /></ProtectRoute> },
       { path: 'ERPStep', element: <ProtectRoute><ERPStep /></ProtectRoute> },
       { path: 'ReportGeneralLedgerDomesticInvoice', element: <ProtectRoute><GeneralLedgerDomesticInvoice /></ProtectRoute> },
       { path: 'CustomerOrder', element: <ProtectRoute><RPTCustomer /></ProtectRoute> },
       { path: 'ARTransactionReport', element: <ProtectRoute><ARTransactionReport /></ProtectRoute> },
-      { path: 'GeneralLedger', element: <ProtectRoute><GeneralLedger /></ProtectRoute>},
-      { path: 'GeneralLedgerDetail', element: <ProtectRoute><GeneralLedgerDetail /></ProtectRoute>},
+      { path: 'GeneralLedger', element: <ProtectRoute><GeneralLedger /></ProtectRoute> },
+      { path: 'GeneralLedgerDetail', element: <ProtectRoute><GeneralLedgerDetail /></ProtectRoute> },
       { path: 'MaterialPurchase', element: <ProtectRoute><MaterialPurchase /></ProtectRoute> },
       { path: 'CollectionDay', element: <ProtectRoute><CollectionDay /></ProtectRoute> },
       { path: 'WorkbenchShipping', element: <ProtectRoute><WorkbenchShipping /></ProtectRoute> },
       { path: 'PaymentInvoice', element: <ProtectRoute><PaymentInvoice /></ProtectRoute> },
       { path: 'DoInventoryDetail', element: <ProtectRoute><DoInventory /></ProtectRoute> },
-      { path: 'QCLabTagDetail', element: <ProtectRoute><QcLabTagDetail /></ProtectRoute>},
+      { path: 'QCLabTagDetail', element: <ProtectRoute><QcLabTagDetail /></ProtectRoute> },
       { path: 'TagStatus', element: <ProtectRoute><TagStatus /></ProtectRoute> },
       { path: 'productionMatlTrans', element: <ProtectRoute><ProductionMatlTransView /></ProtectRoute> },
       { path: 'Stock_mthly', element: <ProtectRoute><Stock_mthlyView /></ProtectRoute> },
@@ -115,7 +119,7 @@ const routes = [
       { path: 'SlitReport', element: <ProtectRoute><SlitReport /></ProtectRoute> },
       { path: 'JobOrderProcessing', element: <ProtectRoute><JobOrder /></ProtectRoute> },
       { path: 'JobRecicpt', element: <ProtectRoute><ProductionJob /></ProtectRoute> },
-       // { path: 'BoatNote', element: <BoatNoteView /> },
+      // { path: 'BoatNote', element: <BoatNoteView /> },
       { path: 'BoatNote', element: <ProtectRoute><BoatNoteView /></ProtectRoute> },
       { path: 'TruckNote', element: <ProtectRoute><TruckNoteView /></ProtectRoute> },
       { path: 'FreeZoneApp', element: <ProtectRoute><FreeZoneApp /></ProtectRoute> },
