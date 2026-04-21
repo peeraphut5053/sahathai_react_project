@@ -26,6 +26,7 @@ import TableDetail from './TableDetail';
 import TableDailyWorkCenter from './TableDailyWorkCenter';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import ParetoChart from './ParetoChart';
+import TableFormingStop from './TableFormingStop';
 import { addComma } from 'src/utils/getInitials';
 
 const useStyles = makeStyles(() => ({
@@ -34,7 +35,7 @@ const useStyles = makeStyles(() => ({
 
 const label = [
   {
-    value: ["P2FM01", "P2FM05", "P2FM06", "P2FM08", "P2FM09","P2FM10", "W2FM02", "W2FM04", "W2FM07", "W2FM11", "W2FMC1"],
+    value: ["P2FM01", "P2FM05", "P2FM06", "P2FM08", "P2FM09", "P2FM10", "W2FM02", "W2FM04", "W2FM07", "W2FM11", "W2FMC1"],
     label: 'Forming'
   },
   {
@@ -42,7 +43,7 @@ const label = [
     label: 'Slit'
   },
   {
-    value: ["P5HTF2", "P5HTF5", "P5HTO1", "P5HTO2", "W5HT02", "W5HT04", "W5HT06"],
+    value: ["P5HTF2", "P5HTF5", "P5HTO1", "P5HF10", "P5HTO2", "W5HT02", "W5HT04", "W5HT06"],
     label: 'HydroTest'
   },
   {
@@ -51,6 +52,7 @@ const label = [
   },
   {
     value: ["P6PT01",
+      "P6PT0A",
       "P6PT0B",
       "P6PT0C"],
     label: 'Painting'
@@ -64,11 +66,11 @@ const label = [
     label: 'Groove'
   },
   {
-    value: ["P6CT01", "P6CT02", "P6CT03", "W6CT01"],
+    value: ["P6CT01", "P6CT02", "P6CT03", "P6CT04", "W6CT01"],
     label: 'Cuting'
   },
   {
-    value: ["P7PK00", "P7PKP1", "P7PKPB", "P7PKPC", "W7PK01"],
+    value: ["P7PK00", "P7PKP1", "P7PKPA", "P7PKPB", "P7PKPC", "W7PK01"],
     label: 'Packing'
   }
 ]
@@ -159,6 +161,7 @@ const GroupBarChart = ({ className, ...rest }) => {
             sumC: item.sumC > 0 ? parseInt(item.sumC) : 0
           };
         });
+        console.log('currentMonth', currentMonth);
 
         return { res: currentMonth };
       } catch (error) {
@@ -171,7 +174,7 @@ const GroupBarChart = ({ className, ...rest }) => {
 
 
   const unique = label.find((item) => item.label === groupBy).value;
-  
+
   const result = unique.map((item) => {
     const sumA = data?.res
       .filter((item1) => item1.wc === item)
@@ -201,11 +204,11 @@ const GroupBarChart = ({ className, ...rest }) => {
       // If work_hour < stop_hour, use work_hour, else use TOT_work_hour
       // ถ้า work_hour < stop_hour ใช้ช่อง work_hour else TOT_work_hour
       const hourToUse = item.work_hour < item.stop_hour ? item.work_hour : item.TOT_work_hour;
-      
+
       // Assuming the hours are already in "HH:MM:SS" format
       return hourToUse;
     }));
-    
+
     return { wc: item, totalTimes, breakTimes, realTime };
   });
 
@@ -252,7 +255,7 @@ const GroupBarChart = ({ className, ...rest }) => {
         backgroundColor: '#990000',
         borderWidth: 1
       },
-  
+
     ]
   };
 
@@ -474,16 +477,16 @@ const GroupBarChart = ({ className, ...rest }) => {
     };
   }
 
-  const sumA = result.reduce((sum, item) => sum + item.sumA , 0) / 1000;
+  const sumA = result.reduce((sum, item) => sum + item.sumA, 0) / 1000;
   const sumB = result.reduce((sum, item) => sum + item.sumB + item.sumC, 0) / 1000;
 
   const percentageDif = result.map((item) => {
     if (!item.sumA) {
       return 0;
     }
-    const sumA = item.sumA / 1000;
+    const sumA = (item.sumA + item.sumB + item.sumC) / 1000;
     const sumB = (item.sumB + item.sumC) / 1000;
-     // sumB how many % of sumA
+    // sumB how many % of sumA
     const percentage = (sumB / sumA) * 100;
     return percentage.toFixed(2);
   });
@@ -513,24 +516,24 @@ const GroupBarChart = ({ className, ...rest }) => {
           subheader={
             <Box style={{ display: 'flex' }}>
               <Button
-              color="secondary"
-              endIcon={<ArrowRightIcon />}
-              size="small"
-              variant="outlined"
-              style={{ width: '15%' }}
-              onClick={() => setOpenDetail(true)}
-            >
-              Daily Report
-            </Button>
-            <Typography style={{  fontWeight: 'bold', fontSize: '20px', color: 'Crimson', width: '40%', textAlign: 'center' }}>Total A : {addComma(sumA ? sumA : 0)} Tons</Typography>
-            <Typography style={{  fontWeight: 'bold', fontSize: '20px' ,color: 'Crimson', width: '40%', textAlign: 'center' }}>Total B+C  : {addComma(sumB ? sumB : 0)} Tons</Typography>
+                color="secondary"
+                endIcon={<ArrowRightIcon />}
+                size="small"
+                variant="outlined"
+                style={{ width: '15%' }}
+                onClick={() => setOpenDetail(true)}
+              >
+                Daily Report
+              </Button>
+              <Typography style={{ fontWeight: 'bold', fontSize: '20px', color: 'Crimson', width: '40%', textAlign: 'center' }}>Total A : {addComma(sumA ? sumA : 0)} Tons</Typography>
+              <Typography style={{ fontWeight: 'bold', fontSize: '20px', color: 'Crimson', width: '40%', textAlign: 'center' }}>Total B+C  : {addComma(sumB ? sumB : 0)} Tons</Typography>
             </Box>
           }
           title="Group Production Report"
-          // want many subheader
-          
+        // want many subheader
+
         />
-        
+
         <Divider />
         <CardContent>
           <Grid container spacing={3}>
@@ -568,7 +571,7 @@ const GroupBarChart = ({ className, ...rest }) => {
         </CardContent>
         <Divider />
         <Box display="flex-col" justifyContent="flex-end" p={2}>
-        <Grid container spacing={2}>
+          <Grid container spacing={2}>
             {unique.map((item, index) => (
               <Grid item key={item}>
                 <Typography variant="body1" style={{ fontWeight: 'bold' }}>{item} : <span style={{ color: 'red' }}>{(percentageDif[index])}%</span></Typography>
@@ -611,9 +614,10 @@ const GroupBarChart = ({ className, ...rest }) => {
 
           {/* Grid ฝั่งขวา */}
           <Grid item xs={6}>
-          <ParetoChart month={month} group={groupBy} />
+            <ParetoChart month={month} group={groupBy} />
           </Grid>
         </Grid>
+        <TableFormingStop data={data} month={month} group={groupBy} wc={unique} />
       </div>
     </>
   );

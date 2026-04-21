@@ -39,7 +39,7 @@ const label = [
     label: 'Groove'
   },
   {
-    value: ["P6CT01", "P6CT02", "P6CT03","W6CT01"],
+    value: ["P6CT01", "P6CT02", "P6CT03", "W6CT01"],
     label: 'Cuting'
   },
   {
@@ -48,13 +48,13 @@ const label = [
   }
 ]
 
-const ParetoChart = ({month,group}) => {
+const ParetoChart = ({ month, group }) => {
   const [open, setOpen] = useState(false);
   const [reasonData, setReasonData] = useState([]);
   const theme = useTheme();
 
   const wc = label.find((item) => item.label === group)?.value;
-  
+
   const { data: paretoData, isLoading, error } = useQuery({
     queryKey: ['pareto', month, group],
     queryFn: async () => {
@@ -84,7 +84,7 @@ const ParetoChart = ({month,group}) => {
           const machineS = data.filter((item) => item.reason_id === 'เครื่องดัดทรง');
           const machineH = data.filter((item) => item.reason_id === 'เครื่องคว้านหัว');
           const machineHD = data.filter((item) => item.reason_id === 'เครื่องเทสน้ำ');
-  
+
           const totalOther = other.reduce((previousValue, currentValue) => previousValue + Number(currentValue.time_used), 0);
           const totalForming = forming.reduce((previousValue, currentValue) => previousValue + Number(currentValue.time_used), 0);
           const totalPlate = plate.reduce((previousValue, currentValue) => previousValue + Number(currentValue.time_used), 0);
@@ -93,11 +93,11 @@ const ParetoChart = ({month,group}) => {
           const totalMachineS = machineS.reduce((previousValue, currentValue) => previousValue + Number(currentValue.time_used), 0);
           const totalMachineH = machineH.reduce((previousValue, currentValue) => previousValue + Number(currentValue.time_used), 0);
           const totalMachineHD = machineHD.reduce((previousValue, currentValue) => previousValue + Number(currentValue.time_used), 0);
-  
-          const newData = [{value: totalOther, name: 'อื่นๆ' }, {value: totalForming ,name: 'ฟอร์มมิ่ง'}, {value: totalPlate, name: 'จานเก็บเหล็ก'}, {value: totalSaw , name: 'แท่นเลื่อย'}, {value: totalConveyer , name: 'รางคอนเวนเยอร์'}, {value: totalMachineS , name: 'เครื่องดัดทรง'}, {value: totalMachineH, name: 'เครื่องคว้านหัว'}, {value: totalMachineHD, name: 'เครื่องเทสน้ำ'}];
-  
+
+          const newData = [{ value: totalOther, name: 'อื่นๆ' }, { value: totalForming, name: 'ฟอร์มมิ่ง' }, { value: totalPlate, name: 'จานเก็บเหล็ก' }, { value: totalSaw, name: 'แท่นเลื่อย' }, { value: totalConveyer, name: 'รางคอนเวนเยอร์' }, { value: totalMachineS, name: 'เครื่องดัดทรง' }, { value: totalMachineH, name: 'เครื่องคว้านหัว' }, { value: totalMachineHD, name: 'เครื่องเทสน้ำ' }];
+
           const sortedData = newData.sort((a, b) => b.value - a.value);
-  
+
           return {
             paretoData: sortedData,
             realData: realData
@@ -125,7 +125,7 @@ const ParetoChart = ({month,group}) => {
           const totalChangeBlade = changeBlade.reduce((previousValue, currentValue) => previousValue + Number(currentValue.down_time), 0);
           const totalWaitItem = waitItem.reduce((previousValue, currentValue) => previousValue + Number(currentValue.down_time), 0);
 
-          const newData = [{value: totalOther, name: 'อื่นๆ' }, { value: totalMachineIssue , name: 'เครื่องจักรมีปัญหา / เสีย' }, { value: totalMachineAdjust, name: 'ปรับตั้งเครื่องจักร (ไม่ได้เปลี่ยนไซส์)' }, { value: totalSize, name: 'เปลี่ยนไซส์' }, { value: totalElectric, name: 'ระบบไฟฟ้าภายในโรงงานดับ' }, { value: totalClean, name: 'ทำความสะอาดเครื่องจักร' }, { value: totalInternet, name: 'ระบบอินเตอร์เน็ต' }, { value: totalChangeBlade, name: 'เปลี่ยนใบมีดระหว่างรายการ (ไม่ได้เปลี่ยนไซส์)' }, { value: totalWaitItem, name: 'รอเหล็กม้วนเข้าท่าเรือ (มีออเดอร์อยู่แล้ว)' }];
+          const newData = [{ value: totalOther, name: 'อื่นๆ' }, { value: totalMachineIssue, name: 'เครื่องจักรมีปัญหา / เสีย' }, { value: totalMachineAdjust, name: 'ปรับตั้งเครื่องจักร (ไม่ได้เปลี่ยนไซส์)' }, { value: totalSize, name: 'เปลี่ยนไซส์' }, { value: totalElectric, name: 'ระบบไฟฟ้าภายในโรงงานดับ' }, { value: totalClean, name: 'ทำความสะอาดเครื่องจักร' }, { value: totalInternet, name: 'ระบบอินเตอร์เน็ต' }, { value: totalChangeBlade, name: 'เปลี่ยนใบมีดระหว่างรายการ (ไม่ได้เปลี่ยนไซส์)' }, { value: totalWaitItem, name: 'รอเหล็กม้วนเข้าท่าเรือ (มีออเดอร์อยู่แล้ว)' }];
 
           const sortedData = newData.sort((a, b) => b.value - a.value);
 
@@ -154,10 +154,10 @@ const ParetoChart = ({month,group}) => {
           const totalOther = other.reduce((previousValue, currentValue) => previousValue + Number(currentValue.down_time), 0);
           const totalColor = color.reduce((previousValue, currentValue) => previousValue + Number(currentValue.down_time), 0);
 
-          const newData = [{value: totalOther, name: 'อื่นๆ' }, { value: totalMachineIssue , name: 'เครื่องจักรมีปัญหา / เสีย' }, { value: totalMachineAdjust, name: 'ปรับตั้งเครื่องจักร (ไม่ได้เปลี่ยนไซส์)' }, { value: totalSize, name: 'เปลี่ยนไซส์' }, { value: totalElectric, name: 'ระบบไฟฟ้าภายในโรงงานดับ' }, { value: totalClean, name: 'ทำความสะอาดเครื่องจักร' }, { value: totalInternet, name: 'ระบบอินเตอร์เน็ต' }, { value: totalColor, name: 'ปรับหัวพ่นสี' }];
-  
+          const newData = [{ value: totalOther, name: 'อื่นๆ' }, { value: totalMachineIssue, name: 'เครื่องจักรมีปัญหา / เสีย' }, { value: totalMachineAdjust, name: 'ปรับตั้งเครื่องจักร (ไม่ได้เปลี่ยนไซส์)' }, { value: totalSize, name: 'เปลี่ยนไซส์' }, { value: totalElectric, name: 'ระบบไฟฟ้าภายในโรงงานดับ' }, { value: totalClean, name: 'ทำความสะอาดเครื่องจักร' }, { value: totalInternet, name: 'ระบบอินเตอร์เน็ต' }, { value: totalColor, name: 'ปรับหัวพ่นสี' }];
+
           const sortedData = newData.sort((a, b) => b.value - a.value);
-  
+
           return {
             paretoData: sortedData,
             realData: realData
@@ -183,10 +183,10 @@ const ParetoChart = ({month,group}) => {
           const totalOther = other.reduce((previousValue, currentValue) => previousValue + Number(currentValue.down_time), 0);
           const totalBlade = blade.reduce((previousValue, currentValue) => previousValue + Number(currentValue.down_time), 0);
 
-          const newData = [{value: totalOther, name: 'อื่นๆ' }, { value: totalMachineIssue , name: 'เครื่องจักรมีปัญหา / เสีย' }, { value: totalMachineAdjust, name: 'ปรับตั้งเครื่องจักร (ไม่ได้เปลี่ยนไซส์)' }, { value: totalSize, name: 'เปลี่ยนไซส์' }, { value: totalElectric, name: 'ระบบไฟฟ้าภายในโรงงานดับ' }, { value: totalClean, name: 'ทำความสะอาดเครื่องจักร' }, { value: totalInternet, name: 'ระบบอินเตอร์เน็ต' }, { value: totalBlade, name: 'เปลี่ยน / ปรับใบมีด (ไม่ได้เปลี่ยนไซส์)' }];
-  
+          const newData = [{ value: totalOther, name: 'อื่นๆ' }, { value: totalMachineIssue, name: 'เครื่องจักรมีปัญหา / เสีย' }, { value: totalMachineAdjust, name: 'ปรับตั้งเครื่องจักร (ไม่ได้เปลี่ยนไซส์)' }, { value: totalSize, name: 'เปลี่ยนไซส์' }, { value: totalElectric, name: 'ระบบไฟฟ้าภายในโรงงานดับ' }, { value: totalClean, name: 'ทำความสะอาดเครื่องจักร' }, { value: totalInternet, name: 'ระบบอินเตอร์เน็ต' }, { value: totalBlade, name: 'เปลี่ยน / ปรับใบมีด (ไม่ได้เปลี่ยนไซส์)' }];
+
           const sortedData = newData.sort((a, b) => b.value - a.value);
-  
+
           return {
             paretoData: sortedData,
             realData: realData
@@ -210,10 +210,10 @@ const ParetoChart = ({month,group}) => {
           const totalInternet = internet.reduce((previousValue, currentValue) => previousValue + Number(currentValue.down_time), 0);
           const totalOther = other.reduce((previousValue, currentValue) => previousValue + Number(currentValue.down_time), 0);
 
-          const newData = [{value: totalOther, name: 'อื่นๆ' }, { value: totalMachineIssue , name: 'เครื่องจักรมีปัญหา / เสีย' }, { value: totalMachineAdjust, name: 'ปรับตั้งเครื่องจักร (ไม่ได้เปลี่ยนไซส์)' }, { value: totalSize, name: 'เปลี่ยนไซส์' }, { value: totalElectric, name: 'ระบบไฟฟ้าภายในโรงงานดับ' }, { value: totalClean, name: 'ทำความสะอาดเครื่องจักร' }, { value: totalInternet, name: 'ระบบอินเตอร์เน็ต' }];
-  
+          const newData = [{ value: totalOther, name: 'อื่นๆ' }, { value: totalMachineIssue, name: 'เครื่องจักรมีปัญหา / เสีย' }, { value: totalMachineAdjust, name: 'ปรับตั้งเครื่องจักร (ไม่ได้เปลี่ยนไซส์)' }, { value: totalSize, name: 'เปลี่ยนไซส์' }, { value: totalElectric, name: 'ระบบไฟฟ้าภายในโรงงานดับ' }, { value: totalClean, name: 'ทำความสะอาดเครื่องจักร' }, { value: totalInternet, name: 'ระบบอินเตอร์เน็ต' }];
+
           const sortedData = newData.sort((a, b) => b.value - a.value);
-  
+
           return {
             paretoData: sortedData,
             realData: realData
@@ -232,7 +232,7 @@ const ParetoChart = ({month,group}) => {
   }
 
   console.log(paretoData);
-  
+
 
   const datapoints = paretoData?.paretoData.map((item) => item.value);
 
@@ -289,36 +289,36 @@ const ParetoChart = ({month,group}) => {
     maintainAspectRatio: false,
     responsive: true,
     scales: {
-        yAxes: [{
-            id: 'LinePercentage',
-            type: 'linear',
-            position: 'right',
-            min: 0,
-            max: 100,
-            ticks:{
-                callback: function(value, index, values) {
-                    return value + '%';
-                },
-                beginAtZero: true,
-                stepSize: 10
-            }
-        },
-        {
-            id: 'bar1',
-            type: 'linear',
-            position: 'left',
-            beginAtZero: true,
-            grid: {
-                display: false
-            },
-            scaleLabel: {
-              display: true,
-              labelString: '(Mins)', // Your title here
-              fontStyle: 'bold',
-            }
-            //  how to set gap between bars
+      yAxes: [{
+        id: 'LinePercentage',
+        type: 'linear',
+        position: 'right',
+        min: 0,
+        max: 100,
+        ticks: {
+          callback: function (value, index, values) {
+            return value + '%';
+          },
+          beginAtZero: true,
+          stepSize: 10
         }
-    ],
+      },
+      {
+        id: 'bar1',
+        type: 'linear',
+        position: 'left',
+        beginAtZero: true,
+        grid: {
+          display: false
+        },
+        scaleLabel: {
+          display: true,
+          labelString: '(Mins)', // Your title here
+          fontStyle: 'bold',
+        }
+        //  how to set gap between bars
+      }
+      ],
     },
     onClick: function (evt, item) {
       if (item[0]) {
@@ -329,13 +329,13 @@ const ParetoChart = ({month,group}) => {
 
   return (
     <>
-     <ModalManagementFullPage
+      <ModalManagementFullPage
         open={open}
         onClose={() => setOpen(false)}
         modalDetail={<TableStopReason reasonData={paretoData.realData} wc={wc} group={group} month={month} />}
       />
-    <Typography variant="h4" style={{ margin: '15px', textAlign: 'center' }}>Pareto Chart of Downtime Causes</Typography>
-    <Bar width={800} height={500} data={data} options={options}  />
+      <Typography variant="h4" style={{ margin: '15px', textAlign: 'center' }}>Pareto Chart of Downtime Causes</Typography>
+      <Bar width={800} height={500} data={data} options={options} />
     </>
   );
 };

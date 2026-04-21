@@ -89,8 +89,8 @@ const useStyles = makeStyles((theme) => ({
 
 const label = [
   {
-    value: ["P2FM01", "P2FM05", "P2FM06", "P2FM08", "P2FM09","P2FM10", "W2FM02", "W2FM04", "W2FM07", "W2FM11", "W2FMC1"],
-    name: [["P2FM01", "สถานี Forming 01"], ["P2FM05", "สถานี Forming 05"], ["P2FM06", "สถานี Forming 06"], ["P2FM08", "สถานี Forming 08"], ["P2FM09", "สถานี Forming 09"],["P2FM10", "สถานี Forming 10"], ["W2FM02", "สถานี Forming 02"], ["W2FM04", "สถานี Forming 04"], ["W2FM07", "สถานี Forming 07"],["W2FM11", "สถานี Forming 11 วังน้อย"], ["W2FMC1", "สถานีตัวซีเครื่อง 1"]],
+    value: ["P2FM01", "P2FM05", "P2FM06", "P2FM08", "P2FM09", "P2FM10", "W2FM02", "W2FM04", "W2FM07", "W2FM11", "W2FMC1"],
+    name: [["P2FM01", "สถานี Forming 01"], ["P2FM05", "สถานี Forming 05"], ["P2FM06", "สถานี Forming 06"], ["P2FM08", "สถานี Forming 08"], ["P2FM09", "สถานี Forming 09"], ["P2FM10", "สถานี Forming 10"], ["W2FM02", "สถานี Forming 02"], ["W2FM04", "สถานี Forming 04"], ["W2FM07", "สถานี Forming 07"], ["W2FM11", "สถานี Forming 11 วังน้อย"], ["W2FMC1", "สถานีตัวซีเครื่อง 1"]],
     label: 'Forming'
   },
   {
@@ -153,7 +153,7 @@ const Dashboard = () => {
           }
         });
         const date = moment().format('YYYY-MM-DD');
-      
+
         const currentDay = response.data[0].filter((item) => {
           return moment(item.date.date).format('YYYY-MM-DD') === date;
         });
@@ -176,7 +176,7 @@ const Dashboard = () => {
     staleTime: 0,
     cacheTime: 30 * 1000, //  
   });
-  
+
   const workCenters = ['Forming', 'Packing', 'Threading', 'Cuting', 'Groove', 'HydroTest', 'Slit', 'Painting', 'Galvanize'];
   const [forming, packing, threading, cutting, groove, hydro, slit, painting, galvanize] = workCenters.map(labelName => label.find(item => item.label === labelName));
 
@@ -184,7 +184,7 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: forming.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '', operationSpeed: status?.operationSpeed, operationTime: status?.operationtime };
+    return { wc: item, name: forming.name[index][1], sum: Number(sumA).toFixed(2), piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '', operationSpeed: status?.operationSpeed, operationTime: status?.operationtime };
   });
 
   const fmMonth = forming.value.map((item, index) => {
@@ -226,12 +226,12 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: cutting.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
+    return { wc: item, name: cutting.name[index][1], sum: Number(sumA).toFixed(2), piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
   });
 
-  const ctMonth = cutting.value.map((item, index) => {    
+  const ctMonth = cutting.value.map((item, index) => {
     const sumA = data?.month
-      .filter((item1) => item1.wc === item)      
+      .filter((item1) => item1.wc === item)
       .reduce((prev, current) => prev + current.sumA, 0);
     return sumA;
   });
@@ -240,12 +240,12 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: groove.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
+    return { wc: item, name: groove.name[index][1], sum: Number(sumA).toFixed(2), piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
   });
 
   const grMonth = groove.value.map((item, index) => {
     const sumA = data?.month
-      .filter((item1) => item1.wc === item)      
+      .filter((item1) => item1.wc === item)
       .reduce((prev, current) => prev + current.sumA, 0);
     return sumA;
   });
@@ -254,12 +254,12 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: hydro.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
+    return { wc: item, name: hydro.name[index][1], sum: Number(sumA).toFixed(2), piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
   });
 
   const htMonth = hydro.value.map((item, index) => {
     const sumA = data?.month
-      .filter((item1) => item1.wc === item)      
+      .filter((item1) => item1.wc === item)
       .reduce((prev, current) => prev + current.sumA, 0);
     return sumA;
   });
@@ -268,12 +268,12 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: slit.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
+    return { wc: item, name: slit.name[index][1], sum: Number(sumA).toFixed(2), piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
   });
 
   const slMonth = slit.value.map((item, index) => {
     const sumA = data?.month
-      .filter((item1) => item1.wc === item)      
+      .filter((item1) => item1.wc === item)
       .reduce((prev, current) => prev + current.sumA, 0);
     return sumA;
   });
@@ -282,12 +282,12 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: painting.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
+    return { wc: item, name: painting.name[index][1], sum: Number(sumA).toFixed(2), piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
   });
 
   const ptMonth = painting.value.map((item, index) => {
     const sumA = data?.month
-      .filter((item1) => item1.wc === item)      
+      .filter((item1) => item1.wc === item)
       .reduce((prev, current) => prev + current.sumA, 0);
     return sumA;
   });
@@ -296,12 +296,12 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: galvanize.name[index][1], sum: Number(sumA).toFixed(2),piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
+    return { wc: item, name: galvanize.name[index][1], sum: Number(sumA).toFixed(2), piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '' };
   });
 
   const gaMonth = galvanize.value.map((item, index) => {
     const sumA = data?.month
-      .filter((item1) => item1.wc === item)      
+      .filter((item1) => item1.wc === item)
       .reduce((prev, current) => prev + current.sumA, 0);
     return sumA;
   });
@@ -317,13 +317,13 @@ const Dashboard = () => {
 
   const classes = useStyles();
   console.log(workCenter, 'workCenter');
-  
+
   return (
     <Page
       className={classes.root}
       title="Dashboard"
     >
-      <ModalManagement open={open} onClose={() => setOpen(false)} modalDetail={<WorkCenterStatus wc={workCenter.wc} status={workCenter.status} sum={workCenter.sum} piece={workCenter.piece}  reason={workCenter.reason} name={workCenter.name} time={workCenter.time} size={workCenter.size} totalTime={workCenter.totalTime} totalStop={workCenter.totalStop} operationSpeed={workCenter.operationSpeed} operationTime={workCenter.operationTime} onClose={() => setOpen(false)} />} />
+      <ModalManagement open={open} onClose={() => setOpen(false)} modalDetail={<WorkCenterStatus wc={workCenter.wc} status={workCenter.status} sum={workCenter.sum} piece={workCenter.piece} reason={workCenter.reason} name={workCenter.name} time={workCenter.time} size={workCenter.size} totalTime={workCenter.totalTime} totalStop={workCenter.totalStop} operationSpeed={workCenter.operationSpeed} operationTime={workCenter.operationTime} onClose={() => setOpen(false)} />} />
       <Container maxWidth={false}>
         <Typography className={classes.title} align='center' variant="h1" gutterBottom>
           Work Center
@@ -382,13 +382,13 @@ const Dashboard = () => {
                 <>
                   {fm?.map((item, index) => (
                     <>
-                    {index === fm.length - 1 && <Grid item xs={3} md={1}></Grid>} 
-                    {index === fm.length - 1 && <Grid item xs={3} md={1}></Grid>} 
-                    <Grid key={index} item xs={3} md={1}>
-                      <Paper onClick={() => { setOpen(true); setWorkCenter(item) }} className={classes.paper} style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderRadius: 10, backgroundColor: item.status === 'red' ? '#ff4d4d' : item.status === 'yellow' ? ' #ffff66' : '#66ff99', marginBottom: index === fm.length -1 ? '4px' : '' }} variant="outlined" square>
-                        {item.wc} {item.status === 'green' && <SettingsIcon className={item.status == 'green' ? classes.rotating : ''} />} {item.status === 'red' && <SettingsIcon />} {item.status === 'yellow' && <BuildIcon style={{ paddingLeft: '3px' }} />}
-                      </Paper>
-                    </Grid>
+                      {index === fm.length - 1 && <Grid item xs={3} md={1}></Grid>}
+                      {index === fm.length - 1 && <Grid item xs={3} md={1}></Grid>}
+                      <Grid key={index} item xs={3} md={1}>
+                        <Paper onClick={() => { setOpen(true); setWorkCenter(item) }} className={classes.paper} style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderRadius: 10, backgroundColor: item.status === 'red' ? '#ff4d4d' : item.status === 'yellow' ? ' #ffff66' : '#66ff99', marginBottom: index === fm.length - 1 ? '4px' : '' }} variant="outlined" square>
+                          {item.wc} {item.status === 'green' && <SettingsIcon className={item.status == 'green' ? classes.rotating : ''} />} {item.status === 'red' && <SettingsIcon />} {item.status === 'yellow' && <BuildIcon style={{ paddingLeft: '3px' }} />}
+                        </Paper>
+                      </Grid>
                     </>
                   ))}
                 </>
@@ -610,13 +610,13 @@ const Dashboard = () => {
               </Typography>
             </Grid>
             <Grid item xs={3} md={1}>
-                <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div>D: {(total).toFixed(2)} Mt</div>
-                    <div>M: {addComma((totalMonth).toFixed(2))} Mt</div>
-                  </div>
-                </Paper>
-              </Grid>
+              <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div>D: {(total).toFixed(2)} Mt</div>
+                  <div>M: {addComma((totalMonth).toFixed(2))} Mt</div>
+                </div>
+              </Paper>
+            </Grid>
             <Grid item xs={3} md={1}>
               <Paper className={classes.paper} style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderRadius: 10, backgroundColor: '#66ff99' }} variant="outlined" square>
                 <span style={{ fontWeight: 'bold' }}>{green}</span> <SettingsIcon style={{ paddingLeft: '3px' }} className={classes.rotating} />

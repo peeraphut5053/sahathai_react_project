@@ -51,7 +51,7 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
-                { text: britishNumberFormatter.format(total_countlot) , fontSize: 13, alignment: 'center' },
+                { text: britishNumberFormatter.format(total_countlot), fontSize: 13, alignment: 'center' },
                 { text: britishNumberFormatter.format(total_weight), fontSize: 13, alignment: 'center' },
             ])
         }
@@ -133,7 +133,7 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
                             {
                                 border: [false, false, false, false], text: dataNow[0]["uf_by"], fontSize: 14
                             },
-                            { 
+                            {
                                 border: [false, false, false, false], text: ''
                             },
                             {
@@ -142,10 +142,10 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
                         ],
                         [
                             {
-                                border: [false, false, false, false], text: `` , fontSize: 14
+                                border: [false, false, false, false], text: ``, fontSize: 14
                                 // ${dataNow[0]["loc_description"]} ทะเบียนเรือ ${dataNow[0]["loc_no"]}
                             },
-                            { 
+                            {
                                 border: [false, false, false, false], text: ''
                             },
                             {
@@ -156,7 +156,7 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
                             {
                                 border: [false, false, false, false], text: ''
                             },
-                            { 
+                            {
                                 border: [false, false, false, false], text: ''
                             },
                             {
@@ -174,7 +174,7 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
                         [
                             {
                                 border: [false, false, false, false],
-                                text: '',fontSize: 16, colSpan: 3, alignment: 'left',
+                                text: '', fontSize: 16, colSpan: 3, alignment: 'left',
                             },
                             { text: '', fontSize: 14 },
                             { text: '', fontSize: 14 },
@@ -184,7 +184,7 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
             },
             {
                 table: {
-                    widths: [20, 50, 70, 70, 50, 105, 50, 60,5],
+                    widths: [20, 50, 70, 70, 50, 105, 50, 60, 5],
                     headerRows: 1,
                     body: data,
                 },
@@ -207,15 +207,19 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
                 margin: [20, 0, 0, 20],
                 columns: [
                     {
-                        fontSize: 16, text: [{ text: `............................................................
-                        SAHA THAI STEEL PIPE CO., LTD.`, alignment: 'center' },], alignment: 'left'
+                        fontSize: 16, text: [{
+                            text: `............................................................
+                        SAHA THAI STEEL PIPE CO., LTD.`, alignment: 'center'
+                        },], alignment: 'left'
                     },
                     {
                         fontSize: 16, text: [{ text: '', alignment: 'right' },], alignment: 'center'
                     },
                     {
-                        fontSize: 16, text: [{ text: `............................................................
-                        TAIKONG RECEIVER`, alignment: 'center' },], alignment: 'right'
+                        fontSize: 16, text: [{
+                            text: `............................................................
+                        TAIKONG RECEIVER`, alignment: 'center'
+                        },], alignment: 'right'
                     },
                 ]
             },
@@ -223,15 +227,19 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
                 margin: [20, 0, 0, 20],
                 columns: [
                     {
-                        fontSize: 16, text: [{ text: `DATE : .................................................`
-                        , alignment: 'center' },], alignment: 'left'
+                        fontSize: 16, text: [{
+                            text: `DATE : .................................................`
+                            , alignment: 'center'
+                        },], alignment: 'left'
                     },
                     {
                         fontSize: 16, text: [{ text: '', alignment: 'right' },], alignment: 'center'
                     },
                     {
-                        fontSize: 16, text: [{ text: `............................................................
-                        CHECKER RECEIVER`, alignment: 'center' },], alignment: 'right'
+                        fontSize: 16, text: [{
+                            text: `............................................................
+                        CHECKER RECEIVER`, alignment: 'center'
+                        },], alignment: 'right'
                     },
                 ]
             }

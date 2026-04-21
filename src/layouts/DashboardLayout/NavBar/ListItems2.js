@@ -13,6 +13,7 @@ import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import WatchLaterIcon from '@material-ui/icons/WatchLater';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import ImageIcon from '@material-ui/icons/Image';
+
 import {
     User as UserIcon,
 } from 'react-feather';
@@ -47,6 +48,11 @@ const ListItems2 = [
                 href: '/app/LocationItemReport',
                 Icon: AssignmentIcon,
                 title: 'สต๊อกท่อคงคลัง'
+            },
+            {
+                href: '/app/ProductionReportByMonth',
+                Icon: AssignmentIcon,
+                title: 'รายงานการผลิตรายเดือน'
             }
         ]
     },
@@ -272,7 +278,7 @@ const ListItems2 = [
             },
         ]
     },
-    
+
     {
         Icon: HomeWorkIcon,
         menutitle: 'ผลิต',
@@ -286,6 +292,11 @@ const ListItems2 = [
                 href: '/app/JobOrderProcessing',
                 Icon: AssignmentIcon,
                 title: 'Job Order Processing'
+            },
+            {
+                href: '/app/JobReport',
+                Icon: AssignmentIcon,
+                title: 'Job Report'
             },
             {
                 href: '/app/ManufacturingReport',
@@ -344,7 +355,7 @@ const ListItems2 = [
                 Icon: AssignmentIcon,
                 title: 'ใช้สำหรับย้ายขึ้นรถ'
             },
-            
+
         ]
     },
     {

@@ -424,7 +424,7 @@ const LocationItemReport = () => {
                 accessorKey: 'loc_group',
                 header: 'Location',
                 cell: ({ getValue, row }) => (
-                    <span 
+                    <span
                         className={classes.locationCell}
                         style={{ cursor: 'pointer' }}
                         onClick={() => {
@@ -454,6 +454,42 @@ const LocationItemReport = () => {
                         </span>
                     );
                 },
+            },
+            {
+                accessorKey: 'qty_FIN',
+                header: 'Qty FIN',
+                cell: ({ row }) => (
+                    <span className={classes.quantityCell}>
+                        {row.original.qty_FIN}
+                    </span>
+                ),
+            },
+            {
+                accessorKey: 'weight_ton_FIN',
+                header: 'Weight FIN (Ton)',
+                cell: ({ row }) => (
+                    <span className={classes.weightCell}>
+                        {addComma(row.original.weight_ton_FIN)}
+                    </span>
+                ),
+            },
+            {
+                accessorKey: 'qty_WIP',
+                header: 'Qty WIP',
+                cell: ({ row }) => (
+                    <span className={classes.quantityCell}>
+                        {row.original.qty_WIP}
+                    </span>
+                ),
+            },
+            {
+                accessorKey: 'weight_ton_WIP',
+                header: 'Weight WIP (Ton)',
+                cell: ({ row }) => (
+                    <span className={classes.weightCell}>
+                        {addComma(row.original.weight_ton_WIP)}
+                    </span>
+                ),
             }
         ],
         [classes]
@@ -597,7 +633,7 @@ const LocationItemReport = () => {
                                     )}{' '}
                                     of {table.getFilteredRowModel().rows.length} entries
                                 </Typography>
-                               
+
                             </Box>
                         </div>
                     ) : (
