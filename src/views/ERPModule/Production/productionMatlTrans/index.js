@@ -1,26 +1,24 @@
 import React, { useState } from 'react';
-import { Grid, Paper, Snackbar } from '@material-ui/core';
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake-thai/build/vfs_fonts";
+import { Grid, Paper, Snackbar } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import moment from "moment";
 import DateTimePicker from '../../../components/Input/CDateTimePicker';
 import CButton from '../../../components/Input/CButton';
 import { Formik } from 'formik';
 import CTextField from '../../../components/Input/CTextField';
 import API from '../../../components/API';
-import { Alert, AlertTitle } from '@material-ui/lab';
+import { Alert, AlertTitle } from '@mui/material';
 import CAutocomplete from '../../../components/Input/CAutocomplete ';
-
-import customStyles from "./customStyles.js";
 import ProductionDailyReportTable from './ProductionDailyReportTable';
 
 
 
 moment.locale("th");
-const useStyles = customStyles
+const RootPaper = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(3),
+}));
 
 const ProductionMatlTrans = () => {
-  const classes = useStyles();
   const [data, setdata] = useState([])
   const [isLoadingData, setisLoadingData] = useState(false)
   const [openModalItem, setOpenModalItem] = React.useState(false);
@@ -67,20 +65,6 @@ const ProductionMatlTrans = () => {
     }
   }
 
-  pdfMake.vfs = pdfFonts.pdfMake.vfs;
-  const pdfDocGenerator = pdfMake.createPdf("");
-  pdfDocGenerator.getDataUrl((dataUrl) => {
-    const targetElement = document.querySelector('#iframeContainer');
-    const iframe = document.createElement('iframe');
-    iframe.src = dataUrl;
-    targetElement.appendChild(iframe);
-  });
-
-
-
-
-
-
   const handleCloseAlert = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -99,7 +83,7 @@ const ProductionMatlTrans = () => {
   };
 
   return (
-    <Paper className={classes.paper}>
+    <RootPaper>
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         open={openAlert}
@@ -236,7 +220,7 @@ const ProductionMatlTrans = () => {
           </Grid>
         </Grid>
       </Grid>
-    </Paper>
+    </RootPaper>
   );
 };
 

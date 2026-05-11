@@ -1,42 +1,27 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia } from '@material-ui/core';
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia } from '@mui/material';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    paper: {
-        padding: theme.spacing(2),
-        margin: 'auto',
-        maxWidth: '100%',
-    },
-    image: {
-        width: 128,
-        height: 128,
-    },
-    img: {
-        margin: 'auto',
-        display: 'block',
-        maxWidth: '100%',
-        maxHeight: '100%',
-    },
-    media: {
-        height: 300,
-        widows: 300,
-    },
-}));
+const Root = styled('div')({
+    flexGrow: 1,
+});
+
+const RootCard = styled(Card)({
+    flexGrow: 1,
+});
+
+const Media = styled(CardMedia)({
+    height: 300,
+    widows: 300,
+});
 
 export default function ComplexGrid(props) {
-    const classes = useStyles();
-
     return (
-        <div className={classes.root}>
-            <Card className={classes.root}>
+        <Root>
+            <RootCard>
                 <CardActionArea>
-                    <CardMedia
-                        className={classes.media}
+                    <Media
                         image={props.img}
                         title="Contemplative Reptile"
                     />
@@ -53,7 +38,7 @@ export default function ComplexGrid(props) {
                             "_blank")}>Link</Button>
                     {/* <Button size="small" color="primary">Learn More</Button> */}
                 </CardActions>
-            </Card>
-        </div>
+            </RootCard>
+        </Root>
     );
 }

@@ -2,41 +2,18 @@ import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Line } from 'react-chartjs-2';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  useTheme,
-  makeStyles,
-  colors,
-  Menu,
-  MenuItem
-
-} from '@material-ui/core';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import {   Box, Button, Card, CardContent, CardHeader, Divider, useTheme, Menu, MenuItem } from '@mui/material';
+import * as colors from '@mui/material/colors';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { useState } from 'react';
 import API from '../components/API';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import moment from "moment";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 moment.locale("th");
 
-const useStyles = makeStyles((theme) => ({
-  // root: {
-  //   display: 'flex',
-  //   '& > * + *': {
-  //     marginLeft: theme.spacing(2),
-  //   },
-  // },
-}));
-
-
 const ChartExecutiveSummary = ({ className, ...rest }) => {
-  const classes = useStyles();
   const theme = useTheme();
 
   const [GarphLineData, setGarphLineData] = useState([])
@@ -89,14 +66,14 @@ const ChartExecutiveSummary = ({ className, ...rest }) => {
   useEffect(() => {
     STS_execRpt_SUM_mthly(Item_Group)
     selectColor(item_Group_selected)
-    var timerID = setInterval(() =>  STS_execRpt_SUM_mthly(Item_Group), 900000);
+    var timerID = setInterval(() => STS_execRpt_SUM_mthly(Item_Group), 900000);
     // var timerID = setInterval(() =>  selectColor(item_Group_selected), 15000);
 
 
     return function cleanup() {
       clearInterval(timerID);
     };
-  
+
   }, [Item_Group, item_Group_selected])
 
 
@@ -409,7 +386,7 @@ const ChartExecutiveSummary = ({ className, ...rest }) => {
 
   return (
     <Card
-      className={clsx(classes.root, className)}
+      className={clsx(className)}
       {...rest}
     >
       {/* *{selectLineColor}{item_Group_selected}* */}

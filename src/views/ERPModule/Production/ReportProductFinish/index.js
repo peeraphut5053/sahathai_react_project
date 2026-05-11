@@ -1,46 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Chip,
-  colors,
-  Container,
-  Grid,
-  makeStyles
-} from '@material-ui/core';
+import { Chip, Container, Grid } from '@mui/material';
+import * as colors from '@mui/material/colors';
 import Page from 'src/components/Page';
-import MaterialTable, { MTableToolbar } from 'material-table';
-import tableIcons from 'src/views/components/table/tableIcons';
+import DataTable from 'src/components/DataTable';
 import API from 'src/views/components/API';
 import MenuChip from './MenuChip';
 import ModalNopaperLGPage from 'src/views/components/ModalNopaperLGPage';
-import V_STS_execRpt_F_byMarket_Live from './V_STS_execRpt_F_byMarket_Live';
-import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/core'
+import ReportByMarketLive from './V_STS_execRpt_F_byMarket_Live';
 import moment from "moment";
+import styles from './ReportProductFinish.module.css';
 
 moment.locale("th");
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    minHeight: '100%',
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
-  }
-}));
-
-const theme = createMuiTheme({
-  overrides: {
-    MuiTableCell: {
-      root: {
-        padding: '10px 10px',
-      },
-    },
-  },
-});
-
-
-
 const ReportProductFinish = (props) => {
-  const classes = useStyles();
   const [DataReportProductFinish, setDataReportProductFinish] = useState([])
   const [openModalItem2, setOpenModalItem2] = React.useState(false);
 
@@ -54,43 +26,43 @@ const ReportProductFinish = (props) => {
       })
   }
 
-  
-const addTotal = (data) => {
-  let keys = Object.keys(data[0]);
-  let totalRow = {};
-  let emptyRow = {};
-  for (let key of keys) {
-    if (key === keys[0]) { totalRow[key] = 'Total'; }
-    else if (key === keys[1]) { totalRow[key] = 'Total'; }
-    else if (key === keys[2]) { totalRow[key] = 'Total' }
-    else if (key === keys[3]) { totalRow[key] = '' }
-    else if (key === keys[4]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[4]]); }, 0);; }
-    else if (key === keys[5]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[5]]); }, 0);; }
-    else if (key === keys[6]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[6]]); }, 0);; }
-    else if (key === keys[7]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[7]]); }, 0);; }
-    else if (key === keys[8]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[8]]); }, 0);; }
-    else if (key === keys[9]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[9]]); }, 0);; }
-    else if (key === keys[10]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[10]]); }, 0);; }
-    else if (key === keys[11]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[11]]); }, 0);; }
-    else if (key === keys[12]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[12]]); }, 0);; }
-    else if (key === keys[13]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[13]]); }, 0);; }
-    else if (key === keys[14]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[14]]); }, 0);; }
-    else if (key === keys[15]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[15]]); }, 0);; }
-    else if (key === keys[16]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[16]]); }, 0);; }
-    else if (key === keys[17]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[17]]); }, 0);; }
-    else if (key === keys[18]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[18]]); }, 0);; }
-    else if (key === keys[19]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[19]]); }, 0);; }
-    else if (key === keys[20]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[20]]); }, 0);; }
-    else if (key === keys[21]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[21]]); }, 0);; }
-    else if (key === keys[22]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[22]]); }, 0);; }
-    else if (key === keys[23]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[23]]); }, 0);; }
-    else {
-      totalRow[key] = '';
+
+  const addTotal = (data) => {
+    let keys = Object.keys(data[0]);
+    let totalRow = {};
+    let emptyRow = {};
+    for (let key of keys) {
+      if (key === keys[0]) { totalRow[key] = 'Total'; }
+      else if (key === keys[1]) { totalRow[key] = 'Total'; }
+      else if (key === keys[2]) { totalRow[key] = 'Total' }
+      else if (key === keys[3]) { totalRow[key] = '' }
+      else if (key === keys[4]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[4]]); }, 0);; }
+      else if (key === keys[5]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[5]]); }, 0);; }
+      else if (key === keys[6]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[6]]); }, 0);; }
+      else if (key === keys[7]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[7]]); }, 0);; }
+      else if (key === keys[8]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[8]]); }, 0);; }
+      else if (key === keys[9]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[9]]); }, 0);; }
+      else if (key === keys[10]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[10]]); }, 0);; }
+      else if (key === keys[11]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[11]]); }, 0);; }
+      else if (key === keys[12]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[12]]); }, 0);; }
+      else if (key === keys[13]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[13]]); }, 0);; }
+      else if (key === keys[14]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[14]]); }, 0);; }
+      else if (key === keys[15]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[15]]); }, 0);; }
+      else if (key === keys[16]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[16]]); }, 0);; }
+      else if (key === keys[17]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[17]]); }, 0);; }
+      else if (key === keys[18]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[18]]); }, 0);; }
+      else if (key === keys[19]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[19]]); }, 0);; }
+      else if (key === keys[20]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[20]]); }, 0);; }
+      else if (key === keys[21]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[21]]); }, 0);; }
+      else if (key === keys[22]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[22]]); }, 0);; }
+      else if (key === keys[23]) { totalRow[key] = data.reduce((acc, el) => { return acc += +(el[keys[23]]); }, 0);; }
+      else {
+        totalRow[key] = '';
+      }
+      emptyRow[key] = '';
     }
-    emptyRow[key] = '';
+    return [...data, emptyRow, totalRow];
   }
-  return [...data, emptyRow, totalRow];
-}
 
   useEffect(() => {
     searchReportProductFinish()
@@ -108,7 +80,7 @@ const addTotal = (data) => {
 
   return (
     <Page
-      className={classes.root}
+      className={styles.root}
       title="Dashboard"
     >
 
@@ -117,7 +89,7 @@ const addTotal = (data) => {
           <>รายงาน {`รายงานจำแนกโดยชนิดท่อ`}</>
         }
         modalDetail={
-          <V_STS_execRpt_F_byMarket_Live
+          <ReportByMarketLive
             title={`รายงานจำแนกโดยชนิดท่อ`}
             daystart={props.daystart}
             dayend={props.dayend}
@@ -130,20 +102,17 @@ const addTotal = (data) => {
       <Container maxWidth={false}>
 
         <Grid container spacing={0} >
-          <Grid item xs={12}>
-            <ThemeProvider theme={theme}>
-              <MaterialTable
+          <Grid item xs={12}>              <DataTable
 
-                title={"รายงานอายุสินค้าสำเร็จรูป พร้อมส่งมอบ  (" + moment().subtract(12, 'months').format("YYYY-MM-DD HH:mm:ss")+")"}
-                icons={tableIcons}
+                title={"รายงานอายุสินค้าสำเร็จรูป พร้อมส่งมอบ  (" + moment().subtract(12, 'months').format("YYYY-MM-DD HH:mm:ss") + ")"}
                 columns={[
                   {
-                    title: 'Market', field: 'Market', width: 300,
+                    title: 'Market', field: 'Market', width: 80,
                     headerStyle: { backgroundColor: colors.lightBlue[100], width: 60 },
                     cellStyle: { backgroundColor: colors.lightBlue[100], width: 60 }
                   },
                   {
-                    title: 'Type', field: 'Type', width: 300,
+                    title: 'Type', field: 'Type', width: 80,
                     headerStyle: { backgroundColor: colors.lightBlue[100], width: 80 },
                     cellStyle: { backgroundColor: colors.lightBlue[100], width: 80 }
                   },
@@ -209,11 +178,9 @@ const addTotal = (data) => {
                   },
                 ]}
                 data={DataReportProductFinish}
-                components={{
-                  Toolbar: props => (
-                    <div>
-                      <MTableToolbar {...props} />
-                      <div style={{ padding: '0px 10px' }}>
+                toolbar={
+                (
+                  <div className={styles.menuToolbar}>
                         <Chip
                           aria-controls="customized-menu"
                           aria-haspopup="true"
@@ -232,32 +199,22 @@ const addTotal = (data) => {
                         <MenuChip label="181-365 วัน" daystart="181" dayend="365" />
                         <MenuChip label="366-730 วัน" daystart="366" dayend="730" />
                         <MenuChip label="มากกว่า 2 ปี" daystart="731" dayend="3000" />
-                      </div>
-                    </div>
-                  ),
-                }}
-                options={{
-                  cellStyle: { padding: '0.0' },
-                  headerStyle: { padding: '0.1' },
-                  search: false,
-                  paging: false,
-                  maxBodyHeight: '66vh',
-                  minBodyHeight: '66vh',
-                  sorting: false,
-                  // width: '100vw',
-                  exportButton: true,
-                  filtering: false,
-                  rowStyle: rowData => ({
-                    // backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
-                    fontSize: 14,
-                    padding: 0,
-                    width: 500,
-                    fontFamily: 'sans-serif'
-                  }
-                  ),
+                  </div>
+                )} 
+                search={false}
+                sorting={false}
+                exportButton
+                maxBodyHeight="66vh"
+                minBodyHeight="66vh"
+                cellStyle={{ padding: '10px' }}
+                headerStyle={{ padding: '10px' }}
+                rowStyle={{
+                  fontSize: 14,
+                  padding: 0,
+                  width: 500,
+                  fontFamily: 'sans-serif'
                 }}
               />
-            </ThemeProvider>
           </Grid>
         </Grid>
       </Container>

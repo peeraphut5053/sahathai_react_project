@@ -1,22 +1,9 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import API from 'src/views/components/API';
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    Grid,
-    Button,
-    makeStyles,
-    Chip,
-    Box,
-    Typography,
-    Paper,
-    colors,
-    CircularProgress,
-    Collapse,
-    IconButton,
-} from '@material-ui/core';
+import { Card, CardContent, CardHeader, Grid, Button, Chip, Box, Typography, Paper, CircularProgress, Collapse, IconButton } from '@mui/material';
+import * as colors from '@mui/material/colors';
+import { styled } from '@mui/material/styles';
 import {
     useReactTable,
     getCoreRowModel,
@@ -36,316 +23,309 @@ import {
     KeyboardArrowDown,
     KeyboardArrowRight,
     UnfoldLess,
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        padding: theme.spacing(3),
-        backgroundColor: '#f5f7fa',
-        minHeight: '100vh',
-        [theme.breakpoints.down('sm')]: {
-            padding: theme.spacing(1),
-        },
+const Root = styled('div')(({ theme }) => ({
+    padding: theme.spacing(3),
+    backgroundColor: '#f5f7fa',
+    minHeight: '100vh',
+    [theme.breakpoints.down('sm')]: {
+        padding: theme.spacing(1),
     },
-    card: {
-        borderRadius: 16,
-        boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
-        border: '1px solid #e8ecef',
-        overflow: 'hidden',
-        [theme.breakpoints.down('sm')]: {
-            borderRadius: 8,
-        },
-    },
-    header: {
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: '#ffffff',
-        padding: theme.spacing(4),
-        textAlign: 'center',
-        [theme.breakpoints.down('sm')]: {
-            padding: theme.spacing(2),
-        },
-    },
-    title: {
-        fontSize: '2.5rem',
-        fontWeight: 700,
-        letterSpacing: '-0.5px',
-        [theme.breakpoints.down('sm')]: {
-            fontSize: '1.5rem',
-        },
-    },
-    contentWrapper: {
-        padding: theme.spacing(4),
-        backgroundColor: '#ffffff',
-        [theme.breakpoints.down('sm')]: {
-            padding: theme.spacing(2),
-        },
-    },
-    tableContainer: {
-        borderRadius: 12,
-        overflow: 'hidden',
-        border: '1px solid #e8ecef',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
-        [theme.breakpoints.down('sm')]: {
-            borderRadius: 8,
-            overflowX: 'auto', // เพิ่มการเลื่อนแนวนอนเฉพาะบนมือถือ
-        },
-    },
-    table: {
-        width: '100%',
-        tableLayout: 'fixed',
-        minWidth: 600, // กำหนดความกว้างขั้นต่ำเพื่อให้เลื่อนได้บนมือถือ
-        '& thead': {
-            backgroundColor: '#f8f9fa',
-        },
-        '& th': {
-            color: '#2d3748',
-            fontWeight: 700,
-            fontSize: '1.5rem',
-            padding: theme.spacing(3.5),
-            borderBottom: '2px solid #e8ecef',
-            cursor: 'pointer',
-            userSelect: 'none',
-            textAlign: 'center',
-            transition: 'background-color 0.2s ease',
-            '&:hover': {
-                backgroundColor: '#edf2f7',
-            },
-            [theme.breakpoints.down('sm')]: {
-                fontSize: '1rem',
-                padding: theme.spacing(2),
-            },
-        },
-        '& td': {
-            padding: theme.spacing(3.5),
-            fontSize: '1.3rem',
-            fontWeight: 500,
-            textAlign: 'center',
-            color: '#1a2a47ff',
-            fontFamily: 'Arial, sans-serif',
-            fontWeight: 600,
-            borderBottom: '1px solid #f0f0f0',
-            [theme.breakpoints.down('sm')]: {
-                fontSize: '0.9rem',
-                padding: theme.spacing(2),
-            },
-        },
-        '& tbody tr': {
-            transition: 'all 0.2s ease',
-            '&:hover': {
-                backgroundColor: '#f7fafc',
-                transform: 'translateX(4px)',
-            },
-            '&:last-child td': {
-                borderBottom: 'none',
-            },
-        },
-    },
-    sortIcon: {
-        marginLeft: theme.spacing(0.5),
-        fontSize: '1.1rem',
-        verticalAlign: 'middle',
-        color: '#667eea',
-    },
-    pagination: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: theme.spacing(3),
-        backgroundColor: '#f8f9fa',
-        borderTop: '1px solid #e8ecef',
-        [theme.breakpoints.down('sm')]: {
-            padding: theme.spacing(2),
-            flexDirection: 'column',
-            gap: theme.spacing(2),
-        },
-    },
-    paginationButtons: {
-        display: 'flex',
-        gap: theme.spacing(1),
-        '& button': {
-            minWidth: 40,
-            height: 40,
-            borderRadius: 8,
-            transition: 'all 0.2s ease',
-            '&:not(:disabled)': {
-                backgroundColor: '#ffffff',
-                border: '1px solid #e8ecef',
-                color: '#667eea',
-                '&:hover': {
-                    backgroundColor: '#667eea',
-                    color: '#ffffff',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 8px rgba(102, 126, 234, 0.25)',
-                },
-            },
-            '&:disabled': {
-                backgroundColor: '#f0f0f0',
-                color: '#cbd5e0',
-                border: '1px solid #e8ecef',
-            },
-            [theme.breakpoints.down('sm')]: {
-                minWidth: 32,
-                height: 32,
-            },
-        },
-    },
-    paginationText: {
-        fontSize: '0.95rem',
-        fontWeight: 500,
-        color: '#4a5568',
-        [theme.breakpoints.down('sm')]: {
-            fontSize: '0.8rem',
-            textAlign: 'center',
-        },
-    },
-    emptyState: {
-        padding: theme.spacing(10),
-        textAlign: 'center',
-        color: '#a0aec0',
-    },
-    locationCell: {
-        fontWeight: 700,
-        color: '#667eea',
-        fontSize: '1.3rem',
-        fontFamily: 'Arial, sans-serif',
-        fontWeight: 600,
-        [theme.breakpoints.down('sm')]: {
-            fontSize: '0.9rem',
-        },
-    },
-    quantityCell: {
-        fontWeight: 600,
-        color: '#2d3748',
-    },
-    weightCell: {
-        fontWeight: 600,
-        color: '#1a2a47ff',
-    },
-    expandButton: {
-        padding: 4,
-        transition: 'transform 0.2s ease',
-        color: '#667eea',
-        '&:hover': {
-            backgroundColor: 'rgba(102, 126, 234, 0.1)',
-        },
-        [theme.breakpoints.down('sm')]: {
-            padding: 2,
-        },
-    },
-    expandedRow: {
-        backgroundColor: '#f8f9fa',
-    },
-    detailContainer: {
-        padding: theme.spacing(3),
-        backgroundColor: '#ffffff',
-        borderTop: '2px solid #e8ecef',
-        [theme.breakpoints.down('sm')]: {
-            padding: theme.spacing(2),
-        },
-    },
-    detailTable: {
-        width: '100%',
-        marginTop: theme.spacing(2),
+}));
+
+const ReportCard = styled(Card)(({ theme }) => ({
+    borderRadius: 16,
+    boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+    border: '1px solid #e8ecef',
+    overflow: 'hidden',
+    [theme.breakpoints.down('sm')]: {
         borderRadius: 8,
-        overflow: 'hidden',
-        border: '1px solid #e8ecef',
-        tableLayout: 'fixed', // กำหนดให้ใช้ fixed layout เพื่อควบคุมความกว้างคอลัมน์
-        '& thead': {
+    },
+}));
+
+const Header = styled('div')(({ theme }) => ({
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    color: '#ffffff',
+    padding: theme.spacing(4),
+    textAlign: 'center',
+    [theme.breakpoints.down('sm')]: {
+        padding: theme.spacing(2),
+    },
+}));
+
+const Title = styled(Typography)(({ theme }) => ({
+    fontSize: '2.5rem',
+    fontWeight: 700,
+    letterSpacing: '-0.5px',
+    [theme.breakpoints.down('sm')]: {
+        fontSize: '1.5rem',
+    },
+}));
+
+const ContentWrapper = styled('div')(({ theme }) => ({
+    padding: theme.spacing(4),
+    backgroundColor: '#ffffff',
+    [theme.breakpoints.down('sm')]: {
+        padding: theme.spacing(2),
+    },
+}));
+
+const TableContainer = styled('div')(({ theme }) => ({
+    borderRadius: 12,
+    overflow: 'hidden',
+    border: '1px solid #e8ecef',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+    [theme.breakpoints.down('sm')]: {
+        borderRadius: 8,
+        overflowX: 'auto',
+    },
+}));
+
+const ReportTable = styled('table')(({ theme }) => ({
+    width: '100%',
+    tableLayout: 'fixed',
+    minWidth: 600,
+    '& thead': {
+        backgroundColor: '#f8f9fa',
+    },
+    '& th': {
+        color: '#2d3748',
+        fontWeight: 700,
+        fontSize: '1.5rem',
+        padding: theme.spacing(3.5),
+        borderBottom: '2px solid #e8ecef',
+        cursor: 'pointer',
+        userSelect: 'none',
+        textAlign: 'center',
+        transition: 'background-color 0.2s ease',
+        '&:hover': {
             backgroundColor: '#edf2f7',
         },
-        '& th': {
-            padding: theme.spacing(2),
-            fontSize: '1.1rem',
-            fontWeight: 600,
-            color: '#4a5568',
-            borderBottom: '1px solid #e8ecef',
-            textAlign: 'center',
-            '&:first-child': {
-                width: '40%', // คอลัมน์ Item ใช้ 60% ของความกว้าง
-                textAlign: 'left',
-            },
-            '&:nth-child(2)': {
-                width: '30%', // คอลัมน์ Quantity ใช้ 20%
-            },
-            '&:nth-child(3)': {
-                width: '30%', // คอลัมน์ Weight ใช้ 20%
-            },
-            [theme.breakpoints.down('sm')]: {
-                fontSize: '0.85rem',
-                padding: theme.spacing(1.5),
-            },
-        },
-        '& td': {
-            padding: theme.spacing(2),
+        [theme.breakpoints.down('sm')]: {
             fontSize: '1rem',
-            color: '#2d3748',
-            borderBottom: '1px solid #f0f0f0',
-            textAlign: 'center',
-            wordWrap: 'break-word', // ให้ข้อความยาวๆ ขึ้นบรรทัดใหม่
-            '&:first-child': {
-                textAlign: 'left',
-                paddingLeft: 24,
-            },
-            [theme.breakpoints.down('sm')]: {
-                fontSize: '0.8rem',
-                padding: theme.spacing(1.5),
-                '&:first-child': {
-                    paddingLeft: 12,
-                },
-            },
-        },
-        '& tbody tr': {
-            '&:hover': {
-                backgroundColor: '#f7fafc',
-            },
-            '&:last-child td': {
-                borderBottom: 'none',
-            },
+            padding: theme.spacing(2),
         },
     },
-    floatingButton: {
-        position: 'fixed',
-        bottom: theme.spacing(4),
-        right: theme.spacing(4),
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: '#ffffff',
-        padding: theme.spacing(2, 3),
-        borderRadius: 50,
-        boxShadow: '0 4px 20px rgba(102, 126, 234, 0.4)',
-        display: 'flex',
-        alignItems: 'center',
-        gap: theme.spacing(1),
-        cursor: 'pointer',
-        transition: 'all 0.3s ease',
-        zIndex: 1000,
+    '& td': {
+        padding: theme.spacing(3.5),
+        fontSize: '1.3rem',
         fontWeight: 600,
-        fontSize: '0.7rem',
-        border: 'none',
-        '&:hover': {
-            transform: 'translateY(-4px)',
-            boxShadow: '0 6px 25px rgba(102, 126, 234, 0.5)',
-        },
-        '&:active': {
-            transform: 'translateY(-2px)',
-        },
+        textAlign: 'center',
+        color: '#1a2a47ff',
+        fontFamily: 'Arial, sans-serif',
+        borderBottom: '1px solid #f0f0f0',
         [theme.breakpoints.down('sm')]: {
-            bottom: theme.spacing(2),
-            right: theme.spacing(2),
-            padding: theme.spacing(1.5, 2),
-            fontSize: '0.65rem',
-            gap: theme.spacing(0.5),
-            '& .MuiButton-startIcon': {
-                marginRight: 4,
-                '& > *:first-child': {
-                    fontSize: '1rem',
-                },
-            },
+            fontSize: '0.9rem',
+            padding: theme.spacing(2),
+        },
+    },
+    '& tbody tr': {
+        transition: 'all 0.2s ease',
+        '&:hover': {
+            backgroundColor: '#f7fafc',
+            transform: 'translateX(4px)',
+        },
+        '&:last-child td': {
+            borderBottom: 'none',
         },
     },
 }));
 
+const SortDownIcon = styled(ArrowDownward)(({ theme }) => ({
+    marginLeft: theme.spacing(0.5),
+    fontSize: '1.1rem',
+    verticalAlign: 'middle',
+    color: '#667eea',
+}));
+
+const SortUpIcon = styled(ArrowUpward)(({ theme }) => ({
+    marginLeft: theme.spacing(0.5),
+    fontSize: '1.1rem',
+    verticalAlign: 'middle',
+    color: '#667eea',
+}));
+
+const Pagination = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: theme.spacing(3),
+    backgroundColor: '#f8f9fa',
+    borderTop: '1px solid #e8ecef',
+    [theme.breakpoints.down('sm')]: {
+        padding: theme.spacing(2),
+        flexDirection: 'column',
+        gap: theme.spacing(2),
+    },
+}));
+
+const PaginationText = styled(Typography)(({ theme }) => ({
+    fontSize: '0.95rem',
+    fontWeight: 500,
+    color: '#4a5568',
+    [theme.breakpoints.down('sm')]: {
+        fontSize: '0.8rem',
+        textAlign: 'center',
+    },
+}));
+
+const EmptyState = styled(Box)(({ theme }) => ({
+    padding: theme.spacing(10),
+    textAlign: 'center',
+    color: '#a0aec0',
+}));
+
+const LocationCell = styled('span')(({ theme }) => ({
+    fontWeight: 600,
+    color: '#667eea',
+    fontSize: '1.3rem',
+    fontFamily: 'Arial, sans-serif',
+    [theme.breakpoints.down('sm')]: {
+        fontSize: '0.9rem',
+    },
+}));
+
+const QuantityCell = styled('span')({
+    fontWeight: 600,
+    color: '#2d3748',
+});
+
+const WeightCell = styled('span')({
+    fontWeight: 600,
+    color: '#1a2a47ff',
+});
+
+const ExpandButton = styled(IconButton)(({ theme }) => ({
+    padding: 4,
+    transition: 'transform 0.2s ease',
+    color: '#667eea',
+    '&:hover': {
+        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+    },
+    [theme.breakpoints.down('sm')]: {
+        padding: 2,
+    },
+}));
+
+const DataRow = styled('tr', {
+    shouldForwardProp: (prop) => prop !== 'expanded',
+})(({ expanded }) => ({
+    ...(expanded && {
+        backgroundColor: '#f8f9fa',
+    }),
+}));
+
+const DetailContainer = styled(Box)(({ theme }) => ({
+    padding: theme.spacing(3),
+    backgroundColor: '#ffffff',
+    borderTop: '2px solid #e8ecef',
+    [theme.breakpoints.down('sm')]: {
+        padding: theme.spacing(2),
+    },
+}));
+
+const DetailTable = styled('table')(({ theme }) => ({
+    width: '100%',
+    marginTop: theme.spacing(2),
+    borderRadius: 8,
+    overflow: 'hidden',
+    border: '1px solid #e8ecef',
+    tableLayout: 'fixed',
+    '& thead': {
+        backgroundColor: '#edf2f7',
+    },
+    '& th': {
+        padding: theme.spacing(2),
+        fontSize: '1.1rem',
+        fontWeight: 600,
+        color: '#4a5568',
+        borderBottom: '1px solid #e8ecef',
+        textAlign: 'center',
+        '&:first-child': {
+            width: '40%',
+            textAlign: 'left',
+        },
+        '&:nth-child(2)': {
+            width: '30%',
+        },
+        '&:nth-child(3)': {
+            width: '30%',
+        },
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '0.85rem',
+            padding: theme.spacing(1.5),
+        },
+    },
+    '& td': {
+        padding: theme.spacing(2),
+        fontSize: '1rem',
+        color: '#2d3748',
+        borderBottom: '1px solid #f0f0f0',
+        textAlign: 'center',
+        wordWrap: 'break-word',
+        '&:first-child': {
+            textAlign: 'left',
+            paddingLeft: 24,
+        },
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '0.8rem',
+            padding: theme.spacing(1.5),
+            '&:first-child': {
+                paddingLeft: 12,
+            },
+        },
+    },
+    '& tbody tr': {
+        '&:hover': {
+            backgroundColor: '#f7fafc',
+        },
+        '&:last-child td': {
+            borderBottom: 'none',
+        },
+    },
+}));
+
+const FloatingButton = styled(Button)(({ theme }) => ({
+    position: 'fixed',
+    bottom: theme.spacing(4),
+    right: theme.spacing(4),
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    color: '#ffffff',
+    padding: theme.spacing(2, 3),
+    borderRadius: 50,
+    boxShadow: '0 4px 20px rgba(102, 126, 234, 0.4)',
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    zIndex: 1000,
+    fontWeight: 600,
+    fontSize: '0.7rem',
+    border: 'none',
+    '&:hover': {
+        transform: 'translateY(-4px)',
+        boxShadow: '0 6px 25px rgba(102, 126, 234, 0.5)',
+    },
+    '&:active': {
+        transform: 'translateY(-2px)',
+    },
+    [theme.breakpoints.down('sm')]: {
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
+        padding: theme.spacing(1.5, 2),
+        fontSize: '0.65rem',
+        gap: theme.spacing(0.5),
+        '& .MuiButton-startIcon': {
+            marginRight: 4,
+            '& > *:first-of-type': {
+                fontSize: '1rem',
+            },
+        },
+    },
+}));
 const LocationItemReport = () => {
-    const classes = useStyles();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [sorting, setSorting] = useState([]);
@@ -394,14 +374,13 @@ const LocationItemReport = () => {
     };
 
     // Define table columns
-    const columns = useMemo(
-        () => [
+    const columns = [
             {
                 id: 'expander',
                 header: '',
                 cell: ({ row }) => (
-                    <IconButton
-                        className={classes.expandButton}
+                    <ExpandButton
+                        
                         onClick={() => {
                             const isExpanded = row.getIsExpanded();
                             row.toggleExpanded();
@@ -416,7 +395,7 @@ const LocationItemReport = () => {
                         ) : (
                             <KeyboardArrowRight />
                         )}
-                    </IconButton>
+                    </ExpandButton>
                 ),
                 size: 60,
             },
@@ -424,8 +403,7 @@ const LocationItemReport = () => {
                 accessorKey: 'loc_group',
                 header: 'Location',
                 cell: ({ getValue, row }) => (
-                    <span
-                        className={classes.locationCell}
+                    <LocationCell
                         style={{ cursor: 'pointer' }}
                         onClick={() => {
                             const isExpanded = row.getIsExpanded();
@@ -436,7 +414,7 @@ const LocationItemReport = () => {
                         }}
                     >
                         {getValue()}
-                    </span>
+                    </LocationCell>
                 ),
             },
             {
@@ -449,9 +427,9 @@ const LocationItemReport = () => {
                 cell: ({ row }) => {
                     const value = row.original.weight_ton;
                     return (
-                        <span className={classes.weightCell}>
+                        <WeightCell>
                             {addComma(value)}
-                        </span>
+                        </WeightCell>
                     );
                 },
             },
@@ -459,41 +437,39 @@ const LocationItemReport = () => {
                 accessorKey: 'qty_FIN',
                 header: 'Qty FIN',
                 cell: ({ row }) => (
-                    <span className={classes.quantityCell}>
+                    <QuantityCell>
                         {row.original.qty_FIN}
-                    </span>
+                    </QuantityCell>
                 ),
             },
             {
                 accessorKey: 'weight_ton_FIN',
                 header: 'Weight FIN (Ton)',
                 cell: ({ row }) => (
-                    <span className={classes.weightCell}>
+                    <WeightCell>
                         {addComma(row.original.weight_ton_FIN)}
-                    </span>
+                    </WeightCell>
                 ),
             },
             {
                 accessorKey: 'qty_WIP',
                 header: 'Qty WIP',
                 cell: ({ row }) => (
-                    <span className={classes.quantityCell}>
+                    <QuantityCell>
                         {row.original.qty_WIP}
-                    </span>
+                    </QuantityCell>
                 ),
             },
             {
                 accessorKey: 'weight_ton_WIP',
                 header: 'Weight WIP (Ton)',
                 cell: ({ row }) => (
-                    <span className={classes.weightCell}>
+                    <WeightCell>
                         {addComma(row.original.weight_ton_WIP)}
-                    </span>
+                    </WeightCell>
                 ),
             }
-        ],
-        [classes]
-    );
+        ];
 
     // Initialize table
     const table = useReactTable({
@@ -520,20 +496,20 @@ const LocationItemReport = () => {
     });
 
     return (
-        <div className={classes.root}>
-            <Card className={classes.card}>
+        <Root>
+            <ReportCard>
                 {/* Header */}
-                <div className={classes.header}>
-                    <Typography className={classes.title}>
+                <Header>
+                    <Title>
                         สต๊อกท่อคงคลัง
-                    </Typography>
-                </div>
+                    </Title>
+                </Header>
 
                 {/* Content */}
-                <div className={classes.contentWrapper}>
+                <ContentWrapper>
                     {data.length > 0 ? (
-                        <div className={classes.tableContainer}>
-                            <table className={classes.table}>
+                        <TableContainer>
+                            <ReportTable>
                                 <thead>
                                     {table.getHeaderGroups().map((headerGroup) => (
                                         <tr key={headerGroup.id}>
@@ -553,9 +529,9 @@ const LocationItemReport = () => {
                                                         )}
                                                         {header.column.getIsSorted() ? (
                                                             header.column.getIsSorted() === 'desc' ? (
-                                                                <ArrowDownward className={classes.sortIcon} />
+                                                                <SortDownIcon />
                                                             ) : (
-                                                                <ArrowUpward className={classes.sortIcon} />
+                                                                <SortUpIcon />
                                                             )
                                                         ) : null}
                                                     </Box>
@@ -567,7 +543,7 @@ const LocationItemReport = () => {
                                 <tbody>
                                     {table.getRowModel().rows.map((row) => (
                                         <React.Fragment key={row.id}>
-                                            <tr className={row.getIsExpanded() ? classes.expandedRow : ''}>
+                                            <DataRow expanded={row.getIsExpanded()}>
                                                 {row.getVisibleCells().map((cell) => (
                                                     <td key={cell.id}>
                                                         {flexRender(
@@ -576,12 +552,12 @@ const LocationItemReport = () => {
                                                         )}
                                                     </td>
                                                 ))}
-                                            </tr>
+                                            </DataRow>
                                             {row.getIsExpanded() && (
                                                 <tr>
                                                     <td colSpan={row.getVisibleCells().length} style={{ padding: 0 }}>
                                                         <Collapse in={row.getIsExpanded()} timeout="auto" unmountOnExit>
-                                                            <Box className={classes.detailContainer}>
+                                                            <DetailContainer>
                                                                 <Typography variant="h6" style={{ marginBottom: 16, color: '#667eea', fontWeight: 600 }}>
                                                                     รายละเอียดสินค้าใน {row.original.loc_group}
                                                                 </Typography>
@@ -590,7 +566,7 @@ const LocationItemReport = () => {
                                                                         <CircularProgress size={40} style={{ color: '#667eea' }} />
                                                                     </Box>
                                                                 ) : detailData[row.original.loc_group] && detailData[row.original.loc_group].length > 0 ? (
-                                                                    <table className={classes.detailTable}>
+                                                                    <DetailTable>
                                                                         <thead>
                                                                             <tr>
                                                                                 <th>Item</th>
@@ -607,13 +583,13 @@ const LocationItemReport = () => {
                                                                                 </tr>
                                                                             ))}
                                                                         </tbody>
-                                                                    </table>
+                                                                    </DetailTable>
                                                                 ) : (
                                                                     <Typography style={{ textAlign: 'center', color: '#a0aec0', padding: 16 }}>
                                                                         ไม่มีข้อมูลรายละเอียด
                                                                     </Typography>
                                                                 )}
-                                                            </Box>
+                                                            </DetailContainer>
                                                         </Collapse>
                                                     </td>
                                                 </tr>
@@ -621,23 +597,23 @@ const LocationItemReport = () => {
                                         </React.Fragment>
                                     ))}
                                 </tbody>
-                            </table>
+                            </ReportTable>
 
                             {/* Pagination */}
-                            <Box className={classes.pagination}>
-                                <Typography className={classes.paginationText}>
+                            <Pagination>
+                                <PaginationText>
                                     Showing {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} to{' '}
                                     {Math.min(
                                         (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
                                         table.getFilteredRowModel().rows.length
                                     )}{' '}
                                     of {table.getFilteredRowModel().rows.length} entries
-                                </Typography>
+                                </PaginationText>
 
-                            </Box>
-                        </div>
+                            </Pagination>
+                        </TableContainer>
                     ) : (
-                        <Box className={classes.emptyState}>
+                        <EmptyState>
                             {loading ? (
                                 <>
                                     <CircularProgress size={60} style={{ color: '#667eea' }} />
@@ -650,22 +626,21 @@ const LocationItemReport = () => {
                                     No data available
                                 </Typography>
                             )}
-                        </Box>
+                        </EmptyState>
                     )}
-                </div>
-            </Card>
+                </ContentWrapper>
+            </ReportCard>
 
             {/* Floating Button to Collapse All */}
             {Object.keys(expanded).length > 0 && (
-                <Button
-                    className={classes.floatingButton}
+                <FloatingButton
                     onClick={() => setExpanded({})}
                     startIcon={<UnfoldLess />}
                 >
                     Back to Summary
-                </Button>
+                </FloatingButton>
             )}
-        </div>
+        </Root>
     );
 };
 

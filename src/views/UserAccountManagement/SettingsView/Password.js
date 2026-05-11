@@ -1,23 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  TextField,
-  makeStyles
-} from '@material-ui/core';
+import { Box, Button, Card, CardContent, CardHeader, Divider, TextField } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
-const useStyles = makeStyles(({
-  root: {}
-}));
+const RootForm = styled('form')({});
 
 const Password = ({ className, ...rest }) => {
-  const classes = useStyles();
   const [values, setValues] = useState({
     password: '',
     confirm: ''
@@ -31,8 +20,8 @@ const Password = ({ className, ...rest }) => {
   };
 
   return (
-    <form
-      className={clsx(classes.root, className)}
+    <RootForm
+      className={clsx(className)}
       {...rest}
     >
       <Card>
@@ -77,7 +66,7 @@ const Password = ({ className, ...rest }) => {
           </Button>
         </Box>
       </Card>
-    </form>
+    </RootForm>
   );
 };
 

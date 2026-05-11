@@ -1,10 +1,11 @@
 import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import { useTheme } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -23,32 +24,30 @@ const tutorialSteps = [
     },
 ];
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        maxWidth: '100vw',
-        flexGrow: 1,
-        textAlign:'center',
-        minHeight:'80vh'
-    },
-    header: {
-        display: 'flex',
-        alignItems: 'center',
-        height: 50,
-        paddingLeft: theme.spacing(4),
-        backgroundColor: theme.palette.background.default,
-    },
-    img: {
-        height: '70vh',
-        display: 'block',
-        maxWidth: '96vw',
-        overflow: 'hidden',
-        width: '100%',
+const Root = styled('div')({
+    maxWidth: '100vw',
+    flexGrow: 1,
+    textAlign:'center',
+    minHeight:'80vh'
+});
 
-    },
+const HeaderPaper = styled(Paper)(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    height: 50,
+    paddingLeft: theme.spacing(4),
+    backgroundColor: theme.palette.background.default,
 }));
 
+const Image = styled('img')({
+    height: '70vh',
+    display: 'block',
+    maxWidth: '96vw',
+    overflow: 'hidden',
+    width: '100%',
+});
+
 function PresentationPageEnd() {
-    const classes = useStyles();
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
     const maxSteps = tutorialSteps.length;
@@ -66,10 +65,10 @@ function PresentationPageEnd() {
     };
 
     return (
-        <div className={classes.root}>
-            <Paper square elevation={0} className={classes.header}>
+        <Root>
+            <HeaderPaper square elevation={0}>
             <Typography variant="h1" component="h2"></Typography>
-            </Paper>
+            </HeaderPaper>
             
             <Grid style={{alignSelf:'center',textAlign:'center'}}>
                 <AutoPlaySwipeableViews
@@ -81,7 +80,7 @@ function PresentationPageEnd() {
                     {tutorialSteps.map((step, index) => (
                         <div key={step.label} style={{textAlign: '-webkit-center'}}>
                             {Math.abs(activeStep - index) <= 2 ? (
-                                <img className={classes.img} src={step.imgPath} alt={step.label} />
+                                <Image src={step.imgPath} alt={step.label} />
                             ) : null}
                         </div>
                     ))}
@@ -105,7 +104,7 @@ function PresentationPageEnd() {
           </Button>
                 }
             /> */}
-        </div>
+        </Root>
     );
 }
 

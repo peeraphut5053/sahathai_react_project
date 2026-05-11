@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardContent, colors, Container, Dialog, DialogTitle, Grid, List, ListItem, ListItemText, makeStyles, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { Button, Card, CardContent, Container, Dialog, DialogTitle, Grid, List, ListItem, ListItemText, Table, TableBody, TableContainer, TableHead, TableRow } from '@mui/material';
+import * as colors from '@mui/material/colors';
 import Page from 'src/components/Page';
 import { isMobile } from "react-device-detect";
 import clsx from 'clsx';
@@ -7,43 +8,31 @@ import { Formik } from 'formik';
 import moment from "moment";
 import CDatePicker from '../../../components/Input/CDatePicker';
 import CButton from '../../../components/Input/CButton';
-import tableIcons from '../../../components/table/tableIcons'
 import API from '../../../components/API';
 import CTextField from '../../../components/Input/CTextField';
-import MaterialTable from 'material-table';
+import DataTable from 'src/components/DataTable';
 import ModalManagementFullPage from 'src/views/components/ModalManagementFullPage';
-import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/styles';
-import TableCell from '@material-ui/core/TableCell';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
+import TableCell from '@mui/material/TableCell';
+import styles from './COItemSummary.module.css';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    minHeight: '100%',
-    paddingBottom: theme.spacing(1),
-    paddingTop: theme.spacing(2)
-  }
-}));
-
-const StyledTableCell = withStyles((theme) => ({
-  head: {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  '&.MuiTableCell-head': {
     backgroundColor: colors.indigo[500],
     color: theme.palette.common.white,
   },
-  body: {
+  '&.MuiTableCell-body': {
     fontSize: 14,
   },
-}))(TableCell);
+}));
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
   },
-}))(TableRow);
+}));
 const ByCOItemQTY = ({ className, ...rest }) => {
-  const classes = useStyles();
   const [data, setdata] = useState([])
   const [dataCoItem, setdataCoItem] = useState([])
 
@@ -146,11 +135,130 @@ const ByCOItemQTY = ({ className, ...rest }) => {
     setOpenModalItemMenuInvItem(false);
   };
 
+  const rowStyle = () => ({
+    fontSize: 12,
+    padding: 0,
+    width: 500,
+    fontFamily: 'sans-serif'
+  });
+
+  const tableHeaderStyle = {
+    backgroundColor: colors.indigo[500],
+    color: '#FFF',
+    padding: '0.1'
+  };
+
+  const tableCellStyle = { padding: '0.1' };
+
+  const detailColumns = [
+    {
+      title: 'Order Date',
+      field: 'order_date.date',
+      type: 'date',
+      render: rowData => moment(rowData.validated_at).format('DD/MM/YYYY')
+    },
+    { title: 'Type', field: 'Type', type: 'string' },
+    { title: 'CO line', field: 'co_line', type: 'numeric' },
+    { title: 'Item', field: 'item', type: 'numeric' },
+    { title: 'Unit', field: 'u_m', type: 'numeric' },
+    {
+      title: 'CO Qty Ordered',
+      field: 'qty_ordered',
+      type: 'numeric',
+      cellStyle: { ...tableCellStyle, backgroundColor: colors.lightBlue[50] }
+    },
+    { title: 'Co Price', field: 'co_price', type: 'numeric' },
+    { title: 'Total Weight', field: 'totalWeight', type: 'numeric' },
+    {
+      title: 'DO Qty Shipped',
+      field: 'qty_shipped',
+      width: 250,
+      cellStyle: { ...tableCellStyle, backgroundColor: colors.lightBlue[50] },
+      render: rowData => (
+        <Button variant="outlined" onClick={() => SelectMenuDoItem(rowData.co_num, rowData.co_line)}>
+          {rowData.qty_shipped}
+        </Button>
+      )
+    },
+    { title: 'DO Price', field: 'do_price', type: 'numeric' },
+    {
+      title: 'Qty Invoiced',
+      field: 'qty_invoiced',
+      width: 250,
+      cellStyle: { ...tableCellStyle, backgroundColor: colors.lightBlue[50] },
+      render: rowData => (
+        <Button variant="outlined" onClick={() => SelectMenuInvItem(rowData.co_num, rowData.co_line)}>
+          {rowData.qty_invoiced}
+        </Button>
+      )
+    },
+    { title: 'Inv Price', field: 'inv_price', type: 'numeric' },
+    { title: 'Inv Weight', field: 'inv_weight', type: 'numeric' },
+    { title: 'Diff CO DO', field: 'Diff_CO_DO', type: 'numeric' },
+  ].map((column) => ({
+    ...column,
+    headerStyle: tableHeaderStyle,
+    cellStyle: {
+      ...tableCellStyle,
+      ...column.cellStyle,
+    },
+  }));
+
+  const summaryColumns = [
+    { title: 'CO Num', field: 'co_num' },
+    {
+      title: 'Order Date',
+      field: 'order_date.date',
+      type: 'date',
+      render: rowData => moment(rowData.validated_at).format('DD/MM/YYYY')
+    },
+    {
+      title: 'CO Age Days',
+      field: 'COage_Days',
+      type: 'numeric',
+    },
+    { title: 'Type', field: 'Type', type: 'string' },
+    { title: 'Created By', field: 'createdby', type: 'string' },
+    { title: 'Cust Num', field: 'cust_num', type: 'string' },
+    { title: 'Cust Name', field: 'cust_name', type: 'string' },
+    {
+      title: 'CO Qty Ordered',
+      field: 'qty_ordered',
+      type: 'numeric',
+      cellStyle: { ...tableCellStyle, backgroundColor: colors.lightBlue[50] }
+    },
+    { title: 'CO price', field: 'co_price', type: 'numeric' },
+    { title: 'Total Weight', field: 'totalWeight', type: 'numeric' },
+    {
+      title: 'DO Qty Shipped',
+      field: 'qty_shipped',
+      type: 'numeric',
+      cellStyle: { ...tableCellStyle, backgroundColor: colors.lightBlue[50] }
+    },
+    { title: 'DO Price', field: 'do_price', type: 'numeric' },
+    {
+      title: 'Qty Invoiced',
+      field: 'qty_invoiced',
+      type: 'numeric',
+      cellStyle: { ...tableCellStyle, backgroundColor: colors.lightBlue[50] }
+    },
+    { title: 'Inv Price', field: 'inv_price', type: 'numeric' },
+    { title: 'Inv Weight', field: 'inv_weight', type: 'numeric' },
+    { title: 'Diff CO DO', field: 'Diff_CO_DO', type: 'numeric' },
+  ].map((column) => ({
+    ...column,
+    headerStyle: tableHeaderStyle,
+    cellStyle: {
+      ...tableCellStyle,
+      ...column.cellStyle,
+    },
+  }));
+
 
 
 
   return (
-    <Page className={classes.root} title="Dashboard" >
+    <Page className={styles.root} title="Dashboard" >
       <Dialog onClose={handleCloseModalItemDo} aria-labelledby="simple-dialog-title" open={openModalItemMenuDoItem}>
         <DialogTitle id="simple-dialog-title">Data</DialogTitle>
         <List>
@@ -181,7 +289,7 @@ const ByCOItemQTY = ({ className, ...rest }) => {
 
             <Grid item xs={12}>
               <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="customized table">
+                <Table aria-label="customized table">
                   <TableHead>
                     <TableRow>
                       <StyledTableCell align="right">Co number</StyledTableCell>
@@ -208,84 +316,17 @@ const ByCOItemQTY = ({ className, ...rest }) => {
                 </Table>
               </TableContainer>
             </Grid>
-            <MaterialTable
-
-              icons={tableIcons}
+            <DataTable
               title={` จำนวนข้อมูล (${dataCoItem.length} รายการ) `}
-              columns={[
-
-
-                {
-                  title: 'Order Date', field: 'order_date.date', type: 'date',
-                  render: rowData => moment(rowData.validated_at).format('DD/MM/YYYY')
-                },
-                { title: 'Type', field: 'Type', type: 'string' },
-                // { title: 'createdby', field: 'createdby', type: 'string' },
-                { title: 'CO line', field: 'co_line', type: 'numeric' },
-                { title: 'Item', field: 'item', type: 'numeric' },
-                { title: 'Unit', field: 'u_m', type: 'numeric' },
-                {
-                  title: 'CO Qty Ordered', field: 'qty_ordered', type: 'numeric',
-                  cellStyle: { backgroundColor: colors.lightBlue[50] }
-                },
-                { title: 'Co Price', field: 'co_price', type: 'numeric' },
-                { title: 'Total Weight', field: 'totalWeight', type: 'numeric' },
-                {
-                  title: 'DO Qty Shipped', field: 'qty_shipped', width: 250, cellStyle: { backgroundColor: colors.lightBlue[50] },
-                  render: rowData =>
-                    <>
-                      <Button variant="outlined" onClick={
-                        // () => handleOpenModalItem(rowData.item)
-                        () => SelectMenuDoItem(rowData.co_num, rowData.co_line)
-
-                      } >{rowData.qty_shipped}</Button>
-                    </>
-                },
-                
-                { title: 'DO Price', field: 'do_price', type: 'numeric' },
-                {
-                  title: 'Qty Invoiced', field: 'qty_invoiced', width: 250, cellStyle: { backgroundColor: colors.lightBlue[50] },
-                  render: rowData =>
-                    <>
-                      <Button variant="outlined" onClick={
-                        // () => handleOpenModalItem(rowData.item)
-                        () => SelectMenuInvItem(rowData.co_num, rowData.co_line)
-                      } >{rowData.qty_invoiced}</Button>
-                    </>
-                },
-                { title: 'Inv Price', field: 'inv_price', type: 'numeric' },
-                { title: 'Inv Weight', field: 'inv_weight', type: 'numeric' },
-                { title: 'Diff CO DO', field: 'Diff_CO_DO', type: 'numeric' },
-              ]}
+              columns={detailColumns}
               data={dataCoItem}
-
-              onRowClick={(event, rowData) => {
-                console.log(event)
-                handleClickSelectDoc(rowData)
-              }}
-
-              options={{
-                headerStyle: {
-                  backgroundColor: colors.indigo[500],
-                  color: '#FFF',
-                  padding: '0.1'
-                },
-                cellStyle: { padding: '0.1' },
-                search: false,
-                paging: false,
-                maxBodyHeight: '60vh',
-                minBodyHeight: '60vh',
-                sorting: false,
-                filtering: false,
-                exportButton: true,
-                rowStyle: rowData => ({
-                  fontSize: 12,
-                  padding: 0,
-                  width: 500,
-                  fontFamily: 'sans-serif'
-                }
-                ),
-              }}
+              onRowClick={handleClickSelectDoc}
+              maxBodyHeight="60vh"
+              search={false}
+              sorting={false}
+              exportButton
+              exportFileName="co-item-detail.csv"
+              rowStyle={rowStyle}
             />
           </>
         }
@@ -296,7 +337,7 @@ const ByCOItemQTY = ({ className, ...rest }) => {
       <Container maxWidth={false}>
         <Grid container spacing={1}>
           <Grid item sm={12} xl={12} xs={12} lg={12} >
-            <Card className={clsx(classes.root, className)} {...rest} style={{ backgroundColor: '#FFFFFF' }} >
+            <Card className={clsx(styles.root, className)} {...rest} style={{ backgroundColor: '#FFFFFF' }} >
               <CardContent >
                 <Grid container spacing={3} >
                   <Grid item style={{ width: '100%', overflowX: "auto" }}>
@@ -400,73 +441,17 @@ const ByCOItemQTY = ({ className, ...rest }) => {
 
 
                   <Grid item style={{ width: '100%', margin: 5, overflowX: "auto" }}>
-                    <MaterialTable
-
-                      icons={tableIcons}
+                    <DataTable
                       title={` CO Item summary (${data.length} รายการ) `}
-                      columns={[
-                        { title: 'CO Num', field: 'co_num' },
-                        {
-                          title: 'Order Date', field: 'order_date.date', type: 'date',
-                          render: rowData => moment(rowData.validated_at).format('DD/MM/YYYY')
-                        },
-                        {
-                          title: 'CO Age Days', field: 'COage_Days', type: 'numeric',
-                        },
-
-                        { title: 'Type', field: 'Type', type: 'string' },
-                        { title: 'Created By', field: 'createdby', type: 'string' },
-                        { title: 'Cust Num', field: 'cust_num', type: 'string' },
-                        { title: 'Cust Name', field: 'cust_name', type: 'string' },
-                        {
-                          title: 'CO Qty Ordered', field: 'qty_ordered', type: 'numeric',
-                          cellStyle: { backgroundColor: colors.lightBlue[50] }
-                        },
-                        { title: 'CO price', field: 'co_price', type: 'numeric' },
-                        { title: 'Total Weight', field: 'totalWeight', type: 'numeric' },
-                        {
-                          title: 'DO Qty Shipped', field: 'qty_shipped', type: 'numeric',
-                          cellStyle: { backgroundColor: colors.lightBlue[50] }
-                        },
-                        { title: 'DO Price', field: 'do_price', type: 'numeric' },
-                        {
-                          title: 'Qty Invoiced', field: 'qty_invoiced', type: 'numeric',
-                          cellStyle: { backgroundColor: colors.lightBlue[50] }
-                        },
-                        { title: 'Inv Price', field: 'inv_price', type: 'numeric' },
-                        { title: 'Inv Weight', field: 'inv_weight', type: 'numeric' },
-                        { title: 'Diff CO DO', field: 'Diff_CO_DO', type: 'numeric' },
-                      ]}
+                      columns={summaryColumns}
                       data={data}
-
-                      onRowClick={(event, rowData) => {
-                        console.log(event)
-                        handleClickSelectDoc(rowData)
-                      }}
-
-                      options={{
-                        headerStyle: {
-                          backgroundColor: colors.indigo[500],
-                          color: '#FFF',
-                          padding: '0.1'
-                        },
-                       
-                        cellStyle: { padding: '0.1' },
-                        search: false,
-                        paging: false,
-                        maxBodyHeight: '60vh',
-                        minBodyHeight: '60vh',
-                        sorting: false,
-                        filtering: false,
-                        exportButton: true,
-                        rowStyle: rowData => ({
-                          fontSize: 12,
-                          padding: 0,
-                          width: 500,
-                          fontFamily: 'sans-serif'
-                        }
-                        ),
-                      }}
+                      onRowClick={handleClickSelectDoc}
+                      maxBodyHeight="60vh"
+                      search={false}
+                      sorting={false}
+                      exportButton
+                      exportFileName="co-item-summary.csv"
+                      rowStyle={rowStyle}
                     />
                   </Grid>
                 </Grid>

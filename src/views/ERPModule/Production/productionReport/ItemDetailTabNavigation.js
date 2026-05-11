@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import { useTheme } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import ItemDetailTabMain from './ItemDetailTabMain';
+import styles from './ProductionReport.module.css';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -42,15 +43,7 @@ function a11yProps(index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-    width: '100%',
-  },
-}));
-
 export default function ItemDetailTabNavigation() {
-  const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
@@ -63,7 +56,7 @@ export default function ItemDetailTabNavigation() {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={styles.tabRoot}>
       <AppBar position="static" color="default">
         <Tabs
           value={value}

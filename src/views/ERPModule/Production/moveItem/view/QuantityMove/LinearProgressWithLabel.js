@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import { styled } from '@mui/material/styles';
+import LinearProgress from '@mui/material/LinearProgress';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 function LinearProgressWithLabel(props) {
     return (
@@ -28,14 +28,11 @@ LinearProgressWithLabel.propTypes = {
     value: PropTypes.number.isRequired,
 };
 
-const useStyles = makeStyles({
-    root: {
-        width: '100%',
-    },
+const Root = styled('div')({
+    width: '100%',
 });
 
 export default function LinearWithValueLabel(props) {
-    const classes = useStyles();
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
@@ -55,8 +52,8 @@ export default function LinearWithValueLabel(props) {
     }, []);
 
     return (
-        <div className={classes.root}>
+        <Root>
             <LinearProgressWithLabel value={progress} />
-        </div>
+        </Root>
     );
 }

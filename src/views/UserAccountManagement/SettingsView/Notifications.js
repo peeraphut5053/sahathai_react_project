@@ -1,34 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Checkbox,
-  Divider,
-  FormControlLabel,
-  Grid,
-  Typography,
-  makeStyles
-} from '@material-ui/core';
+import { Box, Button, Card, CardContent, CardHeader, Checkbox, Divider, FormControlLabel, Grid, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
-const useStyles = makeStyles(({
-  root: {},
-  item: {
-    display: 'flex',
-    flexDirection: 'column'
-  }
-}));
+const RootForm = styled('form')({});
+
+const NotificationGridItem = styled(Grid)({
+  display: 'flex',
+  flexDirection: 'column'
+});
 
 const Notifications = ({ className, ...rest }) => {
-  const classes = useStyles();
-
   return (
-    <form
-      className={clsx(classes.root, className)}
+    <RootForm
+      className={clsx(className)}
       {...rest}
     >
       <Card>
@@ -43,8 +29,7 @@ const Notifications = ({ className, ...rest }) => {
             spacing={6}
             wrap="wrap"
           >
-            <Grid
-              className={classes.item}
+            <NotificationGridItem
               item
               md={4}
               sm={6}
@@ -79,9 +64,8 @@ const Notifications = ({ className, ...rest }) => {
                 )}
                 label="Phone calls"
               />
-            </Grid>
-            <Grid
-              className={classes.item}
+            </NotificationGridItem>
+            <NotificationGridItem
               item
               md={4}
               sm={6}
@@ -110,7 +94,7 @@ const Notifications = ({ className, ...rest }) => {
                 )}
                 label="Phone calls"
               />
-            </Grid>
+            </NotificationGridItem>
           </Grid>
         </CardContent>
         <Divider />
@@ -127,7 +111,7 @@ const Notifications = ({ className, ...rest }) => {
           </Button>
         </Box>
       </Card>
-    </form>
+    </RootForm>
   );
 };
 

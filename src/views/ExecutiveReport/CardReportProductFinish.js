@@ -1,42 +1,25 @@
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {
-  Avatar,
-  Card,
-  CardContent,
-  Grid,
-  Typography,
-  colors,
-  makeStyles
-} from '@material-ui/core';
-import MoneyIcon from '@material-ui/icons/Money';
+import { Avatar, Card, CardContent, Grid, Typography } from '@mui/material';
+import * as colors from '@mui/material/colors';
+import { styled } from '@mui/material/styles';
+import MoneyIcon from '@mui/icons-material/Money';
 import ModalManagementFullPage from '../components/ModalManagementFullPage';
 import ReportProductFinish from '../ERPModule/Production/ReportProductFinish';
 
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: '100%',
+const RootCard = styled(Card)({
+  height: '100%',
+});
 
-  },
-  avatar: {
-    backgroundColor: colors.red[600],
-    height: 56,
-    width: 56
-  },
-  differenceIcon: {
-    color: colors.red[900]
-  },
-  differenceValue: {
-    color: colors.red[900],
-    marginRight: theme.spacing(0)
-  }
-}));
+const ReportAvatar = styled(Avatar)({
+  backgroundColor: colors.red[600],
+  height: 56,
+  width: 56
+});
 
 const CardReportProductFinish = ({ className, ...rest }) => {
-  const classes = useStyles();
-
   const [openModalItem, setOpenModalItem] = React.useState(false);
 
   const handleCloseModalItem = async () => {
@@ -45,8 +28,8 @@ const CardReportProductFinish = ({ className, ...rest }) => {
 
 
   return (
-    <Card
-      className={clsx(classes.root, className)}
+    <RootCard
+      className={clsx(className)}
       {...rest}
     >
       <ModalManagementFullPage
@@ -82,9 +65,9 @@ const CardReportProductFinish = ({ className, ...rest }) => {
             </Typography>
           </Grid>
           <Grid item>
-            <Avatar className={classes.avatar}>
+            <ReportAvatar>
               <MoneyIcon />
-            </Avatar>
+            </ReportAvatar>
           </Grid>
         </Grid>
         {/* <Box
@@ -108,7 +91,7 @@ const CardReportProductFinish = ({ className, ...rest }) => {
           </Typography>
         </Box> */}
       </CardContent>
-    </Card>
+    </RootCard>
   );
 };
 

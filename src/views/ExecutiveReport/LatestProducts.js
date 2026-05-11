@@ -1,42 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {
-  Box,
-  Button,
-  Card,
-  CardHeader,
-  Divider,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  makeStyles,
-  useTheme
-} from '@material-ui/core';
-
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import { Box, Button, Card, CardHeader, Divider, List, ListItem, ListItemAvatar, ListItemText, useTheme } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import API from '../components/API';
 
 
 
 
-const useStyles = makeStyles(({
-  root: {
-    height: '100%'
-  },
-  image: {
-    height: 120,
-    width: 120
-  },
+const RootCard = styled(Card)({
+  height: '100%'
+});
 
-}));
+const RootList = styled(List)({
+  height: '100%'
+});
+
+const ProductImage = styled('img')({
+  height: 120,
+  width: 120
+});
 
 
 
 const LatestProducts = ({ className, ...rest }) => {
-  const classes = useStyles();
-
   const theme = useTheme();
 
 
@@ -92,8 +80,8 @@ const LatestProducts = ({ className, ...rest }) => {
 
 
   return (
-    <Card
-      className={clsx(classes.root, className)}
+    <RootCard
+      className={clsx(className)}
       {...rest}
       style={{
         maxHeight: '100%',
@@ -111,10 +99,10 @@ const LatestProducts = ({ className, ...rest }) => {
       <List>
         <ListItem>
           <ListItemAvatar>
-            <img alt="Product" className={classes.image} src={'/static/images/products/coil.jpg'} />
+            <ProductImage alt="Product" src={'/static/images/products/coil.jpg'} />
           </ListItemAvatar>
 
-          <List component="nav" className={classes.root} aria-label="mailbox folders">
+          <RootList component="nav" aria-label="mailbox folders">
             <ListItem button>
               <ListItemText primary="Coil" />
             </ListItem>
@@ -126,7 +114,7 @@ const LatestProducts = ({ className, ...rest }) => {
                 </ListItem>
               </>
             )}
-          </List>
+          </RootList>
         </ListItem>
       </List>
       <Divider />
@@ -134,10 +122,10 @@ const LatestProducts = ({ className, ...rest }) => {
       <List>
         <ListItem>
           <ListItemAvatar>
-            <img alt="Product" className={classes.image} src={'/static/images/products/strip.jpg'} />
+            <ProductImage alt="Product" src={'/static/images/products/strip.jpg'} />
           </ListItemAvatar>
 
-          <List component="nav" className={classes.root} aria-label="mailbox folders">
+          <RootList component="nav" aria-label="mailbox folders">
             <ListItem button>
               <ListItemText primary="Strip" />
             </ListItem>
@@ -149,7 +137,7 @@ const LatestProducts = ({ className, ...rest }) => {
                 </ListItem>
               </>
             )}
-          </List>
+          </RootList>
         </ListItem>
       </List>
       <Divider />
@@ -157,10 +145,10 @@ const LatestProducts = ({ className, ...rest }) => {
       <List>
         <ListItem>
           <ListItemAvatar>
-            <img alt="Product" className={classes.image} src={'/static/images/products/processingPipe.jpg'} />
+            <ProductImage alt="Product" src={'/static/images/products/processingPipe.jpg'} />
           </ListItemAvatar>
 
-          <List component="nav" className={classes.root} aria-label="mailbox folders">
+          <RootList component="nav" aria-label="mailbox folders">
             <ListItem button>
               <ListItemText primary="Processing Pipe" />
             </ListItem>
@@ -172,7 +160,7 @@ const LatestProducts = ({ className, ...rest }) => {
                 </ListItem>
               </>
             )}
-          </List>
+          </RootList>
 
         </ListItem>
       </List>
@@ -180,10 +168,10 @@ const LatestProducts = ({ className, ...rest }) => {
       <List>
         <ListItem>
           <ListItemAvatar>
-            <img alt="Product" className={classes.image} src={'/static/images/products/packing.jpg'} />
+            <ProductImage alt="Product" src={'/static/images/products/packing.jpg'} />
           </ListItemAvatar>
 
-          <List component="nav" className={classes.root} aria-label="mailbox folders">
+          <RootList component="nav" aria-label="mailbox folders">
             <ListItem button>
               <ListItemText primary="Finished Pipe (all category)" />
             </ListItem>
@@ -195,7 +183,7 @@ const LatestProducts = ({ className, ...rest }) => {
                 </ListItem>
               </>
             )}
-          </List>
+          </RootList>
 
         </ListItem>
       </List>
@@ -204,9 +192,9 @@ const LatestProducts = ({ className, ...rest }) => {
       {/* <List>
         <ListItem>
           <ListItemAvatar>
-            <img alt="Product" className={classes.image} src={'/static/images/products/packing2.jpg'} />
+            <ProductImage alt="Product" src={'/static/images/products/packing2.jpg'} />
           </ListItemAvatar>
-          <List component="nav" className={classes.root} aria-label="mailbox folders">
+          <RootList component="nav" aria-label="mailbox folders">
             <ListItem button>
               <ListItemText primary="Finished Bare Pipe" />
             </ListItem>
@@ -218,17 +206,17 @@ const LatestProducts = ({ className, ...rest }) => {
                 </ListItem>
               </>
             )}
-          </List>
+          </RootList>
         </ListItem>
       </List>
       <Divider />
 
       <List>
         <ListItem>
-          <ListItemAvatar variant="rounded" className={classes.rounded}>
-            <img alt="Product" className={classes.image} src={'/static/images/products/packing3.jpg'} />
+          <ListItemAvatar variant="rounded">
+            <ProductImage alt="Product" src={'/static/images/products/packing3.jpg'} />
           </ListItemAvatar>
-          <List component="nav" className={classes.root} aria-label="mailbox folders">
+          <RootList component="nav" aria-label="mailbox folders">
             <ListItem button>
               <ListItemText primary="Finished Governor Pipe" />
             </ListItem>
@@ -240,7 +228,7 @@ const LatestProducts = ({ className, ...rest }) => {
                 </ListItem>
               </>
             )}
-          </List>
+          </RootList>
         </ListItem>
       </List> */}
 
@@ -260,7 +248,7 @@ const LatestProducts = ({ className, ...rest }) => {
           View all
         </Button>
       </Box>
-    </Card>
+    </RootCard>
   );
 };
 

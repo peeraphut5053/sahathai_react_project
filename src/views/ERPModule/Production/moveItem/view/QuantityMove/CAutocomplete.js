@@ -1,7 +1,6 @@
-/* eslint-disable no-use-before-define */
-import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+/* eslint-disable no-use-before-define */import React from 'react';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 
 export default function CAutocomplete(props) {
     const onSelectChange = (event, values) => {

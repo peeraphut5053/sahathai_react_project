@@ -1,16 +1,6 @@
 import React, { useState } from 'react';
-import {
-  Container,
-  Grid,
-  Typography,
-  FormGroup,
-  FormControlLabel,
-  MenuItem,
-  Select
-} from '@material-ui/core';
-import moment from 'moment';
-import MaterialTable from 'material-table';
-import tableIcons from '../../../views/components/table/tableIcons';
+import { Container, Grid, Typography, FormGroup, FormControlLabel, MenuItem, Select } from '@mui/material';
+import DataTable from 'src/components/DataTable';
 
 const TableProduction = ({ data }) => {
   const [type, setType] = useState('sumA');
@@ -69,8 +59,7 @@ const TableProduction = ({ data }) => {
       </FormGroup>
       <Grid container spacing={1}>
         <Grid item style={{ width: '100%', margin: 5, overflowX: 'auto' }}>
-          <MaterialTable
-            icons={tableIcons}
+          <DataTable
             title={title}
             columns={[
               { title: 'wcGroup', field: 'wcGroup', type: 'string' },
@@ -232,25 +221,13 @@ const TableProduction = ({ data }) => {
               }
             ]}
             data={newData}
-            options={{
-              search: true,
-              paging: false,
-              sorting: false,
-              filtering: false,
-              exportButton: true,
-              doubleHorizontalScroll: true,
-              maxBodyHeight: '60vh',
-              minBodyHeight: '60vh',
-              headerStyle: {
-                backgroundColor: '#039be5',
-                color: '#FFF',
-                textAlign: 'center'
-              },
-              cellStyle: {
-                textAlign: 'center',
-                fontSize: '14px',
-                padding: '10px'
-              }
+            search
+            sorting={false}
+            exportButton
+            maxBodyHeight="60vh"
+            minBodyHeight="60vh"
+            rowStyle={{
+              fontSize: '14px',
             }}
           />
         </Grid>

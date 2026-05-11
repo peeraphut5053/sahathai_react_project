@@ -1,41 +1,36 @@
 import React from 'react'
-import MaterialTable from 'material-table'
-import tableIcons from './tableIcons'
+import DataTable from 'src/components/DataTable'
 
 function MatTable(props) {
+    const columns = [
+        { title: 'id', field: 'id' },
+        { title: 'lot', field: 'lot', minWidth: 200 },
+        { title: 'From loc', field: 'loc', minWidth: 100 },
+        { title: 'item', field: 'item', minWidth: 300 },
+        { title: 'qty', field: 'qty1', type: 'numeric' },
+        { title: 'unit', field: 'u_m' },
+    ].map((column) => ({
+        ...column,
+        headerStyle: { padding: '0.1' },
+        cellStyle: { padding: '0.1' },
+    }));
+
+    const rowStyle = () => ({
+        fontSize: 12,
+        padding: 0,
+        width: 500,
+        fontFamily: 'sans-serif'
+    });
 
     return (
-        <MaterialTable
-            style={{ width: '100%', margin: 5, overflowX: "scroll" }}
-            icons={tableIcons}
+        <DataTable
             title={"Quantity Move List : " + props.qtyMoveList.length + " รายการ"}
-            columns={[
-                { title: 'id', field: 'id' },
-                { title: 'lot', field: 'lot', width: 200 },
-                { title: 'From loc', field: 'loc', width: 100 },
-                { title: 'item', field: 'item', width: 300 },
-                { title: 'qty', field: 'qty1', type: 'numeric' },
-                { title: 'unit', field: 'u_m' },
-            ]}
+            columns={columns}
             data={props.qtyMoveList}
-            options={{
-                cellStyle: { padding: '0.1' },
-                headerStyle: { padding: '0.1' },
-                search: false,
-                paging: false,
-                maxBodyHeight: '50vh',
-                minBodyHeight: '50vh',
-                rowStyle: rowData => ({
-                    // backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
-                    fontSize: 12,
-                    padding: 0,
-                    width: 500,
-                    fontFamily: 'sans-serif'
-                  }
-                  ),
-            }}
-
-            
+            maxBodyHeight="50vh"
+            search={false}
+            sorting
+            rowStyle={rowStyle}
         />
     )
 }

@@ -1,60 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import {
-  colors,
-  Container,
-  Grid,
-  makeStyles
-} from '@material-ui/core';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Container, Grid } from '@mui/material';
+import * as colors from '@mui/material/colors';
 import Page from 'src/components/Page';
-import MaterialTable, { MTableToolbar } from 'material-table';
-import tableIcons from 'src/views/components/table/tableIcons';
+import DataTable from 'src/components/DataTable';
 import API from 'src/views/components/API';
 import MenuChip from './MenuChip';
-import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/core'
 import moment from "moment";
-
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    minHeight: '100%',
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
-  }
-}));
+import styles from './ReportProductForming.module.css';
 
 
 const ReportProductForming = () => {
-  const classes = useStyles();
   const [DataReportProductForming, setDataReportProductForming] = useState([])
 
 
-  const searchReportProductForming = () => {
-
-    API.get(`API_ExecutiveReport/data.php?load=ReportProductForming`)
-      .then(res => {
-        setDataReportProductForming(addTotal(res.data))
-
-      })
-  }
-
-  useEffect(() => {
-    searchReportProductForming()
-  }, [])
-
-
-  const theme = createMuiTheme({
-    overrides: {
-      MuiTableCell: {
-        root: {
-          padding: '10px 10px',
-        },
-      },
-    },
-  });
-
-
-  const addTotal = (data) => {
+  const addTotal = useCallback((data) => {
     let keys = Object.keys(data[0]);
     let totalRow = {};
     let emptyRow = {};
@@ -86,23 +45,35 @@ const ReportProductForming = () => {
       emptyRow[key] = '';
     }
     return [...data, emptyRow, totalRow];
-  }
+  }, [])
+
+
+  const searchReportProductForming = useCallback(() => {
+
+    API.get(`API_ExecutiveReport/data.php?load=ReportProductForming`)
+      .then(res => {
+        setDataReportProductForming(addTotal(res.data))
+
+      })
+  }, [addTotal])
+
+  useEffect(() => {
+    searchReportProductForming()
+  }, [searchReportProductForming])
 
 
   return (
     <Page
-      className={classes.root}
+      className={styles.root}
       title="Dashboard"
     >
 
       <Container maxWidth={false}>
         <Grid container spacing={0} >
           <Grid item xs={12}>
-            <ThemeProvider theme={theme}>
-              <MaterialTable
+              <DataTable
                 title={"รายงานอายุสินค้าระหว่างผลิต  (" + moment().subtract(12, 'months').format("YYYY-MM-DD HH:mm:ss") + ")"}
 
-                icons={tableIcons}
                 columns={[
                   {
                     title: 'ผลิตเสร็จแล้ว', field: 'แผนก', width: 200,
@@ -171,11 +142,8 @@ const ReportProductForming = () => {
                   },
                 ]}
                 data={DataReportProductForming}
-                components={{
-                  Toolbar: props => (
-                    <div>
-                      <MTableToolbar {...props} />
-                      <div style={{ padding: '0px 10px' }}>
+                toolbar={(
+                      <div className={styles.menuToolbar}>
                         <MenuChip label="Today" daystart="0" dayend="0" />
                         <MenuChip label="1-7 วัน" daystart="1" dayend="7" />
                         <MenuChip label="8-14 วัน" daystart="8" dayend="14" />
@@ -186,45 +154,21 @@ const ReportProductForming = () => {
                         <MenuChip label="366-730 วัน" daystart="366" dayend="730" />
                         <MenuChip label="มากกว่า 2 ปี" daystart="731" dayend="3000" />
                       </div>
-                    </div>
-                  ),
-                }}
-
-                options={{
-
-                  cellStyle: { padding: '0.0' },
-                  headerStyle: { padding: '0.1' },
-                  search: false,
-                  paging: false,
-                  maxBodyHeight: '66vh',
-                  minBodyHeight: '66vh',
-                  sorting: false,
-                  // width: '100vw',
-                  exportButton: true,
-                  filtering: false,
-                  rowStyle: rowData => ({
-                    // backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
-                    fontSize: 14,
-                    padding: 0,
-                    width: 500,
-                    fontFamily: 'sans-serif'
-                  }
-                  ),
-                }}
-
-
-                renderSummaryRow={({ data, index, columns }) => {
-                  switch (index) {
-                    case 0:
-                      return `Total times used: ${data.length}`;
-                    case columns.length - 1:
-                      return `500`;
-                    default:
-                      return null;
-                  }
+                )}
+                search={false}
+                sorting={false}
+                exportButton
+                maxBodyHeight="66vh"
+                minBodyHeight="66vh"
+                cellStyle={{ padding: '10px' }}
+                headerStyle={{ padding: '10px' }}
+                rowStyle={{
+                  fontSize: 14,
+                  padding: 0,
+                  width: 500,
+                  fontFamily: 'sans-serif'
                 }}
               />
-            </ThemeProvider>
 
           </Grid>
 

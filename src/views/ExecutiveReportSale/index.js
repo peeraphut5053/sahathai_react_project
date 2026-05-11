@@ -1,26 +1,19 @@
 import React, { useEffect } from 'react';
-import {
-  Container,
-  Grid,
-  makeStyles
-} from '@material-ui/core';
+import { Container, Grid } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import Page from 'src/components/Page';
 import CardReportCO from './CardReportCO';
 import { isMobile } from "react-device-detect";
 
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    minHeight: '100%',
-    paddingBottom: theme.spacing(1),
-    paddingTop: theme.spacing(2)
-  }
+const RootPage = styled(Page)(({ theme }) => ({
+  backgroundColor: theme.palette.background.dark,
+  minHeight: '100%',
+  paddingBottom: theme.spacing(1),
+  paddingTop: theme.spacing(2)
 }));
 
 const ExecutiveReportSale = () => {
-  const classes = useStyles();
-
   useEffect(() => {
 
 
@@ -36,8 +29,7 @@ const ExecutiveReportSale = () => {
 
 
   return (
-    <Page
-      className={classes.root}
+    <RootPage
       title="Dashboard"
     >
       {/* {isMobile ? <h2>Mobile</h2> : <h2>Desktop</h2>} */}
@@ -53,7 +45,7 @@ const ExecutiveReportSale = () => {
           </Grid>
         </Grid>
       </Container>
-    </Page>
+    </RootPage>
   );
 };
 

@@ -1,4 +1,4 @@
-import pdfMake from "pdfmake/build/pdfmake";
+import pdfMake from 'src/utils/pdfMake';
 import { showMatlUsed, convertAllLotReport,workcenterHeader, dateFormatReport,fontsReport } from './function/GroupLot';
 import { logo } from './function/logo'
 

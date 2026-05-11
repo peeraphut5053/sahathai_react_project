@@ -1,0 +1,14 @@
+.root {
+  width: 100%;
+}
+
+.content {
+  padding: 12px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 0 8px;
+}

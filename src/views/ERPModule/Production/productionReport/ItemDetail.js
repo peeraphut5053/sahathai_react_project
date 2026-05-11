@@ -1,27 +1,11 @@
 import React from 'react';
-import { Grid, makeStyles, Paper } from '@material-ui/core';
+import { Grid, Paper } from '@mui/material';
 import CTextField from '../../../components/Input/CTextField';
 import ItemDetailTabNavigation from './ItemDetailTabNavigation';
-
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(0),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-}));
-
+import styles from './ProductionReport.module.css';
 
 
 const ItemDetail = (props) => {
-
-  
-  const classes = useStyles();
-
   return (
     <Paper style={{ height: '100%', width: '100%', marginTop: 20, padding: 20 }}>
       <Grid container spacing={3}>
@@ -43,7 +27,7 @@ const ItemDetail = (props) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <Paper className={classes.paper}>
+          <Paper className={styles.detailPaperCompact}>
             <ItemDetailTabNavigation />
           </Paper>
         </Grid>

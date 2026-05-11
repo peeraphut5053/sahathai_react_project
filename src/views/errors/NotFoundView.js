@@ -1,35 +1,26 @@
 import React from 'react';
-import {
-  Box,
-  Container,
-  Typography,
-  makeStyles,
-  Button
-} from '@material-ui/core';
+import { Box, Container, Typography, Button } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import Page from 'src/components/Page';
 import { Link as RouterLink } from 'react-router-dom';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    height: '100%',
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
-  },
-  image: {
-    marginTop: 50,
-    display: 'inline-block',
-    maxWidth: '100%',
-    width: 560
-  }
+const RootPage = styled(Page)(({ theme }) => ({
+  backgroundColor: theme.palette.background.dark,
+  height: '100%',
+  paddingBottom: theme.spacing(3),
+  paddingTop: theme.spacing(3)
 }));
 
-const NotFoundView = () => {
-  const classes = useStyles();
+const Image = styled('img')({
+  marginTop: 50,
+  display: 'inline-block',
+  maxWidth: '100%',
+  width: 560
+});
 
+const NotFoundView = () => {
   return (
-    <Page
-      className={classes.root}
+    <RootPage
       title="404"
     >
 
@@ -62,16 +53,15 @@ const NotFoundView = () => {
           </Typography>
 
           <Box textAlign="center">
-            <img
+            <Image
               alt="Under development"
-              className={classes.image}
               src="/static/images/undraw_page_not_found_su7k.svg"
             />
           </Box>
 
         </Container>
       </Box>
-    </Page>
+    </RootPage>
   );
 };
 

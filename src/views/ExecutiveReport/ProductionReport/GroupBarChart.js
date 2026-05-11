@@ -1,21 +1,9 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
-import clsx from 'clsx';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Bar } from 'react-chartjs-2';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  useTheme,
-  Divider,
-  makeStyles,
-  Grid,
-  Typography
-} from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import {   Box, Button, Card, CardContent, CardHeader, useTheme, Divider, Grid, Typography } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import Select from 'react-select';
 import API from 'src/views/components/API';
 import moment from 'moment';
@@ -24,14 +12,10 @@ import PieChart from './PieChart';
 import ModalManagementFullPage from 'src/views/components/ModalManagementFullPage';
 import TableDetail from './TableDetail';
 import TableDailyWorkCenter from './TableDailyWorkCenter';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ParetoChart from './ParetoChart';
 import TableFormingStop from './TableFormingStop';
 import { addComma } from 'src/utils/getInitials';
-
-const useStyles = makeStyles(() => ({
-  root: {}
-}));
 
 const label = [
   {
@@ -131,7 +115,6 @@ const GroupBarChart = ({ className, ...rest }) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [groupBy, setGroupBy] = useState('Forming');
   const [month, setMonth] = useState(moment().format('YYYY-MM'));
-  const classes = useStyles();
   const theme = useTheme();
 
   const { data, isLoading, error } = useQuery({
@@ -503,7 +486,7 @@ const GroupBarChart = ({ className, ...rest }) => {
         onClose={() => setOpenDetail(false)}
         modalDetail={<TableDailyWorkCenter />}
       />
-      <Card className={clsx(classes.root, className)} {...rest}>
+      <Card className={className} {...rest}>
         <CardHeader
           action={
             <DateMonthPicker

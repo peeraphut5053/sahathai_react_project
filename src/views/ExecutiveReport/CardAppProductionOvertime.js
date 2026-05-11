@@ -1,32 +1,24 @@
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {
-  Avatar,
-  Card,
-  CardContent,
-  Grid,
-  Typography,
-  makeStyles,
-  colors,
-} from '@material-ui/core';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import { Avatar, Card, CardContent, Grid, Typography } from '@mui/material';
+import * as colors from '@mui/material/colors';
+import { styled } from '@mui/material/styles';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import ModalManagement from '../components/ModalManagement';
 
 
-const useStyles = makeStyles(() => ({
-  root: {
-    height: '100%'
-  },
-  avatar: {
-    backgroundColor: colors.indigo[600],
-    height: 56,
-    width: 56
-  }
-}));
+const RootCard = styled(Card)({
+  height: '100%'
+});
+
+const ReportAvatar = styled(Avatar)({
+  backgroundColor: colors.indigo[600],
+  height: 56,
+  width: 56
+});
 
 const CardAppProductionOvertime = ({ className, ...rest }) => {
-  const classes = useStyles();
   const [openModalItem, setOpenModalItem] = React.useState(false);
 
   const handleCloseModalItem = async () => {
@@ -38,8 +30,8 @@ const CardAppProductionOvertime = ({ className, ...rest }) => {
     window.open(url, '_blank');
   }
   return (
-    <Card
-      className={clsx(classes.root, className)}
+    <RootCard
+      className={clsx(className)}
       {...rest}
     >
       <ModalManagement
@@ -77,9 +69,9 @@ const CardAppProductionOvertime = ({ className, ...rest }) => {
             </Typography>
           </Grid>
           <Grid item>
-            <Avatar className={classes.avatar}>
+            <ReportAvatar>
               <AttachMoneyIcon />
-            </Avatar>
+            </ReportAvatar>
           </Grid>
         </Grid>
         {/* <Box mt={3}>
@@ -89,7 +81,7 @@ const CardAppProductionOvertime = ({ className, ...rest }) => {
           />
         </Box> */}
       </CardContent>
-    </Card>
+    </RootCard>
   );
 };
 

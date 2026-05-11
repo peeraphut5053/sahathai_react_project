@@ -1,20 +1,9 @@
 import React, { useState } from 'react';
-import {
-    Button,
-    Container,
-    Grid,
-    Typography,
-    Checkbox,
-    FormGroup,
-    FormControlLabel,
-    FormControl,
-    FormLabel,
-} from '@material-ui/core';
+import { Button, Container, Grid, Typography, Checkbox, FormGroup, FormControlLabel, FormControl, FormLabel } from '@mui/material';
 import { Formik } from 'formik';
-import tableIcons from '../../../components/table/tableIcons';
 import API from '../../../components/API';
-import MaterialTable from 'material-table';
 import { toast } from 'react-toastify';
+import DataTable from 'src/components/DataTable';
 import CTextField from 'src/views/components/Input/CTextField';
 
 const JobReport = () => {
@@ -40,6 +29,82 @@ const JobReport = () => {
             default: return stat;
         }
     };
+
+    const columns = [
+        {
+            title: 'job',
+            field: 'job',
+            type: 'string',
+        },
+        {
+            title: 'item',
+            field: 'item',
+            type: 'string',
+        },
+        {
+            title: 'wc',
+            field: 'wc',
+            type: 'string',
+        },
+        {
+            title: 'qty_released',
+            field: 'qty_released',
+            type: 'string',
+        },
+        {
+            title: 'qty_complete',
+            field: 'qty_complete',
+            type: 'string',
+        },
+        {
+            title: 'qty_mat',
+            field: 'qty_mat',
+            type: 'string',
+        },
+        {
+            title: 'Diff',
+            field: 'Diff',
+            type: 'string',
+        },
+        {
+            title: 'qty_pur',
+            field: 'qty_pur',
+            type: 'string',
+        },
+        {
+            title: 'weight_complete',
+            field: 'weight_complete',
+            type: 'string',
+        },
+        {
+            title: 'weight_mat',
+            field: 'weight_mat',
+            type: 'string',
+        },
+        {
+            title: 'Diff Weight',
+            field: 'diff_weight',
+            type: 'string',
+        },
+        {
+            title: 'stat',
+            field: 'stat',
+            type: 'string',
+        },
+    ].map((column) => ({
+        ...column,
+        headerStyle: {
+            backgroundColor: '#039be5',
+            color: '#FFF',
+            whiteSpace: 'nowrap',
+            textAlign: 'center',
+        },
+        cellStyle: {
+            textAlign: 'center',
+            fontSize: '14px',
+            whiteSpace: 'nowrap',
+        },
+    }));
 
     return (
         <Container maxWidth={false}>
@@ -206,94 +271,17 @@ const JobReport = () => {
                             </Formik>
                         </Grid>
                         <Grid item style={{ width: '100%', margin: 5, overflowX: 'auto' }}>
-                            <MaterialTable
-                                icons={tableIcons}
+                            <DataTable
                                 title={`Job Report (${data.length} รายการ) `}
-                                columns={[
-                                    {
-                                        title: 'job',
-                                        field: 'job',
-                                        type: 'string',
-                                    },
-                                    {
-                                        title: 'item',
-                                        field: 'item',
-                                        type: 'string',
-                                    },
-                                    {
-                                        title: 'wc',
-                                        field: 'wc',
-                                        type: 'string',
-                                    },
-                                    {
-                                        title: 'qty_released',
-                                        field: 'qty_released',
-                                        type: 'string',
-                                    },
-                                    {
-                                        title: 'qty_complete',
-                                        field: 'qty_complete',
-                                        type: 'string',
-                                    },
-                                    {
-                                        title: 'qty_mat',
-                                        field: 'qty_mat',
-                                        type: 'string',
-                                    },
-                                    {
-                                        title: 'qty_pur',
-                                        field: 'qty_pur',
-                                        type: 'string',
-                                    },
-                                    {
-                                        title: 'Diff',
-                                        field: 'Diff',
-                                        type: 'string',
-                                    },
-                                    {
-                                        title: 'weight_complete',
-                                        field: 'weight_complete',
-                                        type: 'string',
-                                    },
-                                    {
-                                        title: 'weight_mat',
-                                        field: 'weight_mat',
-                                        type: 'string',
-                                    },
-                                    {
-                                        title: 'Diff Weight',
-                                        field: 'diff_weight',
-                                        type: 'string',
-                                    },
-                                    {
-                                        title: 'stat',
-                                        field: 'stat',
-                                        type: 'string',
-                                    },
-                                ]}
+                                columns={columns}
                                 data={data}
-                                options={{
-                                    maxBodyHeight: '65vh',
-                                    minBodyHeight: '65vh',
-                                    search: true,
-                                    paging: false,
-                                    sorting: true,
-                                    filtering: false,
-                                    exportButton: true,
-                                    columnsButton: true,
-                                    doubleHorizontalScroll: true,
-                                    headerStyle: {
-                                        backgroundColor: '#039be5',
-                                        color: '#FFF',
-                                        whiteSpace: 'nowrap',
-                                        textAlign: 'center'
-                                    },
-                                    cellStyle: {
-                                        textAlign: 'center',
-                                        fontSize: '14px',
-                                        whiteSpace: 'nowrap',
-                                    },
-                                }}
+                                isLoading={loading}
+                                maxBodyHeight="65vh"
+                                search
+                                sorting
+                                exportButton
+                                columnsButton
+                                exportFileName="job-report.csv"
                             />
                         </Grid>
                     </Grid>

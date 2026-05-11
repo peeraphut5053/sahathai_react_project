@@ -1,26 +1,19 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Filter1Icon from '@material-ui/icons/Filter1';
-import Filter2Icon from '@material-ui/icons/Filter2';
-import Filter3Icon from '@material-ui/icons/Filter3';
-
-import {
-    Chip,
-} from '@material-ui/core';
+import { styled } from '@mui/material/styles';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Filter1Icon from '@mui/icons-material/Filter1';
+import Filter2Icon from '@mui/icons-material/Filter2';
+import Filter3Icon from '@mui/icons-material/Filter3';
+import { Chip } from '@mui/material';
 import ModalNopaperLGPage from 'src/views/components/ModalNopaperLGPage';
 import STS_execRpt_W_byType_Live from './STS_execRpt_W_byType_Live';
 import STS_execRpt_W_bySize_Live from './STS_execRpt_W_bySize_Live';
 import STS_execRpt_W_bySizeType_Live from './STS_execRpt_W_bySizeType_Live';
 
-const StyledMenu = withStyles({
-    paper: {
-        border: '1px solid #d3d4d5',
-    },
-})((props) => (
+const StyledMenu = styled((props) => (
     <Menu
         elevation={0}
         getContentAnchorEl={null}
@@ -34,18 +27,20 @@ const StyledMenu = withStyles({
         }}
         {...props}
     />
-));
+))({
+    '& .MuiPaper-root': {
+        border: '1px solid #d3d4d5',
+    },
+});
 
-const StyledMenuItem = withStyles((theme) => ({
-    root: {
-        '&:focus': {
-            backgroundColor: theme.palette.primary.main,
-            '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-                color: theme.palette.common.white,
-            },
+const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+    '&:focus': {
+        backgroundColor: theme.palette.primary.main,
+        '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+            color: theme.palette.common.white,
         },
     },
-}))(MenuItem);
+}));
 
 export default function MenuChip(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);

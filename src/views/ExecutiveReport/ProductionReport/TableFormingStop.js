@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Container, Typography } from '@material-ui/core';
+import { Container } from '@mui/material';
 import { useQuery } from 'react-query';
 import moment from 'moment';
 import API from 'src/views/components/API';
@@ -70,11 +70,28 @@ const PARETO2_REASONS = [
     'อื่น ๆ',
 ];
 
+const WANG_NOI_FORMING_WC = ['W2FM02', 'W2FM04', 'W2FM07', 'W2FM11', 'W2FMC1'];
+
 // ─── Helpers ───
-function hhmmToHours(str) {
-    if (!str || str === '00:00') return 0;
-    const [h, m] = String(str).split(':').map(Number);
-    return (h || 0) + (m || 0) / 60;
+function timeRangeToHours(str, wc) {
+    if (!str) return 0;
+    const [start, end] = String(str).split('-').map(v => v.trim());
+    if (!start || !end) return 0;
+
+    const toHours = (value) => {
+        const [h, m = 0] = value.replace('.', ':').split(':').map(Number);
+        return (h || 0) + (m || 0) / 60;
+    };
+
+    const startHour = toHours(start);
+    const endHour = toHours(end);
+    const effectiveEndHour = endHour >= startHour ? endHour : endHour + 24;
+    const workHour = effectiveEndHour - startHour;
+
+    if (!WANG_NOI_FORMING_WC.includes(wc)) return workHour;
+
+    const breakHour = effectiveEndHour > 17 ? 1.5 : 1;
+    return Math.max(workHour - breakHour, 0);
 }
 
 // นาที → ชั่วโมง (decimal)
@@ -97,6 +114,8 @@ function fmtHr(val) {
     return `${hrs}:${mins.toString().padStart(2, '0')}`;
 }
 
+const fmtHourMinute = fmtHr;
+
 function fmtPct(num, den) {
     if (!den || den === 0) return '-';
     return ((num / den) * 100).toFixed(2) + '%';
@@ -112,7 +131,7 @@ function getFirstAndLastDayOfMonth(year, month) {
 // ─────────────────────────────────────────────
 // Component
 // ─────────────────────────────────────────────
-const TableFormingStop = ({ data, month, group, wc }) => {
+const TableFormingStop = ({ month, group, wc }) => {
 
     console.log(group, 'group');
     console.log(wc, 'wc');
@@ -140,27 +159,49 @@ const TableFormingStop = ({ data, month, group, wc }) => {
         cacheTime: 10 * 60 * 1000,
     });
 
-    // ── data.res จาก GroupBarChart (shift-level: work_hour, TOT_work_hour, stop_hour) ──
-    const rows = data?.res || [];
+    // ---- Fetch target work hours (time range * day_work) ----
+    const { data: targetWork = [], isLoading: isTargetLoading } = useQuery({
+        queryKey: ['targetWork', month, group],
+
+        queryFn: async () => {
+            const y = moment(month).format('YYYY');
+            const m = moment(month).format('M');
+            const response = await API.get('STS_Planning/data.php', {
+                params: {
+                    load: "GetTarget",
+                    year: y,
+                    month: m,
+                }
+            });
+            const rows = response.data || [];
+            return Array.isArray(rows[0]) ? rows[0] : rows;
+        },
+        enabled: !!month && !!group,
+        staleTime: 5 * 60 * 1000,
+        cacheTime: 10 * 60 * 1000,
+    });
 
     // ---- 1. รายชื่อ wc จาก props (ครบทุก wc ที่ถูกส่งมา) ----
     const wcList = useMemo(() => {
         return [...new Set(wc || [])];
     }, [wc]);
 
-    // ---- 2. คำนวณ work_hour ต่อ wc (จาก data.res) ----
-    const wcWorkMap = useMemo(() => {
+    const wcTargetMap = useMemo(() => {
         const map = {};
+        const targetRows = Array.isArray(targetWork) ? targetWork : [targetWork];
         wcList.forEach(w => { map[w] = { workHour: 0 }; });
 
-        rows.forEach(item => {
-            const w = item.wc;
+        targetRows.forEach(item => {
+            const rawWc = item?.wc || item?.w_c || item?.work_center;
+            const w = wcList.find(wcItem => String(wcItem).trim() === String(rawWc || '').trim());
             if (!w || !map[w]) return;
-            const workHr = hhmmToHours(item.work_hour);
-            map[w].workHour += workHr;
+
+            const dayWork = Number(item.day_work) || 0;
+            map[w].workHour += timeRangeToHours(item.time, w) * dayWork;
         });
+
         return map;
-    }, [rows, wcList]);
+    }, [targetWork, wcList]);
 
     // ---- 3. คำนวณ reasonHours ต่อ wc (จาก paretoRows) ----
     // reason_detail_id คือชื่อ sub-reason, time_used คือนาที, w_c คือ work center
@@ -261,7 +302,7 @@ const TableFormingStop = ({ data, month, group, wc }) => {
     const totalMain = wcList.reduce((s, w) => s + wcStopMap[w].mainStop, 0);
     const totalOther = wcList.reduce((s, w) => s + wcStopMap[w].otherStop, 0);
     const totalStop = totalMain + totalOther;
-    const totalTarget = wcList.reduce((s, w) => s + wcWorkMap[w].workHour, 0);
+    const totalTarget = wcList.reduce((s, w) => s + wcTargetMap[w].workHour, 0);
     // เวลาเดินเครื่องจริง = เป้าหมาย − รวมเวลาหยุดทุกสาเหตุ
     const totalReal = totalTarget - totalStop;
     const grandReasonSum = Object.values(reasonSum).reduce((s, v) => s + v, 0);
@@ -277,17 +318,11 @@ const TableFormingStop = ({ data, month, group, wc }) => {
     const spacer = { height: 6, backgroundColor: '#e3f2fd' };
     const colCount = wcList.length + 3;
 
-    if (isLoading) return <div style={{ padding: 16, textAlign: 'center' }}>กำลังโหลดข้อมูล...</div>;
+    if (isLoading || isTargetLoading) return <div style={{ padding: 16, textAlign: 'center' }}>กำลังโหลดข้อมูล...</div>;
 
     // ─────────────── Export Excel ───────────────
     const handleExportExcel = () => {
-        const fmtN = (v) => {
-            if (!v || v === 0) return '-';
-            let hrs = Math.floor(v);
-            let mins = Math.round((v - hrs) * 60);
-            if (mins === 60) { hrs += 1; mins = 0; }
-            return `${hrs}:${mins.toString().padStart(2, '0')}`;
-        };
+        const fmtN = fmtHourMinute;
         const headers = ['รายละเอียด', ...wcList, 'Sum (ชม.)', '%'];
         const dataRows = [];
 
@@ -315,13 +350,13 @@ const TableFormingStop = ({ data, month, group, wc }) => {
         addRow('หยุดโดยสาเหตุอื่น (ชม)', wcList.map(w => fmtN(wcStopMap[w].otherStop)), fmtN(totalOther), fmtPct(totalOther, totalStop));
         dataRows.push([]);
         addRow('รวมเวลาหยุดเครื่องทุกสาเหตุ', wcList.map(w => fmtN(wcStopMap[w].mainStop + wcStopMap[w].otherStop)), fmtN(totalStop), '-');
-        addRow('เป้าหมายชั่วโมงการทำงาน', wcList.map(w => fmtN(wcWorkMap[w].workHour)), fmtN(totalTarget), '-');
-        addRow('เวลาเดินเครื่องจริง', wcList.map(w => fmtN(wcWorkMap[w].workHour - (wcStopMap[w].mainStop + wcStopMap[w].otherStop))), fmtN(totalReal), '-');
+        addRow('เป้าหมายชั่วโมงการทำงาน', wcList.map(w => fmtHourMinute(wcTargetMap[w].workHour)), fmtHourMinute(totalTarget), '-');
+        addRow('เวลาเดินเครื่องจริง', wcList.map(w => fmtN(wcTargetMap[w].workHour - (wcStopMap[w].mainStop + wcStopMap[w].otherStop))), fmtN(totalReal), '-');
         dataRows.push([]);
-        addRow('% ในการเดินเครื่องจักร', wcList.map(w => fmtPct(wcWorkMap[w].workHour - (wcStopMap[w].mainStop + wcStopMap[w].otherStop), wcWorkMap[w].workHour)), fmtPct(totalReal, totalTarget), '-');
-        addRow('% หยุดโดยสาเหตุหลัก', wcList.map(w => fmtPct(wcStopMap[w].mainStop, wcWorkMap[w].workHour)), fmtPct(totalMain, totalTarget), '-');
-        addRow('% หยุดโดยสาเหตุอื่นๆ', wcList.map(w => fmtPct(wcStopMap[w].otherStop, wcWorkMap[w].workHour)), fmtPct(totalOther, totalTarget), '-');
-        addRow('% หยุดรวม', wcList.map(w => fmtPct(wcStopMap[w].mainStop + wcStopMap[w].otherStop, wcWorkMap[w].workHour)), fmtPct(totalStop, totalTarget), '-');
+        addRow('% ในการเดินเครื่องจักร', wcList.map(w => fmtPct(wcTargetMap[w].workHour - (wcStopMap[w].mainStop + wcStopMap[w].otherStop), wcTargetMap[w].workHour)), fmtPct(totalReal, totalTarget), '-');
+        addRow('% หยุดโดยสาเหตุหลัก', wcList.map(w => fmtPct(wcStopMap[w].mainStop, wcTargetMap[w].workHour)), fmtPct(totalMain, totalTarget), '-');
+        addRow('% หยุดโดยสาเหตุอื่นๆ', wcList.map(w => fmtPct(wcStopMap[w].otherStop, wcTargetMap[w].workHour)), fmtPct(totalOther, totalTarget), '-');
+        addRow('% หยุดรวม', wcList.map(w => fmtPct(wcStopMap[w].mainStop + wcStopMap[w].otherStop, wcTargetMap[w].workHour)), fmtPct(totalStop, totalTarget), '-');
 
         const title = `รายงานบันทึกการหยุดเครื่อง (${group}) — ${month ? moment(month).format('MMMM YYYY') : ''}`;
         const wsData = [[title], [], headers, ...dataRows];
@@ -337,7 +372,7 @@ const TableFormingStop = ({ data, month, group, wc }) => {
             <div style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                 background: 'linear-gradient(135deg, #1a237e 0%, #1565c0 60%, #0288d1 100%)',
-                borderRadius: 10, padding: '16px 24px', marginBottom: 8,
+                borderRadius: 10, padding: '16px 24px',
                 boxShadow: '0 4px 12px rgba(21,101,192,0.25)',
                 marginBottom: '20px'
             }}>
@@ -482,8 +517,8 @@ const TableFormingStop = ({ data, month, group, wc }) => {
                         {/* เป้าหมาย */}
                         <tr>
                             <td style={{ ...summaryLbl, color: '#b71c1c' }}>เป้าหมายชั่วโมงการทำงาน</td>
-                            {wcList.map(w => <td key={w} style={redCell()}>{fmtHr(wcWorkMap[w].workHour)}</td>)}
-                            <td style={redCell()}>{fmtHr(totalTarget)}</td>
+                            {wcList.map(w => <td key={w} style={redCell()}>{fmtHourMinute(wcTargetMap[w].workHour)}</td>)}
+                            <td style={redCell()}>{fmtHourMinute(totalTarget)}</td>
                             <td style={cell} />
                         </tr>
 
@@ -491,7 +526,7 @@ const TableFormingStop = ({ data, month, group, wc }) => {
                         <tr>
                             <td style={{ ...summaryLbl, color: '#1a6a3a' }}>เวลาเดินเครื่องจริง</td>
                             {wcList.map(w => {
-                                const realHr = wcWorkMap[w].workHour - (wcStopMap[w].mainStop + wcStopMap[w].otherStop);
+                                const realHr = wcTargetMap[w].workHour - (wcStopMap[w].mainStop + wcStopMap[w].otherStop);
                                 return (
                                     <td key={w} style={{ ...cell, fontWeight: 'bold', color: '#1a6a3a' }}>
                                         {fmtHr(realHr)}
@@ -509,10 +544,10 @@ const TableFormingStop = ({ data, month, group, wc }) => {
                         <tr>
                             <td style={summaryLbl}>% ในการเดินเครื่องจักร</td>
                             {wcList.map(w => {
-                                const realHr = wcWorkMap[w].workHour - (wcStopMap[w].mainStop + wcStopMap[w].otherStop);
+                                const realHr = wcTargetMap[w].workHour - (wcStopMap[w].mainStop + wcStopMap[w].otherStop);
                                 return (
                                     <td key={w} style={{ ...cell, color: '#1565c0' }}>
-                                        {fmtPct(realHr, wcWorkMap[w].workHour)}
+                                        {fmtPct(realHr, wcTargetMap[w].workHour)}
                                     </td>
                                 );
                             })}
@@ -526,7 +561,7 @@ const TableFormingStop = ({ data, month, group, wc }) => {
                             <td style={summaryLbl}>% หยุดโดยสาเหตุหลัก</td>
                             {wcList.map(w => (
                                 <td key={w} style={cell}>
-                                    {fmtPct(wcStopMap[w].mainStop, wcWorkMap[w].workHour)}
+                                    {fmtPct(wcStopMap[w].mainStop, wcTargetMap[w].workHour)}
                                 </td>
                             ))}
                             <td style={{ ...cell, fontWeight: 'bold' }}>{fmtPct(totalMain, totalTarget)}</td>
@@ -538,7 +573,7 @@ const TableFormingStop = ({ data, month, group, wc }) => {
                             <td style={{ ...summaryLbl, backgroundColor: '#fff9c4' }}>% หยุดโดยสาเหตุอื่นๆ</td>
                             {wcList.map(w => (
                                 <td key={w} style={yellowCell}>
-                                    {fmtPct(wcStopMap[w].otherStop, wcWorkMap[w].workHour)}
+                                    {fmtPct(wcStopMap[w].otherStop, wcTargetMap[w].workHour)}
                                 </td>
                             ))}
                             <td style={{ ...yellowCell, backgroundColor: '#fff176' }}>{fmtPct(totalOther, totalTarget)}</td>
@@ -550,7 +585,7 @@ const TableFormingStop = ({ data, month, group, wc }) => {
                             <td style={summaryLbl}>% หยุดรวม</td>
                             {wcList.map(w => (
                                 <td key={w} style={cell}>
-                                    {fmtPct(wcStopMap[w].mainStop + wcStopMap[w].otherStop, wcWorkMap[w].workHour)}
+                                    {fmtPct(wcStopMap[w].mainStop + wcStopMap[w].otherStop, wcTargetMap[w].workHour)}
                                 </td>
                             ))}
                             <td style={{ ...cell, fontWeight: 'bold' }}>{fmtPct(totalStop, totalTarget)}</td>
@@ -562,7 +597,7 @@ const TableFormingStop = ({ data, month, group, wc }) => {
                             <td style={summaryLbl}>รวม %</td>
                             {wcList.map(w => (
                                 <td key={w} style={{ ...cell, color: '#555' }}>
-                                    {wcWorkMap[w].workHour > 0 ? '100.00%' : '-'}
+                                    {wcTargetMap[w].workHour > 0 ? '100.00%' : '-'}
                                 </td>
                             ))}
                             <td style={{ ...cell, color: '#555', fontWeight: 'bold' }}>100.00%</td>

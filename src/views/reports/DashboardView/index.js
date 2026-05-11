@@ -1,91 +1,217 @@
 import React, { useState } from 'react';
 import { useQuery } from "react-query";
 import {
-  Box,
-  CircularProgress,
-  Container,
-  Grid,
-  makeStyles,
-  Paper,
-  Typography
-} from '@material-ui/core';
-import SettingsIcon from '@material-ui/icons/Settings';
+  Box, CircularProgress, Container, Grid, Paper, Tooltip, Typography
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { keyframes } from '@emotion/react';
+import SettingsIcon from '@mui/icons-material/Settings';
 import Page from 'src/components/Page';
 import API from 'src/views/components/API';
 import moment from 'moment';
 import ModalManagement from 'src/views/components/ModalManagement';
-import BuildIcon from '@material-ui/icons/Build';
+import BuildIcon from '@mui/icons-material/Build';
 import WorkCenterStatus from './WorkCenterStatus';
 import { addComma } from 'src/utils/getInitials';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    minHeight: '100%',
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(2)
-  },
-  title: {
-    borderBottom: `3px solid #3f51b5`,
-    paddingBottom: theme.spacing(1),
-    fontFamily: 'Roboto',
-    fontSize: '1.5rem',
-    fontWeight: 'bold',
-    color: '#3f51b5',
-    marginBottom: theme.spacing(1),
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    flexDirection: 'column',
-    boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;',
-    "&:hover": {
-      cursor: 'pointer',
-      boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
-      transition: '0.3s ease',
-      transform: 'scale(1.05)',
-    },
-    // how to write responsive css in material-ui v4
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '0.8rem',
-    }
-  },
-  box: {
-    padding: '15px 5px 15px 5px',
-    display: 'flex',
-    flexDirection: 'column',
-    fontSize: '13px',
-    fontFamily: 'Sans-serif',
-    border: '1px solid #000',
-    boxShadow: 'rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;',
-    "&:hover": {
-      cursor: 'pointer',
-      boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
-      transform: 'scale(1.05)',
-    },
-    // how to write responsive css in material-ui v4
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '0.8rem',
-    }
-  },
-  group: {
-    borderBottom: `3px solid #3f51b5`,
-    paddingBottom: theme.spacing(1),
-    display: 'flex',
-  },
-  '@keyframes rotation': {  // กำหนด keyframes
-    'from': {
-      transform: 'rotate(0deg)',
-    },
-    'to': {
-      transform: 'rotate(360deg)',
-    },
-  },
-  rotating: {  // class ที่จะใช้ animation
-    animation: '$rotation 10s infinite linear',
-    // '$' คือการอ้างอิงไปที่ keyframes ที่เรากำหนดด้านบน
-  },
+const rotation = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const RootPage = styled(Page)(({ theme }) => ({
+  background:
+    'linear-gradient(180deg, #eef4f8 0%, #f7f9fb 46%, #ffffff 100%)',
+  minHeight: '100%',
+  paddingBottom: theme.spacing(4),
+  paddingTop: theme.spacing(2.5)
 }));
+
+const Title = styled(Typography)(({ theme }) => ({
+  borderBottom: '1px solid rgba(15, 54, 84, 0.14)',
+  paddingBottom: theme.spacing(1.5),
+  fontFamily: 'Roboto, sans-serif',
+  fontSize: '1.65rem',
+  fontWeight: 700,
+  letterSpacing: 0,
+  color: '#14324a',
+  marginBottom: theme.spacing(2),
+  textShadow: '0 1px 0 rgba(255, 255, 255, 0.8)',
+}));
+
+const StatusPaper = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(2),
+  display: 'flex',
+  flexDirection: 'column',
+  border: '1px solid rgba(15, 54, 84, 0.08)',
+  boxShadow: '0 10px 24px rgba(15, 54, 84, 0.10)',
+  color: '#183247',
+  fontWeight: 700,
+  minHeight: 64,
+  transition: 'transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease',
+  '&:hover': {
+    cursor: 'pointer',
+    boxShadow: '0 16px 30px rgba(15, 54, 84, 0.18)',
+    filter: 'saturate(1.05)',
+    transform: 'translateY(-2px)',
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.8rem',
+  }
+}));
+
+const SummaryPaper = styled(Paper)(({ theme }) => ({
+  padding: '14px 8px',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  minHeight: 64,
+  fontSize: '14px',
+  fontFamily: 'Roboto, sans-serif',
+  color: '#062b45',
+  fontWeight: 700,
+  lineHeight: 1.38,
+  background: 'linear-gradient(180deg, #ffffff 0%, #e2edf5 100%)',
+  border: '1px solid rgba(15, 54, 84, 0.28)',
+  boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 8px 18px rgba(15, 54, 84, 0.12)',
+  transition: 'transform 0.18s ease, box-shadow 0.18s ease',
+  '&:hover': {
+    cursor: 'pointer',
+    boxShadow: '0 14px 26px rgba(15, 54, 84, 0.14)',
+    transform: 'translateY(-2px)',
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.8rem',
+  }
+}));
+
+const GroupTitle = styled(Typography)(({ theme }) => ({
+  borderBottom: '0',
+  borderLeft: '5px solid #3f51b5',
+  borderRadius: 8,
+  background: 'rgba(255, 255, 255, 0.72)',
+  boxShadow: '0 8px 18px rgba(15, 54, 84, 0.07)',
+  color: '#17344c',
+  fontWeight: 700,
+  paddingBottom: theme.spacing(1),
+  display: 'flex',
+  alignItems: 'center',
+  minHeight: 64,
+}));
+
+const RotatingSettingsIcon = styled(SettingsIcon)({
+  animation: `${rotation} 10s infinite linear`,
+});
+
+const statusCardStyles = {
+  green: {
+    background: 'linear-gradient(135deg, #bdf2cd 0%, #55d786 100%)',
+    borderColor: '#25b85f',
+    color: '#071827',
+  },
+  yellow: {
+    background: 'linear-gradient(135deg, #ffeaa3 0%, #ffbd34 100%)',
+    borderColor: '#e49b09',
+    color: '#071827',
+  },
+  red: {
+    background: 'linear-gradient(135deg, #ffc7c2 0%, #f25d55 100%)',
+    borderColor: '#df352d',
+    color: '#071827',
+  },
+};
+
+const getStatusCardStyle = (status) => statusCardStyles[status] || statusCardStyles.red;
+
+const statusCellBaseStyle = {
+  padding: '10px 8px',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  textAlign: 'center',
+  borderRadius: 10,
+};
+
+const renderWorkCenterCardContent = (item) => (
+  <>
+    <Box display="flex" alignItems="center" justifyContent="center">
+      <span>{item.wc}</span>
+      {item.status === 'green' && <RotatingSettingsIcon style={{ paddingLeft: '3px' }} />}
+      {item.status === 'red' && <SettingsIcon style={{ paddingLeft: '3px' }} />}
+      {item.status === 'yellow' && <BuildIcon style={{ paddingLeft: '3px' }} />}
+    </Box>
+    <Typography
+      component="div"
+      style={{
+        color: '#000000',
+        fontSize: 14,
+        fontWeight: 800,
+        lineHeight: 1.2,
+        marginTop: 5,
+      }}
+    >
+      {addComma(Number(item.sum).toFixed(2))} Tons
+    </Typography>
+  </>
+);
+
+const formingWorkCenters = [
+  'P2FM01', 'P2FM05', 'P2FM06', 'P2FM08', 'P2FM09', 'P2FM10',
+  'W2FM02', 'W2FM04', 'W2FM07', 'W2FM11', 'W2FMC1'
+];
+
+const slitWorkCenters = ['P1SL03', 'P1SL05', 'W1SL04'];
+
+const getStatusText = (item, timeDiff) => {
+  if (item.status === 'green') {
+    return 'Running';
+  }
+
+  if (item.status === 'red') {
+    return 'Stopped';
+  }
+
+  return `${item.reason || 'Waiting'} (${timeDiff} min)`;
+};
+
+const renderWorkCenterTooltip = (item) => {
+  const timeDiff = item.time?.date ? Math.abs(moment(item.time.date).diff(moment(), 'minutes')) : 0;
+  const totalTime = timeDiff + Number(item.totalTime || 0);
+  const stopCount = item.status === 'yellow' ? Number(item.totalStop || 0) + 1 : Number(item.totalStop || 0);
+  const showPieces = !slitWorkCenters.includes(item.wc);
+  const showOperation = formingWorkCenters.includes(item.wc);
+
+  return (
+    <Box style={{ maxWidth: 340, minWidth: 300, overflowWrap: 'break-word', padding: '9px 6px' }}>
+      <Typography style={{ fontSize: 17, fontWeight: 800, marginBottom: 8 }}>
+        {item.wc} ({item.name})
+      </Typography>
+      <Typography style={{ fontSize: 15, lineHeight: 1.55 }}>
+        Status: {getStatusText(item, timeDiff)}
+      </Typography>
+      <Typography style={{ fontSize: 15, lineHeight: 1.55 }}>
+        Stop today: {totalTime} min / {stopCount} times
+      </Typography>
+      <Typography style={{ fontSize: 15, lineHeight: 1.55 }}>
+        Size: {item.size || '-'}
+      </Typography>
+      <Typography style={{ color: '#8cc5ff', fontSize: 15, fontWeight: 800, lineHeight: 1.55, marginTop: 5, whiteSpace: 'normal' }}>
+        Daily Production: {addComma(Number(item.sum).toFixed(2))} Tons
+        {showPieces && ` | ${addComma(Number(item.piece).toFixed(2))} Pieces`}
+      </Typography>
+      {showOperation && (
+        <Typography style={{ fontSize: 15, fontWeight: 700, lineHeight: 1.55, marginTop: 5 }}>
+          Speed: {item.operationSpeed || '-'} | Operation Time: {item.operationTime || '-'}
+        </Typography>
+      )}
+    </Box>
+  );
+};
 
 const label = [
   {
@@ -315,19 +441,36 @@ const Dashboard = () => {
   const yellow = all.filter((item) => item.status === 'yellow').length;
   const red = all.filter((item) => item.status === 'red').length;
 
-  const classes = useStyles();
   console.log(workCenter, 'workCenter');
 
+  const renderWorkCenterCard = (item, extraStyle = {}) => (
+    <Tooltip
+      arrow
+      enterDelay={250}
+      placement="top"
+      title={renderWorkCenterTooltip(item)}
+    >
+      <StatusPaper
+        onClick={() => { setOpen(true); setWorkCenter(item) }}
+        style={{ ...statusCellBaseStyle, ...getStatusCardStyle(item.status), ...extraStyle }}
+        variant="outlined"
+        square
+      >
+        {renderWorkCenterCardContent(item)}
+      </StatusPaper>
+    </Tooltip>
+  );
+
   return (
-    <Page
-      className={classes.root}
+    <RootPage
+
       title="Dashboard"
     >
       <ModalManagement open={open} onClose={() => setOpen(false)} modalDetail={<WorkCenterStatus wc={workCenter.wc} status={workCenter.status} sum={workCenter.sum} piece={workCenter.piece} reason={workCenter.reason} name={workCenter.name} time={workCenter.time} size={workCenter.size} totalTime={workCenter.totalTime} totalStop={workCenter.totalStop} operationSpeed={workCenter.operationSpeed} operationTime={workCenter.operationTime} onClose={() => setOpen(false)} />} />
       <Container maxWidth={false}>
-        <Typography className={classes.title} align='center' variant="h1" gutterBottom>
+        <Title align='center' variant="h1" gutterBottom>
           Work Center
-        </Typography>
+        </Title>
         {isLoading ? <Box height={'50vh'} display="flex" justifyContent="center" alignItems="center">
           <CircularProgress />
         </Box> : (
@@ -337,25 +480,23 @@ const Dashboard = () => {
               spacing={1}
             >
               <Grid item xs={12} md={1}>
-                <Typography className={classes.group} style={{ padding: 20, borderColor: '#ffb200' }} variant="h5" gutterBottom>
+                <GroupTitle style={{ padding: 20, borderColor: '#ffb200' }} variant="h5" gutterBottom>
                   Slit
-                </Typography>
+                </GroupTitle>
               </Grid>
               <Grid item xs={3} md={1}>
-                <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
+                <SummaryPaper style={{ fontWeight: '700', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <div>D: {sl?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
                     <div>M: {addComma(slMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
-                </Paper>
+                </SummaryPaper>
               </Grid>
               {!isLoading && (
                 <>
                   {sl?.map((item, index) => (
                     <Grid key={index} item xs={3} md={1}>
-                      <Paper onClick={() => { setOpen(true); setWorkCenter(item) }} className={classes.paper} style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderRadius: 10, backgroundColor: item.status === 'red' ? '#ff4d4d' : item.status === 'yellow' ? ' #ffff66' : '#66ff99' }} variant="outlined" square>
-                        {item.wc} {item.status === 'green' && <SettingsIcon className={item.status == 'green' ? classes.rotating : ''} />} {item.status === 'red' && <SettingsIcon />} {item.status === 'yellow' && <BuildIcon style={{ paddingLeft: '3px' }} />}
-                      </Paper>
+                      {renderWorkCenterCard(item)}
                     </Grid>
                   ))}
                 </>
@@ -366,17 +507,17 @@ const Dashboard = () => {
               spacing={1}
             >
               <Grid item xs={12} md={1}>
-                <Typography className={classes.group} style={{ padding: 20, borderColor: '#cc0000' }} variant="h5" gutterBottom>
+                <GroupTitle style={{ padding: 20, borderColor: '#cc0000' }} variant="h5" gutterBottom>
                   Forming
-                </Typography>
+                </GroupTitle>
               </Grid>
               <Grid item xs={3} md={1}>
-                <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" suare>
+                <SummaryPaper style={{ fontWeight: '700', borderRadius: 10 }} variant="outlined" suare>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <div>D: {fm?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
                     <div>M: {addComma(fmMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
-                </Paper>
+                </SummaryPaper>
               </Grid>
               {!isLoading && (
                 <>
@@ -385,9 +526,7 @@ const Dashboard = () => {
                       {index === fm.length - 1 && <Grid item xs={3} md={1}></Grid>}
                       {index === fm.length - 1 && <Grid item xs={3} md={1}></Grid>}
                       <Grid key={index} item xs={3} md={1}>
-                        <Paper onClick={() => { setOpen(true); setWorkCenter(item) }} className={classes.paper} style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderRadius: 10, backgroundColor: item.status === 'red' ? '#ff4d4d' : item.status === 'yellow' ? ' #ffff66' : '#66ff99', marginBottom: index === fm.length - 1 ? '4px' : '' }} variant="outlined" square>
-                          {item.wc} {item.status === 'green' && <SettingsIcon className={item.status == 'green' ? classes.rotating : ''} />} {item.status === 'red' && <SettingsIcon />} {item.status === 'yellow' && <BuildIcon style={{ paddingLeft: '3px' }} />}
-                        </Paper>
+                        {renderWorkCenterCard(item, { marginBottom: index === fm.length - 1 ? '4px' : '' })}
                       </Grid>
                     </>
                   ))}
@@ -399,25 +538,23 @@ const Dashboard = () => {
               spacing={1}
             >
               <Grid item xs={12} md={1}>
-                <Typography className={classes.group} style={{ padding: 20, borderColor: '#0051ff' }} variant="h5" gutterBottom>
+                <GroupTitle style={{ padding: 20, borderColor: '#0051ff' }} variant="h5" gutterBottom>
                   HydroTest
-                </Typography>
+                </GroupTitle>
               </Grid>
               <Grid item xs={3} md={1}>
-                <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
+                <SummaryPaper style={{ fontWeight: '700', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <div>D: {ht?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
                     <div>M: {addComma(htMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
-                </Paper>
+                </SummaryPaper>
               </Grid>
               {!isLoading && (
                 <>
                   {ht?.map((item, index) => (
                     <Grid key={index} item xs={3} md={1}>
-                      <Paper onClick={() => { setOpen(true); setWorkCenter(item) }} className={classes.paper} style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderRadius: 10, backgroundColor: item.status === 'red' ? '#ff4d4d' : item.status === 'yellow' ? ' #ffff66' : '#66ff99' }} variant="outlined" square>
-                        {item.wc} {item.status === 'green' && <SettingsIcon className={item.status == 'green' ? classes.rotating : ''} />} {item.status === 'red' && <SettingsIcon />} {item.status === 'yellow' && <BuildIcon style={{ paddingLeft: '3px' }} />}
-                      </Paper>
+                      {renderWorkCenterCard(item)}
                     </Grid>
                   ))}
                 </>
@@ -428,25 +565,23 @@ const Dashboard = () => {
               spacing={1}
             >
               <Grid item xs={12} md={1}>
-                <Typography className={classes.group} style={{ padding: 20, borderColor: '#009933' }} variant="h5" gutterBottom>
+                <GroupTitle style={{ padding: 20, borderColor: '#009933' }} variant="h5" gutterBottom>
                   Galvanize
-                </Typography>
+                </GroupTitle>
               </Grid>
               <Grid item xs={3} md={1}>
-                <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
+                <SummaryPaper style={{ fontWeight: '700', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <div>D: {ga?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
                     <div>M: {addComma(gaMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
-                </Paper>
+                </SummaryPaper>
               </Grid>
               {!isLoading && (
                 <>
                   {ga?.map((item, index) => (
                     <Grid key={index} item xs={3} md={1}>
-                      <Paper onClick={() => { setOpen(true); setWorkCenter(item) }} className={classes.paper} style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderRadius: 10, backgroundColor: item.status === 'red' ? '#ff4d4d' : item.status === 'yellow' ? ' #ffff66' : '#66ff99' }} variant="outlined" square>
-                        {item.wc} {item.status === 'green' && <SettingsIcon className={item.status == 'green' ? classes.rotating : ''} />} {item.status === 'red' && <SettingsIcon />} {item.status === 'yellow' && <BuildIcon style={{ paddingLeft: '3px' }} />}
-                      </Paper>
+                      {renderWorkCenterCard(item)}
                     </Grid>
                   ))}
                 </>
@@ -457,25 +592,23 @@ const Dashboard = () => {
               spacing={1}
             >
               <Grid item xs={12} md={1}>
-                <Typography className={classes.group} style={{ padding: 20, borderColor: '#9900cc' }} variant="h5" gutterBottom>
+                <GroupTitle style={{ padding: 20, borderColor: '#9900cc' }} variant="h5" gutterBottom>
                   Painting
-                </Typography>
+                </GroupTitle>
               </Grid>
               <Grid item xs={3} md={1}>
-                <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
+                <SummaryPaper style={{ fontWeight: '700', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <div>D: {pt?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
                     <div>M: {addComma(ptMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
-                </Paper>
+                </SummaryPaper>
               </Grid>
               {!isLoading && (
                 <>
                   {pt?.map((item, index) => (
                     <Grid key={index} item xs={3} md={1}>
-                      <Paper onClick={() => { setOpen(true); setWorkCenter(item) }} className={classes.paper} style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderRadius: 10, backgroundColor: item.status === 'red' ? '#ff4d4d' : item.status === 'yellow' ? ' #ffff66' : '#66ff99' }} variant="outlined" square>
-                        {item.wc} {item.status === 'green' && <SettingsIcon className={item.status == 'green' ? classes.rotating : ''} />} {item.status === 'red' && <SettingsIcon />} {item.status === 'yellow' && <BuildIcon style={{ paddingLeft: '3px' }} />}
-                      </Paper>
+                      {renderWorkCenterCard(item)}
                     </Grid>
                   ))}
                 </>
@@ -486,25 +619,23 @@ const Dashboard = () => {
               spacing={1}
             >
               <Grid item xs={12} md={1}>
-                <Typography className={classes.group} style={{ padding: 20, borderColor: '#cccc00' }} variant="h5" gutterBottom>
+                <GroupTitle style={{ padding: 20, borderColor: '#cccc00' }} variant="h5" gutterBottom>
                   Threading
-                </Typography>
+                </GroupTitle>
               </Grid>
               <Grid item xs={3} md={1}>
-                <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
+                <SummaryPaper style={{ fontWeight: '700', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <div>D: {th?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
                     <div>M: {addComma(thMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
-                </Paper>
+                </SummaryPaper>
               </Grid>
               {!isLoading && (
                 <>
                   {th?.map((item, index) => (
                     <Grid key={index} item xs={3} md={1}>
-                      <Paper onClick={() => { setOpen(true); setWorkCenter(item) }} className={classes.paper} style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderRadius: 10, backgroundColor: item.status === 'red' ? '#ff4d4d' : item.status === 'yellow' ? ' #ffff66' : '#66ff99' }} variant="outlined" square>
-                        {item.wc} {item.status === 'green' && <SettingsIcon className={item.status == 'green' ? classes.rotating : ''} />} {item.status === 'red' && <SettingsIcon />} {item.status === 'yellow' && <BuildIcon style={{ paddingLeft: '3px' }} />}
-                      </Paper>
+                      {renderWorkCenterCard(item)}
                     </Grid>
                   ))}
                 </>
@@ -515,25 +646,23 @@ const Dashboard = () => {
               spacing={1}
             >
               <Grid item xs={12} md={1}>
-                <Typography className={classes.group} style={{ padding: 20, borderColor: '#3f51b5' }} variant="h5" gutterBottom>
+                <GroupTitle style={{ padding: 20, borderColor: '#3f51b5' }} variant="h5" gutterBottom>
                   Groove
-                </Typography>
+                </GroupTitle>
               </Grid>
               <Grid item xs={3} md={1}>
-                <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
+                <SummaryPaper style={{ fontWeight: '700', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <div>D: {gr?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
                     <div>M: {addComma(grMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
-                </Paper>
+                </SummaryPaper>
               </Grid>
               {!isLoading && (
                 <>
                   {gr?.map((item, index) => (
                     <Grid key={index} item xs={3} md={1}>
-                      <Paper onClick={() => { setOpen(true); setWorkCenter(item) }} className={classes.paper} style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderRadius: 10, backgroundColor: item.status === 'red' ? '#ff4d4d' : item.status === 'yellow' ? ' #ffff66' : '#66ff99' }} variant="outlined" square>
-                        {item.wc} {item.status === 'green' && <SettingsIcon className={item.status == 'green' ? classes.rotating : ''} />} {item.status === 'red' && <SettingsIcon />} {item.status === 'yellow' && <BuildIcon style={{ paddingLeft: '3px' }} />}
-                      </Paper>
+                      {renderWorkCenterCard(item)}
                     </Grid>
                   ))}
                 </>
@@ -544,25 +673,23 @@ const Dashboard = () => {
               spacing={1}
             >
               <Grid item xs={12} md={1}>
-                <Typography className={classes.group} style={{ padding: 20, borderColor: '#00ffff' }} variant="h5" gutterBottom>
+                <GroupTitle style={{ padding: 20, borderColor: '#00ffff' }} variant="h5" gutterBottom>
                   Cutting
-                </Typography>
+                </GroupTitle>
               </Grid>
               <Grid item xs={3} md={1}>
-                <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
+                <SummaryPaper style={{ fontWeight: '700', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <div>D: {ct?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
                     <div>M: {addComma(ctMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
-                </Paper>
+                </SummaryPaper>
               </Grid>
               {!isLoading && (
                 <>
                   {ct?.map((item, index) => (
                     <Grid key={index} item xs={3} md={1}>
-                      <Paper onClick={() => { setOpen(true); setWorkCenter(item) }} className={classes.paper} style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderRadius: 10, backgroundColor: item.status === 'red' ? '#ff4d4d' : item.status === 'yellow' ? ' #ffff66' : '#66ff99' }} variant="outlined" square>
-                        {item.wc} {item.status === 'green' && <SettingsIcon className={item.status == 'green' ? classes.rotating : ''} />} {item.status === 'red' && <SettingsIcon />} {item.status === 'yellow' && <BuildIcon style={{ paddingLeft: '3px' }} />}
-                      </Paper>
+                      {renderWorkCenterCard(item)}
                     </Grid>
                   ))}
                 </>
@@ -573,25 +700,23 @@ const Dashboard = () => {
               spacing={1}
             >
               <Grid item xs={12} md={1}>
-                <Typography className={classes.group} style={{ padding: 20, borderColor: '#663300' }} variant="h5" gutterBottom>
+                <GroupTitle style={{ padding: 20, borderColor: '#663300' }} variant="h5" gutterBottom>
                   Packing
-                </Typography>
+                </GroupTitle>
               </Grid>
               <Grid item xs={3} md={1}>
-                <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
+                <SummaryPaper style={{ fontWeight: '700', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <div>D: {pk?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
                     <div>M: {addComma(pkMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
                   </div>
-                </Paper>
+                </SummaryPaper>
               </Grid>
               {!isLoading && (
                 <>
                   {pk?.map((item, index) => (
                     <Grid key={index} item xs={3} md={1}>
-                      <Paper onClick={() => { setOpen(true); setWorkCenter(item) }} className={classes.paper} style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderRadius: 10, backgroundColor: item.status === 'red' ? '#ff4d4d' : item.status === 'yellow' ? ' #ffff66' : '#66ff99' }} variant="outlined" square>
-                        {item.wc} {item.status === 'green' && <SettingsIcon className={item.status == 'green' ? classes.rotating : ''} />} {item.status === 'red' && <SettingsIcon />} {item.status === 'yellow' && <BuildIcon style={{ paddingLeft: '3px' }} />}
-                      </Paper>
+                      {renderWorkCenterCard(item)}
                     </Grid>
                   ))}
                 </>
@@ -605,37 +730,37 @@ const Dashboard = () => {
             spacing={1}
           >
             <Grid item xs={12} md={1}>
-              <Typography className={classes.group} style={{ padding: 20, borderColor: '#663300' }} variant="h5" gutterBottom>
+              <GroupTitle style={{ padding: 20, borderColor: '#663300' }} variant="h5" gutterBottom>
                 Total
-              </Typography>
+              </GroupTitle>
             </Grid>
             <Grid item xs={3} md={1}>
-              <Paper className={classes.box} style={{ fontWeight: '300', borderRadius: 10 }} variant="outlined" square>
+              <SummaryPaper style={{ fontWeight: '700', borderRadius: 10 }} variant="outlined" square>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <div>D: {(total).toFixed(2)} Mt</div>
                   <div>M: {addComma((totalMonth).toFixed(2))} Mt</div>
                 </div>
-              </Paper>
+              </SummaryPaper>
             </Grid>
             <Grid item xs={3} md={1}>
-              <Paper className={classes.paper} style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderRadius: 10, backgroundColor: '#66ff99' }} variant="outlined" square>
-                <span style={{ fontWeight: 'bold' }}>{green}</span> <SettingsIcon style={{ paddingLeft: '3px' }} className={classes.rotating} />
-              </Paper>
+              <StatusPaper style={{ ...statusCellBaseStyle, ...statusCardStyles.green, flexDirection: 'row' }} variant="outlined" square>
+                <span style={{ fontWeight: 'bold' }}>{green}</span> <RotatingSettingsIcon style={{ paddingLeft: '3px' }} />
+              </StatusPaper>
             </Grid>
             <Grid item xs={3} md={1}>
-              <Paper className={classes.paper} style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderRadius: 10, backgroundColor: '#ffff66' }} variant="outlined" square>
+              <StatusPaper style={{ ...statusCellBaseStyle, ...statusCardStyles.yellow, flexDirection: 'row' }} variant="outlined" square>
                 <span style={{ fontWeight: 'bold' }}>{yellow}</span> <BuildIcon style={{ paddingLeft: '3px' }} />
-              </Paper>
+              </StatusPaper>
             </Grid>
             <Grid item xs={3} md={1}>
-              <Paper className={classes.paper} style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center', borderRadius: 10, backgroundColor: '#ff4d4d' }} variant="outlined" square>
+              <StatusPaper style={{ ...statusCellBaseStyle, ...statusCardStyles.red, flexDirection: 'row' }} variant="outlined" square>
                 <span style={{ fontWeight: 'bold' }}>{red}</span> <SettingsIcon style={{ paddingLeft: '3px' }} />
-              </Paper>
+              </StatusPaper>
             </Grid>
           </Grid>
         )}
       </Container>
-    </Page>
+    </RootPage>
   );
 };
 

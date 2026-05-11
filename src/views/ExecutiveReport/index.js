@@ -1,13 +1,6 @@
 import React, { useEffect } from 'react';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  Container,
-  Divider,
-  Grid,
-  makeStyles
-} from '@material-ui/core';
+import { Card, CardContent, CardHeader, Container, Divider, Grid } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import Page from 'src/components/Page';
 import CardReportProductFinish from './CardReportProductFinish';
 import LatestProducts from './LatestProducts';
@@ -17,24 +10,19 @@ import TableExecutiveSummary from './TableExecutiveSummary';
 import CardReportProductFromming from './CardReportProductFromming';
 import CardAppProductionOvertime from './CardAppProductionOvertime';
 import CardReportProductProductionIndex from './CardReportProductProductionIndex';
-
 import PieChartExecutiveSummary from './PieChartExecutiveSummary';
 import PieChartExecutiveSummary2 from './PieChartExecutiveSummary2';
 import { isMobile } from "react-device-detect";
 
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    minHeight: '100%',
-    paddingBottom: theme.spacing(1),
-    paddingTop: theme.spacing(2)
-  }
+const RootPage = styled(Page)(({ theme }) => ({
+  backgroundColor: theme.palette.background.dark,
+  minHeight: '100%',
+  paddingBottom: theme.spacing(1),
+  paddingTop: theme.spacing(2)
 }));
 
 const ExecutiveReport = () => {
-  const classes = useStyles();
-
   useEffect(() => {
 
 
@@ -50,8 +38,7 @@ const ExecutiveReport = () => {
 
 
   return (
-    <Page
-      className={classes.root}
+    <RootPage
       title="Dashboard"
     >
       {/* {isMobile ? <h2>Mobile</h2> : <h2>Desktop</h2>} */}
@@ -119,7 +106,7 @@ const ExecutiveReport = () => {
 
         </Grid>
       </Container>
-    </Page>
+    </RootPage>
   );
 };
 

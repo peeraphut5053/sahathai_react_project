@@ -1,7 +1,7 @@
-import { createStyles, makeStyles } from '@material-ui/core';
+import React from 'react';
+import { GlobalStyles as MuiGlobalStyles } from '@mui/material';
 
-const useStyles = makeStyles(() => createStyles({
-  '@global': {
+const globalStyles = {
     '*': {
       boxSizing: 'border-box',
       margin: 0,
@@ -25,13 +25,10 @@ const useStyles = makeStyles(() => createStyles({
       height: '100%',
       width: '100%'
     }
-  }
-}));
+};
 
 const GlobalStyles = () => {
-  useStyles();
-
-  return null;
+  return <MuiGlobalStyles styles={globalStyles} />;
 };
 
 export default GlobalStyles;

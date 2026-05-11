@@ -1,13 +1,7 @@
 import React, {  useState,useMemo } from 'react';
-import {
-  Container,
-  Grid,
-  Typography,
-  Chip
-} from '@material-ui/core';
+import { Container, Grid, Typography, Chip } from '@mui/material';
 import moment from 'moment';
-import MaterialTable  from 'material-table';
-import tableIcons from '../../../views/components/table/tableIcons';
+import DataTable from 'src/components/DataTable';
 
 const titleGroup = [
     {
@@ -170,8 +164,7 @@ while (currentDate.isSameOrBefore(lastDay)) {
       )}
       <Grid container spacing={1}>
             <Grid item style={{ width: '100%', margin: 5, overflowX: 'auto' }}>
-              <MaterialTable
-                icons={tableIcons}
+              <DataTable
                 title={<Typography variant="h4">{`เวลารวมนาทีหยุดไป ${Number(totalTime).toLocaleString()} นาที  เวลารวมชั่วโมงหยุดไป ${(totalTime / 60).toFixed(1)} ชั่วโมง`}</Typography>}
                 columns={[
                   { title: 'วันที่', field: 'date', type: 'date', defaultSort: 'asc', render: rowData => moment(rowData.date).format('DD/MM/YYYY') },
@@ -202,35 +195,15 @@ while (currentDate.isSameOrBefore(lastDay)) {
                         render: rowData => rowData[t] ? rowData[t].totalTime : '-'
                     })),
                 ]}
-                 // how to use dailySummary with MaterialTable
                 data={newData}
-                options={{
-                  search: true,
-                  paging: false,
-                  sorting: true,
-                  filtering: false,
-                  exportButton: true,
-                  minWidth: 200,
-                  doubleHorizontalScroll: true,
-                  maxBodyHeight: '70vh',
-                  minBodyHeight: '70vh',
-                  headerStyle: {
-                    backgroundColor: '#039be5',
-                    border: '2px solid white',
-                    color: '#FFF',
-                    textAlign: 'center',
-                    fontSize: '12px'
-                  },
-                  cellStyle: {
-                    textAlign: 'center',
-                    fontSize: '12px',
-                    padding: '5px',
-                  },
-                  rowStyle: rowData => ({
-                    // get current date from moment
-                    backgroundColor: rowData.date === moment().format('YYYY-MM-DD') ? '#EEE' : '#FFF',
-                  })
-                }}
+                search
+                sorting
+                exportButton
+                maxBodyHeight="70vh"
+                minBodyHeight="70vh"
+                rowStyle={rowData => ({
+                  backgroundColor: rowData.date === moment().format('YYYY-MM-DD') ? '#EEE' : '#FFF',
+                })}
               />
             </Grid>
           </Grid>

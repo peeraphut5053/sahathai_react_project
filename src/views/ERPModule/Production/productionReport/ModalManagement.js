@@ -1,24 +1,10 @@
 import React from 'react';
-// import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import { Backdrop, Fade } from '@material-ui/core';
-
-import { makeStyles } from '@material-ui/core/styles';
+import Modal from '@mui/material/Modal';
+import { Backdrop, Fade } from '@mui/material';
+import styles from './ProductionReport.module.css';
 
 
 export default function ModalManagement(props) {
-
-    // const classes = makeStyles((theme) => ({
-    //     paper: {
-    //         position: 'absolute',
-    //         width: props.width,
-    //         height: props.height,
-    //         backgroundColor: theme.palette.background.paper,
-    //         border: '0px solid #000',
-    //         boxShadow: theme.shadows[5],
-    //         padding: theme.spacing(2, 4, 3),
-    //     },
-    // }));
 
     function rand() {
         return Math.round(Math.random() * 20) - 10;
@@ -35,24 +21,6 @@ export default function ModalManagement(props) {
         };
     }
 
-    const useStyles = makeStyles((theme) => ({
-        modal: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-        paper: {
-            position: 'absolute',
-            width: '70%',
-            backgroundColor: theme.palette.background.paper,
-            border: '2px solid #000',
-            boxShadow: theme.shadows[5],
-            padding: theme.spacing(2, 4, 3),
-        },
-    }));
-
-    const classes = useStyles();
-
     return (
 
         <Modal
@@ -68,10 +36,10 @@ export default function ModalManagement(props) {
             BackdropProps={{
                 timeout: 200,
             }}
-            className={classes.modal}
+            className={styles.modal}
         >
             <Fade in={props.open}>
-                <div className={classes.paper}>
+                <div className={styles.paperModalReasonMaster}>
                     {props.modalDetail}
                 </div>
             </Fade>

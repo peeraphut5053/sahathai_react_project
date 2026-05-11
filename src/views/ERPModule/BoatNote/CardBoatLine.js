@@ -1,23 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Card,
-  CardContent,
-  Grid,
-  colors,
-  makeStyles,
-  Button,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
-  Chip,
-  TextField
-} from '@material-ui/core';
+import { Card, CardContent, Grid, Button, MenuItem, FormControl, InputLabel, Select, Chip, TextField } from '@mui/material';
 import ModalManagement from '../../components/ModalManagement';
 import ModalManagementFullPage from '../../components/ModalManagementFullPage';
-import MaterialTable from 'material-table';
-import tableIcons from 'src/views/components/table/tableIcons';
+import DataTable from 'src/components/DataTable';
 import { ReportMoveInternal } from './ReportMoveInternal';
 import { ReportMoveBoatNote } from './ReportMoveBoatNote';
 import { ReportSummaryBoatNote } from './ReportSummaryBoatNote';
@@ -28,30 +14,9 @@ import CAutocompleteNameOfDoGroup from '../../components/Input/CAutocompleteName
 import CAutocompleteLocation from '../../components/Input/CAutocompleteLocationByDo';
 import CTextField from 'src/views/components/Input/CTextField';
 import { ExcelReportByPo } from './ExcelReportByPo';
-
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: '100%',
-    width: '100%'
-  },
-  avatar: {
-    backgroundColor: colors.green[600],
-    height: 56,
-    width: 56
-  },
-  differenceIcon: {
-    color: colors.green[900]
-  },
-  differenceValue: {
-    color: colors.green[900],
-    marginRight: theme.spacing(1)
-  }
-}));
+import styles from './CardBoatLine.module.css';
 
 const CardBoatLine = (props, { className, ...rest }) => {
-  const classes = useStyles();
-
   const [openModalItem, setOpenModalItem] = React.useState(false); // Boat NOte
   const [sts_po, setStsPo] = React.useState("");
   const [OpenModalTagBoatNote, setOpenModalTagBoatNote] = React.useState(false);
@@ -165,10 +130,19 @@ const CardBoatLine = (props, { className, ...rest }) => {
   };
 
   let ActualWeight = props.Search_STS_qty_move_hrd[0] ? Number(props.Search_STS_qty_move_hrd[0].ActWeight) : 0
-  return (
-    <Card
+  const columns = [
+    { title: 'id', field: 'id' },
+    { title: 'lot', field: 'lot', minWidth: 150 },
+    { title: 'From loc', field: 'loc', minWidth: 100 },
+    { title: 'To loc', field: 'toLoc', minWidth: 100 },
+    { title: 'item', field: 'item', minWidth: 300 },
+    { title: 'qty', field: 'qty1', type: 'numeric' },
+    { title: 'unit', field: 'u_m' },
+    { title: 'boat position', field: 'boat_position' },
+  ];
 
-    >
+  return (
+    <Card className={styles.root}>
       <ModalManagement
         modalHeader={
           <></>
@@ -306,14 +280,14 @@ const CardBoatLine = (props, { className, ...rest }) => {
         onClose={handleCloseModalItem}
       />
 
-      <CardContent>
+      <CardContent className={styles.content}>
         <Grid
           container
           spacing={3}
         >
-          <Grid item>
+          <Grid item xs={12}>
             <div>
-              <div style={{ padding: '0px 10px' }}>
+              <div className={styles.actions}>
 
                 {/* <CTextField
                   error={Boolean(touched.item && errors.item)}
@@ -332,34 +306,19 @@ const CardBoatLine = (props, { className, ...rest }) => {
               </div>
             </div>
 
-            <MaterialTable
-              style={{ width: '62vw', margin: 5, overflowX: "scroll" }}
-              icons={tableIcons}
+            <DataTable
               title={"Quantity Move List (" + props.doc_num + ") : " + props.STS_qty_move_line.length + " รายการ | น้ำหนักชั่งจริง : " + ActualWeight}
-              columns={[
-                { title: 'id', field: 'id' },
-                { title: 'lot', field: 'lot', width: 200 },
-                { title: 'From loc', field: 'loc', width: 100 },
-                { title: 'To loc', field: 'toLoc', width: 100 },
-                { title: 'item', field: 'item', width: 300 },
-                { title: 'qty', field: 'qty1', type: 'numeric' },
-                { title: 'unit', field: 'u_m' },
-                { title: 'boat position', field: 'boat_position' },
-              ]}
+              columns={columns}
               data={props.STS_qty_move_line}
-              options={{
-                search: false,
-                paging: false,
-                maxBodyHeight: '65vh',
-                minBodyHeight: '65vh',
-                filtering: false,
-                rowStyle: rowData => ({
-                  // backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
-                  fontSize: '0.7em',
-                  padding: 0,
-                  fontFamily: 'sans-serif'
-                })
-              }}
+              maxBodyHeight="72vh"
+              minBodyHeight="72vh"
+              search={false}
+              sorting
+              rowStyle={() => ({
+                fontSize: '0.7em',
+                padding: 0,
+                fontFamily: 'sans-serif'
+              })}
             />
           </Grid>
         </Grid>

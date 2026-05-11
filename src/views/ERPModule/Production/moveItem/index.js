@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Switch, Button } from '@material-ui/core';
-
-import Grid from '@material-ui/core/Grid';
+import { Modal, Switch, Button } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import CMatTable from './view/QuantityMove/CMatTable';
 import API from '../../../components/API';
-import MaterialTable from 'material-table'
-import tableIcons from '../../../components/table/tableIcons'
+import DataTable from 'src/components/DataTable';
 import ModalProgressSaving from './view/QuantityMove/ModalProgressSaving';
 import CGroupTextBoxs from './view/QuantityMove/CGroupTextBoxs';
-import SaveIcon from '@material-ui/icons/Save';
-import { makeStyles } from '@material-ui/core/styles';
+import SaveIcon from '@mui/icons-material/Save';
 import Page from 'src/components/Page';
+import styles from './MoveItem.module.css';
 
 
 function App() {
@@ -146,31 +144,25 @@ function App() {
     </div >
   );
 
+  const documentColumns = [
+    { title: 'Doc num', field: 'doc_num' },
+    { title: 'date', field: 'create_date.date', type: 'date' },
+    { title: 'To location', field: 'loc' },
+  ];
 
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      backgroundColor: theme.palette.background.dark,
-      minHeight: '100%',
-      padding: theme.spacing(2),
-    },
-
-    control: {
-      padding: theme.spacing(2),
-    },
-  }));
-
-
-
-  const classes = useStyles();
+  const documentRowStyle = () => ({
+    fontSize: 13,
+    padding: 0,
+    width: 500,
+    fontFamily: 'sans-serif'
+  });
 
 
   return (
     <Page
       title="Move QTY"
     >
-      <Grid container className={classes.root} spacing={0} >
+      <Grid container className={styles.root} spacing={0} >
         <Grid item xs={12}>
           {<Switch checked={PageState} onChange={toggleChecked} />}
           {(PageState) ? "Create" : "View"}
@@ -187,42 +179,21 @@ function App() {
             PageState={PageState}
             qtyMoveList={qtyMoveList}
             ItemLoc={ItemLoc}
-            PageState={PageState}
             toggleChecked={toggleChecked}
           />
         </Grid>
 
         <Grid spacing={2} item xs={5} hidden={(PageState) ? true : false} style={{ textAlign: "center" }}>
-          <MaterialTable
-            style={{ width: '100%', overflowX: "scroll" }}
-            icons={tableIcons}
+          <DataTable
             title={"รายงานการย้าย Item"}
-            columns={[
-              { title: 'Doc num', field: 'doc_num' },
-              { title: 'date', field: 'create_date.date', type: 'date' },
-              { title: 'To location', field: 'loc' },
-            ]}
-            onRowClick={(event, rowData) => {
-              console.log(event)
-              handleClickSelectDoc(rowData)
-            }}
+            columns={documentColumns}
+            onRowClick={handleClickSelectDoc}
             data={STS_qty_move_hrd}
-            options={{
-              actionsColumnIndex: -1,
-              search: false,
-              paging: false,
-              maxBodyHeight: '50vh',
-              minBodyHeight: '50vh',
-              filtering: true,
-              rowStyle: rowData => ({
-                // backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
-                fontSize: 13,
-                padding: 0,
-                width: 500,
-                fontFamily: 'sans-serif'
-              }
-              ),
-            }}
+            maxBodyHeight="50vh"
+            search={false}
+            sorting
+            filtering
+            rowStyle={documentRowStyle}
           />
         </Grid>
         <Grid item xs={(PageState) ? 12 : 7}>

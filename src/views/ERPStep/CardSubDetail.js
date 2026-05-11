@@ -1,37 +1,36 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import ButtonBase from '@material-ui/core/ButtonBase';
+import { styled } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import ButtonBase from '@mui/material/ButtonBase';
 import ModalManagement from '../components/ModalManagement';
 import CardModal from './CardModal';
 
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    paper: {
-        padding: theme.spacing(2),
-        margin: 'auto',
-        maxWidth: '100%',
-    },
-    image: {
-        width: 128,
-        height: 128,
-    },
-    img: {
-        margin: 'auto',
-        display: 'block',
-        maxWidth: '100%',
-        maxHeight: '100%',
-    },
+const Root = styled('div')({
+    flexGrow: 1,
+});
+
+const StyledPaper = styled(Paper)(({ theme }) => ({
+    padding: theme.spacing(2),
+    margin: 'auto',
+    maxWidth: '100%',
 }));
 
-export default function ComplexGrid(props) {
-    const classes = useStyles();
+const ImageButton = styled(ButtonBase)({
+    width: 128,
+    height: 128,
+});
 
+const Image = styled('img')({
+    margin: 'auto',
+    display: 'block',
+    maxWidth: '100%',
+    maxHeight: '100%',
+});
+
+export default function ComplexGrid(props) {
     const [openModalItem, setOpenModalItem] = React.useState(false);
     // setOpenModalItem={setOpenModalItem}
     // open={openModalItem}
@@ -40,7 +39,7 @@ export default function ComplexGrid(props) {
     };
 
     return (
-        <div className={classes.root}>
+        <Root>
             <ModalManagement
                 modalDetail={
                     <CardModal
@@ -55,12 +54,12 @@ export default function ComplexGrid(props) {
                 open={openModalItem}
                 onClose={handleCloseModalItem}
             />
-            <Paper className={classes.paper}>
+            <StyledPaper>
                 <Grid container spacing={2}>
                     <Grid item>
-                        <ButtonBase className={classes.image} onClick={setOpenModalItem}>
-                            <img className={classes.img} alt="complex" src={props.img} />
-                        </ButtonBase>
+                        <ImageButton onClick={setOpenModalItem}>
+                            <Image alt="complex" src={props.img} />
+                        </ImageButton>
                     </Grid>
                     <Grid item xs={12} sm container>
                         <Grid item xs container direction="column" spacing={2}>
@@ -86,7 +85,7 @@ export default function ComplexGrid(props) {
                         </Grid>
                     </Grid>
                 </Grid>
-            </Paper>
-        </div>
+            </StyledPaper>
+        </Root>
     );
 }

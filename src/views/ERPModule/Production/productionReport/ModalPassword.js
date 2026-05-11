@@ -1,33 +1,8 @@
 import React from 'react'
-import { Button, Modal, TextField } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-    paper: {
-      position: 'absolute',
-      width: 400,
-      backgroundColor: theme.palette.background.paper,
-      border: '1px solid #000',
-      borderRadius: '10px',
-      boxShadow: theme.shadows[10],
-      padding: theme.spacing(2, 4, 3),
-      top: '35%',
-      left: '38%'
-    },
-    h2: {
-      textAlign: 'center',
-      paddingBottom: '20px'
-  
-    },
-    btn: {
-      marginTop: '20px',
-      marginRight: '10px'
-    }
-  
-}));
+import { Button, Modal, TextField } from '@mui/material';
+import styles from './ProductionReport.module.css';
 
 const ModalPassword = ({open, onClose,setStatusModal}) => {
-  const classes = useStyles();
   const [password, setPassword] = React.useState('');
   const [error, setError] = React.useState(false);
 
@@ -51,14 +26,14 @@ const ModalPassword = ({open, onClose,setStatusModal}) => {
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
       >
-          <div className={classes.paper}>
-		  <h2 className={classes.h2}>กรุณาใส่ Password</h2>
+          <div className={styles.passwordPaper}>
+		  <h2 className={styles.passwordTitle}>กรุณาใส่ Password</h2>
 		  <form onSubmit={handlePassword}>
 			<TextField variant='outlined' fullWidth label="Password" name="password" type="password" error={error} value={password}  autoFocus
 			  onChange={(e) => setPassword(e.target.value)}
 			 />
 			<Button
-			  className={classes.btn}
+			  className={styles.passwordButton}
 			  type="submit"
 			  variant="contained"
 			  color="primary"
@@ -66,7 +41,7 @@ const ModalPassword = ({open, onClose,setStatusModal}) => {
 			>
 			  Confirm
 			</Button>
-			<Button className={classes.btn} variant="contained" size="meldium" onClick={onClose} >
+			<Button className={styles.passwordButton} variant="contained" size="meldium" onClick={onClose} >
 			  Cancel
 			</Button>
 		  </form>

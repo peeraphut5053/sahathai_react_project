@@ -1,19 +1,18 @@
-import BallotIcon from '@material-ui/icons/Ballot';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import LocalShippingIcon from '@material-ui/icons/LocalShipping';
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import HomeWorkIcon from '@material-ui/icons/HomeWork';
-import FaceIcon from '@material-ui/icons/Face';
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
-import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOnOutlined';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import OfflinePinIcon from '@material-ui/icons/OfflinePin';
-import HomeIcon from '@material-ui/icons/Home';
-import LocalAtmIcon from '@material-ui/icons/LocalAtm';
-import WatchLaterIcon from '@material-ui/icons/WatchLater';
-import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
-import ImageIcon from '@material-ui/icons/Image';
-
+import BallotIcon from '@mui/icons-material/Ballot';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import HomeWorkIcon from '@mui/icons-material/HomeWork';
+import FaceIcon from '@mui/icons-material/Face';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import OfflinePinIcon from '@mui/icons-material/OfflinePin';
+import HomeIcon from '@mui/icons-material/Home';
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+import WatchLaterIcon from '@mui/icons-material/WatchLater';
+import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
+import ImageIcon from '@mui/icons-material/Image';
 import {
     User as UserIcon,
 } from 'react-feather';
@@ -328,6 +327,11 @@ const ListItems2 = [
                 href: '/app/productionDashboard',
                 Icon: AssignmentIcon,
                 title: 'Production Dashboard'
+            },
+            {
+                href: '/app/ProductionLiveBoardV2',
+                Icon: AssignmentIcon,
+                title: 'Production Live Board V2'
             },
             {
                 Icon: WatchLaterIcon,

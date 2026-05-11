@@ -1,37 +1,21 @@
 import React, { useState } from 'react';
 import { useQuery } from "react-query";
 import Select from 'react-select';
-import clsx from 'clsx';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  makeStyles,
-  Grid,
-  Typography
-} from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import {   Box, Button, Card, CardContent, CardHeader, Divider, Grid, Typography } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import API from 'src/views/components/API';
 import moment from 'moment';
 import ModalManagementFullPage from 'src/views/components/ModalManagementFullPage';
 import TableDailyReport from './TableDailyReport';
 import CYearPicker from 'src/views/components/Input/CYearPicker';
 import LineCard from './LineCard';
-import { useTheme } from '@material-ui/core';
+import { useTheme } from '@mui/material';
 import TableProduction from './TableProduction';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Bar } from 'react-chartjs-2';
 import DateTimePicker from 'src/views/components/Input/CDatePicker';
 import TableGroupDetail from './TableGroupDetail';
-const useStyles = makeStyles(() => ({
-  root: {
-
-  }
-}));
 
 const label = [
   {
@@ -146,7 +130,6 @@ const Test = ({ className, ...rest }) => {
   const [day, setDay] = useState(moment().format('YYYY-MM-DD'));
   const [dayEnd, setDayEnd] = useState(moment().format('YYYY-MM-DD'));
   const [grade, setGrade] = useState('sumA');
-  const classes = useStyles();
 
   const addComma = (num) => {
     return parseFloat(num)
@@ -558,10 +541,7 @@ const Test = ({ className, ...rest }) => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12}>
-        <Card
-          className={clsx(classes.root, className)}
-          {...rest}
-        >
+        <Card className={className} {...rest}>
           <ModalManagementFullPage
             open={open}
             onClose={() => setOpen(false)}
@@ -687,7 +667,7 @@ const Test = ({ className, ...rest }) => {
         </Card>
       </Grid>
       <Grid item xs={12}>
-        <Card className={clsx(classes.root, className)} {...rest}>
+        <Card className={className} {...rest}>
           <ModalManagementFullPage
             open={barModal}
             onClose={() => setBarModal(false)}
@@ -772,7 +752,7 @@ const Test = ({ className, ...rest }) => {
 
       {/*<Grid item xs={12}>
     <Card
-      className={clsx(classes.root, className)}
+      className={className}
       {...rest}
     >
       <ModalManagementFullPage

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Box, Button, CircularProgress, Menu, MenuItem, Typography } from '@material-ui/core';
-import MaterialTable from 'material-table';
-import tableIcons from '../../../components/table/tableIcons'
+import { Box, Button, CircularProgress, Menu, MenuItem, Typography } from '@mui/material';
+import DataTable from 'src/components/DataTable';
 import API from '../../../components/API';
 
 
@@ -24,10 +23,7 @@ const ProductionDailyReportTable = (props) => {
 
     return (
 
-        <MaterialTable
-            setdata={props.setdata}
-            style={{ width: '100%', margin: 2, overflowX: "scroll" }}
-            icons={tableIcons}
+        <DataTable
             title={
                 `
                 Production Daily Report (${props.data.length} รายการ)
@@ -35,7 +31,7 @@ const ProductionDailyReportTable = (props) => {
             isLoading={props.isLoading}
             columns={[
                 {
-                    title: 'job', field: 'ref_num', width: 100, editable: 'never',align: 'center', render: rowData =>
+                    title: 'job', field: 'ref_num', width: 100, editable: 'never', align: 'center', render: rowData =>
                         <Button variant="outlined"
                             onClick={() => window.open(
                                 `http://172.18.1.194/sts_tag/?tag_history_finishing&jobno=${rowData.ref_num}%2B0%2B10&act=start`,
@@ -77,7 +73,7 @@ const ProductionDailyReportTable = (props) => {
                             >
                                 <MenuItem onClick={() => alert()} >
                                     item
-                        </MenuItem>
+                                </MenuItem>
                             </Menu>
                         </>
                 },
@@ -108,42 +104,31 @@ const ProductionDailyReportTable = (props) => {
             //     },
 
             // ]}
-            options={{
-                search: false,
-                paging: false,
-                maxBodyHeight: '55vh',
-                minBodyHeight: '55vh',
-                exportButton: true,
-                filtering: false,
-                rowStyle: rowData => ({
-                    // backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
-                    fontSize: 12,
-                    padding: 0
-                }
-                ),
+            search={false}
+            sorting={false}
+            exportButton
+            maxBodyHeight="65vh"
+            minBodyHeight="65vh"
+            rowStyle={{
+                fontSize: 12,
+                padding: 0
             }}
 
-            cellEditable={{
-                onCellEditApproved: (newValue, oldValue, rowData, columnDef) =>
+            editable={{
+                onRowUpdate: (newData, oldData) =>
                     new Promise((resolve, reject) => {
                         API.get("RPT_JOBPACKING/data.php", {
                             params: {
                                 load: 'updateRemark',
-                                job: rowData.ref_num,
-                                remark: newValue,
+                                job: oldData.ref_num,
+                                remark: newData.remark,
                             }
                         });
                         setTimeout(() => {
-                            const dataUpdate = [...props.data];
-                            const index = columnDef.tableData.id;
-                            dataUpdate[index] = newValue;
-                            // props.setdata([...dataUpdate]);
                             props.setdata([]);
-                            // CRUDfn("UpdateForming", newValue)
                             resolve();
                         }, 1000)
                     })
-
             }}
 
         />

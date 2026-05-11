@@ -1,8 +1,7 @@
-import { Box, Card, CardHeader, Typography } from '@material-ui/core';
+import { Box, Card, CardHeader, Typography } from '@mui/material';
 import { Chart } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import React from 'react'
-import { Pie } from 'react-chartjs-2';
+import React from 'react'import { Pie } from 'react-chartjs-2';
 
 const PieChart = ({data }) => {
   const {wc, totalTimes, breakTimes,realTime} = data;

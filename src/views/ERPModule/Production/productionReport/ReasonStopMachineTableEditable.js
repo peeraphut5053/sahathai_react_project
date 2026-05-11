@@ -1,8 +1,7 @@
 import React from 'react';
-import MaterialTable from 'material-table';
-import tableIcons from '../../../components/table/tableIcons'
+import DataTable from 'src/components/DataTable';
 import API from '../../../components/API';
-// import AssignmentIcon from '@material-ui/icons/Assignment';
+// import AssignmentIcon from '@mui/icons-material/Assignment';
 
 const ReasonStopMachineTableEditable = (props) => {
     // const [selectedRow, setSelectedRow] = useState(null);
@@ -22,9 +21,7 @@ const ReasonStopMachineTableEditable = (props) => {
       
 
     return (
-        <MaterialTable
-            style={{ width: '30%', marginLeft: '30%', marginTop: '7%', overflowX: "scroll" }}
-            icons={tableIcons}
+        <DataTable
             title={`สาเหตุที่ต้องหยุดเครื่อง`}
             columns={[
                 // { title: 'id', field: 'id', editable: 'never' },
@@ -32,18 +29,14 @@ const ReasonStopMachineTableEditable = (props) => {
             ]}
             data={props.dataFormingRecord_description}
 
-            options={{
-                search: false,
-                paging: false,
-                maxBodyHeight: '65vh',
-                minBodyHeight: '65vh',
-                exportButton: true,
-                filtering: false,
-                rowStyle: rowData => ({
-                    fontSize: 12,
-                    padding: 0
-                }
-                ),
+            search={false}
+            sorting={false}
+            exportButton
+            maxBodyHeight="65vh"
+            minBodyHeight="65vh"
+            rowStyle={{
+                fontSize: 12,
+                padding: 0
             }}
 
             editable={{

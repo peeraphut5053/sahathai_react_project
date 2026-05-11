@@ -1,9 +1,32 @@
 import React from 'react';
-// import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import { Backdrop, Fade } from '@material-ui/core';
+import Modal from '@mui/material/Modal';
+import { Backdrop, Fade, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { styled } from '@mui/material/styles';
 
-import { makeStyles } from '@material-ui/core/styles';
+const StyledModal = styled(Modal)({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+});
+
+const Paper = styled('div')({
+    position: 'absolute',
+    width: '70%',
+    padding: '20px',
+    backgroundColor: "#e6e6e6",
+    borderBottom: '6px solid #3f51b5',
+    borderRadius: '5px',
+    boxShadow: `0 0 0 50vmax rgba(0,0,0,.5)`,
+    outline: 'none',
+});
+
+const CloseButton = styled(IconButton)(({ theme }) => ({
+    position: 'absolute',
+    top: theme.spacing(1),
+    right: theme.spacing(1),
+    zIndex: 1,
+}));
 
 
 export default function ModalManagement(props) {
@@ -35,29 +58,9 @@ export default function ModalManagement(props) {
         };
     }
 
-    const useStyles = makeStyles((theme) => ({
-        modal: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-        paper: {
-            position: 'absolute',
-            width: '70%',
-            padding: '20px',
-            backgroundColor: "#e6e6e6",
-            borderBottom: '6px solid #3f51b5',
-            borderRadius: '5px',
-            boxShadow: `0 0 0 50vmax rgba(0,0,0,.5)`,
-            outline: 'none',
-        },
-    }));
-
-    const classes = useStyles();
-
     return (
 
-        <Modal
+        <StyledModal
             open={props.open}
             onClose={props.onClose}
             aria-labelledby="simple-modal-title"
@@ -70,14 +73,13 @@ export default function ModalManagement(props) {
             BackdropProps={{
                 timeout: 200,
             }}
-            className={classes.modal}
         >
             <Fade in={props.open}>
-                <div className={classes.paper}>
+                <Paper>
                     {props.modalDetail}
-                </div>
+                </Paper>
             </Fade>
-        </Modal>
+        </StyledModal>
 
     );
 }

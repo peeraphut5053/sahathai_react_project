@@ -1,7 +1,7 @@
 import React from 'react';
-import { Container } from '@material-ui/core';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import { Container } from '@mui/material';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import JobRecicpt from './JobRecipt';
 import JobMaterial from './JobMaterial';
 

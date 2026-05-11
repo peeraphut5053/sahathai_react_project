@@ -1,7 +1,6 @@
-import pdfMake from "pdfmake/build/pdfmake";
+import pdfMake from 'src/utils/pdfMake';
 // import { convertAllLotReport, workcenterHeader, dateFormatReport,fontsReport } from './function/GroupLot';
-import { fontsReport } from '../Production/productionReport/function/GroupLot'
-import { logo } from './function/logo'
+import { fontsReport } from '../Production/productionReport/function/GroupLot'import { logo } from './function/logo'
 
 function ReportMoveInternal(dataNowHeader,dataNow) {
 
@@ -254,7 +253,7 @@ function ReportMoveInternal(dataNowHeader,dataNow) {
         content: [
             {
                 margin: [0, 0, 0, 0],
-                columns: [
+                stack: [
                     {
 
                         table: {
@@ -270,8 +269,6 @@ function ReportMoveInternal(dataNowHeader,dataNow) {
                             ],
                         },
                     },
-                ],
-                columns: [
                     {
 
                         table: {

@@ -1,34 +1,36 @@
 import React, { useState } from 'react';
-import {
-  Card,
-  Container,
-  Grid,
-  makeStyles,
-  Typography
-} from '@material-ui/core';
+import { Card, Container, Grid, Typography } from '@mui/material';
 import Page from 'src/components/Page';
 import API from 'src/views/components/API';
 import moment from "moment";
-import MaterialTable from 'material-table'
-import tableIcons from './tableIcons'
+import DataTable from 'src/components/DataTable';
+import styles from './ProductionDashboard.module.css';
 
 moment.locale("th");
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    minHeight: '100%',
-    paddingBottom: theme.spacing(1),
-    paddingTop: theme.spacing(1)
-  }
-}));
-
 const ProductionDashboard = () => {
-  const classes = useStyles();
-
   const [date, setDate] = React.useState(new Date());
   const [ProductionDashboardP, setProductionDashboardP] = useState([])
   const [ProductionDashboardW, setProductionDashboardW] = useState([])
+
+  const columns = [
+    { title: 'Station', field: 'Station', minWidth: 200 },
+    { title: 'Qty Today (PCS)', field: 'Qty Today (PCS)', type: 'numeric' },
+    { title: 'Qty MTD (PCS)', field: 'Qty MTD (PCS)', type: 'numeric' },
+    { title: 'Qty Today (Ton)', field: 'Qty Today (Ton)', type: 'numeric' },
+    { title: 'Qty MTD (Ton)', field: 'Qty MTD (Ton)', type: 'numeric' },
+  ].map((column) => ({
+    ...column,
+    headerStyle: { padding: '0.1' },
+    cellStyle: { padding: '0.1' },
+  }));
+
+  const rowStyle = () => ({
+    fontSize: 12,
+    padding: 0,
+    width: 500,
+    fontFamily: 'sans-serif'
+  });
 
 
   const tick = () => {
@@ -59,7 +61,7 @@ const ProductionDashboard = () => {
  
   return (
     <Page
-      className={classes.root}
+      className={styles.root}
       title="Dashboard"
     >
       {/* <Button onClick={() => convertToJsonFormat(datafromapi)}>123</Button> */}
@@ -72,7 +74,6 @@ const ProductionDashboard = () => {
           <Grid item lg={12} sm={12} xl={12} xs={12}>
             <Card
               spacing={1}
-            // className={clsx(classes.root, className)}
             >
               <Grid
                 container
@@ -97,34 +98,14 @@ const ProductionDashboard = () => {
                 container
                 spacing={1}
               >
-                <MaterialTable
-                  style={{ width: '100%', margin: 5, overflowX: "scroll" }}
-                  icons={tableIcons}
+                <DataTable
                   title={"ปู่เจ้า"}
-                  columns={[
-                    { title: 'Station', field: 'Station', width: 200 },
-                    { title: 'Qty Today (PCS)', field: 'Qty Today (PCS)', type: 'numeric' },
-                    { title: 'Qty MTD (PCS)', field: 'Qty MTD (PCS)', type: 'numeric' },
-                    { title: 'Qty Today (Ton)', field: 'Qty Today (Ton)', type: 'numeric' },
-                    { title: 'Qty MTD (Ton)', field: 'Qty MTD (Ton)', type: 'numeric' },
-                  ]}
+                  columns={columns}
                   data={ProductionDashboardP}
-                  options={{
-                    cellStyle: { padding: '0.1' },
-                    headerStyle: { padding: '0.1' },
-                    search: false,
-                    paging: false,
-                    maxBodyHeight: '70vh',
-                    minBodyHeight: '70vh',
-                    rowStyle: rowData => ({
-                      // backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
-                      fontSize: 12,
-                      padding: 0,
-                      width: 500,
-                      fontFamily: 'sans-serif'
-                    }
-                    ),
-                  }}
+                  maxBodyHeight="70vh"
+                  search={false}
+                  sorting
+                  rowStyle={rowStyle}
                 />
               </Grid>
             </Card>
@@ -136,33 +117,14 @@ const ProductionDashboard = () => {
                 container
                 spacing={1}
               >
-                <MaterialTable
-                  style={{ width: '100%', margin: 5, overflowX: "scroll" }}
-                  icons={tableIcons}
+                <DataTable
                   title={"วังน้อย"}
-                  columns={[
-                    { title: 'Station', field: 'Station', width: 200 },
-                    { title: 'Qty Today (PCS)', field: 'Qty Today (PCS)', type: 'numeric' },
-                    { title: 'Qty MTD (PCS)', field: 'Qty MTD (PCS)', type: 'numeric' },
-                    { title: 'Qty Today (Ton)', field: 'Qty Today (Ton)', type: 'numeric' },
-                    { title: 'Qty MTD (Ton)', field: 'Qty MTD (Ton)', type: 'numeric' },
-                  ]}
+                  columns={columns}
                   data={ProductionDashboardW}
-                  options={{
-                    cellStyle: { padding: '0.1' },
-                    headerStyle: { padding: '0.1' },
-                    search: false,
-                    paging: false,
-                    maxBodyHeight: '70vh',
-                    minBodyHeight: '70vh',
-                    rowStyle: rowData => ({
-                      fontSize: 12,
-                      padding: 0,
-                      width: 500,
-                      fontFamily: 'sans-serif'
-                    }
-                    ),
-                  }}
+                  maxBodyHeight="70vh"
+                  search={false}
+                  sorting
+                  rowStyle={rowStyle}
                 />
               </Grid>
             </Card>

@@ -1,15 +1,7 @@
 import React, { useState } from 'react';
-import {
-  Container,
-  Grid,
-  Typography,
-  FormGroup,
-  FormControlLabel,
-  Checkbox
-} from '@material-ui/core';
+import { Container, Grid, Typography, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import moment from 'moment';
-import MaterialTable from 'material-table';
-import tableIcons from '../../../views/components/table/tableIcons';
+import DataTable from 'src/components/DataTable';
 
 
 const TableDetail = ({data}) => {
@@ -43,8 +35,7 @@ const TableDetail = ({data}) => {
                         </FormGroup>
       <Grid container spacing={1}>
             <Grid item style={{ width: '100%', margin: 5, overflowX: 'auto' }}>
-              <MaterialTable
-                icons={tableIcons}
+              <DataTable
                 title={` Productions Report (${tableData?.length} รายการ) `}
                 columns={[
                 { title: 'wc', field: 'wc', type: 'string' },
@@ -62,26 +53,11 @@ const TableDetail = ({data}) => {
                 { title: 'sumC', field: 'sumC', type: 'number' },
                 ]}
                 data={tableData}
-                options={{
-                  search: true,
-                  paging: false,
-                  sorting: false,
-                  filtering: false,
-                  exportButton: true,
-                  doubleHorizontalScroll: true,
-                  maxBodyHeight: '60vh',
-                    minBodyHeight: '60vh',
-                  headerStyle: {
-                    backgroundColor: '#039be5',
-                    color: '#FFF',
-                    textAlign: 'center'
-                  },
-                  cellStyle: {
-                    textAlign: 'center',
-                    fontSize: '14px',
-                    padding: '5px'
-                  }
-                }}
+                search
+                sorting={false}
+                exportButton
+                maxBodyHeight="60vh"
+                minBodyHeight="60vh"
               />
             </Grid>
           </Grid>

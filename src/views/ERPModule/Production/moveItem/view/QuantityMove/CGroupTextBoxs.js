@@ -1,39 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import { Grid, TextField } from '@material-ui/core';
+import Paper from '@mui/material/Paper';
+import { Grid, TextField } from '@mui/material';
 import CAutocomplete from './CAutocomplete';
 import API from '../../../../../components/API';
-import { Button, Modal } from '@material-ui/core';
-import FindInPageIcon from '@material-ui/icons/FindInPage';
-import MaterialTable from 'material-table';
-import tableIcons from './tableIcons'
+import { Button, Modal } from '@mui/material';
+import FindInPageIcon from '@mui/icons-material/FindInPage';
+import DataTable from 'src/components/DataTable';
 import { CPrintDiaryReport } from './CPrintDiaryReport';
-import { Switch } from '@material-ui/core';
-
-
-
-
-const useStyles = makeStyles({
-    root: {
-        // height: '92vh',
-        width: '100%',
-        margin: 10
-    },
-    textField: {
-        margin: 5,
-        width: "100%",
-        padding: 0
-    },
-    CheckLocationModal: {
-        width: '50%',
-        margin: 50
-    }
-});
-
-
+import { Switch } from '@mui/material';
+import styles from './CGroupTextBoxs.module.css';
 function CGroupTextBoxs(props) {
-    const classes = useStyles();
     const [location, setLocation] = useState([])
     const [w_c, setw_c] = useState([])
 
@@ -81,9 +57,7 @@ function CGroupTextBoxs(props) {
         <div style={{ width: '85%', margin: '5%' }} >
             <Paper >
 
-                <MaterialTable
-                    style={{ width: '100%', margin: 5, overflowX: "scroll" }}
-                    icons={tableIcons}
+                <DataTable
                     title={"จำนวน " + props.ItemLoc.length + " รายการ"}
                     columns={[
                         { title: 'item', field: 'item', width: '400' },
@@ -93,12 +67,9 @@ function CGroupTextBoxs(props) {
                         { title: 'รวม', field: 'sumqty', type: 'numeric' },
                     ]}
                     data={props.ItemLoc}
-                    options={{
-                        search: false,
-                        paging: false,
-                        maxBodyHeight: '68vh',
-                        minBodyHeight: '68vh',
-                    }}
+                    search={false}
+                    maxBodyHeight="68vh"
+                    minBodyHeight="68vh"
                 />
             </Paper>
         </div >
@@ -109,22 +80,17 @@ function CGroupTextBoxs(props) {
             <Paper >
                 <Grid container alignItems="center" direction="row" justify="space-between" spacing={0}>
                     <Grid item xs={3} container >
-                        <MaterialTable
-                            style={{ width: '100%', margin: 5, overflowX: "scroll" }}
-                            icons={tableIcons}
+                        <DataTable
                             title={"เลือก Work Center"}
                             columns={[
                                 { title: 'work center', field: 'w_c', width: '400' },
                                 { title: 'จำนวนทั้งหมด', field: 'totalLot', width: '400', type: 'numeric' },
                             ]}
                             data={DairyReportCountLotByWC}
-                            options={{
-                                search: false,
-                                paging: false,
-                                maxBodyHeight: '68vh',
-                                minBodyHeight: '68vh',
-                            }}
-                            onRowClick={(event, rowData) => {
+                            search={false}
+                            maxBodyHeight="68vh"
+                            minBodyHeight="68vh"
+                            onRowClick={(rowData) => {
                                 console.log(rowData)
                                 API.get(`API_QuantityMove/data.php?load=DairyReportCountLotByWCDate&w_c=${rowData.w_c}`)
                                     .then(res => {
@@ -141,9 +107,7 @@ function CGroupTextBoxs(props) {
                         />
                     </Grid>
                     <Grid item xs={3} container >
-                        <MaterialTable
-                            style={{ width: '100%', margin: 5, overflowX: "scroll" }}
-                            icons={tableIcons}
+                        <DataTable
                             title={"เลือกวัน"}
                             columns={[
                                 { title: 'work center', field: 'w_c', width: '400' },
@@ -151,14 +115,11 @@ function CGroupTextBoxs(props) {
                                 { title: 'total Lot Perday', field: 'totalPerday', type: 'numeric' },
                             ]}
                             data={DairyReportCountLotByWCDate}
-                            options={{
-                                search: false,
-                                paging: false,
-                                maxBodyHeight: '68vh',
-                                minBodyHeight: '68vh',
-                            }}
+                            search={false}
+                            maxBodyHeight="68vh"
+                            minBodyHeight="68vh"
 
-                            onRowClick={(event, rowData) => {
+                            onRowClick={(rowData) => {
                                 console.log(rowData)
                                 API.get(`API_QuantityMove/data.php?load=DairyReportLine&w_c=${rowData.w_c}&date=${rowData.date}`)
                                     .then(res => {
@@ -169,9 +130,7 @@ function CGroupTextBoxs(props) {
                         />
                     </Grid>
                     <Grid item xs={6} container >
-                        <MaterialTable
-                            style={{ width: '100%', margin: 5, overflowX: "scroll" }}
-                            icons={tableIcons}
+                        <DataTable
                             title={"จำนวน" + DairyReportLine.length + "รายการ"}
                             columns={[
                                 { title: 'doc_num', field: 'doc_num', },
@@ -179,12 +138,9 @@ function CGroupTextBoxs(props) {
                                 { title: 'toloc', field: 'toloc', width: '400' },
                             ]}
                             data={DairyReportLine}
-                            options={{
-                                search: false,
-                                paging: false,
-                                maxBodyHeight: '68vh',
-                                minBodyHeight: '68vh',
-                            }}
+                            search={false}
+                            maxBodyHeight="68vh"
+                            minBodyHeight="68vh"
                         />
                     </Grid>
                     <Grid item xs={12} container style={{ justifyContent: "center" }}>
@@ -223,7 +179,7 @@ function CGroupTextBoxs(props) {
 
 
     return (
-        <Paper className={classes.root} >
+        <Paper className={styles.root} >
             <div>
                 <Modal open={openModal} onClose={handleClose} aria-labelledby="simple-modal-title" aria-describedby="simple-modal-description" >
                     {body}
@@ -237,13 +193,13 @@ function CGroupTextBoxs(props) {
                     <>
                         <Grid container alignItems="center" direction="row" justify="space-between" spacing={0}>
                             <Grid item md={2} container >
-                            <TextField size="small" label={"DO Number"} id={"tagScan1"} variant="outlined" className={classes.textField}  />
+                            <TextField size="small" label={"DO Number"} id={"tagScan1"} variant="outlined" className={styles.textField}  />
                             </Grid>
                             <Grid item md={2} container >
-                            <TextField size="small" label={"Scan tag"} id={"tagScan2"} variant="outlined" className={classes.textField}  />
+                            <TextField size="small" label={"Scan tag"} id={"tagScan2"} variant="outlined" className={styles.textField}  />
                             </Grid>
                             <Grid item md={2} container >
-                                <TextField size="small" label={"Scan tag"} id={"tagScan3"} variant="outlined" className={classes.textField}  />
+                                <TextField size="small" label={"Scan tag"} id={"tagScan3"} variant="outlined" className={styles.textField}  />
                             </Grid>
                         </Grid>
                         <Grid container alignItems="center" direction="row" justify="space-between" spacing={0}>
@@ -254,7 +210,7 @@ function CGroupTextBoxs(props) {
                                 <CAutocomplete label={"Location ปลายทาง"} selectValue={location} handleSelectValue={props.handleToLocation} />
                             </Grid>
                             <Grid item md={8} container >
-                                <TextField size="small" label={"Scan tag"} id={"tagScan"} variant="outlined" className={classes.textField} onKeyUp={handleScanTag2} />
+                                <TextField size="small" label={"Scan tag"} id={"tagScan"} variant="outlined" className={styles.textField} onKeyUp={handleScanTag2} />
                             </Grid>
                         </Grid>
                     </>
@@ -262,7 +218,7 @@ function CGroupTextBoxs(props) {
                     :
                     <>
                         <Grid item md={3} container >
-                            <TextField size="small" label={"Location ปลายทาง"} variant="outlined" className={classes.textField} value={props.STS_qty_move_hdr_loc} />
+                            <TextField size="small" label={"Location ปลายทาง"} variant="outlined" className={styles.textField} value={props.STS_qty_move_hdr_loc} />
                         </Grid>
                         <Grid item md={2} container >
                             <Button variant="contained" color="primary" startIcon={<FindInPageIcon />}
@@ -271,10 +227,10 @@ function CGroupTextBoxs(props) {
                             </Button>
                         </Grid>
                         <Grid item md={3} container >
-                            <TextField size="small" label={"Document ID"} variant="outlined" className={classes.textField} value={props.DocNum} />
+                            <TextField size="small" label={"Document ID"} variant="outlined" className={styles.textField} value={props.DocNum} />
                         </Grid>
                         <Grid item md={4} container >
-                            <TextField size="small" label={"Date"} variant="outlined" className={classes.textField} value={props.STS_qty_move_hdr_date} />
+                            <TextField size="small" label={"Date"} variant="outlined" className={styles.textField} value={props.STS_qty_move_hdr_date} />
                         </Grid>
                         <Button variant="contained" color="primary" startIcon={<FindInPageIcon />}
                             style={{ margin: 10 }}

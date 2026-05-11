@@ -1,11 +1,14 @@
-import pdfMake from "pdfmake/build/pdfmake";
-import { convertAllLotReport, workcenterHeader, dateFormatReport,fontsReport } from './function/GroupLot';
-import {logo} from './function/logo'
+import pdfMake from 'src/utils/pdfMake';
+import { convertAllLotReport, workcenterHeader, dateFormatReport, fontsReport } from './function/GroupLot';
+import { logo } from './function/logo'
 
 function ReportPackingDiary(dataNow, selectedDateStart, selectedDateEnd) {
 
     let startdate = dateFormatReport(selectedDateStart)
     let enddate = dateFormatReport(selectedDateEnd)
+
+    console.log("dataNow", dataNow);
+
 
     pdfMake.fonts = fontsReport
     const data = []
@@ -33,7 +36,7 @@ function ReportPackingDiary(dataNow, selectedDateStart, selectedDateEnd) {
     let cal_bundel = []
 
     for (let i = 0; i < dataNow.length; i++) {
-        
+
         total_bundle = total_bundle + dataNow[i]["SUMLotBundle"]
         total_pcs = total_pcs + dataNow[i]["SUMLotPCS"]
         cal_bundel.push(dataNow[i]["SUMLotPCS"])

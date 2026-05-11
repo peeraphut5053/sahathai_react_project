@@ -1,41 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Button,
-    Container,
-    FormControl,
-    Grid,
-    makeStyles,
-    MenuItem,
-    Paper,
-    Select,
-    TextField,
-    Modal,
-    InputLabel,
-} from '@material-ui/core';
+import { Button, Container, FormControl, Grid, MenuItem, Paper, Select, TextField, Modal, InputLabel } from '@mui/material';
 import Page from 'src/components/Page';
 import CardBoatHeader from './CardBoatHeader';
 import CardBoatLine from './CardBoatLine';
 import API from '../../components/API';
 import ModalManagementFullPage from '../../components/ModalManagementFullPage';
 import CAutocompleteWorkCenter from '../../components/Input/CAutocompleteWorkCenter';
-
 import CAutocompleteLocationCL from '../../components/Input/CAutocompleteLocationCL';
-
 import CAutocompleteListOfDoGroup from '../../components/Input/CAutocompleteListOfDoGroup';
-
 import { Formik } from 'formik';
 import moment from "moment";
 import CTextField from '../../components/Input/CTextField';
-import MaterialTable, { MTableToolbar } from 'material-table';
-import tableIcons from 'src/views/components/table/tableIcons';
+import DataTable from 'src/components/DataTable';
 import CAutocompleteBoatList from 'src/views/components/Input/CAutocompleteBoatList';
-import SaveIcon from '@material-ui/icons/Save';
+import SaveIcon from '@mui/icons-material/Save';
 import ModalProgressSaving from './ModalProgressSaving';
 import ModalSelectDOList from './ModalSelectDOList';
-
-
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake-thai/build/vfs_fonts";
+import styles from './BoatNote.module.css';
 
 
 
@@ -43,23 +24,7 @@ import pdfFonts from "pdfmake-thai/build/vfs_fonts";
 
 moment.locale("th");
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        backgroundColor: theme.palette.background.dark,
-        minHeight: '100%',
-        paddingBottom: theme.spacing(1),
-        paddingTop: theme.spacing(2)
-    },
-    paper: {
-        padding: theme.spacing(2),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    },
-}));
-
 const BoatNote = () => {
-    const classes = useStyles();
-
     const [STS_qty_move_line, setSTS_qty_move_line] = useState([])
     const [STS_qty_move_hrd_ship, setSTS_qty_move_hrd_ship] = useState([])
     const [SelectDOList, setSelectDOList] = useState([])
@@ -284,16 +249,6 @@ const BoatNote = () => {
         setDisabled(false)
     }
 
-    pdfMake.vfs = pdfFonts.pdfMake.vfs;
-    const pdfDocGenerator = pdfMake.createPdf("");
-    pdfDocGenerator.getDataUrl((dataUrl) => {
-        const targetElement = document.querySelector('#iframeContainer');
-        const iframe = document.createElement('iframe');
-        iframe.src = dataUrl;
-        targetElement.appendChild(iframe);
-    });
-
-
     const handlesetEditStatus = () => {
         setEditStatus(true)
         setQtyMoveList(STS_qty_move_line)
@@ -399,11 +354,47 @@ const BoatNote = () => {
 
     const [dataListOfDoGroup, setDataListOfDoGroup] = useState([]);
 
+    const doGroupColumns = [
+        { title: 'id', field: 'id', minWidth: 90 },
+        { title: 'Group name', field: 'do_group_name', type: 'text', minWidth: 180 },
+        {
+            title: 'Group list',
+            field: 'do_group_list',
+            type: 'text',
+            cellStyle: { textAlign: 'left' },
+            align: 'left',
+            minWidth: 600,
+        },
+        {
+            title: '\u0e2a\u0e16\u0e32\u0e19\u0e30',
+            field: 'do_group_status',
+            lookup: {
+                0: '\u0e23\u0e30\u0e2b\u0e27\u0e48\u0e32\u0e07\u0e08\u0e31\u0e14\u0e2a\u0e48\u0e07',
+                1: '\u0e08\u0e31\u0e14\u0e2a\u0e48\u0e07\u0e2a\u0e33\u0e40\u0e23\u0e47\u0e08'
+            },
+            minWidth: 160,
+            render: rowData => ({
+                0: '\u0e23\u0e30\u0e2b\u0e27\u0e48\u0e32\u0e07\u0e08\u0e31\u0e14\u0e2a\u0e48\u0e07',
+                1: '\u0e08\u0e31\u0e14\u0e2a\u0e48\u0e07\u0e2a\u0e33\u0e40\u0e23\u0e47\u0e08'
+            }[rowData.do_group_status] || rowData.do_group_status),
+        },
+    ];
+
+    const qtyMoveColumns = [
+        { title: 'id', field: 'id' },
+        { title: 'lot', field: 'lot', minWidth: 200 },
+        { title: 'From loc', field: 'loc', minWidth: 100 },
+        { title: 'item', field: 'item', minWidth: 300 },
+        { title: 'qty', field: 'qty1', type: 'numeric' },
+        { title: 'unit', field: 'u_m' },
+        { title: 'boat position', field: 'boat_position' },
+    ];
+
 
 
     return (
         <Page
-            className={classes.root}
+            className={styles.root}
             title="Dashboard"
         >
             {/* *{JSON.stringify(editStatus)}* */}
@@ -435,23 +426,10 @@ const BoatNote = () => {
                 }
                 modalDetail={
                     <div style={{ maxWidth: '100%' }}>
-                        <MaterialTable
-                            icons={tableIcons}
-                            title="กลุ่มใบ DO ที่ต้องการขนส่ง"
-                            columns={[
-                                { title: 'id', field: 'id', editable: 'never' },
-                                { title: 'Group name', field: 'do_group_name', type: 'text', validate: rowData => rowData.do_group_name === '' ? 'กรอกชื่อกลุ่มเอกสาร' : '' },
-                                { title: 'Group list', field: 'do_group_list', type: 'text', validate: rowData => rowData.do_group_list === '' ? 'กรอกรายการเอกสาร' : '' },
-                                {
-                                    title: 'สถานะ',
-                                    field: 'do_group_status',
-                                    lookup: { 0: 'ระหว่างจัดส่ง', 1: 'จัดส่งสำเร็จ' },
-                                    validate: rowData => rowData.do_group_status === '' ? 'เลือกสถานะเอกสาร' : ''
-                                },
-                                { title: 'id', field: 'id', editable: 'never' },
-                            ]}
-                            onRowClick={(event, rowData) => {
-
+                        <DataTable
+                            title="DO Group"
+                            columns={doGroupColumns}
+                            onRowClick={(rowData) => {
                                 API.get(`API_QuantityMove/data.php?load=SelectDOList&do_num=${rowData.do_group_list}`)
                                     .then(res => {
                                         setOpenModalSelectDOList(true)
@@ -459,20 +437,12 @@ const BoatNote = () => {
                                     })
                             }}
                             data={dataListOfDoGroup}
-                            options={{
-                                search: false,
-                                paging: false,
-                                maxBodyHeight: '60vh',
-                                minBodyHeight: '60vh',
-                                exportButton: true,
-                                filtering: false,
-                                rowStyle: rowData => ({
-                                    // backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
-                                    // fontSize: 12,
-                                    // padding: 0
-                                }
-                                ),
-                            }}
+                            search={false}
+                            sorting
+                            exportButton
+                            exportFileName="do-group.csv"
+                            maxBodyHeight="75vh"
+                            minBodyHeight="75vh"
                             editable={{
                                 onRowAdd: newData =>
                                     new Promise((resolve, reject) => {
@@ -486,10 +456,9 @@ const BoatNote = () => {
                                 onRowUpdate: (newData, oldData) =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
-                                            const dataUpdate = [...dataListOfDoGroup];
-                                            const index = oldData.tableData.id;
-                                            dataUpdate[index] = newData;
-                                            setDataListOfDoGroup([...dataUpdate]);
+                                            setDataListOfDoGroup(dataListOfDoGroup.map(item => (
+                                                item.id === oldData.id ? newData : item
+                                            )));
                                             CRUDfn("UpdateSTS_list_of_do_group", newData)
                                             resolve();
                                         }, 1000)
@@ -497,10 +466,7 @@ const BoatNote = () => {
                                 onRowDelete: oldData =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
-                                            const dataDelete = [...dataListOfDoGroup];
-                                            const index = oldData.tableData.id;
-                                            dataDelete.splice(index, 1);
-                                            setDataListOfDoGroup([...dataDelete]);
+                                            setDataListOfDoGroup(dataListOfDoGroup.filter(item => item.id !== oldData.id));
                                             CRUDfn("DeleteSTS_list_of_do_group", oldData)
                                             resolve()
                                         }, 1000)
@@ -542,7 +508,6 @@ const BoatNote = () => {
                                     do_num: '',
                                     loc: '',
                                     doc_type: 'Ship',
-                                    wc: '',
                                     round: '',
                                     boatList: '',
                                     ActualWeight: 0,
@@ -591,7 +556,7 @@ const BoatNote = () => {
                                             <Grid container spacing={2}>
                                                 <Grid item lg={3} spacing={2}>
                                                     <Grid item lg={12} spacing={2}>
-                                                        <Paper className={classes.paper}>
+                                                        <Paper className={styles.paper}>
                                                             <Grid container spacing={2}>
 
                                                                 <Grid item lg={12} >
@@ -662,7 +627,7 @@ const BoatNote = () => {
                                                     </Grid>
                                                     <br></br>
                                                     <Grid item lg={12} spacing={2}>
-                                                        <Paper className={classes.paper}>
+                                                        <Paper className={styles.paper}>
                                                             <Grid container spacing={2}>
 
                                                                 {(values.doc_type == "Internal") ?
@@ -734,41 +699,19 @@ const BoatNote = () => {
 
 
                                                 <Grid item lg={9} >
-                                                    <MaterialTable
-                                                        style={{ margin: 5, overflowX: "scroll" }}
-                                                        icons={tableIcons}
-                                                        title={"Quantity Move List : " + qtyMoveList.length + " รายการ"}
-                                                        columns={[
-                                                            { title: 'id', field: 'id' },
-                                                            { title: 'lot', field: 'lot', width: 200 },
-                                                            { title: 'From loc', field: 'loc', width: 100 },
-                                                            { title: 'item', field: 'item', width: 300 },
-                                                            { title: 'qty', field: 'qty1', type: 'numeric' },
-                                                            { title: 'unit', field: 'u_m' },
-                                                            {
-                                                                title: 'boat position',
-                                                                field: 'boat_position',
-                                                                lookup: { หัวเรือ: 'หัวเรือ', กลางหัว: 'กลางหัว', กลางท้าย: 'กลางท้าย', ท้ายเรือ: 'ท้ายเรือ' },
-                                                            },
-                                                        ]}
-                                                        // onRowClick={(event, rowData) => {
-                                                        //   SelectItemToModal(rowData)
-                                                        // }}
+                                                    <DataTable
+                                                        title={`Quantity Move List : ${qtyMoveList.length} \u0e23\u0e32\u0e22\u0e01\u0e32\u0e23`}
+                                                        columns={qtyMoveColumns}
                                                         data={qtyMoveList}
-                                                        options={{
-                                                            search: false,
-                                                            paging: false,
-                                                            maxBodyHeight: '60vh',
-                                                            minBodyHeight: '60vh',
-                                                            filtering: false,
-                                                            rowStyle: rowData => ({
-                                                                // backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
-                                                                fontSize: '0.7em',
-                                                                padding: 0,
-                                                                fontFamily: 'sans-serif'
-                                                            })
+                                                        search={false}
+                                                        sorting={false}
+                                                        maxBodyHeight="60vh"
+                                                        minBodyHeight="60vh"
+                                                        rowStyle={{
+                                                            fontSize: '0.7em',
+                                                            padding: 0,
+                                                            fontFamily: 'sans-serif'
                                                         }}
-
                                                         editable={{
                                                             onRowDelete: oldData =>
                                                                 new Promise((resolve, reject) => {
@@ -784,100 +727,49 @@ const BoatNote = () => {
                                                             onRowUpdate: (newData, oldData) =>
                                                                 new Promise((resolve, reject) => {
                                                                     setTimeout(() => {
-                                                                        const dataUpdate = [...qtyMoveList];
-                                                                        const index = oldData.tableData.id;
-                                                                        dataUpdate[index] = newData;
-                                                                        // console.log(doc_num)
-                                                                        // console.log(newData)
-                                                                        setQtyMoveList([...dataUpdate]);
+                                                                        setQtyMoveList(qtyMoveList.map(item => (
+                                                                            item.id === oldData.id ? newData : item
+                                                                        )));
                                                                         BoatPfn("UpdateBoat_Position", newData, doc_num)
                                                                         resolve();
                                                                     }, 1000)
                                                                 }),
                                                         }}
+                                                        toolbar={(
+                                                            <div style={{ padding: '0px 10px' }}>
+                                                                <FormControl style={{ paddingRight: 10, width: 160 }} variant="outlined" size="small">
+                                                                    <InputLabel>Boat position</InputLabel>
+                                                                    <Select
+                                                                        value={boatPosition}
+                                                                        variant="outlined"
+                                                                        label="Boat position"
+                                                                        size="small"
+                                                                        onChange={setBoatPositionState}
+                                                                    >
+                                                                        <MenuItem value="">
+                                                                            <em>None</em>
+                                                                        </MenuItem>
+                                                                        <MenuItem value={'หัวเรือ'}>หัวเรือ</MenuItem>
+                                                                        <MenuItem value={'กลางหัว'}>กลางหัว</MenuItem>
+                                                                        <MenuItem value={'กลางท้าย'}>กลางท้าย</MenuItem>
+                                                                        <MenuItem value={'ท้ายเรือ'}>ท้ายเรือ</MenuItem>
+                                                                    </Select>
+                                                                </FormControl>
 
-                                                        components={{
-                                                            Toolbar: props => (
-                                                                <div>
-                                                                    <MTableToolbar {...props} />
-                                                                    <div style={{ padding: '0px 10px' }}>
-                                                                        {/* <TextField style={{ paddingRight: 10 }}
-                                                                            size="small"
-                                                                            label={"ตำแหน่งบนเรือ"}
-                                                                            id={"tagScan"}
-                                                                            variant="outlined"
-                                                                            className={classes.textField}
-                                                                            onKeyUp={setBoatPositionState}
-                                                                        /> */}
+                                                                <TextField size="small" label="Scan tag" id="tagScan"
+                                                                    variant="outlined"
+                                                                    onKeyUp={(e) => (values.doc_type == "Ship") ? handleScanTagCheckByDO(e, values.do_num) : handleScanTag(e)}
+                                                                    autoFocus={focusScanTagState} />
 
-                                                                        <FormControl style={{ paddingRight: 10, width: 120 }} variant="outlined" size="small">
-                                                                            <InputLabel>ระวางเรือ</InputLabel>
-                                                                            <Select
-                                                                                value={boatPosition}
-                                                                                variant="outlined"
-                                                                                label="ระวางเรือ"
-                                                                                size="small"
-                                                                                onChange={setBoatPositionState}
-                                                                            >
-                                                                                <MenuItem value="">
-                                                                                    <em>None</em>
-                                                                                </MenuItem>
-                                                                                <MenuItem value={'หัวเรือ'}>หัวเรือ</MenuItem>
-                                                                                <MenuItem value={'กลางหัว'}>กลางหัว</MenuItem>
-                                                                                <MenuItem value={'กลางท้าย'}>กลางท้าย</MenuItem>
-                                                                                <MenuItem value={'ท้ายเรือ'}>ท้ายเรือ</MenuItem>
-                                                                            </Select>
-                                                                        </FormControl>
-
-                                                                        <TextField size="small" label={"Scan tag"} id={"tagScan"}
-                                                                            variant="outlined"
-                                                                            className={classes.textField}
-                                                                            onKeyUp={(e) => (values.doc_type == "Ship") ? handleScanTagCheckByDO(e, values.do_num) : handleScanTag(e)}
-                                                                            // (values.doc_type == "Ship") ? handleScanTagCheckByDO(e, values.do_num) : handleScanTag(e)}
-                                                                            autoFocus={focusScanTagState} />
-
-                                                                        <FormControl style={{ paddingLeft: 10, paddingRight: 10, width: 170 }} variant="outlined" size="small">
-                                                                            {/* <InputLabel style={{ paddingLeft: 10}}>ปลายทางขนส่ง</InputLabel> */}
-                                                                            <CTextField size="small" label={"ปลายทางขนส่ง"} id={"destination"}
-                                                                                // onBlur={handleBlur}
-                                                                                name="destination"
-                                                                                variant="outlined"
-                                                                                value="ลงเรือฉลอม"
-                                                                            // setFieldValue={setFieldValue}
-                                                                            />
-
-                                                                            {/* <Select
-                                                                                value={destination}
-                                                                                variant="outlined"
-                                                                                label="ปลายทางขนส่ง"
-                                                                                size="small"
-                                                                                onChange={setDestinationState}
-                                                                            >
-                                                                                <MenuItem value="">
-                                                                                    <em>None</em>
-                                                                                </MenuItem>
-                                                                                <MenuItem value={'โกดัง A4'}>โกดัง A4</MenuItem>
-                                                                                <MenuItem value={'โกดัง A5'}>โกดัง A5</MenuItem>
-                                                                                <MenuItem value={'โกดัง A6'}>โกดัง A6</MenuItem>
-                                                                                <MenuItem value={'โกดัง A7'}>โกดัง A7</MenuItem>
-                                                                                <MenuItem value={'โรงงานวังน้อย'}>โรงงานวังน้อย</MenuItem>
-                                                                                <MenuItem value={'โรงงานปู่เจ้าสมิงพราย'}>โรงงานปู้เจ้าสมิงพราย</MenuItem>
-                                                                                <MenuItem value={'ลงเรือฉลอม'}>ลงเรือฉลอม</MenuItem>
-                                                                            </Select> */}
-                                                                        </FormControl>
-
-                                                                        {/* <TextField size="small" label={"doc_num"} id={"GENDocNum"}
-                                                                            disabled
-                                                                            variant="outlined"
-                                                                            value={STS_QtyMoveLotLocation_GEN_Doc_num.doc_num}
-                                                                            // defaultValue={STS_QtyMoveLotLocation_GEN_Doc_num.doc_num}
-                                                                            className={classes.textField}
-                                                                        /> */}
-
-                                                                    </div>
-                                                                </div>
-                                                            ),
-                                                        }}
+                                                                <FormControl style={{ paddingLeft: 10, paddingRight: 10, width: 170 }} variant="outlined" size="small">
+                                                                    <CTextField size="small" label="Destination" id="destination"
+                                                                        name="destination"
+                                                                        variant="outlined"
+                                                                        value="ลงเรือฉลอม"
+                                                                    />
+                                                                </FormControl>
+                                                            </div>
+                                                        )}
                                                     />
 
                                                 </Grid>
@@ -885,7 +777,7 @@ const BoatNote = () => {
                                                     ""
                                                     :
                                                     <Grid item xs={12}>
-                                                        <Paper className={classes.paper}>
+                                                        <Paper className={styles.paper}>
                                                             <Button disabled={isDisabled} type="button" variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => saveDocumentBoatNoteOnly(values, qtyMoveList)}>Save</Button>
                                                         </Paper>
                                                         {/* <Button variant="contained" color="primary" startIcon={<SaveIcon />} style={{ margin: 10 }} onClick={handleSubmit} >Save  </Button> */}
@@ -907,8 +799,12 @@ const BoatNote = () => {
                 <Grid item lg={12}>
                     <Grid container spacing={2}>
 
-                        <Grid item xs={4} >
-                            <label style={{ color: 'red', fontSize: '36px' }}>***ใช้สำหรับย้ายลงเรือเท่านั้น</label>
+                        <Grid item xs={12} className={styles.warningRow}>
+                            <label className={styles.warning}>
+                                ***ใช้สำหรับย้ายลงเรือเท่านั้น
+                            </label>
+                        </Grid>
+                        <Grid item xs={4}>
                             <CardBoatHeader
 
                                 STS_qty_move_hrd_ship={STS_qty_move_hrd_ship}

@@ -2,41 +2,89 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import {
-  Card,
-  makeStyles
-} from '@material-ui/core';
-import MaterialTable from 'material-table';
-import tableIcons from '../../components/table/tableIcons'
+import { Card, Select } from '@mui/material';
+import DataTable from 'src/components/DataTable';
 import { useEffect } from 'react';
 import Axios from 'axios';
+import styles from './Results.module.css';
 
-const useStyles = makeStyles((theme) => ({
-  root: {},
-  avatar: {
-    marginRight: theme.spacing(2)
-  }
-}));
+
+const users = [
+  {
+    imageUrl: 'https://avatars0.githubusercontent.com/u/7895451?s=460&v=4',
+    firstname: '.asd..',
+    lastname: '...',
+    email: '...',
+    position: 'admin',
+    role: '...',
+    updated: '...'
+  },
+  {
+    imageUrl: 'https://avatars0.githubusercontent.com/u/7895451?s=460&v=4',
+    firstname: 'Katarina',
+    lastname: 'Smith',
+    email: '....',
+    position: 'user',
+    role: 'user',
+    updated: '2022-01-01'
+  },
+  {
+    imageUrl: 'https://avatars0.githubusercontent.com/u/7895451?s=460&v=4',
+    firstname: 'Katarina',
+    lastname: 'Smith',
+    email: '....',
+    position: 'user',
+    role: 'user',
+    updated: '2022-01-01'
+  },
+  {
+    imageUrl: 'https://avatars0.githubusercontent.com/u/7895451?s=460&v=4',
+    firstname: 'Katarina',
+    lastname: 'Smith',
+    email: '....',
+    position: 'user',
+    role: 'user',
+    updated: '2022-01-01'
+  },
+  {
+    imageUrl: 'https://avatars0.githubusercontent.com/u/7895451?s=460&v=4',
+    firstname: 'Katarina',
+    lastname: 'Smith',
+    email: '....',
+    position: 'user',
+    role: 'user',
+    updated: '2022-01-01'
+  },
+  {
+    imageUrl: 'https://avatars0.githubusercontent.com/u/7895451?s=460&v=4',
+    firstname: 'Katarina',
+    lastname: 'Smith',
+    email: '....',
+    position: 'admin',
+    role: 'user',
+    updated: '2022-01-01'
+  },
+]
 
 const Results = (props) => {
-  const classes = useStyles();
-  const [data, setData] = useState([
-    {
-      imageUrl: 'https://avatars0.githubusercontent.com/u/7895451?s=460&v=4',
-      firstname: '.asd..',
-      lastname: '...',
-      email: '...',
-      position: '...',
-      role: '...',
-      updated: '...'
-    },
-  ])
+  const [data, setData] = useState(users)
 
   useEffect(() => {
     Shearch()
 
   }, [])
 
+  const HandleChange = (event) => {
+    const position = event.target.value;
+    if (position === "all") {
+      setData(users)
+    } else {
+      const filter = users.filter((item) => {
+        return item.position === position;
+      });
+      setData(filter);
+    }
+  }
 
 
   const Shearch = () => {
@@ -61,7 +109,7 @@ const Results = (props) => {
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem("token") }
     });
 
-    instance.post(`account/register`,values)
+    instance.post(`account/register`, values)
       .then(response => {
         const userData = response.data;
         setData(userData.items)
@@ -70,69 +118,10 @@ const Results = (props) => {
   }
 
 
-
   return (
-    <Card className={clsx(classes.root)}>
+    <Card className={clsx(styles.root)}>
       <PerfectScrollbar>
-        <MaterialTable
-          title="Users"
-          icons={tableIcons}
-          columns={[
-            { title: 'Avatar', field: 'imageUrl', render: rowData => <img src={rowData.imageUrl} style={{ width: 40, borderRadius: '50%' }} /> },
-            { title: 'firstname', field: 'firstname' },
-            { title: 'lastname', field: 'lastname' },
-            { title: 'email', field: 'email' },
-            { title: 'password', field: 'password' },
-            { title: 'cpassword', field: 'cpassword' },
-            { title: 'position', field: 'position' },
-            { title: 'role', field: 'role' },
-            { title: 'updated', field: 'updated' },
 
-          ]}
-          data={data}
-          options={{
-            search: false,
-            paging: false,
-            maxBodyHeight: '77vh',
-            minBodyHeight: '77vh',
-            exportButton: true,
-            filtering: false,
-          }}
-          editable={{
-            onRowAdd: newData =>
-              new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  setData([...data, newData]);
-                  console.log(newData)
-                  Register(newData)
-                  
-                  resolve();
-                }, 1000)
-              }),
-            onRowUpdate: (newData, oldData) =>
-              new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  const dataUpdate = [...data];
-                  const index = oldData.tableData.id;
-                  dataUpdate[index] = newData;
-                  setData([...dataUpdate]);
-
-                  resolve();
-                }, 1000)
-              }),
-            onRowDelete: oldData =>
-              new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  const dataDelete = [...data];
-                  const index = oldData.tableData.id;
-                  dataDelete.splice(index, 1);
-                  setData([...dataDelete]);
-
-                  resolve();
-                }, 1000)
-              }),
-          }}
-        />
       </PerfectScrollbar>
 
     </Card>
@@ -145,3 +134,4 @@ Results.propTypes = {
 };
 
 export default Results;
+1

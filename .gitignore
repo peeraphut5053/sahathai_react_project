@@ -19,6 +19,16 @@
 /.env.test.local
 /.env.production.local
 
+
+/dist
+
+/.agents
+/AGENTS.md
+/CHANGELOG.md
+/context.md
+
+
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

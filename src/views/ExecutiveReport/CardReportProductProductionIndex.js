@@ -1,32 +1,24 @@
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {
-  Avatar,
-  Card,
-  CardContent,
-  Grid,
-  Typography,
-  makeStyles,
-  colors
-} from '@material-ui/core';
-import InsertChartIcon from '@material-ui/icons/InsertChartOutlined';
+import { Avatar, Card, CardContent, Grid, Typography } from '@mui/material';
+import * as colors from '@mui/material/colors';
+import { styled } from '@mui/material/styles';
+import InsertChartIcon from '@mui/icons-material/InsertChartOutlined';
 import ModalManagement from '../components/ModalManagement';
 import { useNavigate } from 'react-router-dom';
 
-const useStyles = makeStyles(() => ({
-  root: {
-    height: '100%'
-  },
-  avatar: {
-    backgroundColor: colors.orange[600],
-    height: 56,
-    width: 56
-  }
-}));
+const RootCard = styled(Card)({
+  height: '100%'
+});
+
+const ReportAvatar = styled(Avatar)({
+  backgroundColor: colors.orange[600],
+  height: 56,
+  width: 56
+});
 
 const CardReportProductProductionIndex = ({ className, ...rest }) => {
-  const classes = useStyles();
   const [openModalItem, setOpenModalItem] = React.useState(false);
   const navigate = useNavigate();
 
@@ -34,8 +26,8 @@ const CardReportProductProductionIndex = ({ className, ...rest }) => {
     setOpenModalItem(false);
   };
   return (
-    <Card
-      className={clsx(classes.root, className)}
+    <RootCard
+      className={clsx(className)}
       {...rest}
     >
       <ModalManagement
@@ -71,9 +63,9 @@ const CardReportProductProductionIndex = ({ className, ...rest }) => {
             </Typography>
           </Grid>
           <Grid item>
-            <Avatar className={classes.avatar}>
+            <ReportAvatar>
               <InsertChartIcon />
-            </Avatar>
+            </ReportAvatar>
           </Grid>
         </Grid>
         {/* <Box mt={3}>
@@ -83,7 +75,7 @@ const CardReportProductProductionIndex = ({ className, ...rest }) => {
           />
         </Box> */}
       </CardContent>
-    </Card>
+    </RootCard>
   );
 };
 

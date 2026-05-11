@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import API from '../../../components/API';
-import { Grid } from '@material-ui/core';
-import customStyles from "./customStyles.js";
+import { Grid } from '@mui/material';
+import styles from './ProductionReport.module.css';
 import { Formik } from 'formik';
 import CTextField from 'src/views/components/Input/CTextField';
 import CButton from 'src/views/components/Input/CButton';
 
-// import AssignmentIcon from '@material-ui/icons/Assignment';
-const useStyles = customStyles
+// import AssignmentIcon from '@mui/icons-material/Assignment';
 
 const ReasonAddNewMeter = (props) => {
     // const [selectedRow, setSelectedRow] = useState(null);
-    const classes = useStyles();
-
     const [meters_start, setMeters_start] = useState("")
 
 
@@ -55,7 +52,7 @@ const ReasonAddNewMeter = (props) => {
 
     return (
         <>
-            <Grid container spacing={0} className={classes.paperModalSM}>
+            <Grid container spacing={0} className={styles.paperModalSM}>
                 <Grid item xs={12} >
                     <Formik
                         initialValues={

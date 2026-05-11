@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import moment from 'moment';
 import API from 'src/views/components/API';
-import { Typography, useTheme } from '@material-ui/core';
+import { Typography, useTheme } from '@mui/material';
 import { Bar } from 'react-chartjs-2';
 import ModalManagementFullPage from 'src/views/components/ModalManagementFullPage';
 import TableStopReason from './TableStopReason';

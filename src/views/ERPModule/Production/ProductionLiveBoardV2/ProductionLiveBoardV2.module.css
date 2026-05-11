@@ -1,0 +1,274 @@
+.root {
+  min-height: 100vh;
+  background: #f4f6f8;
+  padding: 18px;
+}
+
+.toolbar {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.titleBlock {
+  min-width: 0;
+}
+
+.eyebrow {
+  color: #627180;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  color: #17212b;
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-top: 2px;
+}
+
+.actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.summaryGrid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 14px;
+}
+
+.metricCard {
+  background: #ffffff;
+  border: 1px solid #dce3ea;
+  border-left: 5px solid #2f7d68;
+  border-radius: 8px;
+  min-height: 92px;
+  padding: 14px;
+}
+
+.metricCard.warning {
+  border-left-color: #c77d1f;
+}
+
+.metricCard.danger {
+  border-left-color: #ba3d3d;
+}
+
+.metricLabel {
+  color: #667481;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.metricValue {
+  color: #14212c;
+  font-size: 1.65rem;
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.metricMeta {
+  color: #6f7c88;
+  font-size: 0.78rem;
+  margin-top: 2px;
+}
+
+.boardGrid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.stationCard {
+  background: #ffffff;
+  border: 1px solid #dce3ea;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+  overflow: hidden;
+}
+
+.stationHeader {
+  align-items: flex-start;
+  border-bottom: 1px solid #e7edf3;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  padding: 12px 14px;
+}
+
+.stationName {
+  color: #17212b;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.stationSub {
+  color: #647381;
+  font-size: 0.78rem;
+  margin-top: 2px;
+}
+
+.statusPill {
+  border-radius: 999px;
+  color: #ffffff;
+  flex: 0 0 auto;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+  padding: 7px 9px;
+}
+
+.running {
+  background: #2f7d68;
+}
+
+.changeover {
+  background: #c77d1f;
+}
+
+.stopped {
+  background: #ba3d3d;
+}
+
+.stationBody {
+  display: grid;
+  gap: 10px;
+  padding: 12px 14px 14px;
+}
+
+.jobLine {
+  border-bottom: 1px solid #eef2f5;
+  display: grid;
+  gap: 2px;
+  padding-bottom: 10px;
+}
+
+.jobNo {
+  color: #17212b;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.itemText {
+  color: #4d5c68;
+  font-size: 0.82rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.progressRow {
+  align-items: center;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr auto;
+}
+
+.progressTrack {
+  background: #edf2f5;
+  border-radius: 999px;
+  height: 12px;
+  overflow: hidden;
+}
+
+.progressFill {
+  background: #2f7d68;
+  height: 100%;
+}
+
+.progressFill.warning {
+  background: #c77d1f;
+}
+
+.progressFill.danger {
+  background: #ba3d3d;
+}
+
+.progressText {
+  color: #17212b;
+  font-size: 0.86rem;
+  font-weight: 800;
+  min-width: 42px;
+  text-align: right;
+}
+
+.statsGrid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.statBox {
+  background: #f8fafb;
+  border: 1px solid #e4eaf0;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.statLabel {
+  color: #6c7884;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.statValue {
+  color: #17212b;
+  font-size: 1rem;
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+.alertBox {
+  background: #fff7ed;
+  border: 1px solid #f2d5ad;
+  border-radius: 6px;
+  color: #75480f;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 8px;
+}
+
+.alertBox.danger {
+  background: #fff1f1;
+  border-color: #efc3c3;
+  color: #7c2626;
+}
+
+@media (max-width: 1100px) {
+  .summaryGrid,
+  .boardGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .root {
+    padding: 12px;
+  }
+
+  .toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .actions {
+    justify-content: flex-start;
+  }
+
+  .summaryGrid,
+  .boardGrid {
+    grid-template-columns: 1fr;
+  }
+}

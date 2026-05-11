@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import MaterialTable, { MTableToolbar } from 'material-table';
-import tableIcons from '../../../components/table/tableIcons'
+import DataTable from 'src/components/DataTable';
 import API from '../../../components/API';
-import { Chip } from '@material-ui/core';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { Chip } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
-// import AssignmentIcon from '@material-ui/icons/Assignment';
+// import AssignmentIcon from '@mui/icons-material/Assignment';
 
 const ReasonRecordStopMachineTableEditable = (props) => {
     // const [selectedRow, setSelectedRow] = useState(null);
@@ -67,9 +66,7 @@ const ReasonRecordStopMachineTableEditable = (props) => {
       }
 
     return (
-        <MaterialTable
-            style={{ width: '98%', margin: '0%', overflowX: "scroll" }}
-            icons={tableIcons}
+        <DataTable
             title={`บันทึกเลขมิตเตอร์ : ${props.w_c}  `}
             columns={[
                 { title: 'เริ่มต้น', field: 'meters_start', type: 'numeric' },
@@ -81,18 +78,13 @@ const ReasonRecordStopMachineTableEditable = (props) => {
             ]}
             data={props.dataFormingRecord_reason_meter}
 
-            options={{
-                search: false,
-                paging: false,
-                maxBodyHeight: '30vh',
-                minBodyHeight: '30vh',
-                exportButton: true,
-                filtering: false,
-                rowStyle: rowData => ({
-                    fontSize: 12,
-                    padding: 0
-                }
-                ),
+            search={false}
+            sorting={false}
+            exportButton
+            maxBodyHeight="24vh"
+            rowStyle={{
+                fontSize: 12,
+                padding: 0
             }}
 
             editable={{
@@ -104,27 +96,12 @@ const ReasonRecordStopMachineTableEditable = (props) => {
                 //             resolve();
                 //         }, 1000)
                 //     }),
-                // onRowUpdate: (newData, oldData) =>
-                //     new Promise((resolve, reject) => {
-                //         setTimeout(() => {
-                //             const dataUpdate = [...props.dataFormingRecord_reason_meter];
-                //             const index = oldData.tableData.id;
-                //             dataUpdate[index] = newData;
-                //             props.setDataFormingRecord_reason_meter([...dataUpdate]);
-                //             console.log(dataUpdate)
-                //             console.log("oldData", oldData)
-                //             console.log("newData", newData)
-
-                //             CRUDfn_reason_meter("UpdateForming_reason_meter", newData)
-                //             resolve();
-                //         }, 1000)
-                //     }),
                 onRowDelete: oldData =>
                     new Promise((resolve, reject) => {
                         setTimeout(() => {
                             const dataDelete = [...props.dataFormingRecord_reason_meter];
-                            const index = oldData.tableData.id;
-                            dataDelete.splice(index, 1);
+                            const index = dataDelete.findIndex(item => item.id === oldData.id);
+                            if (index >= 0) dataDelete.splice(index, 1);
                             props.setDataFormingRecord_reason_meter([...dataDelete]);
                             CRUDfn_reason_meter("DeleteForming_reason_meter", oldData)
                             resolve()
@@ -132,19 +109,14 @@ const ReasonRecordStopMachineTableEditable = (props) => {
                     }),
             }}
 
-            components={{
-                Toolbar: props => (
-                    <div>
-                        <MTableToolbar {...props} />
-                        <div style={{ padding: '0px 10px' }}>
-                            <Chip label="ทั้งหมด" color="primary" style={{ marginRight: 5 }} onClick={() => SearchModal_reason_meter("SelectFormingModal_reason_meter", values, "All")} />
-                            <Chip label={`wc ทั้งหมด`} color="primary" style={{ marginRight: 5 }} onClick={() => SearchModal_reason_meter("SelectFormingModal_reason_meter", values, "AllWC")} />
-                            <Chip label={`ตามที่กรอง`} color="primary" style={{ marginRight: 5 }} onClick={() => SearchModal_reason_meter("SelectFormingModal_reason_meter", values, "FollowWC")} />
-                            <Chip label={<AddCircleIcon />} color="default" style={{ marginRight: 5 }} onClick={() => handleOpenModalAddnewMeter()} />
-                        </div>
-                    </div>
-                ),
-            }}
+            toolbar={(
+                <div style={{ padding: '0px 10px' }}>
+                    <Chip label="ทั้งหมด" color="primary" style={{ marginRight: 5 }} onClick={() => SearchModal_reason_meter("SelectFormingModal_reason_meter", values, "All")} />
+                    <Chip label="wc ทั้งหมด" color="primary" style={{ marginRight: 5 }} onClick={() => SearchModal_reason_meter("SelectFormingModal_reason_meter", values, "AllWC")} />
+                    <Chip label="ตามที่กรอง" color="primary" style={{ marginRight: 5 }} onClick={() => SearchModal_reason_meter("SelectFormingModal_reason_meter", values, "FollowWC")} />
+                    <Chip label={<AddCircleIcon />} color="default" style={{ marginRight: 5 }} onClick={() => handleOpenModalAddnewMeter()} />
+                </div>
+            )}
         />
     );
 };

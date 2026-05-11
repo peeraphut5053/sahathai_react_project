@@ -1,44 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  Box,
-  Container,
-  Typography,
-  Paper,
-  Button,
-  Grid,
-  Card,
-  CardContent,
-  CircularProgress,
-  Chip,
-  makeStyles,
-  createMuiTheme,
-  ThemeProvider,
-  IconButton,
-  TextField,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel
-
-} from '@material-ui/core';
-import {
-  CloudUpload,
-  PlayArrow,
-  Refresh,
-  PhotoCamera,
-  Assessment,
-  GetApp,
-  Visibility,
-  CheckCircle,
-  Camera,
-} from '@material-ui/icons';
-import SaveIcon from '@material-ui/icons/Save';
-import { Alert } from '@material-ui/lab';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import { Box, Container, Typography, Paper, Button, Grid, Card, CardContent, CircularProgress, Chip, ThemeProvider, IconButton, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { createTheme, styled } from '@mui/material/styles';
+import {   CloudUpload, PlayArrow, Refresh, PhotoCamera, Assessment, GetApp, Visibility, CheckCircle, Camera, } from '@mui/icons-material';
+import SaveIcon from '@mui/icons-material/Save';
+import { Alert } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
 import API from '../components/API';
 
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
       main: '#1976d2',
@@ -49,66 +19,55 @@ const theme = createMuiTheme({
   },
 });
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    marginTop: '10px',
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
+const RootContainer = styled(Container)(({ theme }) => ({
+  marginTop: '10px',
+  paddingTop: theme.spacing(1),
+  paddingBottom: theme.spacing(1),
+}));
+
+const HeaderPaper = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+  background: 'linear-gradient(45deg, #1976d2 30%, #42a5f5 90%)',
+  color: 'white',
+}));
+
+const UploadArea = styled(Box)(({ theme }) => ({
+  border: '2px dashed #ccc',
+  borderRadius: theme.spacing(1),
+  padding: theme.spacing(4),
+  textAlign: 'center',
+  cursor: 'pointer',
+  transition: 'border-color 0.3s ease',
+  '&:hover': {
+    borderColor: theme.palette.primary.main,
   },
-  headerPaper: {
-    padding: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    background: 'linear-gradient(45deg, #1976d2 30%, #42a5f5 90%)',
-    color: 'white',
-  },
-  uploadArea: {
-    border: '2px dashed #ccc',
-    borderRadius: theme.spacing(1),
-    padding: theme.spacing(4),
-    textAlign: 'center',
-    cursor: 'pointer',
-    transition: 'border-color 0.3s ease',
-    '&:hover': {
-      borderColor: theme.palette.primary.main,
-    },
-    '&.dragover': {
-      borderColor: theme.palette.primary.main,
-      backgroundColor: theme.palette.action.hover,
-    }
-  },
-  previewImage: {
-    maxWidth: '100%',
-    maxHeight: '400px',
-    borderRadius: theme.spacing(1),
-    boxShadow: theme.shadows[3],
-  },
-  resultImage: {
-    maxWidth: '100%',
-    borderRadius: theme.spacing(1),
-    boxShadow: theme.shadows[3],
-  },
-  processingCard: {
-    padding: theme.spacing(3),
-    textAlign: 'center',
-  },
-  resultCard: {
-    marginTop: theme.spacing(1),
-  },
-  actionButton: {
-    margin: theme.spacing(1),
-  },
-  errorAlert: {
-    marginTop: theme.spacing(2),
-  },
-  statCard: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    height: '100%',
+  '&.dragover': {
+    borderColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.action.hover,
   }
 }));
 
+const ActionButton = styled(Button)(({ theme }) => ({
+  margin: theme.spacing(1),
+}));
+
+const ErrorAlert = styled(Alert)(({ theme }) => ({
+  marginTop: theme.spacing(2),
+}));
+
+const ProcessingCard = styled(Card)(({ theme }) => ({
+  padding: theme.spacing(3),
+  textAlign: 'center',
+}));
+
+const StatCard = styled(Card)(({ theme }) => ({
+  padding: theme.spacing(2),
+  textAlign: 'center',
+  height: '100%',
+}));
+
 const PipeCounterApp = () => {
-  const classes = useStyles();
   const [selectedFile, setSelectedFile] = useState([]);
   const [userName, setUserName] = useState('');
   const [doNum, setDoNum] = useState('');
@@ -129,13 +88,13 @@ const PipeCounterApp = () => {
 
   useEffect(() => {
     const getDoNum = async () => {
-      const response = await API.get('APP_COUNT_PIPE/data.php?load=GetDoList', {
-      });
       try {
+        const response = await API.get('APP_COUNT_PIPE/data.php?load=GetDoList', {
+        });
          // get username
         const token = localStorage.getItem("token");
-        const jwt = JSON.parse(token);
-        setUserName(jwt.username);
+        const jwt = token ? JSON.parse(token) : null;
+        setUserName(jwt?.username || '');
         const payload = Array.isArray(response.data) ? response.data : [];
         const normalized = payload.map((item) => {
           if (item == null) return '';
@@ -174,8 +133,8 @@ const PipeCounterApp = () => {
     if (files.length > 0) {
       const file = files[0];
       if (file.type.startsWith('image/')) {
-        setSelectedFile(file);
-        setPreviewUrl(URL.createObjectURL(file));
+        setSelectedFile([file]);
+        setPreviewUrl([URL.createObjectURL(file)]);
         setResult(null);
         setError(null);
       }
@@ -223,8 +182,8 @@ const PipeCounterApp = () => {
       
       canvas.toBlob((blob) => {
         const file = new File([blob], 'camera-capture.jpg', { type: 'image/jpeg' });
-        setSelectedFile(file);
-        setPreviewUrl(URL.createObjectURL(blob));
+        setSelectedFile([file]);
+        setPreviewUrl([URL.createObjectURL(blob)]);
         setResult(null);
         setError(null);
         stopCamera();
@@ -233,7 +192,7 @@ const PipeCounterApp = () => {
   };
 
   const processImage = async () => {
-    if (!selectedFile) {
+    if (selectedFile.length === 0) {
       setError('กรุณาเลือกไฟล์รูปภาพก่อน');
       return;
     }
@@ -244,7 +203,7 @@ const PipeCounterApp = () => {
 
     try {
       const formData = new FormData();
-      formData.append('file', selectedFile);
+      formData.append('file', selectedFile[0]);
 
       const response = await fetch(`${API_BASE_URL}/count-pipes`, {
         method: 'POST',
@@ -277,7 +236,7 @@ const PipeCounterApp = () => {
   };
 
   const SaveCountPipe = async () => {
-    if (!selectedFile) {
+    if (selectedFile.length === 0) {
       setError('กรุณาเลือกไฟล์รูปภาพก่อน');
       return;
     }
@@ -316,11 +275,12 @@ const PipeCounterApp = () => {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.detail || 'เกิดข้อผิดพลาดในการบันทึกข้อมูล');
       }
+      const responseData = await response.json().catch(() => ({}));
       resetAll();
       setSystemCount('');
       setTotalCount('');
       setRemark('');
-      alert('บันทึกข้อมูลเรียบร้อยแล้ว' + response.errors ? response.errors : '');
+      alert(responseData.errors || 'บันทึกข้อมูลเรียบร้อยแล้ว');
     } catch (err) {
       alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
       setError(err.message);
@@ -339,9 +299,9 @@ const PipeCounterApp = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="lg" className={classes.root}>
+      <RootContainer maxWidth="lg">
         {/* Header */}
-        <Paper elevation={3} className={classes.headerPaper}>
+        <HeaderPaper elevation={3}>
           <Box display="flex" alignItems="center" style={{ gap: '16px' }}>
             <PhotoCamera style={{ fontSize: 35 }} />
             <Box>
@@ -353,7 +313,7 @@ const PipeCounterApp = () => {
               </Typography>
             </Box>
           </Box>
-        </Paper>
+        </HeaderPaper>
         <Box style={{ width: '100%', marginBottom: '20px' }}>
                 <Autocomplete
                   options={doNumOptions}
@@ -395,8 +355,7 @@ const PipeCounterApp = () => {
                 />
                 
                 <label htmlFor="file-upload">
-                  <Box
-                    className={classes.uploadArea}
+                  <UploadArea
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
                   >
@@ -459,17 +418,21 @@ const PipeCounterApp = () => {
                         </Button>
                       </Box>
                     )}
-                  </Box>
+                  </UploadArea>
                 </label>
 
-                {selectedFile && (
+                {selectedFile.length > 0 && (
                   <Box mt={2}>
-                    <Chip
-                      icon={<CheckCircle />}
-                      label={`${selectedFile.name} (${(selectedFile.size / 1024 / 1024).toFixed(2)} MB)`}
-                      color="primary"
-                      variant="outlined"
-                    />
+                    {selectedFile.map((file, index) => (
+                      <Chip
+                        key={`${file.name}-${index}`}
+                        icon={<CheckCircle />}
+                        label={`${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`}
+                        color="primary"
+                        variant="outlined"
+                        style={{ margin: '4px' }}
+                      />
+                    ))}
                   </Box>
                 )}
               </CardContent>
@@ -484,7 +447,7 @@ const PipeCounterApp = () => {
                 onClick={processImage}
                 disabled={!selectedFile || loading}
                 startIcon={loading ? <CircularProgress size={20} /> : <PlayArrow />}
-                className={classes.actionButton}
+                component={ActionButton}
               >
                 {loading ? 'Loading...' : 'Start'}
               </Button>
@@ -494,7 +457,7 @@ const PipeCounterApp = () => {
                 onClick={resetAll}
                 size="large"
                 startIcon={<Refresh />}
-                className={classes.actionButton}
+                component={ActionButton}
               >
                 Reset
               </Button>
@@ -502,16 +465,16 @@ const PipeCounterApp = () => {
 */}
             {/* Error Display */}
             {error && (
-              <Alert severity="error" className={classes.errorAlert}>
+              <ErrorAlert severity="error">
                 <Typography variant="body2">{error}</Typography>
-              </Alert>
+              </ErrorAlert>
             )}
           </Grid>
 
           {/* Right Column - Results */}
           <Grid style={{ paddingTop: '0px' }} item xs={12} md={12}>
             {loading && (
-              <Card elevation={2} className={classes.processingCard}>
+              <ProcessingCard elevation={2}>
                 <CircularProgress size={60} />
                 <Typography variant="h6" style={{ marginTop: '8px' }}>
                   กำลังประมวลผลรูปภาพ...
@@ -519,14 +482,14 @@ const PipeCounterApp = () => {
                 <Typography variant="body2" color="textSecondary">
                   โปรดรอสักครู่
                 </Typography>
-              </Card>
+              </ProcessingCard>
             )}
 
           
                 {/* Statistics */}
                 <Grid container spacing={2} style={{ marginBottom: '16px' }}>
                   <Grid item xs={12}>
-                    <Card style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center', justifyContent: 'center' }} className={classes.statCard}>
+                    <StatCard style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center', justifyContent: 'center' }}>
                       <Typography variant="h5" color="primary">
                         กรอกจำนวนท่อที่นับได้
                       </Typography>
@@ -558,17 +521,17 @@ const PipeCounterApp = () => {
                         variant="contained"
                         color='primary'
                         onClick={SaveCountPipe}
-                        disabled={loading || !doNum || !totalCount || !systemCount || !selectedFile}
+                        disabled={loading || !doNum || !totalCount || !systemCount || selectedFile.length === 0}
                         startIcon={<SaveIcon />}
                       >
                         Save
                       </Button>
-                    </Card>
+                    </StatCard>
                   </Grid>
                 </Grid>
           </Grid>
         </Grid>
-      </Container>
+      </RootContainer>
     </ThemeProvider>
   );
 };

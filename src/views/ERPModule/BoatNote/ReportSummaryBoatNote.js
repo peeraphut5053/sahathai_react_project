@@ -1,6 +1,5 @@
-import pdfMake from "pdfmake/build/pdfmake";
-import { fontsReport } from '../Production/productionReport/function/GroupLot'
-import { logo } from './function/logo'
+import pdfMake from 'src/utils/pdfMake';
+import { fontsReport } from '../Production/productionReport/function/GroupLot'import { logo } from './function/logo'
 
 function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
     pdfMake.fonts = fontsReport

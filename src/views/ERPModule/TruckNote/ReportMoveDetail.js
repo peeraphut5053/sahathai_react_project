@@ -1,9 +1,9 @@
-import pdfMake from "pdfmake/build/pdfmake";
+import pdfMake from 'src/utils/pdfMake';
 // import { convertAllLotReport, workcenterHeader, dateFormatReport,fontsReport } from './function/GroupLot';
-import {fontsReport } from '../Production/productionReport/function/GroupLot'
+import { fontsReport } from '../Production/productionReport/function/GroupLot'
 import { logo } from './function/logo'
 
-function ReportMoveDetail(dataNowHeader,dataNow,doc_num) {
+function ReportMoveDetail(dataNowHeader, dataNow, doc_num) {
 
 
 
@@ -40,7 +40,7 @@ function ReportMoveDetail(dataNowHeader,dataNow,doc_num) {
 
         data.push([
             { text: i + 1, alignment: 'center' },
-            { text: '*'+dataNow[i]["id"]+'*', fontSize: 12, alignment: 'center', style: 'Barcode' },
+            { text: '*' + dataNow[i]["id"] + '*', fontSize: 12, alignment: 'center', style: 'Barcode' },
             { text: dataNow[i]["lot"], fontSize: 12, alignment: 'center' },
             { text: dataNow[i]["loc"], fontSize: 12, alignment: 'center' },
             { text: dataNow[i]["item"], fontSize: 12, alignment: 'center' },
@@ -90,7 +90,7 @@ function ReportMoveDetail(dataNowHeader,dataNow,doc_num) {
                                 border: [false, false, false, false],
                                 text: `  78 หมู่ 3 ถนน ปู่เจ้าสมิงพราย ต.บางหญ้าแพรก อ.พระประแดง จ.สมุทรปราการ 10130 `, fontSize: 14, colSpan: 2
                             },
-                            { 
+                            {
                                 border: [false, false, false, false],
                                 text: '', fontSize: 14
                             },
@@ -107,7 +107,7 @@ function ReportMoveDetail(dataNowHeader,dataNow,doc_num) {
                             },
                             {
                                 border: [false, false, false, false],
-                                text: 'วันที่', fontSize: 14 
+                                text: 'วันที่', fontSize: 14
                             },
                             { text: 'เวลา', fontSize: 14 },
                         ],
@@ -177,7 +177,7 @@ function ReportMoveDetail(dataNowHeader,dataNow,doc_num) {
         content: [
             {
                 margin: [0, 0, 0, 0],
-                columns: [
+                stack: [
                     {
 
                         table: {
@@ -193,8 +193,6 @@ function ReportMoveDetail(dataNowHeader,dataNow,doc_num) {
                             ],
                         },
                     },
-                ],
-                columns: [
                     {
 
                         table: {
@@ -212,10 +210,10 @@ function ReportMoveDetail(dataNowHeader,dataNow,doc_num) {
 
         styles: {
             Barcode: {
-              font: 'Barcode39',
-              fontSize: 6,
+                font: 'Barcode39',
+                fontSize: 6,
             }
-          },
+        },
     };
 
 

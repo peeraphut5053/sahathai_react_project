@@ -1,5 +1,4 @@
-// *https://www.registers.service.gov.uk/registers/country/use-the-api*
-import fetch from 'cross-fetch';
+// *https://www.registers.service.gov.uk/registers/country/use-the-api*import fetch from 'cross-fetch';
 import React,{useEffect} from 'react';
 import APIPath from './APIPath';
 function sleep(delay = 0) {

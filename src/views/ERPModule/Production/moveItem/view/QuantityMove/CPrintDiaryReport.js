@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
-import { Container, Button } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-import SaveIcon from '@material-ui/icons/Save';
+import { Container, Button } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import SaveIcon from '@mui/icons-material/Save';
 
 
 class ComponentToPrint extends React.Component {

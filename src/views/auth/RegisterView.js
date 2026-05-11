@@ -2,38 +2,25 @@ import React from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import {
-  Box,
-  Button,
-  Checkbox,
-  Container,
-  FormHelperText,
-  Link,
-  TextField,
-  Typography,
-  makeStyles
-} from '@material-ui/core';
+import {   Box, Button, Checkbox, Container, FormHelperText, Link, TextField, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import Page from 'src/components/Page';
 import { UserRegister } from '../components/API_WEB_STS_API'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    height: '100%',
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
-  }
+const RootPage = styled(Page)(({ theme }) => ({
+  backgroundColor: theme.palette.background.dark,
+  height: '100%',
+  paddingBottom: theme.spacing(3),
+  paddingTop: theme.spacing(3)
 }));
 
 
 const RegisterView = () => {
-  const classes = useStyles();
   const navigate = useNavigate();
 
 
   return (
-    <Page
-      className={classes.root}
+    <RootPage
       title="Register"
     >
       <Box
@@ -228,7 +215,7 @@ const RegisterView = () => {
           </Formik>
         </Container>
       </Box>
-    </Page>
+    </RootPage>
   );
 };
 

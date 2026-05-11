@@ -1,9 +1,9 @@
 import React from 'react';
 import Test from './BarChart';
-import { Container, Grid, Typography } from '@material-ui/core';
+import { Container, Grid, Typography } from '@mui/material';
 import GroupBarChart from './GroupBarChart';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import ProductionOverTimeTable from './ProductionOverTime';
 
 const ProductionReport = () => {

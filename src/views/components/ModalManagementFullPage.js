@@ -1,9 +1,37 @@
 import React from 'react';
-// import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import { Backdrop, Button, Fade, Grid } from '@material-ui/core';
+import Modal from '@mui/material/Modal';
+import { Backdrop, Fade, Grid, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { styled } from '@mui/material/styles';
 
-import { makeStyles } from '@material-ui/core/styles';
+const StyledModal = styled(Modal)({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+});
+
+const Paper = styled('div')(({ theme }) => ({
+    position: 'absolute',
+    width: '99vw',
+    height: '98vh',
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(1, 0.5, 0),
+}));
+
+const CloseButton = styled(IconButton)(({ theme }) => ({
+    position: 'absolute',
+    top: theme.spacing(0.5),
+    right: theme.spacing(1),
+    zIndex: 2,
+    backgroundColor: theme.palette.background.paper,
+    border: `1px solid ${theme.palette.divider}`,
+    boxShadow: theme.shadows[1],
+    '&:hover': {
+        backgroundColor: theme.palette.background.paper,
+    },
+}));
 
 
 export default function ModalManagementFullPage(props) {
@@ -35,28 +63,9 @@ export default function ModalManagementFullPage(props) {
         };
     }
 
-    const useStyles = makeStyles((theme) => ({
-        modal: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-        paper: {
-            position: 'absolute',
-            width: '99vw',
-            height: '98vh',
-            backgroundColor: theme.palette.background.paper,
-            border: '2px solid #000',
-            boxShadow: theme.shadows[5],
-            padding: theme.spacing(1, 0.5, 0),
-        },
-    }));
-
-    const classes = useStyles();
-
     return (
 
-        <Modal
+        <StyledModal
             open={props.open}
             onClose={props.onClose}
             aria-labelledby="simple-modal-title"
@@ -69,20 +78,21 @@ export default function ModalManagementFullPage(props) {
             BackdropProps={{
                 timeout: 200,
             }}
-            className={classes.modal}
         >
 
             <Fade in={props.open}>
-                <div className={classes.paper}>
-                    <Grid container justify="space-between" spacing={0}>
+                <Paper>
+                    <CloseButton onClick={props.onClose} color="primary" aria-label="close">
+                        <CloseIcon />
+                    </CloseButton>
+                    <Grid container justifyContent="space-between" spacing={0} sx={{
+                        mt: 6
+                    }}>
                         <Grid item>
                             {props.modalHeader}
                         </Grid>
-                        <Grid item>
-                            <Button onClick={props.onClose} color="primary"> x</Button>
-                        </Grid>
                     </Grid>
-                    <Grid container justify="space-between" spacing={0}>
+                    <Grid container justifyContent="space-between" spacing={0}>
                         <Grid item xs={12}>
                             {props.modalDetail}
                         </Grid>
@@ -90,9 +100,9 @@ export default function ModalManagementFullPage(props) {
                     </Grid>
 
 
-                </div>
+                </Paper>
             </Fade>
-        </Modal>
+        </StyledModal>
 
     );
 }

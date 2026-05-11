@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Container, Grid, makeStyles } from '@material-ui/core';
+import { Card, CardContent, Container, Grid } from '@mui/material';
 import Page from 'src/components/Page';
 import { isMobile } from "react-device-detect";
 import clsx from 'clsx';
@@ -7,21 +7,11 @@ import { Formik } from 'formik';
 import moment from "moment";
 import DateTimePicker from '../../../components/Input/CDateTimePicker';
 import CButton from '../../../components/Input/CButton';
-import tableIcons from '../../../components/table/tableIcons'
 import API from '../../../components/API';
-import MaterialTable from 'material-table';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    minHeight: '100%',
-    paddingBottom: theme.spacing(1),
-    paddingTop: theme.spacing(2)
-  }
-}));
+import DataTable from 'src/components/DataTable';
+import styles from './ByCOItemQTY.module.css';
 
 const ByCOItemQTY = ({ className, ...rest }) => {
-  const classes = useStyles();
   const [data, setdata] = useState([])
   useEffect(() => {
     if (isMobile == true) {
@@ -42,13 +32,28 @@ const ByCOItemQTY = ({ className, ...rest }) => {
     setdata(response.data)
   }
 
+  const columns = [
+    { title: 'username', field: 'username' },
+    { title: 'CreateDate.date', field: 'CreateDate.date', type: 'datetime' },
+    { title: 'COnumLine', field: 'COnumLine', type: 'string' },
+    { title: 'oldvalue', field: 'oldvalue', type: 'string' },
+    { title: 'newvalue', field: 'newvalue', type: 'string' },
+  ];
+
+  const rowStyle = () => ({
+    fontSize: 12,
+    padding: 0,
+    width: 500,
+    fontFamily: 'sans-serif'
+  });
+
 
   return (
-    <Page className={classes.root} title="Dashboard" >
+    <Page className={styles.root} title="Dashboard" >
       <Container maxWidth={false}>
         <Grid container spacing={1}>
           <Grid item sm={12} xl={12} xs={12} lg={12} >
-            <Card className={clsx(classes.root, className)} {...rest} style={{ backgroundColor: '#FFFFFF' }} >
+            <Card className={clsx(styles.root, className)} {...rest} style={{ backgroundColor: '#FFFFFF' }} >
               <CardContent >
                 <Grid container spacing={3} >
                   <Grid item style={{ width: '100%', overflowX: "auto" }}>
@@ -148,36 +153,16 @@ const ByCOItemQTY = ({ className, ...rest }) => {
 
 
                   <Grid item style={{ width: '100%', margin: 5, overflowX: "auto" }}>
-                    <MaterialTable
-
-                      icons={tableIcons}
+                    <DataTable
                       title={`Audit Log By CO Item QTY (${data.length} รายการ) `}
-                      columns={[
-                        { title: 'username', field: 'username' },
-                        { title: 'CreateDate.date', field: 'CreateDate.date',type:'datetime' },
-                        { title: 'COnumLine', field: 'COnumLine', type: 'string' },
-                        { title: 'oldvalue', field: 'oldvalue', type: 'string' },
-                        { title: 'newvalue', field: 'newvalue', type: 'string' },
-                      ]}
+                      columns={columns}
                       data={data}
-
-
-                      options={{
-                        search: false,
-                        paging: false,
-                        maxBodyHeight: '60vh',
-                        minBodyHeight: '60vh',
-                        sorting: false,
-                        filtering: false,
-                        exportButton: true,
-                        rowStyle: rowData => ({
-                          fontSize: 12,
-                          padding: 0,
-                          width: 500,
-                          fontFamily: 'sans-serif'
-                        }
-                        ),
-                      }}
+                      maxBodyHeight="60vh"
+                      search={false}
+                      sorting={false}
+                      exportButton
+                      exportFileName="audit-log-by-co-item-qty.csv"
+                      rowStyle={rowStyle}
                     />
                   </Grid>
                 </Grid>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTheme } from '@material-ui/core';
+import { useTheme } from '@mui/material';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Line, Bar } from 'react-chartjs-2';
 import { addComma } from 'src/utils/getInitials';
@@ -140,7 +140,6 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
   let delayed = true;
 
   const optionsBar = {
-    animation: true,
     layout: { padding: 0 },
     legend: {
       display: true,

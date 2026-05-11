@@ -1,4 +1,4 @@
-import pdfMake from "pdfmake/build/pdfmake";
+import pdfMake from 'src/utils/pdfMake';
 import { convertAllLotReport, workcenterHeader, dateFormatReport, fancyTimeFormat,fancyTimeFormatHr, fontsReport,diff_hours } from './function/GroupLot';
 import { logo } from './function/logo'
 

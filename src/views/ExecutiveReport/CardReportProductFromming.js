@@ -1,49 +1,33 @@
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {
-  Avatar,
-  Card,
-  CardContent,
-  Grid,
-  Typography,
-  colors,
-  makeStyles
-} from '@material-ui/core';
-import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
+import { Avatar, Card, CardContent, Grid, Typography } from '@mui/material';
+import * as colors from '@mui/material/colors';
+import { styled } from '@mui/material/styles';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import ModalManagementFullPage from '../components/ModalManagementFullPage';
 import ReportProductForming from '../ERPModule/Production/ReportProductForming';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: '100%',
-    width:'100%'
-  },
-  avatar: {
-    backgroundColor: colors.green[600],
-    height: 56,
-    width: 56
-  },
-  differenceIcon: {
-    color: colors.green[900]
-  },
-  differenceValue: {
-    color: colors.green[900],
-    marginRight: theme.spacing(1)
-  }
-}));
+const RootCard = styled(Card)({
+  height: '100%',
+  width:'100%'
+});
+
+const ReportAvatar = styled(Avatar)({
+  backgroundColor: colors.green[600],
+  height: 56,
+  width: 56
+});
 
 const TotalCustomers = ({ className, ...rest }) => {
-  const classes = useStyles();
-
   const [openModalItem, setOpenModalItem] = React.useState(false);
 
   const handleCloseModalItem = async () => {
     setOpenModalItem(false);
   };
   return (
-    <Card
-      className={clsx(classes.root, className)}
+    <RootCard
+      className={clsx(className)}
       {...rest}
 
     >
@@ -83,9 +67,9 @@ const TotalCustomers = ({ className, ...rest }) => {
             </Typography>
           </Grid>
           <Grid item>
-            <Avatar className={classes.avatar}>
+            <ReportAvatar>
               <HourglassEmptyIcon />
-            </Avatar>
+            </ReportAvatar>
           </Grid>
         </Grid>
         {/* <Box
@@ -108,7 +92,7 @@ const TotalCustomers = ({ className, ...rest }) => {
           </Typography>
         </Box> */}
       </CardContent>
-    </Card>
+    </RootCard>
   );
 };
 

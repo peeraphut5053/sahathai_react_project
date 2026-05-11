@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import MaterialTable, { MTableToolbar } from 'material-table';
-import tableIcons from '../../../components/table/tableIcons'
+import DataTable from 'src/components/DataTable';
 import API from '../../../components/API';
 import moment from "moment";
-import { Chip } from '@material-ui/core';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { Chip } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-// import AssignmentIcon from '@material-ui/icons/Assignment';
+// import AssignmentIcon from '@mui/icons-material/Assignment';
 
 const ReasonRecordStopMachineTableEditable = (props) => {
   // const [selectedRow, setSelectedRow] = useState(null);
@@ -105,9 +104,7 @@ const ReasonRecordStopMachineTableEditable = (props) => {
 
 
   return (
-    <MaterialTable
-      style={{ width: '98%', margin: '0%', overflowX: "scroll" }}
-      icons={tableIcons}
+    <DataTable
       title={`บันทึกสาเหตุการหยุดเครื่อง : ${props.w_c}`}
       columns={[
         {
@@ -158,20 +155,15 @@ const ReasonRecordStopMachineTableEditable = (props) => {
       ]}
       data={props.dataFormingRecord}
 
-      options={{
-        search: false,
-        paging: false,
-        maxBodyHeight: '30vh',
-        minBodyHeight: '30vh',
-        exportButton: true,
-        filtering: false,
-        rowStyle: rowData => ({
-          fontSize: 12,
-          padding: 0
-        }
-        ),
+      search={false}
+      sorting={false}
+      exportButton
+      maxBodyHeight="42vh"
+      rowStyle={{
+        fontSize: 12,
+        padding: 0
       }}
-      onRowClick={(event, rowData) => {
+      onRowClick={(rowData) => {
         if (rowData.time_used !== null) {
           alert('สาเหตุการหยุดเครื่องนี้เป็นสถานะเสร็จสิ้นแล้ว');
           return false;
@@ -190,27 +182,12 @@ const ReasonRecordStopMachineTableEditable = (props) => {
         //       resolve();
         //     }, 1000)
         //   }),
-        // onRowUpdate: (newData, oldData) =>
-        //   new Promise((resolve, reject) => {
-        //     setTimeout(() => {
-        //       const dataUpdate = [...props.dataFormingRecord];
-        //       const index = oldData.tableData.id;
-        //       dataUpdate[index] = newData;
-        //       props.setDataFormingRecord([...dataUpdate]);
-        //       console.log(dataUpdate)
-        //       console.log("oldData", oldData)
-        //       console.log("newData", newData)
-
-        //       CRUDfn("UpdateForming", newData)
-        //       resolve();
-        //     }, 1000)
-        //   }),
         onRowDelete: oldData =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
               const dataDelete = [...props.dataFormingRecord];
-              const index = oldData.tableData.id;
-              dataDelete.splice(index, 1);
+              const index = dataDelete.findIndex(item => item.id === oldData.id);
+              if (index >= 0) dataDelete.splice(index, 1);
               props.setDataFormingRecord([...dataDelete]);
               console.log(oldData)
               CRUDfn("DeleteForming", oldData)
@@ -219,21 +196,16 @@ const ReasonRecordStopMachineTableEditable = (props) => {
           }),
       }}
 
-      components={{
-        Toolbar: (props) => (
-          <div>
-            <MTableToolbar {...props} />
-            <div style={{ padding: '0px 10px' }}>
-              <Chip label="ทั้งหมด" color="primary" style={{ marginRight: 5 }} onClick={() => SearchModal("SelectFormingModal", values, "All")} />
-              <Chip label={`wc ทั้งหมด`} color="primary" style={{ marginRight: 5 }} onClick={() => SearchModal("SelectFormingModal", values, "AllWC")} />
-              <Chip label={`ตามที่กรอง`} color="primary" style={{ marginRight: 5 }} onClick={() => SearchModal("SelectFormingModal", values, "FollowWC")} />
-              <Chip label={`สาเหตุหยุดเครื่อง`} color="default" style={{ marginRight: 5 }} onClick={() => handleOpenModalReasonMaster()} />
-              <Chip label={`รายละเอียดการหยุด`} color="default" style={{ marginRight: 5 }} onClick={() => handleOpenModalReasonMasterDetail()} />
-              <Chip label={<AddCircleIcon />} color="default" style={{ marginRight: 5 }} onClick={() => handleOpenModalAddnewReason()} />
-            </div>
-          </div>
-        ),
-      }}
+      toolbar={(
+        <div style={{ padding: '0px 10px' }}>
+          <Chip label="ทั้งหมด" color="primary" style={{ marginRight: 5 }} onClick={() => SearchModal("SelectFormingModal", values, "All")} />
+          <Chip label="wc ทั้งหมด" color="primary" style={{ marginRight: 5 }} onClick={() => SearchModal("SelectFormingModal", values, "AllWC")} />
+          <Chip label="ตามที่กรอง" color="primary" style={{ marginRight: 5 }} onClick={() => SearchModal("SelectFormingModal", values, "FollowWC")} />
+          <Chip label="สาเหตุหยุดเครื่อง" color="default" style={{ marginRight: 5 }} onClick={() => handleOpenModalReasonMaster()} />
+          <Chip label="รายละเอียดการหยุด" color="default" style={{ marginRight: 5 }} onClick={() => handleOpenModalReasonMasterDetail()} />
+          <Chip label={<AddCircleIcon />} color="default" style={{ marginRight: 5 }} onClick={() => handleOpenModalAddnewReason()} />
+        </div>
+      )}
     />
   );
 };

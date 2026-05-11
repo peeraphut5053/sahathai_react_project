@@ -2,31 +2,18 @@ import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {
-  AppBar,
-  Badge,
-  Box,
-  IconButton,
-  Toolbar,
-  makeStyles,
-  Typography
-} from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
-import InputIcon from '@material-ui/icons/Input';
+import {   AppBar, Badge, Box, IconButton, Toolbar, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import MenuIcon from '@mui/icons-material/Menu';
+import NotificationsIcon from '@mui/icons-material/NotificationsOutlined';
+import InputIcon from '@mui/icons-material/Input';
 // import Logo from 'src/components/Logo';
 import { useNavigate, useLocation } from "react-router-dom";
 
 
-const useStyles = makeStyles(() => ({
-  root: {
-    height: 40
-  },
-  avatar: {
-    width: 60,
-    height: 60
-  }
-}));
+const RootAppBar = styled(AppBar)({
+  height: 40
+});
 
 const TopBar = ({
   UserData,
@@ -34,7 +21,6 @@ const TopBar = ({
   onMobileNavOpen,
   ...rest
 }) => {
-  const classes = useStyles();
   const [notifications] = useState([]);
   const navigate = useNavigate();
 
@@ -50,8 +36,8 @@ const TopBar = ({
     <>
       {/* {JSON.stringify(location.pathname)} */}
       {(location.pathname !== "/app/ExecutiveReportPresentation") ?
-        <AppBar
-          className={clsx(classes.root, className)}
+        <RootAppBar
+          className={clsx(className)}
           elevation={0}
           {...rest}
 
@@ -94,7 +80,7 @@ const TopBar = ({
 
 
           </Toolbar>
-        </AppBar> : null}
+        </RootAppBar> : null}
     </>
   );
 };

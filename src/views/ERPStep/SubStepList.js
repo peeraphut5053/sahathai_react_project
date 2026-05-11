@@ -1,39 +1,22 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import { styled } from '@mui/material/styles';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-        maxWidth: 450,
-        backgroundColor: theme.palette.background.paper,
-        position: 'relative',
-        overflow: 'auto',
-        maxHeight: 300,
-        padding: 0,
-    },
-    listSection: {
-        backgroundColor: 'inherit',
-        padding: 0,
-    },
-    ul: {
-        backgroundColor: 'inherit',
-        padding: 0,
-    },
-    listItem: {
-        borderRadius: "1em",
-        padding: 0,
-    },
-
+const RootList = styled(List)(({ theme }) => ({
+    width: '100%',
+    maxWidth: 450,
+    backgroundColor: theme.palette.background.paper,
+    position: 'relative',
+    overflow: 'auto',
+    maxHeight: 300,
+    padding: 0,
 }));
 
 export default function SubStepList(props) {
-    const classes = useStyles();
-
     return (
-        <List className={classes.root} subheader={<li />} >
+        <RootList subheader={<li />} >
             {/* {JSON.stringify(props.stepCase.detail)} */}
             {props.stepCase.detail.map((item, index) => (
                 <ListItem style={{ padding: 0, paddingBottom: 0, paddingLeft: 20 }}
@@ -59,6 +42,6 @@ export default function SubStepList(props) {
                     <ListItemText primary={`${item.title} `} />
                 </ListItem>
             ))}
-        </List>
+        </RootList>
     );
 }

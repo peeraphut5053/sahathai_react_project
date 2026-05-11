@@ -1,48 +1,20 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {
-  Card, CardContent, Grid, 
-  colors,
-  makeStyles
-} from '@material-ui/core';
-
-
+import { Card, CardContent, Grid } from '@mui/material';
 import CTextField from '../components/Input/CTextField';
-import MaterialTable from 'material-table';
+import DataTable from 'src/components/DataTable';
 import { Formik } from 'formik';
 import moment from "moment";
 import DateTimePicker from '../components/Input/CDateTimePicker';
 //import CAutocomplete from '../../../components/Input/CAutocomplete ';
 import CButton from '../components/Input/CButton';
-import tableIcons from '../components/table/tableIcons'
 import API from '../components/API';
+import styles from './CardReportCO.module.css';
 
 moment.locale("th");
 
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: '100%',
-    width: '100%'
-  },
-  avatar: {
-    backgroundColor: colors.green[600],
-    height: 56,
-    width: 56
-  },
-  differenceIcon: {
-    color: colors.green[900]
-  },
-  differenceValue: {
-    color: colors.green[900],
-    marginRight: theme.spacing(1)
-  }
-}));
-
 const CardReportCO = ({ className, ...rest }) => {
-  const classes = useStyles();
-
   const [data, setdata] = useState([])
 
 
@@ -60,7 +32,7 @@ const CardReportCO = ({ className, ...rest }) => {
   }
   return (
     <Card
-      className={clsx(classes.root, className)}
+      className={clsx(styles.root, className)}
       {...rest}
 
     >
@@ -178,9 +150,7 @@ const CardReportCO = ({ className, ...rest }) => {
 
 
           <Grid item style={{ width: '100%', margin: 5, overflowX: "auto" }}>
-            <MaterialTable
-
-              icons={tableIcons}
+            <DataTable
               title={`Customer Order Line (${data.length} รายการ) `}
               columns={[
                 { title: 'co_num', field: 'co_num' },
@@ -203,28 +173,18 @@ const CardReportCO = ({ className, ...rest }) => {
                 { title: 'inv_weight', field: 'inv_weight', type: 'string' },
               ]}
               data={data}
-
-
-              options={{
-            
-                cellStyle: { padding: '0.1' },
-                headerStyle: { padding: '0.1' },
-                search: false,
-                paging: false,
-                maxBodyHeight: '65vh',
-                minBodyHeight: '65vh',
-                sorting: false,
-                filtering: false,
-                // width: '100vw',
-                exportButton: true,
-                rowStyle: rowData => ({
-                  // backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
-                  fontSize: 12,
-                  padding: 0,
-                  width: 500,
-                  fontFamily: 'sans-serif'
-                }
-                ),
+              search={false}
+              sorting={false}
+              exportButton
+              maxBodyHeight="65vh"
+              minBodyHeight="65vh"
+              cellStyle={{ padding: '10px' }}
+              headerStyle={{ padding: '10px' }}
+              rowStyle={{
+                fontSize: 12,
+                padding: 0,
+                width: 500,
+                fontFamily: 'sans-serif'
               }}
             />
           </Grid>

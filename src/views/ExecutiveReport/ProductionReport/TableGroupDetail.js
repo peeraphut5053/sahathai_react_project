@@ -1,15 +1,8 @@
 import React, { useState } from 'react';
-import {
-  Container,
-  Grid,
-  Typography,
-  Chip
-} from '@material-ui/core';
+import { Container, Grid, Typography } from '@mui/material';
 import moment from 'moment';
-import MaterialTable, { MTableToolbar }  from 'material-table';
-import tableIcons from '../../../views/components/table/tableIcons';
+import DataTable from 'src/components/DataTable';
 import API from 'src/views/components/API';
-import DateMonthPicker from 'src/views/components/Input/CDatePicker';
 import { useQuery } from 'react-query';
 
 const TableGroupDetail = ({day,wc}) => {
@@ -66,8 +59,7 @@ const TableGroupDetail = ({day,wc}) => {
       </Typography>
       <Grid container spacing={1}>
             <Grid item style={{ width: '100%', margin: 5, overflowX: 'auto' }}>
-              <MaterialTable
-                icons={tableIcons}
+              <DataTable
                 isLoading={isLoading}
                 title={` Productions Daily Report (${data?.length} รายการ) `}
                 columns={[
@@ -80,26 +72,11 @@ const TableGroupDetail = ({day,wc}) => {
                   { title: 'Total Weight (Tons)', field: 'sum', type: 'string', minWidth: 150 },
                 ]}
                 data={data}
-                options={{
-                  search: true,
-                  paging: false,
-                  sorting: true,
-                  filtering: false,
-                  exportButton: true,
-                  doubleHorizontalScroll: true,
-                  maxBodyHeight: '60vh',
-                    minBodyHeight: '60vh',
-                  headerStyle: {
-                    backgroundColor: '#039be5',
-                    color: '#FFF',
-                    textAlign: 'center',
-                  },
-                  cellStyle: {
-                    textAlign: 'center',
-                    fontSize: '14px',
-                    padding: '20px',
-                  }
-                }}
+                search
+                sorting
+                exportButton
+                maxBodyHeight="60vh"
+                minBodyHeight="60vh"
               />
             </Grid>
           </Grid>

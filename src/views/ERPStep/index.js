@@ -1,41 +1,39 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import { styled } from '@mui/material/styles';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import StepContent from '@mui/material/StepContent';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import SubStepList from './SubStepList';
-import stepCase from './stepCase'
-import CardSubDetail from './CardSubDetail'
-import { Grid } from '@material-ui/core';
+import stepCase from './stepCase';
+import CardSubDetail from './CardSubDetail';
+import { Grid } from '@mui/material';
 
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '95%',
-    },
-    button: {
-        marginTop: theme.spacing(1),
-        marginRight: theme.spacing(1),
-    },
-    actionsContainer: {
-        marginBottom: theme.spacing(2),
-    },
-    resetContainer: {
-        padding: theme.spacing(3),
-    },
-    paper: {
-        padding: theme.spacing(0),
-        textAlign: 'left',
-        color: theme.palette.text.secondary,
-    },
-    media: {
-        height: 450,
-        widows: 150,
-    },
+const Root = styled('div')({
+    width: '95%',
+});
+
+const StepButton = styled(Button)(({ theme }) => ({
+    marginTop: theme.spacing(1),
+    marginRight: theme.spacing(1),
+}));
+
+const ActionsContainer = styled('div')(({ theme }) => ({
+    marginBottom: theme.spacing(2),
+}));
+
+const ResetPaper = styled(Paper)(({ theme }) => ({
+    padding: theme.spacing(3),
+}));
+
+const StepPaper = styled(Paper)(({ theme }) => ({
+    padding: theme.spacing(0),
+    textAlign: 'left',
+    color: theme.palette.text.secondary,
 }));
 
 
@@ -72,7 +70,6 @@ function getStepContent(step, setshowSubDetail, setCaseTitle, setCaseDescription
 }
 
 export default function VerticalLinearStepper() {
-    const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
     const [showSubDetail, setshowSubDetail] = useState([])
     const [CaseTitle, setCaseTitle] = useState(null)
@@ -94,50 +91,48 @@ export default function VerticalLinearStepper() {
 
 
     return (
-        <div className={classes.root}>
+        <Root>
             <Grid container spacing={3}>
                 <Grid item xs={3}>
-                    <Paper className={classes.paper} elevation={3} variant="outlined">
+                    <StepPaper elevation={3} variant="outlined">
                         <Stepper onCLick={() => console.log('123')} activeStep={activeStep} orientation="vertical">
                             {stepCase.map((label, index) => (
                                 <Step key={label.CaseTitle}>
                                     <StepLabel ><Button onClick={() => setActiveStep(index)}>{label.CaseTitle}</Button></StepLabel>
                                     <StepContent>
                                         <Typography>{getStepContent(index, setshowSubDetail, setCaseTitle, setCaseDescription)}</Typography>
-                                        <div className={classes.actionsContainer}>
+                                        <ActionsContainer>
                                             <div>
-                                                <Button
+                                                <StepButton
                                                     disabled={activeStep === 0}
                                                     onClick={handleBack}
-                                                    className={classes.button}
-                                                >Back</Button>
-                                                <Button
+                                                >Back</StepButton>
+                                                <StepButton
                                                     variant="contained"
                                                     color="primary"
                                                     onClick={handleNext}
-                                                    className={classes.button}
                                                 >
                                                     {activeStep === stepCase.length - 1 ? 'Finish' : 'Next'}
-                                                </Button>
+                                                </StepButton>
                                             </div>
-                                        </div>
+                                        </ActionsContainer>
                                     </StepContent>
                                 </Step>
                             ))}
                         </Stepper>
                         {activeStep === stepCase.length && (
-                            <Paper square elevation={0} className={classes.resetContainer}>
+                            <ResetPaper square elevation={0}>
                                 <Typography>All steps completed - you&apos;re finished</Typography>
-                                <Button onClick={handleReset} className={classes.button}>
+                                <StepButton onClick={handleReset}>
                                     Reset
-          </Button>
-                            </Paper>
+          </StepButton>
+                            </ResetPaper>
                         )}
-                    </Paper>
+                    </StepPaper>
                 </Grid>
                 <Grid item xs={9}  >
                     {/* <Paper className={classes.paper} style={{ position: "fixed", height: '90%' }} elevation={3} variant="outlined"> */}
-                    <Paper square elevation={3} style={{ height: '90vh', position: "fixed", width: '72vw', overflow: 'auto' }} className={classes.resetContainer}>
+                    <ResetPaper square elevation={3} style={{ height: '90vh', position: "fixed", width: '72vw', overflow: 'auto' }}>
                         {/* {JSON.stringify(showSubDetail)} */}
 
 
@@ -159,13 +154,13 @@ export default function VerticalLinearStepper() {
                             </>
                         )}
                         {/* < CardSubDetail showSubDetail={showSubDetail} /> */}
-                    </Paper>
+                    </ResetPaper>
                     {/* </Paper> */}
                 </Grid>
             </Grid>
 
 
-        </div>
+        </Root>
 
     );
 }

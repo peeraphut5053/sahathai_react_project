@@ -1,17 +1,8 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  Grid,
-  TextField,
-  makeStyles
-} from '@material-ui/core';
+import { Box, Button, Card, CardContent, CardHeader, Divider, Grid, TextField } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 const states = [
   {
@@ -28,12 +19,9 @@ const states = [
   }
 ];
 
-const useStyles = makeStyles(() => ({
-  root: {}
-}));
+const RootForm = styled('form')({});
 
 const ProfileDetails = ({ className, ...rest }) => {
-  const classes = useStyles();
   const [values, setValues] = useState({
     firstName: 'Katarina',
     lastName: 'Smith',
@@ -51,10 +39,10 @@ const ProfileDetails = ({ className, ...rest }) => {
   };
 
   return (
-    <form
+    <RootForm
       autoComplete="off"
       noValidate
-      className={clsx(classes.root, className)}
+      className={clsx(className)}
       {...rest}
     >
       <Card>
@@ -186,7 +174,7 @@ const ProfileDetails = ({ className, ...rest }) => {
           </Button>
         </Box>
       </Card>
-    </form>
+    </RootForm>
   );
 };
 

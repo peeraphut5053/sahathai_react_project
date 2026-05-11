@@ -1,62 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {
-    Card,
-    CardContent,
-    Grid,
-    makeStyles,
-    withStyles,
-    colors,
-} from '@material-ui/core';
+import { Card, CardContent, Grid } from '@mui/material';
+import * as colors from '@mui/material/colors';
+import { styled } from '@mui/material/styles';
 // import { Link as  useNavigate } from 'react-router-dom';
-
-
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import moment from "moment";
 import API from '../components/API';
 moment.locale("th");
 
-const useStyles = makeStyles(() => ({
-    root: {
-        height: '100%'
-    },
-    avatar: {
-        backgroundColor: colors.pink[600],
-        height: 56,
-        width: 56
-    }
-}));
+const RootCard = styled(Card)({
+    height: '100%'
+});
 
-const StyledTableCell = withStyles((theme) => ({
-    head: {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    '&.MuiTableCell-head': {
         backgroundColor: colors.indigo[500],
         color: theme.palette.common.white,
     },
-    body: {
+    '&.MuiTableCell-body': {
         fontSize: 14,
     },
-}))(TableCell);
+}));
 
 
-const StyledTableRow = withStyles((theme) => ({
-    root: {
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.action.hover,
-        },
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
     },
-}))(TableRow);
+}));
 
 
 const TableExecutiveSummary = ({ className, ...rest }) => {
-    const classes = useStyles();
     const [openModalItem, setOpenModalItem] = React.useState(false);
     // const navigate = useNavigate();
 
@@ -95,13 +77,13 @@ const TableExecutiveSummary = ({ className, ...rest }) => {
 
 
         return function cleanup() {
-          clearInterval(timerID);
+            clearInterval(timerID);
         };
     }, [])
 
     return (
-        <Card
-            className={clsx(classes.root, className)}
+        <RootCard
+            className={clsx(className)}
             {...rest}
         >
 
@@ -137,10 +119,10 @@ const TableExecutiveSummary = ({ className, ...rest }) => {
                     </Grid> */}
                     <Grid item xs={12}>
                         <TableContainer component={Paper}>
-                            <Table className={classes.table} aria-label="customized table">
+                            <Table aria-label="customized table">
                                 <TableHead>
                                     <TableRow>
-                                        <StyledTableCell style={{width:180}}>{moment().subtract(1, 'months').format("MMM-YYYY")}</StyledTableCell>
+                                        <StyledTableCell style={{ width: 180 }}>{moment().subtract(1, 'months').format("MMM-YYYY")}</StyledTableCell>
                                         <StyledTableCell align="right">Coil</StyledTableCell>
                                         <StyledTableCell align="right">Strip</StyledTableCell>
                                         <StyledTableCell align="right">Processing&nbsp;Pipe</StyledTableCell>
@@ -168,10 +150,10 @@ const TableExecutiveSummary = ({ className, ...rest }) => {
                     </Grid>
                     <Grid item xs={12}>
                         <TableContainer component={Paper}>
-                            <Table className={classes.table} aria-label="customized table">
+                            <Table aria-label="customized table">
                                 <TableHead>
                                     <TableRow>
-                                        <StyledTableCell  style={{width:180}}>{moment().format("MMM")} to date</StyledTableCell>
+                                        <StyledTableCell style={{ width: 180 }}>{moment().format("MMM")} to date</StyledTableCell>
                                         <StyledTableCell align="right">Coil</StyledTableCell>
                                         <StyledTableCell align="right">Strip</StyledTableCell>
                                         <StyledTableCell align="right">Processing&nbsp;Pipe</StyledTableCell>
@@ -198,7 +180,7 @@ const TableExecutiveSummary = ({ className, ...rest }) => {
                     </Grid>
                 </Grid>
             </CardContent>
-        </Card>
+        </RootCard>
     );
 };
 

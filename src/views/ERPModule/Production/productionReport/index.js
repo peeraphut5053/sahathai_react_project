@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Card, CardActions, CardContent, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, IconButton, Modal, Paper,  Snackbar, Typography } from '@material-ui/core';
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake-thai/build/vfs_fonts";
-import { ReportCheckPackingDiary } from './ReportCheckPackingDiary'
-import { ReportCheckProductionDiary } from './ReportCheckProductionDiary'
-import { ReportMovingProductReport } from './ReportMovingProductReport'
+import { Button, Card, CardActions, CardContent, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, IconButton, Modal, Paper, Snackbar, Typography } from '@mui/material';
+import { ReportCheckPackingDiary } from './ReportCheckPackingDiary';
+import { ReportCheckProductionDiary } from './ReportCheckProductionDiary';
+import { ReportMovingProductReport } from './ReportMovingProductReport';
 import { ReportPackingDiary } from './ReportPackingDiary';
 import { ReportProductionDaily } from './ReportProductionDaily';
 import { ReportForming } from './ReportForming';
@@ -15,16 +13,14 @@ import CButton from '../../../components/Input/CButton';
 import { Formik } from 'formik';
 import CTextField from '../../../components/Input/CTextField';
 import API from '../../../components/API';
-import { Alert, AlertTitle } from '@material-ui/lab';
+import { Alert, AlertTitle } from '@mui/material';
 import CAutocomplete from '../../../components/Input/CAutocomplete ';
 import ReasonStopMachineTableEditable from './ReasonStopMachineTableEditable';
 import ReasonStopMachineDetailTableEditable from './ReasonStopMachineDetailTableEditable';
-
 import ReasonRecordStopMachineTableEditable from './ReasonRecordStopMachineTableEditable';
 import ReasonRecordStopMachineMetersTableEditable from './ReasonRecordStopMachineMetersTableEditable';
-import customStyles from "./customStyles.js";
-// import SearchFn from "./SearchFn"
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import styles from './ProductionReport.module.css';
+// import SearchFn from "./SearchFn"import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ProductionDailyReportTable from './ProductionDailyReportTable';
 import ShiftSelect from './ShiftSelect';
 import ItemDetail from './ItemDetail';
@@ -38,11 +34,8 @@ import ModalMachineRecord from './ModalMachineRecord';
 
 
 moment.locale("th");
-const useStyles = customStyles
 
-const ProductionDailyReport = () => {
-	const classes = useStyles();
-	const [data, setdata] = useState([])
+const ProductionDailyReport = () => {	const [data, setdata] = useState([])
 	const [types, setTypes] = useState(1);
 	const [dataReason, setDataReason] = useState({});
 	const [isLoadingData, setisLoadingData] = useState(false)
@@ -344,16 +337,6 @@ const ProductionDailyReport = () => {
 		}
 	}
 
-	pdfMake.vfs = pdfFonts.pdfMake.vfs;
-	const pdfDocGenerator = pdfMake.createPdf("");
-	pdfDocGenerator.getDataUrl((dataUrl) => {
-		const targetElement = document.querySelector('#iframeContainer');
-		const iframe = document.createElement('iframe');
-		iframe.src = dataUrl;
-		targetElement.appendChild(iframe);
-	});
-
-
 	const handleClickAlert = () => {
 		setOpenAlert(true);
 	};
@@ -448,7 +431,7 @@ const ProductionDailyReport = () => {
 	}
 
 	return (
-		<Paper className={classes.paper}>
+		<Paper className={styles.paper}>
 			<Snackbar
 				anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
 				open={openAlert}
@@ -546,22 +529,22 @@ const ProductionDailyReport = () => {
 								<ModalMachineRecord values={values} openModal={machineRecord} handleCloseModal={handleCloseModalMachine} />
 								<Modal open={openModal} onClose={handleCloseModal}  >
 									{/* {JSON.stringify(values)} */}
-									<Grid container spacing={1} className={classes.paperModal} style={{ width: '80vw', height: '98vh', marginLeft: '10vw', marginTop: '1vh' }}>
+									<Grid container spacing={2} className={styles.workLogModal} style={{ margin: 0, width: 'auto' }}>
 
 										<Grid item xs={4} >
 											{/* {values.startdate}
                       {values.enddate} */}
-											<Card variant="outlined">
-												<CardContent>
-													<Typography variant="h4" component="h4"> Work center : {values.w_c} </Typography>
-													<Typography >ช่วงเวลางาน <br></br> {values.startdate} - {values.enddate} </Typography>
-													<Typography className={classes.pos} color="textSecondary"></Typography>
+											<Card variant="outlined" className={styles.workSummaryCard}>
+												<CardContent className={styles.workSummaryContent}>
+													<Typography className={styles.workSummaryTitle}> Work center : {values.w_c} </Typography>
+													<Typography className={styles.workSummarySubText}>ช่วงเวลางาน <br></br> {values.startdate} - {values.enddate} </Typography>
+													<Typography className={styles.pos} color="textSecondary"></Typography>
 												</CardContent>
-												<CardActions>
+												<CardActions className={styles.workSummaryContent}>
 													<FormControl component="fieldset">
 														{/* <FormLabel >จำนวนชั่วโมงในช่วงเวลาที่เลือก ({diff_hours(values.startdate,values.enddate)})</FormLabel> */}
 														<FormLabel >จำนวนชั่วโมงงานที่บันทึก ({BreakTimeForming})</FormLabel>
-														<FormControl required error={error} component="fieldset" className={classes.formControl}>
+														<FormControl required error={error} component="fieldset" className={styles.formControl}>
 															<FormGroup>
 																<FormControlLabel
 																	control={<Checkbox checked={BreakTimeOne} value="1" onChange={(event) => handleCheckboxChange(values.w_c, values.startdate, values.enddate, event)} name="BreakTimeOne" />}
@@ -597,11 +580,10 @@ const ProductionDailyReport = () => {
                             </RadioGroup> */}
 													</FormControl>
 												</CardActions>
-												<CardContent>
+												<CardContent className={styles.workSummaryActions}>
 													<Button
 														color="primary"
 														variant="contained"
-														style={{ margin: 2 }}
 														onClick={() => { SearchFn("ajax2", values, "Forming", "Forming") }} disabled={false} >
 
 														พิมพ์รายงาน Forming
@@ -609,7 +591,6 @@ const ProductionDailyReport = () => {
 													<Button
 														color="primary"
 														variant="contained"
-														style={{ margin: 2 }}
 														onClick={() => alert()} disabled={true} >
 
 														บันทึกรายงาน
@@ -668,8 +649,8 @@ const ProductionDailyReport = () => {
 												</Grid>
 										</Card>
 										</Grid> */}
-										<Grid item xs={6} >
-											<Card variant="outlined">
+										<Grid item xs={8} >
+											<Card variant="outlined" className={styles.meterPanel}>
 												<ReasonRecordStopMachineMetersTableEditable
 													w_c={values.w_c}
 													values={values}
@@ -681,7 +662,7 @@ const ProductionDailyReport = () => {
 												/>
 											</Card>
 										</Grid>
-										<Grid item xs={12} >
+										<Grid item xs={12} className={styles.stopReasonPanel}>
 											<ReasonRecordStopMachineTableEditable
 												dataFormingRecord={dataFormingRecord}
 												setDataFormingRecord={setDataFormingRecord}

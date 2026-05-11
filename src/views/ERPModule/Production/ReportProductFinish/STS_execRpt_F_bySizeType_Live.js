@@ -1,29 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Chip,
-  Container,
-  Grid,
-  makeStyles
-} from '@material-ui/core';
+import { Chip, Container, Grid } from '@mui/material';
 import Page from 'src/components/Page';
-import MaterialTable, { MTableToolbar } from 'material-table';
-import tableIcons from 'src/views/components/table/tableIcons';
+import DataTable from 'src/components/DataTable';
 import API from 'src/views/components/API';
 import ModalNopaperSmall from '../../../components/ModalNopaperSmall';
 import STS_execRpt_F_bySizeType_Live_Detail from './STS_execRpt_F_bySizeType_Live_Detail';
+import styles from './ReportProductFinish.module.css';
 
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    minHeight: '100%',
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
-  }
-}));
 
 
 const STS_execRpt_F_bySizeType_Live = (props) => {
-  const classes = useStyles();
   const [DataSTS_execRpt_F_bySizeType_Live, setDataSTS_execRpt_F_bySizeType_Live] = useState([])
   const [IsLoadingState, setIsLoadingState] = useState(true)
 
@@ -88,7 +74,7 @@ const STS_execRpt_F_bySizeType_Live = (props) => {
 
   return (
     <Page
-      className={classes.root}
+      className={styles.root}
       title="Dashboard"
     >
        <ModalNopaperSmall
@@ -148,9 +134,8 @@ const STS_execRpt_F_bySizeType_Live = (props) => {
 
           </Grid> */}
           <Grid item xs={12}>
-            <MaterialTable
+            <DataTable
               title={`รายงาน ${props.title}`}
-              icons={tableIcons}
               isLoading={IsLoadingState}
               columns={[
                 // { title: 'no.', field: 'no.' },
@@ -169,11 +154,9 @@ const STS_execRpt_F_bySizeType_Live = (props) => {
               ]}
               data={DataSTS_execRpt_F_bySizeType_Live}
 
-              components={{
-                Toolbar: props => (
-                  <div>
-                    <MTableToolbar {...props} />
-                    <div style={{ padding: '0px 20px 0.1px'}}>
+              toolbar={
+              (
+                <div className={styles.menuToolbar}>
                       <Chip
                         aria-controls="customized-menu"
                         aria-haspopup="true"
@@ -203,32 +186,20 @@ const STS_execRpt_F_bySizeType_Live = (props) => {
                         label={"Detail ขายใน"}
                       >
                       </Chip>
-                        </div>
-                    </div>
-                  ),
-                }}
-
-
-              options={{
-
-                cellStyle: { padding: '0.1' },
-                headerStyle: { padding: '0.1' },
-                search: false,
-                paging: false,
-                maxBodyHeight: '65vh',
-                minBodyHeight: '65vh',
-                sorting: false,
-                filtering: false,
-                // width: '100vw',
-                exportButton: true,
-                rowStyle: rowData => ({
-                  // backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
-                  fontSize: 14,
-                  padding: 0,
-                  width: 500,
-                  fontFamily: 'sans-serif'
-                }
-                ),
+                </div>
+              )} 
+              search={false}
+              sorting={false}
+              exportButton
+              maxBodyHeight="65vh"
+              minBodyHeight="65vh"
+              cellStyle={{ padding: '10px' }}
+              headerStyle={{ padding: '10px' }}
+              rowStyle={{
+                fontSize: 14,
+                padding: 0,
+                width: 500,
+                fontFamily: 'sans-serif'
               }}
             />
           </Grid>

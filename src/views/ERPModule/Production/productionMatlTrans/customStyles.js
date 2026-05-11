@@ -1,5 +1,4 @@
-import { makeStyles } from '@material-ui/core';
-const customStyles = makeStyles((theme) => ({
+const customStyles = (theme) => ({
     root: {
         backgroundColor: theme.palette.background.dark,
         minHeight: '100%',
@@ -31,6 +30,6 @@ const customStyles = makeStyles((theme) => ({
         marginTop: '10%',
         marginLeft: '10%'
     },
-}))
+})
 
 export default customStyles

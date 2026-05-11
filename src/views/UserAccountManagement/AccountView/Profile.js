@@ -2,17 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Divider,
-  Typography,
-  makeStyles
-} from '@material-ui/core';
+import { Avatar, Box, Button, Card, CardActions, CardContent, Divider, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 const user = {
   avatar: '/static/images/avatars/avatar_6.png',
@@ -23,20 +14,17 @@ const user = {
   timezone: 'GTM-7'
 };
 
-const useStyles = makeStyles(() => ({
-  root: {},
-  avatar: {
-    height: 100,
-    width: 100
-  }
-}));
+const RootCard = styled(Card)({});
+
+const ProfileAvatar = styled(Avatar)({
+  height: 100,
+  width: 100
+});
 
 const Profile = ({ className, ...rest }) => {
-  const classes = useStyles();
-
   return (
-    <Card
-      className={clsx(classes.root, className)}
+    <RootCard
+      className={clsx(className)}
       {...rest}
     >
       <CardContent>
@@ -45,8 +33,7 @@ const Profile = ({ className, ...rest }) => {
           display="flex"
           flexDirection="column"
         >
-          <Avatar
-            className={classes.avatar}
+          <ProfileAvatar
             src={user.avatar}
           />
           <Typography
@@ -63,7 +50,6 @@ const Profile = ({ className, ...rest }) => {
             {`${user.city} ${user.country}`}
           </Typography>
           <Typography
-            className={classes.dateText}
             color="textSecondary"
             variant="body1"
           >
@@ -81,7 +67,7 @@ const Profile = ({ className, ...rest }) => {
           Upload picture
         </Button>
       </CardActions>
-    </Card>
+    </RootCard>
   );
 };
 

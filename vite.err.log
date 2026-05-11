@@ -1,0 +1,90 @@
+[2m10:30:49 AM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [33mwarning: [33mDuplicate "variant" attribute in JSX element[33m
+166 |                                  shrink: true,
+167 |                                }}
+168 |                                variant="outlined"
+    |                                ^
+169 |                                inputVariant="outlined"
+170 |                                size="small"
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/sahathai_react_project_updated - Copy/src/views/ERPModule/Production/Stock_mthly/index.js[39m
+[2m10:30:49 AM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [33mwarning: [33mDuplicate key "wc" in object literal[33m
+446 |                                      loc: '',
+447 |                                      doc_type: 'Truck',
+448 |                                      wc: '',
+    |                                      ^
+449 |                                      round: '',
+450 |                                      boatList: '',
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/sahathai_react_project_updated - Copy/src/views/ERPModule/TruckNote/index.js[39m
+[2m10:30:49 AM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [33mwarning: [33mDuplicate key "wc" in object literal[33m
+521 |                                      loc: '',
+522 |                                      doc_type: 'Ship',
+523 |                                      wc: '',
+    |                                      ^
+524 |                                      round: '',
+525 |                                      boatList: '',
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/sahathai_react_project_updated - Copy/src/views/ERPModule/BoatNote/index.js[39m
+[2m10:30:49 AM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [33mwarning: [33mDuplicate key "fontWeight" in object literal[33m
+254 |                                              fontSize: 14,
+255 |                                              fontWeight: '900',
+256 |                                              minWidth: header.column.columnDef.size,
+    |                                              ^
+257 |                                              verticalAlign: isMachineHeader || isWorkHeader || isStopHeader || isTotal...
+258 |                                              ...customStyle,
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/sahathai_react_project_updated - Copy/src/views/ExecutiveReport/ProductionReport/ProductionOverTime.js[39m
+[2m10:30:50 AM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [33mwarning: [33mDuplicate key "animation" in object literal[33m
+229 |        yPadding: 12 // padding แนวตั้ง
+230 |      },
+231 |      animation: {
+    |      ^
+232 |        onComplete: () => {
+233 |          delayed = true;
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/sahathai_react_project_updated - Copy/src/views/ExecutiveReport/ProductionReport/LineCard.js[39m
+[2m10:30:50 AM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [33mwarning: [33mDuplicate key "marginBottom" in object literal[33m
+375 |                  borderRadius: 10, padding: '16px 24px', marginBottom: 8,
+376 |                  boxShadow: '0 4px 12px rgba(21,101,192,0.25)',
+377 |                  marginBottom: '20px'
+    |                  ^
+378 |              }}>
+379 |                  {/* Left: icon + title + badge */}
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/sahathai_react_project_updated - Copy/src/views/ExecutiveReport/ProductionReport/TableFormingStop.js[39m
+[2m10:30:50 AM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [33mwarning: [33mDuplicate key "columns" in object literal[33m
+195 |                      },
+196 |                  ],
+197 |                  columns: [
+    |                  ^
+198 |                      {
+199 |  
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/sahathai_react_project_updated - Copy/src/views/ERPModule/TruckNote/ReportMoveDetail.js[39m
+[2m10:30:50 AM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [33mwarning: [33mDuplicate key "columns" in object literal[33m
+272 |                  ],
+273 |                  columns: [
+274 |                      {
+    |                  ^
+275 |  
+276 |                          table: {
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/sahathai_react_project_updated - Copy/src/views/ERPModule/TruckNote/ReportMoveInternal.js[39m
+[2m10:30:50 AM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [33mwarning: [33mDuplicate key "columns" in object literal[33m
+272 |                  ],
+273 |                  columns: [
+274 |                      {
+    |                  ^
+275 |  
+276 |                          table: {
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/sahathai_react_project_updated - Copy/src/views/ERPModule/BoatNote/ReportMoveInternal.js[39m

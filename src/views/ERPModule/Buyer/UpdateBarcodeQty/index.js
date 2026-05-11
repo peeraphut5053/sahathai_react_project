@@ -1,46 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, colors, Container,  Grid,  makeStyles, TableRow } from '@material-ui/core';
+import { Card, CardContent, Container, Grid } from '@mui/material';
+import * as colors from '@mui/material/colors';
 import Page from 'src/components/Page';
 import { isMobile } from "react-device-detect";
 import clsx from 'clsx';
 import { Formik } from 'formik';
 import moment from "moment";
 import CButton from '../../../components/Input/CButton';
-import tableIcons from '../../../components/table/tableIcons'
 import API from '../../../components/API';
 import CTextField from '../../../components/Input/CTextField';
-import MaterialTable from 'material-table';
-import { withStyles } from '@material-ui/styles';
-import TableCell from '@material-ui/core/TableCell';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    minHeight: '100%',
-    paddingBottom: theme.spacing(1),
-    paddingTop: theme.spacing(2)
-  }
-}));
-
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: colors.indigo[500],
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
+import DataTable from 'src/components/DataTable';
+import styles from './UpdateBarcodeQty.module.css';
 const ByCOItemQTY = ({ className, ...rest }) => {
-  const classes = useStyles();
   const [data, setdata] = useState([])
   const [dataCoItem, setdataCoItem] = useState([])
 
@@ -143,17 +114,75 @@ const ByCOItemQTY = ({ className, ...rest }) => {
     setOpenModalItemMenuInvItem(false);
   };
 
+  const tableHeaderStyle = {
+    backgroundColor: colors.indigo[500],
+    color: '#FFF',
+    padding: '0.1'
+  };
+
+  const tableCellStyle = { padding: '0.1' };
+
+  const rowStyle = () => ({
+    fontSize: 12,
+    padding: 0,
+    width: 500,
+    fontFamily: 'sans-serif'
+  });
+
+  const lotColumns = [
+    { title: 'Lot', field: 'lot' },
+    {
+      title: 'Create Date',
+      field: 'create_date.date',
+      type: 'date',
+      render: rowData => moment(rowData.validated_at).format('DD/MM/YYYY')
+    },
+    { title: 'item', field: 'item', type: 'string' },
+    { title: 'qty', field: 'qty', type: 'numeric' },
+  ].map((column) => ({
+    ...column,
+    headerStyle: tableHeaderStyle,
+    cellStyle: tableCellStyle,
+  }));
+
+  const lotLocationColumns = [
+    { title: 'Lot', field: 'lot' },
+    { title: 'loc', field: 'loc', type: 'string' },
+    { title: 'item', field: 'item', type: 'string' },
+    { title: 'qty', field: 'qty', type: 'string' },
+  ].map((column) => ({
+    ...column,
+    headerStyle: tableHeaderStyle,
+    cellStyle: tableCellStyle,
+  }));
+
+  const tagBarcodeColumns = [
+    { title: 'Lot', field: 'Lot' },
+    {
+      title: 'Create Date',
+      field: 'create_date.date',
+      type: 'date',
+      render: rowData => moment(rowData.validated_at).format('DD/MM/YYYY')
+    },
+    { title: 'item', field: 'item', type: 'string' },
+    { title: 'qty', field: 'qty', type: 'numeric' },
+  ].map((column) => ({
+    ...column,
+    headerStyle: tableHeaderStyle,
+    cellStyle: tableCellStyle,
+  }));
+
 
 
 
   return (
-    <Page className={classes.root} title="Dashboard" >
+    <Page className={styles.root} title="Dashboard" >
 
 
 
       <Container maxWidth={false}>
         <Grid container spacing={1}>
-          <Card className={clsx(classes.root, className)} {...rest} style={{ backgroundColor: '#FFFFFF' }} >
+          <Card className={clsx(styles.root, className)} {...rest} style={{ backgroundColor: '#FFFFFF' }} >
             <CardContent >
               <Grid container spacing={3} >
                 <Grid xs={9} item style={{ width: '100%', overflowX: "auto" }}>
@@ -303,81 +332,29 @@ const ByCOItemQTY = ({ className, ...rest }) => {
                 </Grid>
 
                 <Grid xs={4} item style={{ width: '100%', overflowX: "auto" }}>
-                  <MaterialTable
-
-                    icons={tableIcons}
+                  <DataTable
                     title={` Lot (${data.length} รายการ) `}
-                    columns={[
-                      { title: 'Lot', field: 'lot' },
-                      {
-                        title: 'Create Date', field: 'create_date.date', type: 'date',
-                        render: rowData => moment(rowData.validated_at).format('DD/MM/YYYY')
-                      },
-                      { title: 'item', field: 'item', type: 'string', },
-
-                      { title: 'qty', field: 'qty', type: 'numeric' },
-                    ]}
+                    columns={lotColumns}
                     data={data}
-                    options={{
-                      headerStyle: {
-                        backgroundColor: colors.indigo[500],
-                        color: '#FFF',
-                        padding: '0.1'
-                      },
-                      exportButton: true,
-                      cellStyle: { padding: '0.1' },
-                      search: false,
-                      paging: false,
-                      maxBodyHeight: '60vh',
-                      minBodyHeight: '60vh',
-                      sorting: false,
-                      filtering: false,
-                      exportButton: true,
-                      rowStyle: rowData => ({
-                        fontSize: 12,
-                        padding: 0,
-                        width: 500,
-                        fontFamily: 'sans-serif'
-                      }
-                      ),
-                    }}
+                    maxBodyHeight="60vh"
+                    search={false}
+                    sorting={false}
+                    exportButton
+                    exportFileName="lot.csv"
+                    rowStyle={rowStyle}
                   />
                 </Grid>
                 <Grid xs={4} item style={{ width: '100%', overflowX: "auto" }}>
-                  <MaterialTable
-
-                    icons={tableIcons}
+                  <DataTable
                     title={` Lot Location (${data.length} รายการ) `}
-                    columns={[
-                      { title: 'Lot', field: 'lot' },
-                      { title: 'loc', field: 'loc', type: 'string', },
-                      { title: 'item', field: 'item', type: 'string', },
-                      { title: 'qty', field: 'qty', type: 'string' },
-                    ]}
+                    columns={lotLocationColumns}
                     data={data}
-                    options={{
-                      headerStyle: {
-                        backgroundColor: colors.indigo[500],
-                        color: '#FFF',
-                        padding: '0.1'
-                      },
-                      exportButton: true,
-                      cellStyle: { padding: '0.1' },
-                      search: false,
-                      paging: false,
-                      maxBodyHeight: '60vh',
-                      minBodyHeight: '60vh',
-                      sorting: false,
-                      filtering: false,
-                      exportButton: true,
-                      rowStyle: rowData => ({
-                        fontSize: 12,
-                        padding: 0,
-                        width: 500,
-                        fontFamily: 'sans-serif'
-                      }
-                      ),
-                    }}
+                    maxBodyHeight="60vh"
+                    search={false}
+                    sorting={false}
+                    exportButton
+                    exportFileName="lot-location.csv"
+                    rowStyle={rowStyle}
                   />
                 </Grid>
 
@@ -386,47 +363,20 @@ const ByCOItemQTY = ({ className, ...rest }) => {
           </Card>
         </Grid>
         <Grid container spacing={1}>
-          <Card className={clsx(classes.root, className)} {...rest} style={{ backgroundColor: '#FFFFFF' }} >
+          <Card className={clsx(styles.root, className)} {...rest} style={{ backgroundColor: '#FFFFFF' }} >
             <CardContent >
 
               <Grid xs={12} item style={{ width: '100%', overflowX: "auto" }}>
-                <MaterialTable
-                  icons={tableIcons}
+                <DataTable
                   title={` Tag Barcode (${data.length} รายการ) `}
-                  columns={[
-                    { title: 'Lot', field: 'Lot' },
-                    {
-                      title: 'Create Date', field: 'create_date.date', type: 'date',
-                      render: rowData => moment(rowData.validated_at).format('DD/MM/YYYY')
-                    },
-                    { title: 'item', field: 'item', type: 'string', },
-
-                    { title: 'qty', field: 'qty', type: 'numeric' },
-                  ]}
+                  columns={tagBarcodeColumns}
                   data={data}
-                  options={{
-                    headerStyle: {
-                      backgroundColor: colors.indigo[500],
-                      color: '#FFF',
-                      padding: '0.1'
-                    },
-                    exportButton: true,
-                    cellStyle: { padding: '0.1' },
-                    search: false,
-                    paging: false,
-                    maxBodyHeight: '60vh',
-                    minBodyHeight: '60vh',
-                    sorting: false,
-                    filtering: false,
-                    exportButton: true,
-                    rowStyle: rowData => ({
-                      fontSize: 12,
-                      padding: 0,
-                      width: 500,
-                      fontFamily: 'sans-serif'
-                    }
-                    ),
-                  }}
+                  maxBodyHeight="60vh"
+                  search={false}
+                  sorting={false}
+                  exportButton
+                  exportFileName="tag-barcode.csv"
+                  rowStyle={rowStyle}
                 />
               </Grid>
             </CardContent>

@@ -2,23 +2,13 @@ import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Pie } from 'react-chartjs-2';
-import {
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  Typography,
-  colors,
-  makeStyles,
-  useTheme,
-  Grid,
-  Chip,
-} from '@material-ui/core';
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import {   Box, Card, CardContent, CardHeader, Divider, Typography, useTheme, Grid, Chip } from '@mui/material';
+import * as colors from '@mui/material/colors';
+import { styled } from '@mui/material/styles';
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from 'src/mui/MuiPickersCompat';
 import moment from "moment";
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import MomentUtils from "@date-io/moment";
 import API from '../components/API';
@@ -26,14 +16,11 @@ import { Fragment } from 'react';
 
 moment.locale("th");
 
-const useStyles = makeStyles(() => ({
-  root: {
-    minHeight: '50vh'
-  }
-}));
+const RootCard = styled(Card)({
+  minHeight: '50vh'
+});
 
 const PieChartExecutiveSummary = ({ className, ...rest }) => {
-  const classes = useStyles();
   const theme = useTheme();
 
 
@@ -257,8 +244,8 @@ const PieChartExecutiveSummary = ({ className, ...rest }) => {
   };
 
   return (
-    <Card
-      className={clsx(classes.root, className)}
+    <RootCard
+      className={clsx(className)}
       {...rest}
     >
       <CardContent>
@@ -418,7 +405,7 @@ const PieChartExecutiveSummary = ({ className, ...rest }) => {
 
 
       </CardContent>
-    </Card>
+    </RootCard>
   );
 };
 

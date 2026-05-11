@@ -1,26 +1,23 @@
 import React, { useState } from 'react';
-import { Grid, Paper, Snackbar } from '@material-ui/core';
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake-thai/build/vfs_fonts";
+import { Grid, Paper, Snackbar } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import moment from "moment";
 import CButton from '../../../components/Input/CButton';
 import { Formik } from 'formik';
 import API from '../../../components/API';
-import { Alert, AlertTitle } from '@material-ui/lab';
-
-import customStyles from "./customStyles.js";
+import { Alert, AlertTitle } from '@mui/material';
 import ProductionDailyReportTable from './ProductionDailyReportTable';
-
 import DateFnsUtils from "@date-io/date-fns";
-import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
+import { MuiPickersUtilsProvider, DatePicker } from "src/mui/MuiPickersCompat";
 
 
 
 moment.locale("th");
-const useStyles = customStyles
+const RootPaper = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(3),
+}));
 
 const Stock_mthly = () => {
-  const classes = useStyles();
   const [data, setdata] = useState([])
   const [isLoadingData, setisLoadingData] = useState(false)
   const [openModalItem, setOpenModalItem] = React.useState(false);
@@ -60,20 +57,6 @@ const Stock_mthly = () => {
     }
   }
 
-  pdfMake.vfs = pdfFonts.pdfMake.vfs;
-  const pdfDocGenerator = pdfMake.createPdf("");
-  pdfDocGenerator.getDataUrl((dataUrl) => {
-    const targetElement = document.querySelector('#iframeContainer');
-    const iframe = document.createElement('iframe');
-    iframe.src = dataUrl;
-    targetElement.appendChild(iframe);
-  });
-
-
-
-
-
-
   const handleCloseAlert = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -100,7 +83,7 @@ const Stock_mthly = () => {
   };
 
   return (
-    <Paper className={classes.paper}>
+    <RootPaper>
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         open={openAlert}
@@ -155,7 +138,6 @@ const Stock_mthly = () => {
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                           <Grid container justify="space-around">
                             <DatePicker
-                              variant="outlined"
                               openTo="year"
                               views={["year", "month"]}
                               label="Year and Month"
@@ -209,7 +191,7 @@ const Stock_mthly = () => {
           </Grid>
         </Grid>
       </Grid>
-    </Paper>
+    </RootPaper>
   );
 };
 

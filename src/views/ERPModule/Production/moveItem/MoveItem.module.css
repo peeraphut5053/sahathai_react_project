@@ -1,0 +1,7 @@
+.root {
+  background-color: #f4f6f8;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 100%;
+  padding: 16px;
+}

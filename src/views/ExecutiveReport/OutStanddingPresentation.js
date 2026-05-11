@@ -1,43 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {
-    Card,
-    CardActionArea,
-    CardContent,
-    Divider,
-    Grid,
-    List,
-    ListItem,
-    ListItemText,
-    makeStyles,
-    Typography,
-    useTheme
-} from '@material-ui/core';
+import { Card, CardActionArea, CardContent, Divider, Grid, List, ListItem, ListItemText, Typography, useTheme } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import API from '../components/API';
 
 
 
 
-const useStyles = makeStyles(({
-    root: {
-        height: '100%'
-    },
-    image: {
-        height: '250px',
-        width: '100%'
-    },
-    card: {
-        height: '20vh'
-    }
+const RootCard = styled(Card)({
+    height: '100%'
+});
 
-}));
+const RootGrid = styled(Grid)({
+    height: '100%'
+});
+
+const RootList = styled(List)({
+    height: '100%'
+});
+
+const ProductImage = styled('img')({
+    height: '250px',
+    width: '100%'
+});
 
 
 
 const OutStanddingPresentation = ({ className, ...rest }) => {
-    const classes = useStyles();
-
     const theme = useTheme();
 
 
@@ -87,8 +77,8 @@ const OutStanddingPresentation = ({ className, ...rest }) => {
 
 
     return (
-        <Card
-            className={clsx(classes.root, className)}
+        <RootCard
+            className={clsx(className)}
             {...rest}
             style={{
                 // maxHeight: '100%',
@@ -103,14 +93,14 @@ const OutStanddingPresentation = ({ className, ...rest }) => {
             <Divider />
 
 
-            <Grid container className={classes.root} spacing={2}>
+            <RootGrid container spacing={2}>
                 <Grid item xs={3}>
-                    <Card className={classes.root}>
+                    <RootCard>
                         <CardActionArea>
-                            <img alt="Product" className={classes.image} src={'/static/images/products/coil.jpg'} />
+                            <ProductImage alt="Product" src={'/static/images/products/coil.jpg'} />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2"> Coil  </Typography>
-                                <List component="nav" className={classes.root} aria-label="mailbox folders">
+                                <RootList component="nav" aria-label="mailbox folders">
                                     <Divider />
                                     {V_STS_execSUM_Outs_Coil.map((value) =>
                                         <>
@@ -119,19 +109,19 @@ const OutStanddingPresentation = ({ className, ...rest }) => {
                                             </ListItem>
                                         </>
                                     )}
-                                </List>
+                                </RootList>
                             </CardContent>
                         </CardActionArea>
-                    </Card>
+                    </RootCard>
                 </Grid>
 
                 <Grid item xs={3}>
-                    <Card className={classes.root}>
+                    <RootCard>
                         <CardActionArea>
-                            <img alt="Product" className={classes.image} src={'/static/images/products/strip.jpg'} />
+                            <ProductImage alt="Product" src={'/static/images/products/strip.jpg'} />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2"> Strip  </Typography>
-                                <List component="nav" className={classes.root} aria-label="mailbox folders">
+                                <RootList component="nav" aria-label="mailbox folders">
                                     <Divider />
                                     {V_STS_execSUM_Outs_Strip.map((value) =>
                                         <>
@@ -140,18 +130,18 @@ const OutStanddingPresentation = ({ className, ...rest }) => {
                                             </ListItem>
                                         </>
                                     )}
-                                </List>
+                                </RootList>
                             </CardContent>
                         </CardActionArea>
-                    </Card>
+                    </RootCard>
                 </Grid>
                 <Grid item xs={3}>
-                    <Card className={classes.root}>
+                    <RootCard>
                         <CardActionArea>
-                            <img alt="Product" className={classes.image} src={'/static/images/products/processingPipe.jpg'} />
+                            <ProductImage alt="Product" src={'/static/images/products/processingPipe.jpg'} />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2"> Processing Pipe  </Typography>
-                                <List component="nav" className={classes.root} aria-label="mailbox folders">
+                                <RootList component="nav" aria-label="mailbox folders">
                                     <Divider />
                                     {V_STS_execSUM_Outs_ProcessingPipe.map((value) =>
                                         <>
@@ -160,18 +150,18 @@ const OutStanddingPresentation = ({ className, ...rest }) => {
                                             </ListItem>
                                         </>
                                     )}
-                                </List>
+                                </RootList>
                             </CardContent>
                         </CardActionArea>
-                    </Card>
+                    </RootCard>
                 </Grid>
                 <Grid item xs={3}>
-                    <Card className={classes.root}>
+                    <RootCard>
                         <CardActionArea>
-                            <img alt="Product" className={classes.image} src={'/static/images/products/packing.jpg'} />
+                            <ProductImage alt="Product" src={'/static/images/products/packing.jpg'} />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2"> Finished Pipe (all categories)  </Typography>
-                                <List component="nav" className={classes.root} aria-label="mailbox folders">
+                                <RootList component="nav" aria-label="mailbox folders">
                                     <Divider />
                                     {V_STS_execSUM_Outs_FinishedPipe.map((value) =>
                                         <>
@@ -180,13 +170,13 @@ const OutStanddingPresentation = ({ className, ...rest }) => {
                                             </ListItem>
                                         </>
                                     )}
-                                </List>
+                                </RootList>
                             </CardContent>
                         </CardActionArea>
-                    </Card>
+                    </RootCard>
                 </Grid>
-            </Grid>
-        </Card>
+            </RootGrid>
+        </RootCard>
     );
 };
 

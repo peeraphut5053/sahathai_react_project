@@ -1,0 +1,72 @@
+
+> react-material-dashboard@1.0.0 start
+> vite "--host" "0.0.0.0" "--port" "5173" "--strictPort"
+
+
+  [32m[1mVITE[22m v7.3.2[39m  [2mready in [0m[1m689[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://172.18.3.211:[1m5173[22m/[39m
+[2m10:33:33 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/TruckNote/index.js[22m
+[2m10:33:33 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/BoatNote/index.js[22m
+[2m10:33:34 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ExecutiveReport/ProductionReport/ProductionOverTime.js[22m
+[2m10:33:34 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ExecutiveReport/ProductionReport/LineCard.js[22m
+[2m10:33:34 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/TruckNote/ReportMoveInternal.js[22m
+[2m10:33:34 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/TruckNote/ReportMoveDetail.js[22m
+[2m10:33:34 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/BoatNote/ReportMoveInternal.js[22m
+[2m10:33:34 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ExecutiveReport/ProductionReport/TableFormingStop.js[22m
+[2m10:33:34 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/Production/Stock_mthly/index.js[22m
+[2m10:37:09 AM[22m [36m[1m[vite][22m[39m [32mvite.config.js changed, restarting server...[39m
+[2m10:37:09 AM[22m [36m[1m[vite][22m[39m server restarted.
+[2m10:44:16 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/Production/productionMatlTrans/index.js[22m
+[2m10:44:17 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/Production/Stock_mthly/index.js[22m
+[2m10:44:17 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/BoatNote/index.js[22m
+[2m10:44:17 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/TruckNote/index.js[22m
+[2m10:44:21 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/Production/productionReport/index.js[22m
+[2m10:44:33 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/Production/productionReport/index.js[22m
+[2m10:44:50 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/BoatNote/ReportSummaryBoatNote.js[22m
+[2m10:44:50 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/BoatNote/ReportMoveInternal.js[22m
+[2m10:44:50 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/BoatNote/ReportMoveBoatNote.js[22m
+[2m10:44:50 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/TruckNote/ReportMoveDetail.js[22m
+[2m10:44:50 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/TruckNote/ReportSummaryBoatNote.js[22m
+[2m10:44:50 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/TruckNote/ReportMoveBoatNote.js[22m
+[2m10:44:50 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/TruckNote/ReportMoveInternal.js[22m
+[2m10:44:50 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/Production/productionReport/ReportCheckPackingDiary.js[22m
+[2m10:44:50 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/Production/productionReport/ReportCheckProductionDiary.js[22m
+[2m10:44:51 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/Production/productionReport/ReportForming.js[22m
+[2m10:44:51 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/Production/productionReport/ReportMovingProductReport.js[22m
+[2m10:44:51 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/Production/productionReport/ReportPackingDiary.js[22m
+[2m10:44:51 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/Production/productionReport/ReportProductionDaily.js[22m
+[2m10:44:51 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/Production/productionReport/ReportStamping.js[22m
+[2m10:56:15 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/Production/productionReport/ReportPackingDiary.js[22m
+[2m10:57:43 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/Production/productionReport/ReportPackingDiary.js[22m
+[2m10:59:39 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/Production/productionReport/ReportPackingDiary.js[22m
+[2m11:23:25 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/mui/MuiPickersCompat.js[22m
+[2m11:23:31 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/Input/CDateTimePicker.js[22m
+[2m11:23:31 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/Input/CDatePicker.js[22m
+[2m11:23:32 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/Input/CDateMonthPicker.js[22m
+[2m11:23:32 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/Input/CYearPicker.js[22m
+[2m11:26:39 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/ModalNopaperLGPage.js[22m
+[2m11:26:40 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/ModalNopaperSmall.js[22m
+[2m11:26:40 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/ModalManagementFullPage.js[22m
+[2m11:32:01 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/mui/MuiPickersCompat.js[22m
+[2m11:32:10 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/Input/CDateTimePicker.js[22m
+[2m11:32:10 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/Input/CDatePicker.js[22m
+[2m11:32:10 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/Input/CDateMonthPicker.js[22m
+[2m11:32:10 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/Input/CYearPicker.js[22m
+[2m11:34:27 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/ModalManagementFullPage.js[22m
+[2m11:34:33 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/ModalManagementFullPage.js[22m
+[2m11:34:46 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/ModalManagementFullPage.js[22m
+[2m11:34:50 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/ModalManagementFullPage.js[22m
+[2m11:35:00 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/ModalManagementFullPage.js[22m
+[2m11:36:05 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/ModalManagementFullPage.js[22m
+[2m11:36:19 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/ModalManagementFullPage.js[22m
+[2m11:36:32 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/ModalManagementFullPage.js[22m
+[2m11:36:40 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/ModalManagementFullPage.js[22m
+[2m11:37:16 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/ModalManagementFullPage.js[22m
+[2m11:37:43 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/ModalManagementFullPage.js[22m
+[2m11:37:59 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/components/ModalManagementFullPage.js[22m
+[2m11:38:19 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/BoatNote/index.js[22m
+[2m11:38:27 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/views/ERPModule/BoatNote/index.js[22m
+[2m1:31:52 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/routes.js[22m
+[2m1:32:06 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/layouts/DashboardLayout/NavBar/ListItems2.js[22m

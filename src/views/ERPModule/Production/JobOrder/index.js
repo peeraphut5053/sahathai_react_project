@@ -1,18 +1,10 @@
 import React, { useState } from 'react';
-
-import {
-  Button,
-  Container,
-  Grid,
-  FormControl, InputLabel,Select,MenuItem ,
-  Typography,
-} from '@material-ui/core';
+import { Button, Container, Grid, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
 import { Formik } from 'formik';
 import DateTimePicker from '../../../components/Input/CDatePicker';
-import tableIcons from '../../../components/table/tableIcons';
 import API from '../../../components/API';
-import MaterialTable from 'material-table';
 import { toast } from 'react-toastify';
+import DataTable from 'src/components/DataTable';
 import CTextField from 'src/views/components/Input/CTextField';
 import moment from 'moment';
 import useGetTransType from '../../Finance/WorkbenchShipping/useGetTransType';
@@ -29,6 +21,70 @@ const JobOrder = () => {
       .toFixed(2)
       .replace(/\d(?=(\d{3})+\.)/g, '$&,');
   };
+
+  const columns = [
+    {
+      title: 'Transaction Date',
+      field: 'trans_date.date',
+      type: 'string',
+    },
+    {
+      title: 'Transaction Type',
+      field: 'trans_description',
+      type: 'string',
+    },
+    {
+      title: 'Location',
+      field: 'loc',
+      type: 'string',
+    },
+    {
+      title: 'Lot',
+      field: 'lot',
+      type: 'string',
+    },
+    {
+      title: 'Ref Number',
+      field: 'ref_num',
+      type: 'string',
+    },
+    {
+      title: 'Item',
+      field: 'item',
+      type: 'string',
+    },
+    {
+      title: 'Description',
+      field: 'ItemDesc',
+      type: 'string',
+    },
+    {
+      title: 'Quantity',
+      field: 'qty',
+      type: 'string'
+    },
+    {
+      title: 'U/M',
+      field: 'ItemUM',
+      type: 'string',
+    },
+    {
+      title: 'Date and Time of Transaction',
+      field: 'RecordDate.date',
+      type: 'string',
+    }
+  ].map((column) => ({
+    ...column,
+    headerStyle: {
+      backgroundColor: '#039be5',
+      color: '#FFF',
+      textAlign: 'center'
+    },
+    cellStyle: {
+      textAlign: 'center',
+      fontSize: '14px'
+    },
+  }));
 
   return (
     <Container maxWidth={false}>
@@ -234,82 +290,16 @@ const JobOrder = () => {
               </Formik>
             </Grid>
             <Grid item style={{ width: '100%', margin: 5, overflowX: 'auto' }}>
-              <MaterialTable
-                icons={tableIcons}
+              <DataTable
                 title={`Tag Status (${data.length} รายการ) `}
-                columns={[
-                  {
-                    title: 'Transaction Date',
-                    field: 'trans_date.date',
-                    type: 'string',
-                  },
-                  {
-                    title: 'Transaction Type',
-                    field: 'trans_description',
-                    type: 'string',
-                  },
-                  {
-                    title: 'Location',
-                    field: 'loc',
-                    type: 'string',
-                  },
-                  {
-                    title: 'Lot',
-                    field: 'lot',
-                    type: 'string',
-                  },
-                  {
-                    title: 'Ref Number',
-                    field: 'ref_num',
-                    type: 'string',
-                  },
-                  {
-                    title: 'Item',
-                    field: 'item',
-                    type: 'string',
-                  },
-                  {
-                    title: 'Description',
-                    field: 'ItemDesc',
-                    type: 'string',
-                  },
-                  {
-                    title: 'Quantity',
-                    field: 'qty',
-                    type: 'string'
-                  },
-                  {
-                    title: 'U/M',
-                    field: 'ItemUM',
-                    type: 'string',
-                  },
-                  {
-                    title: 'Date and Time of Transaction',
-                    field: 'RecordDate.date',
-                    type: 'string',     }
-                ]}
+                columns={columns}
                 data={data}
-                options={{
-                  maxBodyHeight: '65vh',
-                  minBodyHeight: '65vh',
-                  search: true,
-                  paging: false,
-                  sorting: true,
-                  filtering: false,
-                  exportButton: true,
-                  columnsButton: true,
-                  doubleHorizontalScroll: true,
-                  headerStyle: {
-                    backgroundColor: '#039be5',
-                    color: '#FFF',
-                    textAlign: 'center'
-                  },
-                  cellStyle: {
-                    textAlign: 'center',
-                    fontSize: '14px'
-                  },
-                  
-                }}
+                maxBodyHeight="65vh"
+                search
+                sorting
+                exportButton
+                columnsButton
+                exportFileName="job-order.csv"
               />
             </Grid>
           </Grid>

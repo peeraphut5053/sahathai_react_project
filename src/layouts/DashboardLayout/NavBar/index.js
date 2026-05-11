@@ -1,37 +1,17 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {
-  Box,
-  Divider,
-  Drawer,
-  Hidden,
-  Typography,
-  makeStyles,
-} from '@material-ui/core';
+import {   Box, Divider, Drawer, Hidden, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import ListItems2 from './ListItems2'import MenuItems from './MenuItems'import UserData from './UserData';
 
-import ListItems2 from './ListItems2'
-import MenuItems from './MenuItems'
-import UserData from './UserData';
-
-const useStyles = makeStyles(() => ({
-  mobileDrawer: {
+const MobileDrawer = styled(Drawer)({
+  '& .MuiDrawer-paper': {
     width: 256
-  },
-  desktopDrawer: {
-    width: 256,
-    top: 64,
-    height: 'calc(100% - 64px)'
-  },
-  avatar: {
-    cursor: 'pointer',
-    width: 64,
-    height: 64
   }
-}));
+});
 
 const NavBar = ({ onMobileClose, openMobile }) => {
-  const classes = useStyles();
   const location = useLocation();
   const [open, setOpen] = React.useState(true)
 
@@ -102,15 +82,14 @@ const NavBar = ({ onMobileClose, openMobile }) => {
   return (
     <>
       <Hidden >
-        <Drawer
+        <MobileDrawer
           anchor="left"
-          classes={{ paper: classes.mobileDrawer }}
           onClose={onMobileClose}
           open={openMobile}
           variant="temporary"
         >
           {content}
-        </Drawer>
+        </MobileDrawer>
       </Hidden>
       {/* <Hidden mdDown>
         <Drawer

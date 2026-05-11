@@ -1,10 +1,11 @@
 import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import MobileStepper from '@material-ui/core/MobileStepper';
-import Button from '@material-ui/core/Button';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import { Card, Grid, ListItem, ListItemText } from '@material-ui/core';
+import { useTheme } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import MobileStepper from '@mui/material/MobileStepper';
+import Button from '@mui/material/Button';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import { Card, Grid, ListItem, ListItemText } from '@mui/material';
 import PieChartExecutiveSummary from '../PieChartExecutiveSummaryPresentation';
 import PieChartExecutiveSummary2 from '../PieChartExecutiveSummary2Presentation';
 import PresentationPageOne from '../PresentationPageOne';
@@ -16,36 +17,23 @@ import TableExecutiveSummaryPresentation from '../TableExecutiveSummaryPresentat
 
 moment.locale("th");
 
-const useStyles = makeStyles((theme) => ({
-    listItemText: {
-        fontSize: '3vh',//Insert your required size
+const Root = styled('div')({
+    marginTop: '-2.5%',
+    maxWidth: '100vw',
+    flexGrow: 1,
+});
+
+const RootCard = styled(Card)({
+    maxWidth: '100vw',
+    flexGrow: 1,
+    height: '89vh',
+});
+
+const StepLabelText = styled(ListItemText)({
+    '& .MuiListItemText-primary': {
+        fontSize: '3vh',
     },
-    root: {
-        marginTop: '-2.5%',
-        maxWidth: '100vw',
-        flexGrow: 1,
-        // height: '95vh'
-    },
-    rootCards: {
-        maxWidth: '100vw',
-        flexGrow: 1,
-        height: '89vh',
-    },
-    header: {
-        display: 'flex',
-        alignItems: 'center',
-        height: 30,
-        paddingLeft: theme.spacing(4),
-        backgroundColor: theme.palette.background.default,
-    },
-    img: {
-        height: 230,
-        maxWidth: 400,
-        overflow: 'hidden',
-        display: 'block',
-        width: '100%',
-    },
-}));
+});
 
 export default function ExecutiveReportPresentation() {
 
@@ -132,7 +120,6 @@ export default function ExecutiveReportPresentation() {
         },
     ];
 
-    const classes = useStyles();
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0); //////////////////////////////
     const maxSteps = PresentationSteps.length;
@@ -176,7 +163,7 @@ export default function ExecutiveReportPresentation() {
 
 
     return (
-        <div className={classes.root}>
+        <Root>
             {/* <div style={{position:'absolute',textAlign:'right'}} >
             <Button variant="contained" style={{position:'absolute',textAlign:'right'}} color="secondary" onClick={toggleFullScreen} > Full  </Button>
 
@@ -187,16 +174,16 @@ export default function ExecutiveReportPresentation() {
             </Paper> */}
 
             <ListItem dense style={{ position: 'absolute', marginTop: '0.1%' }}  >
-                <ListItemText classes={{ primary: classes.listItemText }} primary={PresentationSteps[activeStep].label} />
+                <StepLabelText primary={PresentationSteps[activeStep].label} />
                 <img alt="Product" style={{ height: '5vh', marginRight: '1.3vw', marginTop: '0.4%' }} src={'/static/images/products/STS_logo.jpg'} />
             </ListItem >
 
-            <Card className={classes.rootCards} variant="outlined">
+            <RootCard variant="outlined">
                 {PresentationSteps[activeStep].page}
                 {/* <CardActions>
                     <Button size="small">Learn More</Button>
                 </CardActions> */}
-            </Card>
+            </RootCard>
 
             {/* <img
             {PresentationSteps[activeStep].page}
@@ -211,7 +198,6 @@ export default function ExecutiveReportPresentation() {
                 steps={maxSteps}
                 position="static"
                 activeStep={activeStep}
-                className={classes.root}
                 nextButton={
                     <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
                         Next
@@ -230,6 +216,6 @@ export default function ExecutiveReportPresentation() {
                 <ListItemText primary={``} />
                 Last update : {moment().format("YYYY/MM/D HH:mm:ss ")}
             </ListItem >
-        </div>
+        </Root>
     );
 }

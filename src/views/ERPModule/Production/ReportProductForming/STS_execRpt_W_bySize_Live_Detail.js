@@ -1,37 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Container,
-  Grid,
-  makeStyles
-} from '@material-ui/core';
+import { Container, Grid } from '@mui/material';
 import Page from 'src/components/Page';
-import MaterialTable from 'material-table';
-import tableIcons from 'src/views/components/table/tableIcons';
+import DataTable from 'src/components/DataTable';
 import API from 'src/views/components/API';
-import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/core'
+import styles from './ReportProductForming.module.css';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    minHeight: '100%',
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
-  }
-}));
-
-const theme = createMuiTheme({
-  overrides: {
-    MuiTableCell: {
-      root: {
-        padding: '10px 10px',
-      },
-    },
-  },
-});
 
 
 const STS_execRpt_W_bySize_Live_Detail = (props) => {
-  const classes = useStyles();
   const [DataSTS_execRpt_W_bySize_Live_Detail, setDataSTS_execRpt_W_bySize_Live_Detail] = useState([])
   const [IsLoadingState, setIsLoadingState] = useState(true)
 
@@ -54,16 +30,13 @@ const STS_execRpt_W_bySize_Live_Detail = (props) => {
 
   return (
     <Page
-      className={classes.root}
+      className={styles.root}
       title="Dashboard"
     >
       <Container maxWidth={false}>
           <Grid item xs={12}>
-            <ThemeProvider theme={theme}>
-
-              <MaterialTable
+              <DataTable
                 title={`รายงาน ${props.title}`}
-                icons={tableIcons}
                 isLoading={IsLoadingState} 
 
                 columns={[
@@ -74,31 +47,20 @@ const STS_execRpt_W_bySize_Live_Detail = (props) => {
                     { title: 'Location', field: 'location', type: 'numeric' },
 
                 ]}
-                data={DataSTS_execRpt_W_bySize_Live_Detail}
-
-                options={{
-
-                  cellStyle: { padding: '0.1' },
-                  headerStyle: { padding: '0.1' },
-                  search: false,
-                  paging: false,
-                  maxBodyHeight: '65vh',
-                  minBodyHeight: '65vh',
-                  sorting: false,
-                  filtering: false,
-                  // width: '100vw',
-                  exportButton: true,
-                  rowStyle: rowData => ({
-                    // backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
-                    fontSize: 14,
-                    padding: 0,
-                    width: 500,
-                    fontFamily: 'sans-serif'
-                  }
-                  ),
+                data={DataSTS_execRpt_W_bySize_Live_Detail}                search={false}
+                sorting={false}
+                exportButton
+                maxBodyHeight="65vh"
+                minBodyHeight="65vh"
+                cellStyle={{ padding: '10px' }}
+                headerStyle={{ padding: '10px' }}
+                rowStyle={{
+                  fontSize: 14,
+                  padding: 0,
+                  width: 500,
+                  fontFamily: 'sans-serif'
                 }}
               />
-            </ThemeProvider>
           </Grid>
       </Container>
     </Page>

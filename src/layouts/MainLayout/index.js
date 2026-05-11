@@ -1,49 +1,48 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core';
+import { styled } from '@mui/material/styles';
 import TopBar from './TopBar';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.default,
-    display: 'flex',
-    height: '100%',
-    overflow: 'hidden',
-    width: '100%'
-  },
-  wrapper: {
-    display: 'flex',
-    flex: '1 1 auto',
-    overflow: 'hidden',
-    paddingTop: 0
-  },
-  contentContainer: {
-    display: 'flex',
-    flex: '1 1 auto',
-    overflow: 'hidden'
-  },
-  content: {
-    flex: '1 1 auto',
-    height: '100%',
-    overflow: 'auto'
-  }
+const Root = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.background.default,
+  display: 'flex',
+  height: '100%',
+  overflow: 'hidden',
+  width: '100%'
 }));
 
-const MainLayout = (props) => {
-  const classes = useStyles();
+const Wrapper = styled('div')({
+  display: 'flex',
+  flex: '1 1 auto',
+  overflow: 'hidden',
+  paddingTop: 0
+});
 
+const ContentContainer = styled('div')({
+  display: 'flex',
+  flex: '1 1 auto',
+  overflow: 'hidden'
+});
+
+const Content = styled('div')({
+  flex: '1 1 auto',
+  height: '100%',
+  overflow: 'auto'
+});
+
+const MainLayout = (props) => {
   return (
-    <div className={classes.root}>
+    <Root>
       <div style={{zIndex:2000}}>{props.userauth}</div>
       <TopBar status={"Dashboard"} />
-      <div className={classes.wrapper}>
-        <div className={classes.contentContainer}>
-          <div className={classes.content}>
+      <Wrapper>
+        <ContentContainer>
+          <Content>
             <Outlet />
-          </div>
-        </div>
-      </div>
-    </div>
+          </Content>
+        </ContentContainer>
+      </Wrapper>
+    </Root>
   );
 };
 

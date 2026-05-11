@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 import { useQuery } from "react-query";
-import {
-    useReactTable,
-    getCoreRowModel,
-    flexRender,
-} from '@tanstack/react-table';
+import {     useReactTable, getCoreRowModel, flexRender, } from '@tanstack/react-table';
 import API from 'src/views/components/API';
 import DateTimePicker from 'src/views/components/Input/CDatePicker';
 import moment from 'moment';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-import { Button, CircularProgress } from '@material-ui/core';
+import { Button, CircularProgress } from '@mui/material';
 
 
 const columns = [
@@ -254,7 +250,6 @@ export default function ProductionOverTimeTable() {
                                             border: '1px solid #e0e0e0',
                                             textAlign: 'center',
                                             padding: 8,
-                                            fontWeight: 600,
                                             fontSize: 14,
                                             fontWeight: '900',
                                             minWidth: header.column.columnDef.size,

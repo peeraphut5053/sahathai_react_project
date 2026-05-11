@@ -2,44 +2,35 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import {
-  Box,
-  Button,
-  Container,
-  TextField,
-  Typography,
-  makeStyles,
-} from '@material-ui/core';
+import {   Box, Button, Container, TextField, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import Page from 'src/components/Page';
 import API from '../components/API';
 import { toast } from 'react-toastify';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    height: '100%',
-    // paddingBottom: theme.spacing(3),
-    // paddingTop: theme.spacing(3)
-  },
-  box: {
-    border: '1px solid #3f51b5',
-    borderRadius: '5px',
-    padding: '100px',
-    boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.5)',
-    transition: 'all 0.3s cubic-bezier(.25,.8,.25,1)',
-    '&:hover': {
-      background: 'white',
-    }
-  },
-  title: {
-    fontWeight: 'bold',
-    color: '#00BFFF',
-    textShadow: '1px 1px 2px rgba(0,0,0,0.75)',
-  }
+const RootPage = styled(Page)(({ theme }) => ({
+  backgroundColor: theme.palette.background.dark,
+  height: '100%'
 }));
 
+const LoginContainer = styled(Container)({
+  border: '1px solid #3f51b5',
+  borderRadius: '5px',
+  padding: '100px',
+  boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.5)',
+  transition: 'all 0.3s cubic-bezier(.25,.8,.25,1)',
+  '&:hover': {
+    background: 'white'
+  }
+});
+
+const Title = styled(Typography)({
+  fontWeight: 'bold',
+  color: '#00BFFF',
+  textShadow: '1px 1px 2px rgba(0,0,0,0.75)'
+});
+
 const LoginView = () => {
-  const classes = useStyles();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -65,8 +56,7 @@ const LoginView = () => {
   }
 
   return (
-    <Page
-      className={classes.root}
+    <RootPage
       title="Login"
     >
       {/* <video id="background-video" loop autoPlay style={{position: 'fixed',filter:'opacity(0.04)'}} >
@@ -80,7 +70,7 @@ const LoginView = () => {
         justifyContent="center"
  
       >
-        <Container maxWidth="sm" className={classes.box}>
+        <LoginContainer maxWidth="sm">
           <Formik
             initialValues={{
               ajax: true,
@@ -113,14 +103,13 @@ const LoginView = () => {
               <form onSubmit={handleSubmit}>
                 <Box mb={3}
                 >
-                  <Typography
+                  <Title
                     color="textPrimary"
                     variant="h1"
                     align='center'
-                    className={classes.title}
                   >
                    <span style={{color: '#00BFFF'}}>SAHA</span><span style={{color: 'red'}}>THAI</span> DASHBOARD
-                  </Typography>
+                  </Title>
                 </Box>
                 {/*<Hidden only="lg">
 
@@ -227,9 +216,9 @@ const LoginView = () => {
                   >
                     Go To Dashboard
                   </Button>
-        </Container>
+        </LoginContainer>
       </Box>
-    </Page>
+    </RootPage>
   );
 };
 

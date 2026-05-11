@@ -1,37 +1,19 @@
 import React, { useState, useMemo } from 'react';
-import {
-    useReactTable,
-    getCoreRowModel,
-    flexRender,
-} from '@tanstack/react-table';
-import {
-    Box,
-    Paper,
-    Typography,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Grid,
-    CircularProgress
-} from '@material-ui/core';
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { useReactTable, getCoreRowModel, flexRender, } from '@tanstack/react-table';
+import {     Box, Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Grid, CircularProgress } from '@mui/material';
+import { DatePicker, MuiPickersUtilsProvider } from 'src/mui/MuiPickersCompat';
 import DateFnsUtils from '@date-io/date-fns';
 import thLocale from 'date-fns/locale/th';
 import moment from 'moment';
 import { useQuery } from 'react-query';
 import API from 'src/views/components/API';
-import { makeStyles } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 
-const useStyles = makeStyles({
-    denseTable: {
-        '& th, & td': {
-            fontSize: '0.75rem !important',
-            padding: '4px 6px !important',
-            whiteSpace: 'nowrap'
-        }
+const DenseTable = styled(Table)({
+    '& th, & td': {
+        fontSize: '0.75rem !important',
+        padding: '4px 6px !important',
+        whiteSpace: 'nowrap'
     }
 });
 
@@ -74,7 +56,6 @@ const formatNumber = (num) => {
 };
 
 const ProductionReportByMonth = () => {
-    const classes = useStyles();
     const [selectedDate, setSelectedDate] = useState(new Date());
 
     const year = selectedDate.getFullYear();
@@ -424,7 +405,7 @@ const ProductionReportByMonth = () => {
             </Grid>
 
             <TableContainer component={Paper} style={{ overflowX: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
-                <Table size="small" className={classes.denseTable} style={{ minWidth: 1600, borderCollapse: 'collapse' }}>
+                <DenseTable size="small" style={{ minWidth: 1600, borderCollapse: 'collapse' }}>
                     <TableHead style={{ position: 'sticky', top: 0, zIndex: 1, backgroundColor: '#fff' }}>
                         <TableRow>
                             <TableCell colSpan={24} style={{ border: '1px solid #aaa', textAlign: 'center', backgroundColor: '#fbbf00', fontWeight: 'bold', fontSize: '1rem', padding: '8px' }}>
@@ -586,7 +567,7 @@ const ProductionReportByMonth = () => {
                             <TableCell style={{ border: '1px solid #aaa', textAlign: 'right' }}></TableCell>
                         </TableRow>
                     </TableBody>
-                </Table>
+                </DenseTable>
             </TableContainer>
         </Box>
     );

@@ -1,62 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {
-    Card,
-    CardContent,
-    Grid,
-    makeStyles,
-    withStyles,
-    colors,
-} from '@material-ui/core';
-
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import { Card, CardContent, Grid } from '@mui/material';
+import * as colors from '@mui/material/colors';
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import moment from "moment";
 import API from '../components/API';
 import {searchExecutiveSummaryData2} from './GetDataAPI'
 
 moment.locale("th");
 
-const useStyles = makeStyles(() => ({
-    root: {
-        height: '100%'
-    },
-    avatar: {
-        backgroundColor: colors.pink[600],
-        height: 56,
-        width: 56
-    }
-}));
+const RootCard = styled(Card)({
+    height: '100%'
+});
 
-const StyledTableCell = withStyles((theme) => ({
-    head: {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    '&.MuiTableCell-head': {
         backgroundColor: colors.indigo[500],
         color: theme.palette.common.white,
     },
-    body: {
+    '&.MuiTableCell-body': {
         fontSize: 14,
     },
-}))(TableCell);
+}));
 
 
-const StyledTableRow = withStyles((theme) => ({
-    root: {
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.action.hover,
-        },
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
     },
-}))(TableRow);
+}));
 
 
 const TableExecutiveSummaryPresentation = ({ className, ...rest }) => {
-    const classes = useStyles();
-
     const [ExecutiveSummaryData1, setExecutiveSummaryData1] = useState([]);
     const [ExecutiveSummaryData2, setExecutiveSummaryData2] = useState([]);
 
@@ -83,7 +66,7 @@ const TableExecutiveSummaryPresentation = ({ className, ...rest }) => {
     }, [])
 
     return (
-        <Card className={clsx(classes.root, className)} {...rest} >
+        <RootCard className={clsx(className)} {...rest} >
             {JSON.stringify(searchExecutiveSummaryData2)}
             <CardContent >
                 <Grid
@@ -93,7 +76,7 @@ const TableExecutiveSummaryPresentation = ({ className, ...rest }) => {
                 >
                     <Grid item xs={12} style={{padding:'2vw'}}>
                         <TableContainer component={Paper}>
-                            <Table className={classes.table} aria-label="customized table">
+                            <Table aria-label="customized table">
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell style={{width:'150px'}}>{moment().subtract(1, 'months').format("MMM-YYYY")}</StyledTableCell>
@@ -124,7 +107,7 @@ const TableExecutiveSummaryPresentation = ({ className, ...rest }) => {
                     </Grid>
                     <Grid item xs={12} style={{padding:'2vw'}}>
                         <TableContainer component={Paper}>
-                            <Table className={classes.table} aria-label="customized table">
+                            <Table aria-label="customized table">
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell style={{width:'150px'}}>{moment().format("MMM")} to date</StyledTableCell>
@@ -154,7 +137,7 @@ const TableExecutiveSummaryPresentation = ({ className, ...rest }) => {
                     </Grid>
                 </Grid>
             </CardContent>
-        </Card>
+        </RootCard>
     );
 };
 

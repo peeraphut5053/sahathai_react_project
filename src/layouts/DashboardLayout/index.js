@@ -1,42 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core';
+import { styled } from '@mui/material/styles';
 import NavBar from './NavBar';
 import TopBar from './TopBar';
 import MyContext from 'src/views/MyContext';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    display: 'flex',
-    height: '100%',
-    overflow: 'hidden',
-    width: '100%'
-  },
-  wrapper: {
-    display: 'flex',
-    flex: '1 1 auto',
-    overflow: 'hidden',
-    paddingTop: 40,
-    // [theme.breakpoints.up('lg')]: {
-    //   paddingLeft: 256
-    // }
-  },
-  contentContainer: {
-    display: 'flex',
-    flex: '1 1 auto',
-    overflow: 'hidden'
-  },
-  content: {
-    flex: '1 1 auto',
-    height: '100%',
-    overflow: 'auto'
-  }
+const Root = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.background.dark,
+  display: 'flex',
+  height: '100%',
+  overflow: 'hidden',
+  width: '100%'
 }));
+
+const Wrapper = styled('div')({
+  display: 'flex',
+  flex: '1 1 auto',
+  overflow: 'hidden',
+  paddingTop: 40
+});
+
+const ContentContainer = styled('div')({
+  display: 'flex',
+  flex: '1 1 auto',
+  overflow: 'hidden'
+});
+
+const Content = styled('div')({
+  flex: '1 1 auto',
+  height: '100%',
+  overflow: 'auto'
+});
 
 
 const DashboardLayout = (props) => {
-  const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(true);
   const [username, setUsername] = useState(null)
   const [userData, setUserData] = useState(null)
@@ -77,7 +74,7 @@ const DashboardLayout = (props) => {
         user: user,
       }}
     >
-      <div className={classes.root}>
+      <Root>
         <TopBar
           username={username}
           onMobileNavOpen={() => setMobileNavOpen(true)}
@@ -87,15 +84,15 @@ const DashboardLayout = (props) => {
           onMobileClose={() => setMobileNavOpen(false)}
           openMobile={isMobileNavOpen}
         />
-        <div className={classes.wrapper}>
-          <div className={classes.contentContainer}>
-            <div className={classes.content}>
+        <Wrapper>
+          <ContentContainer>
+            <Content>
               {/* {JSON.stringify(isMobileNavOpen)} */}
               <Outlet />
-            </div>
-          </div>
-        </div>
-      </div>
+            </Content>
+          </ContentContainer>
+        </Wrapper>
+      </Root>
     </MyContext.Provider>
 
   );
