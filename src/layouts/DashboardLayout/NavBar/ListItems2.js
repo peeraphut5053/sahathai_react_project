@@ -91,159 +91,30 @@ const ListItems2 = [
         Icon: MonetizationOnIcon,
         menutitle: 'ขายในประเทศ',
         submenu: [
-            {
-                href: '/app/DomesticBacklog',
-                Icon: AssignmentIcon,
-                title: 'รายงานค้างส่งในประเทศ'
-            },
-            {
-                href: '/app/CerDo',
-                Icon: AssignmentIcon,
-                title: 'สร้างใบ Cer DO'
-            },
-            {
-                href: '/app/DomesticItemStock',
-                Icon: AssignmentIcon,
-                title: 'รายงาน Item คงเหลือ(คลังย่อย)'
-            },
-            {
-                href: '/app/2',
-                Icon: AssignmentIcon,
-                title: 'รายงาน Item Invoice'
-            },
-            {
-                href: '/app/3',
-                Icon: AssignmentIcon,
-                title: 'รายงานใบมัดจำ'
-            },
-            {
-                href: '/app/4',
-                Icon: AssignmentIcon,
-                title: 'Domestic Ledger Posted '
-            },
-            {
-                href: '/app/RPT_DO',
-                Icon: AssignmentIcon,
-                title: 'รายงาน DO ที่ยังไม่เปิด INV'
-            },
-            {
-                href: '/app/CustomerOrder',
-                Icon: AssignmentIcon,
-                title: 'RPT Customer Order'
-            }
+    {}
         ]
     },
     {
         Icon: MonetizationOnOutlinedIcon,
         menutitle: 'ขายต่างประเทศ',
         submenu: [
-            {
-                href: '/app/PendingSubmitedReportEX',
-                Icon: AssignmentIcon,
-                title: 'รายงานค้างส่งต่างประเทศ'
-            },
-            {
-                href: '/app/2',
-                Icon: AssignmentIcon,
-                title: 'รายงาน Item Invoice'
-            },
-            {
-                href: '/app/3',
-                Icon: AssignmentIcon,
-                title: 'Export Ledger Posted '
-            },
-            {
-                href: '/app/OrderProcessing',
-                Icon: AssignmentIcon,
-                title: 'Order Processing'
-            },
-            {
-                href: '/app/ADAllTemp',
-                Icon: AssignmentIcon,
-                title: 'AD All Temp'
-            }
+      {}
         ]
     },
     {
         Icon: AttachMoneyIcon,
         menutitle: 'การเงิน',
         submenu: [
-            {
-                href: '/app/ARTransactionReport',
-                Icon: AssignmentIcon,
-                title: 'รายงาน AR Transaction Report'
-            },
-            {
-                href: '/app/GeneralLedger',
-                Icon: AssignmentIcon,
-                title: 'General Ledger'
-            },
-            {
-                href: '/app/GeneralLedgerDetail',
-                Icon: AssignmentIcon,
-                title: 'General Ledger Detail'
-            },
-            {
-                href: '/app/ReportGeneralLedgerDomesticInvoice',
-                Icon: AssignmentIcon,
-                title: 'รายงาน GL Domestic Invoice'
-            },
-            {
-                href: '/app/CollectionDay',
-                Icon: AssignmentIcon,
-                title: 'Collection Day'
-            },
-            {
-                href: '/app/MaterialPurchase',
-                Icon: AssignmentIcon,
-                title: 'Material Purchase'
-            },
-            {
-                href: '/app/WorkbenchShipping',
-                Icon: AssignmentIcon,
-                title: 'Workbench Shipping'
-            },
-            {
-                href: '/app/PaymentInvoice',
-                Icon: AssignmentIcon,
-                title: 'Payment Invoice Checking'
-            },
-            {
-                href: '/app/productionReport',
-                Icon: AssignmentIcon,
-                title: 'กำหนดกลุ่ม Work center'
-            },
+{}
         ]
     },
     {
         Icon: OfflinePinIcon,
         menutitle: 'QC',
         submenu: [
-            {
-                href: '/app/productionReport',
-                Icon: AssignmentIcon,
-                title: 'รายงานการมัดท่อ'
-            },
-            {
-                href: '/app/productionReport',
-                Icon: AssignmentIcon,
-                title: 'Hotroll Checking'
-            },
-            {
-                href: '/app/DoInventoryDetail',
-                Icon: AssignmentIcon,
-                title: 'Do Inventory Detail'
-            },
-            {
-                href: '/app/TagStatus',
-                Icon: AssignmentIcon,
-                title: 'Tag Status'
-            },
-            {
-                href: '/app/QCLabTagDetail',
-                Icon: AssignmentIcon,
-                title: 'QC Lab Tag Detail'
-            }
+{
+    
+}
         ]
     },
     {
@@ -251,30 +122,8 @@ const ListItems2 = [
         menutitle: 'คลัง',
         submenu: [
             {
-                href: '/app/productionReport',
-                Icon: AssignmentIcon,
-                title: 'Check Item Location'
-            },
-            {
-                href: '/app/productionReport',
-                Icon: AssignmentIcon,
-                title: 'Quantity Move'
-            },
-            {
-                href: '/app/productionReport',
-                Icon: AssignmentIcon,
-                title: 'DO Checking'
-            },
-            {
-                href: '/app/productionReport',
-                Icon: AssignmentIcon,
-                title: 'พิมพ์ใบนับสต๊อคสินค้า'
-            },
-            {
-                href: '/app/productionReport',
-                Icon: AssignmentIcon,
-                title: 'ใบนับสด๊อค Item'
-            },
+
+            }
         ]
     },
 
@@ -298,25 +147,9 @@ const ListItems2 = [
                 title: 'Job Report'
             },
             {
-                href: '/app/ManufacturingReport',
-                Icon: AssignmentIcon,
-                title: 'Manufacturing Report'
-            },
-            {
-                href: '/app/SlitReport',
-                Icon: AssignmentIcon,
-                title: 'Slit Report'
-
-            },
-            {
                 href: '/app/productionMatlTrans',
                 Icon: AssignmentIcon,
                 title: 'Material Transaction'
-            },
-            {
-                href: '/app/Stock_mthly',
-                Icon: AssignmentIcon,
-                title: 'Stock monthly '
             },
             {
                 href: '/app/moveItem',
@@ -324,20 +157,15 @@ const ListItems2 = [
                 title: 'Move Item'
             },
             {
-                href: '/app/productionDashboard',
-                Icon: AssignmentIcon,
-                title: 'Production Dashboard'
-            },
-            {
                 href: '/app/ProductionLiveBoardV2',
                 Icon: AssignmentIcon,
                 title: 'Production Live Board V2'
             },
-            {
-                Icon: WatchLaterIcon,
-                menutitle: 'รายงาน OT พนักงาน',
-                href: '/app/ProductionOvertime',
-            },
+                     {
+                href: '/app/productionReport',
+                Icon: AssignmentIcon,
+                title: 'Production Report'
+            }
         ]
     },
     {
@@ -367,20 +195,8 @@ const ListItems2 = [
         menutitle: 'ตุ้นทุน',
         submenu: [
             {
-                href: '/app/productionReport',
-                Icon: AssignmentIcon,
-                title: 'Production report'
-            },
-            {
-                href: '/app/productionMatlTrans',
-                Icon: AssignmentIcon,
-                title: 'Production MatlTrans'
-            },
-            {
-                href: '/app/moveItem',
-                icon: LocalShippingIcon,
-                title: 'move Item'
-            },
+            
+        }
         ]
     },
     {

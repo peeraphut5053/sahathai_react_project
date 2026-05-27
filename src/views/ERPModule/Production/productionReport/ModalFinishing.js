@@ -1,5 +1,17 @@
-import React, { useState } from 'react';
-import { Grid, Modal } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  Modal,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography
+} from '@mui/material';
 import { Formik } from 'formik';
 import styles from './ProductionReport.module.css';
 import moment from 'moment';
@@ -10,13 +22,37 @@ import CAutocompleteReason from '../../../components/Input/CAutocompleteReason';
 import CTextField from 'src/views/components/Input/CTextField';
 import CButton from 'src/views/components/Input/CButton';
 import API from 'src/views/components/API';
-import { useEffect } from 'react';
 
 const ModalFinishing = ({ values, openModal, handleCloseModal }) => {
   const [types, setTypes] = useState(1);
   const [data, setData] = useState([]);
   const [reason, setReason] = useState({});
   const [open, setOpen] = useState(false);
+  const [latestFinishingRows, setLatestFinishingRows] = useState([]);
+  const [latestActiveFinishingRows, setLatestActiveFinishingRows] = useState([]);
+  const [loadingLatestFinishingStatus, setLoadingLatestFinishingStatus] = useState(false);
+  const [openActiveFinishingModal, setOpenActiveFinishingModal] = useState(false);
+
+  const normalizeFinishingRows = (rows) => (Array.isArray(rows) ? rows : []).map((item) => {
+    const stoppedDate = item.time_stopped?.date || item.time_stopped;
+    const endDate = item.time_end?.date || item.time_end;
+    const createDate = item.create_date?.date || item.create_date;
+
+    return {
+      ...item,
+      time_stopped: stoppedDate ? moment(stoppedDate).format('DD/MM/YYYY') : '',
+      start: stoppedDate ? moment(stoppedDate).format('HH:mm:ss') : '',
+      time_end: endDate ? moment(endDate).format('DD/MM/YYYY') : '',
+      end: endDate ? moment(endDate).format('HH:mm:ss') : '',
+      time_stop: stoppedDate,
+      create_date_raw: createDate
+    };
+  }).sort((a, b) => {
+    const timeA = a.create_date_raw ? new Date(a.create_date_raw).getTime() : 0;
+    const timeB = b.create_date_raw ? new Date(b.create_date_raw).getTime() : 0;
+
+    return timeB - timeA;
+  });
 
   const loadFinishingReason = async (type) => {
     const response = await API.get("RPT_JOBPACKING/data.php", {
@@ -30,24 +66,45 @@ const ModalFinishing = ({ values, openModal, handleCloseModal }) => {
       }
     });
 
-    const newData = response.data.map((item) => {
-      return {
-        ...item,
-        time_stopped: moment(item.time_stopped.date).format('DD/MM/YYYY'),
-        start: moment(item.time_stopped.date).format('HH:mm:ss'),
-        time_end: item.time_end ? moment(item.time_end?.date).format('DD/MM/YYYY') : '',
-        end: item.time_end ? moment(item.time_end?.date).format('HH:mm:ss') : '',
-        time_stop: item.time_stopped.date
-      };
-    })
-    setData(newData);
+    setData(normalizeFinishingRows(response.data));
+  };
+
+  const loadLatestFinishingStatus = async () => {
+    if (!values.w_c) {
+      setLatestFinishingRows([]);
+      setLatestActiveFinishingRows([]);
+      return;
+    }
+
+    setLoadingLatestFinishingStatus(true);
+
+    try {
+      const response = await API.get("RPT_JOBPACKING/data.php", {
+        params: {
+          load: "SelectFinishingLatest",
+          wc: values.w_c,
+        }
+      });
+
+      const latestRows = normalizeFinishingRows(response.data);
+      const latestRow = latestRows[0];
+      setLatestFinishingRows(latestRow ? [latestRow] : []);
+      setLatestActiveFinishingRows(latestRow && latestRow.down_time === null ? [latestRow] : []);
+    } catch (error) {
+      console.log("load latest finishing status error", error);
+      setLatestFinishingRows([]);
+      setLatestActiveFinishingRows([]);
+    } finally {
+      setLoadingLatestFinishingStatus(false);
+    }
   };
 
   useEffect(() => {
     if (openModal) {
       loadFinishingReason(1);
+      loadLatestFinishingStatus();
     }
-  }, [openModal]);
+  }, [openModal, values.w_c]);
 
   const AddNewReason = async (values) => {
 
@@ -74,6 +131,7 @@ const ModalFinishing = ({ values, openModal, handleCloseModal }) => {
       });
       setOpen(false);
       loadFinishingReason(1);
+      loadLatestFinishingStatus();
     } catch (error) {
       if (error.response.status === 400) {
         alert('Work Center นี้มีการบันทึกสาเหตุการหยุดเครื่องแล้ว');
@@ -83,6 +141,11 @@ const ModalFinishing = ({ values, openModal, handleCloseModal }) => {
 
   const handleOpen = (type) => {
     if (type === 'Add') {
+      if (latestActiveFinishingRows.length > 0) {
+        alert('Work Center นี้มีสถานะกำลังดำเนินการอยู่ ไม่สามารถเพิ่มสาเหตุใหม่ได้');
+        return;
+      }
+
       setTypes(1);
     } else {
       setTypes(2);
@@ -117,7 +180,7 @@ const ModalFinishing = ({ values, openModal, handleCloseModal }) => {
                 },
                 cellStyle: (rowData) => {
                   return {
-                    backgroundColor: rowData === null ? '#ff6666' : '#99ff99',
+                    backgroundColor: rowData.down_time === null ? '#ff6666' : '#99ff99',
                     textAlign: 'center',
                   };
                 },
@@ -190,8 +253,17 @@ const ModalFinishing = ({ values, openModal, handleCloseModal }) => {
                 <Chip
                   label={<AddCircleIcon />}
                   color="default"
+                  disabled={latestActiveFinishingRows.length > 0 || loadingLatestFinishingStatus}
                   style={{ marginRight: 5 }}
+                  title={latestActiveFinishingRows.length > 0 ? 'รายการล่าสุดยังมีสถานะกำลังดำเนินการอยู่ ไม่สามารถเพิ่มสาเหตุใหม่ได้' : 'เพิ่มสาเหตุใหม่'}
                   onClick={() => handleOpen('Add')}
+                />
+                <Chip
+                  label={`สถานะล่าสุด: ${loadingLatestFinishingStatus ? '...' : latestActiveFinishingRows.length > 0 ? 'กำลังดำเนินการ' : 'เสร็จสิ้น/ไม่มีรายการค้าง'}`}
+                  color={latestActiveFinishingRows.length > 0 ? "warning" : "success"}
+                  style={{ marginRight: 5 }}
+                  title="ดูรายการล่าสุด"
+                  onClick={() => setOpenActiveFinishingModal(true)}
                 />
                 <Chip
                   label="แสดงทุก Work Center"
@@ -204,6 +276,54 @@ const ModalFinishing = ({ values, openModal, handleCloseModal }) => {
           />
         </Grid>
       </Modal>
+      <Dialog
+        fullWidth
+        maxWidth="md"
+        open={openActiveFinishingModal}
+        onClose={() => setOpenActiveFinishingModal(false)}
+      >
+        <DialogTitle>
+          รายการล่าสุด : {values.w_c}
+        </DialogTitle>
+        <DialogContent dividers>
+          {latestFinishingRows.length > 0 ? (
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Status</TableCell>
+                  <TableCell>วันที่เริ่มต้น</TableCell>
+                  <TableCell>เวลาเริ่มต้น</TableCell>
+                  <TableCell>สาเหตุหลัก</TableCell>
+                  <TableCell>หมายเหตุ</TableCell>
+                  <TableCell>work center</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {latestFinishingRows.map((row) => (
+                  <TableRow key={row.id || `${row.w_c}-${row.time_stop}`}>
+                    <TableCell>
+                      <Chip
+                        color={row.down_time === null ? "warning" : "success"}
+                        label={row.down_time === null ? "กำลังดำเนินการ" : "เสร็จสิ้น"}
+                        size="small"
+                      />
+                    </TableCell>
+                    <TableCell>{row.time_stopped || '-'}</TableCell>
+                    <TableCell>{row.start || '-'}</TableCell>
+                    <TableCell>{row.reason_description || '-'}</TableCell>
+                    <TableCell>{row.remark || '-'}</TableCell>
+                    <TableCell>{row.w_c || '-'}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <Typography color="textSecondary" variant="body2">
+              รายการล่าสุดไม่ได้อยู่ในสถานะกำลังดำเนินการ
+            </Typography>
+          )}
+        </DialogContent>
+      </Dialog>
       <Modal open={open} onClose={() => setOpen(false)}>
         <Grid container spacing={0} className={styles.paperModalSM}>
           <Grid item xs={12} >

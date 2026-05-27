@@ -524,7 +524,7 @@ const ProductionDailyReport = () => {	const [data, setdata] = useState([])
 									/>
 								</Modal>
 								<ModalPassword open={passModal} onClose={() => setPassModal(false)} setStatusModal={setStatusModal} />
-								<ModalManagement open={statusModal} onClose={() => setStatusModal(false)} modalDetail={<WorkCenter wc={values.w_c} onClose={() => setStatusModal(false)} />} />
+								<ModalManagement clean width="min(560px, calc(100vw - 32px))" open={statusModal} onClose={() => setStatusModal(false)} modalDetail={<WorkCenter wc={values.w_c} onClose={() => setStatusModal(false)} />} />
 								<ModalFinishing values={values} openModal={openModalFinishing} handleCloseModal={handleCloseModalFinishing} />
 								<ModalMachineRecord values={values} openModal={machineRecord} handleCloseModal={handleCloseModalMachine} />
 								<Modal open={openModal} onClose={handleCloseModal}  >

@@ -38,8 +38,12 @@ export const MuiPickersUtilsProvider = ({
 
 const mergeSx = (...values) => values.filter(Boolean).flat();
 
-const normalizePickerFormat = (value) => {
+const normalizePickerFormat = (value, adapter) => {
   if (!value || typeof value !== 'string') {
+    return value;
+  }
+
+  if (adapter === AdapterMoment) {
     return value;
   }
 
@@ -68,7 +72,7 @@ const mapPickerProps = ({
   ...props
 }, adapter) => {
   const slotTextFieldProps = slotProps.textField || {};
-  const resolvedFormat = normalizePickerFormat(props.inputFormat || format);
+  const resolvedFormat = normalizePickerFormat(props.inputFormat || format, adapter);
 
   return {
     ...props,

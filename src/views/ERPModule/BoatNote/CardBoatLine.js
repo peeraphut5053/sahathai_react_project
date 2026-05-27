@@ -27,32 +27,39 @@ const CardBoatLine = (props, { className, ...rest }) => {
   const [endDate, setEndDate] = useState(new Date());
 
   const printReportMove = async (doc_type) => {
-    if (props.doc_num) {
-
-      if (doc_type == "Internal") {
-        const response = await API.get("RPT_JOBPACKING/data.php", {
-          params: {
-            load: 'STS_QTY_MOVE_REPORT',
-            doc_num: props.doc_num
-          }
-        })
-        const response2 = await API.get("RPT_JOBPACKING/data.php", {
-          params: {
-            load: 'STS_QTY_MOVE_REPORT_header',
-            doc_num: props.doc_num
-          }
-        })
-        console.log(response2.data);
-        ReportMoveInternal(response2.data, response.data)
-      } else if (doc_type == "BoatNote") {
-        const response = await API.get("RPT_JOBPACKING/data.php", {
-          params: {
-            load: 'STS_QTY_MOVE_REPORT',
-            doc_num: props.doc_num
-          }
-        })
-        ReportMoveBoatNote(response.data, loc, response.data, response.data)
+    if (doc_type == "Internal") {
+      if (!props.doc_num) {
+        alert("เลือกใบส่งของ")
+        return
       }
+
+      const response = await API.get("RPT_JOBPACKING/data.php", {
+        params: {
+          load: 'STS_QTY_MOVE_REPORT',
+          doc_num: props.doc_num
+        }
+      })
+      const response2 = await API.get("RPT_JOBPACKING/data.php", {
+        params: {
+          load: 'STS_QTY_MOVE_REPORT_header',
+          doc_num: props.doc_num
+        }
+      })
+      console.log(response2.data);
+      ReportMoveInternal(response2.data, response.data)
+    } else if (doc_type == "BoatNote") {
+      if (!props.doc_num) {
+        alert("เลือกใบส่งของ")
+        return
+      }
+
+      const response = await API.get("RPT_JOBPACKING/data.php", {
+        params: {
+          load: 'STS_QTY_MOVE_REPORT',
+          doc_num: props.doc_num
+        }
+      })
+      ReportMoveBoatNote(response.data, loc, response.data, response.data)
     } else if (doc_type == "BoatNoteSelectByDoGroup") {
       const response = await API.get("RPT_JOBPACKING/data.php", {
         params: {

@@ -2,7 +2,18 @@ import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Bar } from 'react-chartjs-2';
-import {   Box, Button, Card, CardContent, CardHeader, useTheme, Divider, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  Grid,
+  Stack,
+  Typography,
+  useTheme
+} from '@mui/material';
+import { alpha, styled } from '@mui/material/styles';
 import CircularProgress from '@mui/material/CircularProgress';
 import Select from 'react-select';
 import API from 'src/views/components/API';
@@ -13,6 +24,11 @@ import ModalManagementFullPage from 'src/views/components/ModalManagementFullPag
 import TableDetail from './TableDetail';
 import TableDailyWorkCenter from './TableDailyWorkCenter';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import FactoryIcon from '@mui/icons-material/Factory';
+import InsightsIcon from '@mui/icons-material/Insights';
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import ParetoChart from './ParetoChart';
 import TableFormingStop from './TableFormingStop';
 import { addComma } from 'src/utils/getInitials';
@@ -106,6 +122,122 @@ const group = [
     color: '#4caf50'
   },
 ];
+
+const supportBlue = '#00a4d8';
+const accentRed = '#ef3124';
+
+const ReportCard = styled(Card)(({ theme }) => ({
+  border: `1px solid ${alpha(theme.palette.primary.main, 0.14)}`,
+  borderRadius: 8,
+  boxShadow: `0 18px 42px ${alpha('#253746', 0.10)}`,
+  overflow: 'hidden'
+}));
+
+const HeaderSurface = styled(Box)(({ theme }) => ({
+  alignItems: 'center',
+  background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.10)} 0%, ${alpha(supportBlue, 0.10)} 54%, ${alpha(accentRed, 0.06)} 100%)`,
+  borderBottom: `1px solid ${alpha(theme.palette.primary.main, 0.14)}`,
+  display: 'grid',
+  gap: theme.spacing(2),
+  gridTemplateColumns: 'minmax(260px, 1fr) auto',
+  padding: theme.spacing(2),
+  [theme.breakpoints.down('md')]: {
+    alignItems: 'stretch',
+    gridTemplateColumns: '1fr'
+  }
+}));
+
+const TitleIcon = styled(Box)(({ theme }) => ({
+  alignItems: 'center',
+  background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${supportBlue} 100%)`,
+  borderRadius: 8,
+  boxShadow: `0 10px 20px ${alpha(theme.palette.primary.main, 0.22)}`,
+  color: '#ffffff',
+  display: 'flex',
+  flexShrink: 0,
+  height: 46,
+  justifyContent: 'center',
+  width: 46
+}));
+
+const ControlSurface = styled(Box)(({ theme }) => ({
+  alignItems: 'center',
+  backgroundColor: alpha('#ffffff', 0.86),
+  border: `1px solid ${alpha(theme.palette.primary.main, 0.16)}`,
+  borderRadius: 8,
+  boxShadow: `0 10px 24px ${alpha('#253746', 0.08)}`,
+  display: 'flex',
+  gap: theme.spacing(1.25),
+  padding: theme.spacing(1),
+  [theme.breakpoints.down('sm')]: {
+    alignItems: 'stretch',
+    flexDirection: 'column'
+  }
+}));
+
+const SummaryStrip = styled(Box)(({ theme }) => ({
+  display: 'grid',
+  gap: theme.spacing(1),
+  gridTemplateColumns: 'repeat(2, minmax(180px, 1fr))',
+  marginTop: theme.spacing(1.5),
+  [theme.breakpoints.down('sm')]: {
+    gridTemplateColumns: '1fr'
+  }
+}));
+
+const SummaryTile = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'tileColor'
+})(({ theme, tileColor }) => ({
+  backgroundColor: alpha(tileColor, 0.09),
+  border: `1px solid ${alpha(tileColor, 0.20)}`,
+  borderLeft: `4px solid ${tileColor}`,
+  borderRadius: 8,
+  padding: theme.spacing(1.1, 1.25)
+}));
+
+const ChartPane = styled(Box)(({ theme }) => ({
+  background: `linear-gradient(180deg, ${alpha(theme.palette.primary.main, 0.035)} 0%, #ffffff 48%)`,
+  border: `1px solid ${alpha(theme.palette.primary.main, 0.12)}`,
+  borderRadius: 8,
+  minHeight: 430,
+  padding: theme.spacing(1.5)
+}));
+
+const ChartHeader = styled(Box)(({ theme }) => ({
+  alignItems: 'center',
+  display: 'flex',
+  justifyContent: 'space-between',
+  marginBottom: theme.spacing(1)
+}));
+
+const SectionHeader = styled(Box)(({ theme }) => ({
+  alignItems: 'center',
+  display: 'flex',
+  gap: theme.spacing(1),
+  justifyContent: 'space-between',
+  margin: theme.spacing(2.5, 0, 1.5),
+  [theme.breakpoints.down('sm')]: {
+    alignItems: 'flex-start',
+    flexDirection: 'column'
+  }
+}));
+
+const GroupToolbar = styled(Box)(({ theme }) => ({
+  backgroundColor: alpha(theme.palette.primary.main, 0.035),
+  borderTop: `1px solid ${alpha(theme.palette.primary.main, 0.10)}`,
+  padding: theme.spacing(1.5, 2)
+}));
+
+const PercentChip = styled(Chip)(({ theme }) => ({
+  borderColor: alpha(theme.palette.primary.main, 0.18),
+  borderRadius: 8,
+  fontWeight: 800,
+  height: 32,
+  '.MuiChip-label': {
+    paddingLeft: 10,
+    paddingRight: 10
+  }
+}));
 
 
 
@@ -217,7 +349,7 @@ const GroupBarChart = ({ className, ...rest }) => {
       {
         label: 'A',
         data: result.map((item) => (item.sumA / 1000).toFixed(2)),
-        backgroundColor: 'green',
+        backgroundColor: theme.palette.primary.main,
         borderWidth: 1
       }
     ]
@@ -229,13 +361,13 @@ const GroupBarChart = ({ className, ...rest }) => {
       {
         label: 'B',
         data: result.map((item) => (item.sumB / 1000).toFixed(2)),
-        backgroundColor: '#ff6600',
+        backgroundColor: supportBlue,
         borderWidth: 1
       },
       {
         label: 'C',
         data: result.map((item) => (item.sumC / 1000).toFixed(2)),
-        backgroundColor: '#990000',
+        backgroundColor: accentRed,
         borderWidth: 1
       },
 
@@ -486,109 +618,200 @@ const GroupBarChart = ({ className, ...rest }) => {
         onClose={() => setOpenDetail(false)}
         modalDetail={<TableDailyWorkCenter />}
       />
-      <Card className={className} {...rest}>
-        <CardHeader
-          action={
-            <DateMonthPicker
-              label="Month"
-              name="month"
-              value={month}
-              onChange={(e) => setMonth(moment(e).format('YYYY-MM'))}
-            />
-          }
-          subheader={
-            <Box style={{ display: 'flex' }}>
-              <Button
-                color="secondary"
-                endIcon={<ArrowRightIcon />}
-                size="small"
-                variant="outlined"
-                style={{ width: '15%' }}
-                onClick={() => setOpenDetail(true)}
-              >
-                Daily Report
-              </Button>
-              <Typography style={{ fontWeight: 'bold', fontSize: '20px', color: 'Crimson', width: '40%', textAlign: 'center' }}>Total A : {addComma(sumA ? sumA : 0)} Tons</Typography>
-              <Typography style={{ fontWeight: 'bold', fontSize: '20px', color: 'Crimson', width: '40%', textAlign: 'center' }}>Total B+C  : {addComma(sumB ? sumB : 0)} Tons</Typography>
+      <ReportCard className={className} {...rest}>
+        <HeaderSurface>
+          <Box>
+            <Stack alignItems="center" direction="row" spacing={1.5}>
+              <TitleIcon>
+                <FactoryIcon fontSize="small" />
+              </TitleIcon>
+              <Box>
+                <Typography color="textPrimary" variant="h4">
+                  Group Production Report
+                </Typography>
+                <Typography color="textSecondary" variant="body2">
+                  Compare Grade A output, B+C hold volume, and machine working time by work center.
+                </Typography>
+              </Box>
+            </Stack>
+            <SummaryStrip>
+              <SummaryTile tileColor={theme.palette.primary.main}>
+                <Typography color="textSecondary" variant="caption">
+                  Total A
+                </Typography>
+                <Typography sx={{ color: theme.palette.primary.main, fontWeight: 900, lineHeight: 1.15 }} variant="h4">
+                  {addComma(sumA ? sumA : 0)} Tons
+                </Typography>
+              </SummaryTile>
+              <SummaryTile tileColor={accentRed}>
+                <Typography color="textSecondary" variant="caption">
+                  Total B+C
+                </Typography>
+                <Typography sx={{ color: accentRed, fontWeight: 900, lineHeight: 1.15 }} variant="h4">
+                  {addComma(sumB ? sumB : 0)} Tons
+                </Typography>
+              </SummaryTile>
+            </SummaryStrip>
+          </Box>
+          <ControlSurface>
+            <Box sx={{ minWidth: 220 }}>
+              <DateMonthPicker
+                label="Month"
+                name="month"
+                value={month}
+                onChange={(e) => setMonth(moment(e).format('YYYY-MM'))}
+              />
             </Box>
-          }
-          title="Group Production Report"
-        // want many subheader
-
-        />
-
-        <Divider />
-        <CardContent>
-          <Grid container spacing={3}>
-            <Grid item xs={6} md={6}>
-              <Box
-                height={400}
-                position="relative"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-              >
-                {isLoading ? (
-                  <CircularProgress />
-                ) : (
-                  <Bar data={myData} plugins={[ChartDataLabels]} options={options} />
-                )}
-              </Box>
+            <Button
+              color="error"
+              endIcon={<ArrowRightIcon />}
+              size="small"
+              sx={{ borderRadius: 1.5, fontWeight: 900, height: 40, px: 1.75, whiteSpace: 'nowrap' }}
+              variant="contained"
+              onClick={() => setOpenDetail(true)}
+            >
+              Daily Report
+            </Button>
+          </ControlSurface>
+        </HeaderSurface>
+        <CardContent sx={{ p: 2 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <ChartPane>
+                <ChartHeader>
+                  <Stack alignItems="center" direction="row" spacing={1}>
+                    <QueryStatsIcon sx={{ color: theme.palette.primary.main }} fontSize="small" />
+                    <Typography color="textPrimary" fontWeight={900} variant="subtitle1">
+                      Grade A Output
+                    </Typography>
+                  </Stack>
+                  <Typography color="textSecondary" variant="caption">
+                    Tons by work center
+                  </Typography>
+                </ChartHeader>
+                <Box
+                  height={375}
+                  position="relative"
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  {isLoading ? (
+                    <CircularProgress />
+                  ) : (
+                    <Bar data={myData} plugins={[ChartDataLabels]} options={options} />
+                  )}
+                </Box>
+              </ChartPane>
             </Grid>
-            <Grid item xs={6} md={6}>
-              <Box
-                height={400}
-                position="relative"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-              >
-                {isLoading ? (
-                  <CircularProgress />
-                ) : (
-                  <Bar data={myData2} plugins={[ChartDataLabels]} options={options2} />
-                )}
-              </Box>
+            <Grid item xs={12} md={6}>
+              <ChartPane>
+                <ChartHeader>
+                  <Stack alignItems="center" direction="row" spacing={1}>
+                    <InsightsIcon sx={{ color: supportBlue }} fontSize="small" />
+                    <Typography color="textPrimary" fontWeight={900} variant="subtitle1">
+                      B+C Volume
+                    </Typography>
+                  </Stack>
+                  <Typography color="textSecondary" variant="caption">
+                    Stacked hold volume
+                  </Typography>
+                </ChartHeader>
+                <Box
+                  height={375}
+                  position="relative"
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  {isLoading ? (
+                    <CircularProgress />
+                  ) : (
+                    <Bar data={myData2} plugins={[ChartDataLabels]} options={options2} />
+                  )}
+                </Box>
+              </ChartPane>
             </Grid>
           </Grid>
         </CardContent>
-        <Divider />
-        <Box display="flex-col" justifyContent="flex-end" p={2}>
-          <Grid container spacing={2}>
-            {unique.map((item, index) => (
-              <Grid item key={item}>
-                <Typography variant="body1" style={{ fontWeight: 'bold' }}>{item} : <span style={{ color: 'red' }}>{(percentageDif[index])}%</span></Typography>
-              </Grid>
-            ))}
-          </Grid>
-          <Grid container spacing={2}>
-            {group.map((item) => (
-              <Grid item key={item.value}>
-                <Button
-                  style={{ color: item.color, backgroundColor: item.value === groupBy ? 'gray' : 'transparent' }}
-                  variant="outlined"
-                  endIcon={<ArrowRightIcon />}
+        <GroupToolbar>
+          <Stack spacing={1.5}>
+            <Stack alignItems="center" direction="row" flexWrap="wrap" gap={1}>
+              {unique.map((item, index) => (
+                <PercentChip
+                  key={item}
+                  label={`${item}: ${percentageDif[index]}%`}
                   size="small"
-                  color="primary"
-                  onClick={() => setGroupBy(item.value)}
-                >
-                  {item.label}
-                </Button>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      </Card>
-      <Divider />
-      <Typography style={{ marginTop: '30px' }} variant="h2">Working Hours of Machines </Typography>
-      <div style={{ marginTop: '30px' }}>
-        <Grid container spacing={3}>
+                  variant="outlined"
+                  sx={{
+                    backgroundColor: alpha(accentRed, 0.06),
+                    color: percentageDif[index] > 0 ? accentRed : theme.palette.text.secondary
+                  }}
+                />
+              ))}
+            </Stack>
+            <Stack alignItems="center" direction="row" flexWrap="wrap" gap={1}>
+              {group.map((item) => {
+                const selected = item.value === groupBy;
+                return (
+                  <Button
+                    key={item.value}
+                    endIcon={<ArrowRightIcon />}
+                    size="small"
+                    sx={{
+                      backgroundColor: selected ? theme.palette.primary.main : '#ffffff',
+                      borderColor: selected ? theme.palette.primary.main : alpha(theme.palette.primary.main, 0.22),
+                      borderRadius: 1.5,
+                      color: selected ? '#ffffff' : theme.palette.primary.main,
+                      fontWeight: 900,
+                      minHeight: 34,
+                      textTransform: 'none',
+                      '&:hover': {
+                        backgroundColor: selected ? theme.palette.primary.dark : alpha(theme.palette.primary.main, 0.08),
+                        borderColor: theme.palette.primary.main
+                      }
+                    }}
+                    variant="outlined"
+                    onClick={() => setGroupBy(item.value)}
+                  >
+                    {item.label}
+                  </Button>
+                );
+              })}
+            </Stack>
+          </Stack>
+        </GroupToolbar>
+      </ReportCard>
+      <SectionHeader>
+        <Stack alignItems="center" direction="row" spacing={1}>
+          <TitleIcon sx={{ height: 38, width: 38 }}>
+            <AccessTimeIcon fontSize="small" />
+          </TitleIcon>
+          <Box>
+            <Typography color="textPrimary" variant="h4">
+              Working Hours of Machines
+            </Typography>
+            <Typography color="textSecondary" variant="body2">
+              Running time, break time, and stop Pareto for {groupBy}.
+            </Typography>
+          </Box>
+        </Stack>
+        <Chip
+          color="primary"
+          icon={<CalendarMonthIcon />}
+          label={moment(month).format('MMM YYYY')}
+          sx={{ borderRadius: 1.5, fontWeight: 900 }}
+          variant="outlined"
+        />
+      </SectionHeader>
+      <Box>
+        <Grid container spacing={2}>
           {/* Grid ฝั่งซ้าย */}
-          <Grid item xs={6}>
-            <Grid container spacing={3}>
+          <Grid item xs={12} lg={6}>
+            <Grid container spacing={2}>
               {!isLoading &&
                 times.map((item, index) => (
-                  <Grid item xs={4} key={index}>
+                  <Grid item xs={12} sm={6} md={4} key={index}>
                     <PieChart data={item} />
                   </Grid>
                 ))}
@@ -596,12 +819,12 @@ const GroupBarChart = ({ className, ...rest }) => {
           </Grid>
 
           {/* Grid ฝั่งขวา */}
-          <Grid item xs={6}>
+          <Grid item xs={12} lg={6}>
             <ParetoChart month={month} group={groupBy} />
           </Grid>
         </Grid>
         <TableFormingStop data={data} month={month} group={groupBy} wc={unique} />
-      </div>
+      </Box>
     </>
   );
 };

@@ -1,19 +1,116 @@
 import React, { useState, useMemo } from 'react';
 import { useReactTable, getCoreRowModel, flexRender, } from '@tanstack/react-table';
-import {     Box, Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Grid, CircularProgress } from '@mui/material';
+import {
+     Box, Button, Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Grid, CircularProgress } from '@mui/material';
 import { DatePicker, MuiPickersUtilsProvider } from 'src/mui/MuiPickersCompat';
 import DateFnsUtils from '@date-io/date-fns';
 import thLocale from 'date-fns/locale/th';
 import moment from 'moment';
+import * as XLSX from 'xlsx';
 import { useQuery } from 'react-query';
 import API from 'src/views/components/API';
 import { styled } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import FactoryIcon from '@mui/icons-material/Factory';
+import InsightsIcon from '@mui/icons-material/Insights';
+import PercentIcon from '@mui/icons-material/Percent';
+import TrackChangesIcon from '@mui/icons-material/TrackChanges';
+
+const supportBlue = '#00a4d8';
+const accentRed = '#ef3124';
+
+const PageShell = styled(Box)(({ theme }) => ({
+    padding: theme.spacing(2)
+}));
+
+const HeaderPanel = styled(Paper)(({ theme }) => ({
+    background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.10)} 0%, ${alpha(supportBlue, 0.10)} 55%, ${alpha(accentRed, 0.05)} 100%)`,
+    border: `1px solid ${alpha(theme.palette.primary.main, 0.14)}`,
+    borderRadius: 8,
+    boxShadow: `0 18px 42px ${alpha('#253746', 0.10)}`,
+    marginBottom: theme.spacing(2),
+    padding: theme.spacing(2)
+}));
+
+const HeaderGrid = styled(Box)(({ theme }) => ({
+    alignItems: 'center',
+    display: 'grid',
+    gap: theme.spacing(2),
+    gridTemplateColumns: 'minmax(280px, 1fr) minmax(260px, 340px)',
+    [theme.breakpoints.down('md')]: {
+        alignItems: 'stretch',
+        gridTemplateColumns: '1fr'
+    }
+}));
+
+const HeaderIcon = styled(Box)(({ theme }) => ({
+    alignItems: 'center',
+    background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${supportBlue} 100%)`,
+    borderRadius: 8,
+    boxShadow: `0 10px 20px ${alpha(theme.palette.primary.main, 0.22)}`,
+    color: '#ffffff',
+    display: 'flex',
+    flexShrink: 0,
+    height: 46,
+    justifyContent: 'center',
+    width: 46
+}));
+
+const ControlCard = styled(Box)(({ theme }) => ({
+    backgroundColor: alpha('#ffffff', 0.86),
+    border: `1px solid ${alpha(theme.palette.primary.main, 0.16)}`,
+    borderRadius: 8,
+    boxShadow: `0 10px 24px ${alpha('#253746', 0.08)}`,
+    padding: theme.spacing(1.25)
+}));
+
+const StatGrid = styled(Box)(({ theme }) => ({
+    display: 'grid',
+    gap: theme.spacing(1),
+    gridTemplateColumns: 'repeat(3, minmax(170px, 1fr))',
+    marginTop: theme.spacing(1.5),
+    [theme.breakpoints.down('md')]: {
+        gridTemplateColumns: '1fr'
+    }
+}));
+
+const StatTile = styled(Box, {
+    shouldForwardProp: (prop) => prop !== 'tileColor'
+})(({ theme, tileColor }) => ({
+    backgroundColor: alpha(tileColor, 0.08),
+    border: `1px solid ${alpha(tileColor, 0.18)}`,
+    borderLeft: `4px solid ${tileColor}`,
+    borderRadius: 8,
+    minHeight: 64,
+    padding: theme.spacing(1, 1.25)
+}));
+
+const StatLabel = styled(Box)(({ theme }) => ({
+    alignItems: 'center',
+    display: 'flex',
+    gap: theme.spacing(0.75),
+    lineHeight: 1,
+    marginBottom: theme.spacing(0.35)
+}));
+
+const ReportTableContainer = styled(TableContainer)(({ theme }) => ({
+    border: `1px solid ${alpha(theme.palette.primary.main, 0.14)}`,
+    borderRadius: 8,
+    boxShadow: `0 16px 34px ${alpha('#253746', 0.10)}`,
+    maxHeight: 'calc(100vh - 258px)',
+    overflow: 'auto'
+}));
 
 const DenseTable = styled(Table)({
     '& th, & td': {
         fontSize: '0.75rem !important',
         padding: '4px 6px !important',
         whiteSpace: 'nowrap'
+    },
+    '& tbody tr:hover td': {
+        backgroundColor: 'rgba(0, 164, 216, 0.06)'
     }
 });
 
@@ -55,6 +152,25 @@ const formatNumber = (num) => {
     return parsed.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 };
 
+const formatPercent = (num) => {
+    if (num === null || num === undefined || num === '') return '';
+    const parsed = parseFloat(num);
+    if (isNaN(parsed)) return '';
+    return `${parsed.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+};
+
+const getProducedTargetPercent = (produced, target) => {
+    const parsedProduced = parseFloat(produced) || 0;
+    const parsedTarget = parseFloat(target) || 0;
+    return parsedTarget > 0 ? (parsedProduced / parsedTarget) * 100 : '';
+};
+
+const toExcelNumber = (value) => {
+    if (value === null || value === undefined || value === '') return '';
+    const parsed = parseFloat(String(value).replace(/,/g, '').replace('%', ''));
+    return isNaN(parsed) ? value : parsed;
+};
+
 const ProductionReportByMonth = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -68,7 +184,6 @@ const ProductionReportByMonth = () => {
             try {
                 // รอการเปลี่ยน endpoint / parameter เป็น API ของจริง
                 const response = await API.get(`API_ExecutiveReport/data.php?load=GetProductionReportByMonth&year=${year}&month=${month}&volume="PCS"`);
-                console.log(response.data);
                 return response.data;
             } catch (error) {
                 console.error("Error fetching report data:", error);
@@ -86,7 +201,6 @@ const ProductionReportByMonth = () => {
             try {
                 // รอการเปลี่ยน endpoint / parameter เป็น API ของจริง
                 const response = await API.get(`STS_Planning/data.php?load=GetTarget&year=${year}&month=${month}`);
-                console.log(response.data);
                 return response.data;
             } catch (error) {
                 console.error("Error fetching report target data:", error);
@@ -377,38 +491,228 @@ const ProductionReportByMonth = () => {
 
     const monthNameTH = new Intl.DateTimeFormat('th-TH', { month: 'long', year: 'numeric' }).format(selectedDate);
     const daysInMonth = new Date(year, month, 0).getDate();
+    const summaryTarget = monthTargets.totalTargetPerDay;
+    const summaryGap = summaryData.totalProduced - summaryTarget;
+    const producedOfTargetPercent = summaryTarget > 0 ? (summaryData.totalProduced / summaryTarget) * 100 : 0;
+    const gapOfTargetPercent = summaryTarget > 0 ? (summaryGap / summaryTarget) * 100 : 0;
+
+    const handleExportExcel = () => {
+        const title = `ปริมาณการผลิตวันที่ 1-${daysInMonth} ${monthNameTH}`;
+        const fileMonth = moment(selectedDate).format('YYYY-MM');
+        const empty = '';
+        const excelRows = [
+            [title],
+            [
+                'วันที่',
+                'ปู่เจ้า', empty, empty, empty, empty, empty, empty, empty, empty,
+                'วังน้อย', empty, empty, empty, empty, empty, empty, empty,
+                'A',
+                'เป้าหมายรวม', empty, empty
+            ],
+            [
+                empty,
+                'FM1', 'FM5', 'FM6', 'FM8', 'FM9', 'FM10', 'ตัน/วัน', 'เป้าหมาย/วัน', 'ผล',
+                'FM2', 'FM4', 'FM7', 'FM11', 'FC', 'ตัน/วัน', 'เป้าหมาย/วัน', 'ผล',
+                'ผลิตได้',
+                'ผลิตได้', 'เป้า/วัน', 'ผล'
+            ],
+            [
+                empty,
+                dailyTargets.FM1, dailyTargets.FM5, dailyTargets.FM6, dailyTargets.FM8, dailyTargets.FM9, dailyTargets.FM10, dailyTargets.puChaoTargetPerDay, dailyTargets.puChaoTargetPerDay, '-',
+                dailyTargets.FM2, dailyTargets.FM4, dailyTargets.FM7, dailyTargets.FM11, dailyTargets.FC, dailyTargets.wangNoiTargetPerDay, dailyTargets.wangNoiTargetPerDay, '-',
+                dailyTargets.totalTargetPerDay,
+                dailyTargets.totalTargetPerDay, dailyTargets.totalTargetPerDay, '-'
+            ],
+            ...data.map((row) => [
+                row.day,
+                toExcelNumber(row.FM1), toExcelNumber(row.FM5), toExcelNumber(row.FM6), toExcelNumber(row.FM8), toExcelNumber(row.FM9), toExcelNumber(row.FM10),
+                toExcelNumber(row.puChaoTonPerDay), toExcelNumber(row.puChaoTargetPerDay), toExcelNumber(row.puChaoResult),
+                toExcelNumber(row.FM2), toExcelNumber(row.FM4), toExcelNumber(row.FM7), toExcelNumber(row.FM11), toExcelNumber(row.FC),
+                toExcelNumber(row.wangNoiTonPerDay), toExcelNumber(row.wangNoiTargetPerDay), toExcelNumber(row.wangNoiResult),
+                toExcelNumber(row.aProduced),
+                toExcelNumber(row.totalProduced), toExcelNumber(row.totalTargetPerDay), toExcelNumber(row.totalResult)
+            ]),
+            [
+                'ผลิตได้',
+                summaryData.FM1, summaryData.FM5, summaryData.FM6, summaryData.FM8, summaryData.FM9, summaryData.FM10,
+                summaryData.puChaoTonPerDay, monthTargets.puChaoTargetPerDay, summaryData.puChaoTonPerDay - monthTargets.puChaoTargetPerDay,
+                summaryData.FM2, summaryData.FM4, summaryData.FM7, summaryData.FM11, summaryData.FC,
+                summaryData.wangNoiTonPerDay, monthTargets.wangNoiTargetPerDay, summaryData.wangNoiTonPerDay - monthTargets.wangNoiTargetPerDay,
+                summaryData.aProduced,
+                summaryData.totalProduced, monthTargets.totalTargetPerDay, summaryData.totalProduced - monthTargets.totalTargetPerDay
+            ],
+            [
+                'เป้าหมาย',
+                monthTargets.FM1, monthTargets.FM5, monthTargets.FM6, monthTargets.FM8, monthTargets.FM9, monthTargets.FM10,
+                monthTargets.puChaoTargetPerDay, '-', '-',
+                monthTargets.FM2, monthTargets.FM4, monthTargets.FM7, monthTargets.FM11, monthTargets.FC,
+                monthTargets.wangNoiTargetPerDay, '-', '-',
+                empty, empty, empty, empty
+            ],
+            [
+                'ขาดผลิต',
+                summaryData.FM1 - monthTargets.FM1, summaryData.FM5 - monthTargets.FM5, summaryData.FM6 - monthTargets.FM6,
+                summaryData.FM8 - monthTargets.FM8, summaryData.FM9 - monthTargets.FM9, summaryData.FM10 - monthTargets.FM10,
+                summaryData.puChaoTonPerDay - monthTargets.puChaoTargetPerDay, '-', '-',
+                summaryData.FM2 - monthTargets.FM2, summaryData.FM4 - monthTargets.FM4, summaryData.FM7 - monthTargets.FM7,
+                summaryData.FM11 - monthTargets.FM11, summaryData.FC - monthTargets.FC,
+                summaryData.wangNoiTonPerDay - monthTargets.wangNoiTargetPerDay, '-', '-',
+                empty, empty, empty, empty
+            ],
+            [
+                '% ผลิตได้ / เป้าหมาย',
+                formatPercent(getProducedTargetPercent(summaryData.FM1, monthTargets.FM1)),
+                formatPercent(getProducedTargetPercent(summaryData.FM5, monthTargets.FM5)),
+                formatPercent(getProducedTargetPercent(summaryData.FM6, monthTargets.FM6)),
+                formatPercent(getProducedTargetPercent(summaryData.FM8, monthTargets.FM8)),
+                formatPercent(getProducedTargetPercent(summaryData.FM9, monthTargets.FM9)),
+                formatPercent(getProducedTargetPercent(summaryData.FM10, monthTargets.FM10)),
+                formatPercent(getProducedTargetPercent(summaryData.puChaoTonPerDay, monthTargets.puChaoTargetPerDay)), '-', '-',
+                formatPercent(getProducedTargetPercent(summaryData.FM2, monthTargets.FM2)),
+                formatPercent(getProducedTargetPercent(summaryData.FM4, monthTargets.FM4)),
+                formatPercent(getProducedTargetPercent(summaryData.FM7, monthTargets.FM7)),
+                formatPercent(getProducedTargetPercent(summaryData.FM11, monthTargets.FM11)),
+                formatPercent(getProducedTargetPercent(summaryData.FC, monthTargets.FC)),
+                formatPercent(getProducedTargetPercent(summaryData.wangNoiTonPerDay, monthTargets.wangNoiTargetPerDay)), '-', '-',
+                empty,
+                formatPercent(getProducedTargetPercent(summaryData.totalProduced, monthTargets.totalTargetPerDay)), empty, empty
+            ]
+        ];
+
+        const worksheet = XLSX.utils.aoa_to_sheet(excelRows);
+        worksheet['!merges'] = [
+            { s: { r: 0, c: 0 }, e: { r: 0, c: 21 } },
+            { s: { r: 1, c: 1 }, e: { r: 1, c: 9 } },
+            { s: { r: 1, c: 10 }, e: { r: 1, c: 17 } },
+            { s: { r: 1, c: 19 }, e: { r: 1, c: 21 } }
+        ];
+        worksheet['!cols'] = [
+            { wch: 8 },
+            ...Array.from({ length: 21 }, () => ({ wch: 13 }))
+        ];
+
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'MonthlyProduction');
+        XLSX.writeFile(workbook, `MonthlyProductionReport_${fileMonth}.xlsx`);
+    };
 
 
     return (
-        <Box p={2}>
-            <Grid container spacing={2} alignItems="center" style={{ marginBottom: 16 }}>
-                <Grid item xs={12} sm={4}>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={thLocale}>
-                        <DatePicker
-                            variant="inline"
-                            inputVariant="outlined"
-                            views={["year", "month"]}
-                            label="เลือกเดือน/ปี"
-                            value={selectedDate}
-                            onChange={setSelectedDate}
-                            format="MM/yyyy"
+        <PageShell>
+            <HeaderPanel elevation={0}>
+                <HeaderGrid>
+                    <Box>
+                        <Box display="flex" alignItems="center" sx={{ gap: 1.5 }}>
+                            <HeaderIcon>
+                                <FactoryIcon fontSize="small" />
+                            </HeaderIcon>
+                            <Box>
+                                <Typography color="textPrimary" variant="h4">
+                                    Monthly Production Report
+                                </Typography>
+                                <Typography color="textSecondary" variant="body2">
+                                    Production volume by day and work center 
+                                </Typography>
+                            </Box>
+                        </Box>
+                        <StatGrid>
+                            <StatTile tileColor="#3f51b5">
+                                <Box display="flex" alignItems="flex-start" justifyContent="space-between" sx={{ gap: 2 }}>
+                                    <Box>
+                                        <StatLabel>
+                                            <InsightsIcon sx={{ color: '#3f51b5', fontSize: 18 }} />
+                                            <Typography color="textSecondary" variant="caption">Produced</Typography>
+                                        </StatLabel>
+                                        <Typography sx={{ color: '#3f51b5', fontWeight: 900, lineHeight: 1.12 }} variant="h4">
+                                            {formatNumber(summaryData.totalProduced) || '0.00'}
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ minWidth: 104, textAlign: 'right' }}>
+                                        <StatLabel sx={{ justifyContent: 'flex-end' }}>
+                                            <PercentIcon sx={{ color: '#3f51b5', fontSize: 18 }} />
+                                            <Typography color="textSecondary" variant="caption">Target</Typography>
+                                        </StatLabel>
+                                        <Typography sx={{ color: '#3f51b5', fontWeight: 900, lineHeight: 1.12 }} variant="h4">
+                                            {formatPercent(producedOfTargetPercent) || '0.00%'}
+                                        </Typography>
+                                    </Box>
+                                </Box>
+                            </StatTile>
+                            <StatTile tileColor={supportBlue}>
+                                <StatLabel>
+                                    <TrackChangesIcon sx={{ color: supportBlue, fontSize: 18 }} />
+                                    <Typography color="textSecondary" variant="caption">Target</Typography>
+                                </StatLabel>
+                                <Typography sx={{ color: supportBlue, fontWeight: 900, lineHeight: 1.12 }} variant="h4">
+                                    {formatNumber(summaryTarget) || '0.00'}
+                                </Typography>
+                            </StatTile>
+                            <StatTile tileColor={accentRed}>
+                                <Box display="flex" alignItems="flex-start" justifyContent="space-between" sx={{ gap: 2 }}>
+                                    <Box>
+                                        <StatLabel>
+                                            <TrackChangesIcon sx={{ color: accentRed, fontSize: 18 }} />
+                                            <Typography color="textSecondary" variant="caption">Gap</Typography>
+                                        </StatLabel>
+                                        <Typography sx={{ color: accentRed, fontWeight: 900, lineHeight: 1.12 }} variant="h4">
+                                            {formatNumber(summaryGap) || '0.00'}
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ minWidth: 104, textAlign: 'right' }}>
+                                        <StatLabel sx={{ justifyContent: 'flex-end' }}>
+                                            <PercentIcon sx={{ color: accentRed, fontSize: 18 }} />
+                                            <Typography color="textSecondary" variant="caption">Gap of Target</Typography>
+                                        </StatLabel>
+                                        <Typography sx={{ color: accentRed, fontWeight: 900, lineHeight: 1.12 }} variant="h4">
+                                            {formatPercent(gapOfTargetPercent) || '0.00%'}
+                                        </Typography>
+                                    </Box>
+                                </Box>
+                            </StatTile>
+                        </StatGrid>
+                    </Box>
+                    <ControlCard>
+                        <Box display="flex" alignItems="center" justifyContent="space-between" mb={1}>
+                            <Box display="flex" alignItems="center" sx={{ gap: 1 }}>
+                                <CalendarMonthIcon sx={{ color: '#3f51b5', fontSize: 18 }} />
+                                <Typography color="textPrimary" fontWeight={800} variant="body2">
+                                    Report Month
+                                </Typography>
+                            </Box>
+                            {(isLoading || targetIsLoading) && <CircularProgress size={18} />}
+                        </Box>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={thLocale}>
+                            <DatePicker
+                                variant="inline"
+                                inputVariant="outlined"
+                                views={["year", "month"]}
+                                label="Month / Year"
+                                value={selectedDate}
+                                onChange={setSelectedDate}
+                                format="MM/yyyy"
+                                fullWidth
+                                size="small"
+                            />
+                        </MuiPickersUtilsProvider>
+                        <Button
+                            color="primary"
+                            disabled={isLoading || targetIsLoading}
                             fullWidth
-                            size="small"
-                        />
-                    </MuiPickersUtilsProvider>
-                </Grid>
-                {isLoading && (
-                    <Grid item>
-                        <CircularProgress size={24} />
-                    </Grid>
-                )}
-            </Grid>
-
-            <TableContainer component={Paper} style={{ overflowX: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
+                            onClick={handleExportExcel}
+                            startIcon={<FileDownloadIcon />}
+                            sx={{ mt: 1 }}
+                            variant="contained"
+                        >
+                            Export Excel
+                        </Button>
+                    </ControlCard>
+                </HeaderGrid>
+            </HeaderPanel>
+            <ReportTableContainer component={Paper}>
                 <DenseTable size="small" style={{ minWidth: 1600, borderCollapse: 'collapse' }}>
                     <TableHead style={{ position: 'sticky', top: 0, zIndex: 1, backgroundColor: '#fff' }}>
                         <TableRow>
-                            <TableCell colSpan={24} style={{ border: '1px solid #aaa', textAlign: 'center', backgroundColor: '#fbbf00', fontWeight: 'bold', fontSize: '1rem', padding: '8px' }}>
+                            <TableCell colSpan={24} style={{ border: '1px solid rgba(63, 81, 181, 0.20)', textAlign: 'center', background: 'linear-gradient(90deg, #3f51b5 0%, #00a4d8 100%)', color: '#ffffff', fontWeight: 'bold', fontSize: '1rem', padding: '10px' }}>
                                 ปริมาณการผลิตวันที่ 1-{daysInMonth} {monthNameTH}
                             </TableCell>
                         </TableRow>
@@ -566,10 +870,38 @@ const ProductionReportByMonth = () => {
                             <TableCell style={{ border: '1px solid #aaa', textAlign: 'right' }}></TableCell>
                             <TableCell style={{ border: '1px solid #aaa', textAlign: 'right' }}></TableCell>
                         </TableRow>
+
+                        <TableRow>
+                            <TableCell style={{ border: '1px solid #aaa', fontWeight: 'bold', backgroundColor: '#fff2cc', textAlign: 'center' }}>% ผลิตได้ / เป้าหมาย</TableCell>
+                            {/* Puchao */}
+                            <TableCell style={{ border: '1px solid #aaa', textAlign: 'right', backgroundColor: '#fff2cc' }}>{formatPercent(getProducedTargetPercent(summaryData.FM1, monthTargets.FM1))}</TableCell>
+                            <TableCell style={{ border: '1px solid #aaa', textAlign: 'right', backgroundColor: '#fff2cc' }}>{formatPercent(getProducedTargetPercent(summaryData.FM5, monthTargets.FM5))}</TableCell>
+                            <TableCell style={{ border: '1px solid #aaa', textAlign: 'right', backgroundColor: '#fff2cc' }}>{formatPercent(getProducedTargetPercent(summaryData.FM6, monthTargets.FM6))}</TableCell>
+                            <TableCell style={{ border: '1px solid #aaa', textAlign: 'right', backgroundColor: '#fff2cc' }}>{formatPercent(getProducedTargetPercent(summaryData.FM8, monthTargets.FM8))}</TableCell>
+                            <TableCell style={{ border: '1px solid #aaa', textAlign: 'right', backgroundColor: '#fff2cc' }}>{formatPercent(getProducedTargetPercent(summaryData.FM9, monthTargets.FM9))}</TableCell>
+                            <TableCell style={{ border: '1px solid #aaa', textAlign: 'right', backgroundColor: '#fff2cc' }}>{formatPercent(getProducedTargetPercent(summaryData.FM10, monthTargets.FM10))}</TableCell>
+                            <TableCell style={{ border: '1px solid #aaa', textAlign: 'right', backgroundColor: '#fff2cc', fontWeight: 'bold' }}>{formatPercent(getProducedTargetPercent(summaryData.puChaoTonPerDay, monthTargets.puChaoTargetPerDay))}</TableCell>
+                            <TableCell colSpan={2} style={{ border: '1px solid #aaa', textAlign: 'center', backgroundColor: '#eee', fontWeight: 'bold' }}>-</TableCell>
+
+                            {/* Wang Noi */}
+                            <TableCell style={{ border: '1px solid #aaa', textAlign: 'right', backgroundColor: '#fff2cc' }}>{formatPercent(getProducedTargetPercent(summaryData.FM2, monthTargets.FM2))}</TableCell>
+                            <TableCell style={{ border: '1px solid #aaa', textAlign: 'right', backgroundColor: '#fff2cc' }}>{formatPercent(getProducedTargetPercent(summaryData.FM4, monthTargets.FM4))}</TableCell>
+                            <TableCell style={{ border: '1px solid #aaa', textAlign: 'right', backgroundColor: '#fff2cc' }}>{formatPercent(getProducedTargetPercent(summaryData.FM7, monthTargets.FM7))}</TableCell>
+                            <TableCell style={{ border: '1px solid #aaa', textAlign: 'right', backgroundColor: '#fff2cc' }}>{formatPercent(getProducedTargetPercent(summaryData.FM11, monthTargets.FM11))}</TableCell>
+                            <TableCell style={{ border: '1px solid #aaa', textAlign: 'right', backgroundColor: '#fff2cc' }}>{formatPercent(getProducedTargetPercent(summaryData.FC, monthTargets.FC))}</TableCell>
+                            <TableCell style={{ border: '1px solid #aaa', textAlign: 'right', backgroundColor: '#fff2cc', fontWeight: 'bold' }}>{formatPercent(getProducedTargetPercent(summaryData.wangNoiTonPerDay, monthTargets.wangNoiTargetPerDay))}</TableCell>
+                            <TableCell colSpan={2} style={{ border: '1px solid #aaa', textAlign: 'center', backgroundColor: '#eee', fontWeight: 'bold' }}>-</TableCell>
+
+                            {/* A & Total */}
+                            <TableCell style={{ border: '1px solid #aaa', textAlign: 'right' }}></TableCell>
+                            <TableCell style={{ border: '1px solid #aaa', textAlign: 'right', backgroundColor: '#fff2cc', color: '#c00', fontWeight: 'bold' }}>{formatPercent(getProducedTargetPercent(summaryData.totalProduced, monthTargets.totalTargetPerDay))}</TableCell>
+                            <TableCell style={{ border: '1px solid #aaa', textAlign: 'right' }}></TableCell>
+                            <TableCell style={{ border: '1px solid #aaa', textAlign: 'right' }}></TableCell>
+                        </TableRow>
                     </TableBody>
                 </DenseTable>
-            </TableContainer>
-        </Box>
+            </ReportTableContainer>
+        </PageShell>
     );
 }
 

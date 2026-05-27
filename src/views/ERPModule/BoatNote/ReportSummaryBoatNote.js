@@ -1,5 +1,6 @@
 import pdfMake from 'src/utils/pdfMake';
-import { fontsReport } from '../Production/productionReport/function/GroupLot'import { logo } from './function/logo'
+import { fontsReport } from '../Production/productionReport/function/GroupLot'
+import { logo } from './function/logo'
 
 function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
     pdfMake.fonts = fontsReport
@@ -44,7 +45,7 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
 
         if (i === result.length - 1) {
             data.push([
-                { text: "Total", fontSize: 13, alignment: 'center', colSpan: 6 },
+                { text: "Total Weight", fontSize: 13, alignment: 'center', colSpan: 6 },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
@@ -52,6 +53,16 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: britishNumberFormatter.format(total_countlot), fontSize: 13, alignment: 'center' },
                 { text: britishNumberFormatter.format(total_weight), fontSize: 13, alignment: 'center' },
+            ])
+              data.push([
+                { text: "Total G/W", fontSize: 13, alignment: 'center', colSpan: 6 },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: "", fontSize: 11, alignment: 'center' },
+                { text: britishNumberFormatter.format(total_countlot), fontSize: 13, alignment: 'center' },
+                { text: britishNumberFormatter.format((total_weight * 1.003).toFixed(0)), fontSize: 13, alignment: 'center' },
             ])
         }
     }
@@ -139,18 +150,18 @@ function ReportSummaryBoatNote(dataNow, loc, dataNow3, dataNow4) {
                                 border: [false, false, false, false], text: `วันที่สิ้นสุด ${dataNow[0]["endDate"]}`, fontSize: 14
                             },
                         ],
-                        [
-                            {
-                                border: [false, false, false, false], text: ``, fontSize: 14
-                                // ${dataNow[0]["loc_description"]} ทะเบียนเรือ ${dataNow[0]["loc_no"]}
-                            },
-                            {
-                                border: [false, false, false, false], text: ''
-                            },
-                            {
-                                border: [false, false, false, false], text: ''
-                            },
-                        ],
+                       [
+                                {
+                                    border: [false, false, false, false], text: `ชื่อเรือ ${loc} (${dataNow[0]["loc_description"]})`, fontSize: 14, colSpan: 2
+                                },
+                                {
+                                    border: [false, false, false, false], text: ''
+                                },
+                                {
+                                    border: [false, false, false, false],
+                                    text: ``, fontSize: 14 
+                                },
+                            ],
                         [
                             {
                                 border: [false, false, false, false], text: ''

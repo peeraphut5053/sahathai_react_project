@@ -1,9 +1,23 @@
 import React, { useState } from 'react';
 import { useQuery } from "react-query";
 import Select from 'react-select';
-import {   Box, Button, Card, CardContent, CardHeader, Divider, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Chip,
+  Divider,
+  Grid,
+  Stack,
+  Typography
+} from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import FactoryOutlinedIcon from '@mui/icons-material/FactoryOutlined';
+import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
 import API from 'src/views/components/API';
 import moment from 'moment';
 import ModalManagementFullPage from 'src/views/components/ModalManagementFullPage';
@@ -16,6 +30,92 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Bar } from 'react-chartjs-2';
 import DateTimePicker from 'src/views/components/Input/CDatePicker';
 import TableGroupDetail from './TableGroupDetail';
+import { alpha, styled } from '@mui/material/styles';
+
+const ReportCard = styled(Card)(({ theme }) => ({
+  background:
+    'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(247,250,252,0.98) 100%)',
+  border: `1px solid ${alpha(theme.palette.info.main, 0.12)}`,
+  borderRadius: 8,
+  boxShadow: `0 18px 38px ${alpha(theme.palette.info.main, 0.10)}`,
+  overflow: 'hidden',
+}));
+
+const ReportHeader = styled(Box)(({ theme }) => ({
+  alignItems: 'center',
+  background:
+    `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.12)} 0%, rgba(255,255,255,0.96) 46%, ${alpha(theme.palette.secondary.main, 0.06)} 100%)`,
+  borderBottom: `1px solid ${alpha(theme.palette.info.main, 0.1)}`,
+  display: 'flex',
+  gap: theme.spacing(2),
+  justifyContent: 'space-between',
+  padding: theme.spacing(2, 2.25),
+  [theme.breakpoints.down('md')]: {
+    alignItems: 'stretch',
+    flexDirection: 'column',
+  }
+}));
+
+const HeaderIcon = styled(Box)(({ theme }) => ({
+  alignItems: 'center',
+  backgroundColor: alpha(theme.palette.primary.main, 0.12),
+  border: `1px solid ${alpha(theme.palette.primary.main, 0.18)}`,
+  borderRadius: 8,
+  color: theme.palette.primary.dark,
+  display: 'flex',
+  height: 46,
+  justifyContent: 'center',
+  width: 46,
+}));
+
+const ControlSurface = styled(Box)(({ theme }) => ({
+  alignItems: 'center',
+  background:
+    `linear-gradient(180deg, ${alpha('#ffffff', 0.98)} 0%, ${alpha(theme.palette.primary.main, 0.06)} 100%)`,
+  border: `2px solid ${alpha(theme.palette.primary.main, 0.16)}`,
+  borderRadius: 8,
+  boxShadow: `0 10px 24px ${alpha(theme.palette.info.main, 0.08)}`,
+  display: 'flex',
+  gap: theme.spacing(1),
+  minHeight: 64,
+  padding: theme.spacing(1.15, 1.25),
+  [theme.breakpoints.down('md')]: {
+    flexWrap: 'wrap',
+  }
+}));
+
+const ChartStage = styled(Box)(({ theme }) => ({
+  alignItems: 'center',
+  backgroundColor: '#ffffff',
+  border: `1px solid ${alpha(theme.palette.info.main, 0.08)}`,
+  borderRadius: 8,
+  display: 'flex',
+  height: 420,
+  justifyContent: 'center',
+  position: 'relative',
+}));
+
+const MonthSummaryPanel = styled(Card)(({ theme }) => ({
+  background:
+    `linear-gradient(180deg, ${alpha(theme.palette.primary.main, 0.08)} 0%, rgba(255,255,255,0.98) 100%)`,
+  border: `1px solid ${alpha(theme.palette.primary.main, 0.16)}`,
+  borderRadius: 8,
+  boxShadow: 'none',
+  height: '100%',
+}));
+
+const ActionRail = styled(Box)(({ theme }) => ({
+  alignItems: 'center',
+  borderTop: `1px solid ${alpha(theme.palette.info.main, 0.08)}`,
+  display: 'flex',
+  gap: theme.spacing(1.5),
+  justifyContent: 'space-between',
+  padding: theme.spacing(1.75, 2),
+  [theme.breakpoints.down('md')]: {
+    alignItems: 'stretch',
+    flexDirection: 'column',
+  }
+}));
 
 const label = [
   {
@@ -541,7 +641,7 @@ const Test = ({ className, ...rest }) => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12}>
-        <Card className={className} {...rest}>
+        <ReportCard className={className} {...rest}>
           <ModalManagementFullPage
             open={open}
             onClose={() => setOpen(false)}
@@ -556,94 +656,121 @@ const Test = ({ className, ...rest }) => {
               <TableProduction data={data} />
             }
           />
-          <CardHeader
-            action={(
+          <ReportHeader>
+            <Stack alignItems="center" direction="row" spacing={1.5}>
+              <HeaderIcon>
+                <InsightsOutlinedIcon />
+              </HeaderIcon>
+              <Box>
+                <Typography sx={{ color: '#102f43', fontSize: 20, fontWeight: 800 }}>
+                  Monthly Production Volumes
+                </Typography>
+                <Typography color="textSecondary" variant="body2">
+                  Department comparison for Grade A output across the selected year.
+                </Typography>
+              </Box>
+            </Stack>
+            <ControlSurface>
+              <Chip
+                icon={<CalendarMonthOutlinedIcon />}
+                label="Year"
+                size="small"
+                sx={{ fontWeight: 700 }}
+              />
               <CYearPicker
                 label="Month"
                 name="month"
                 value={month}
                 onChange={(date) => handleYearChange(moment(date).format('YYYY'))}
               />
-            )}
-            subheader={(
               <Button
                 color="secondary"
                 endIcon={<ArrowRightIcon />}
                 size="small"
+                sx={{
+                  alignSelf: 'center',
+                  borderRadius: 1.5,
+                  fontWeight: 800,
+                  height: 40,
+                  minWidth: 150,
+                  px: 1.75,
+                  textTransform: 'uppercase'
+                }}
                 variant="outlined"
                 onClick={() => setOpen(true)}
               >
                 Daily Report
               </Button>
-            )}
-            title="Monthly Production Volumes by Department (Grade A)"
-          />
-          <Divider />
+            </ControlSurface>
+          </ReportHeader>
           <CardContent>
             <Grid container spacing={3}>
-              <Grid item xs={10}>
-                <Box
-                  height={400}
-                  position="relative"
-                  display="flex" justifyContent="center" alignItems="center"
-                >
+              <Grid item xs={12} lg={9}>
+                <ChartStage>
                   {isLoading ? <CircularProgress /> : <LineCard data={data} options={options} currentData={currentData} Types={Types} />}
-                </Box>
+                </ChartStage>
               </Grid>
-              <Grid item xs={2}>
-                <Card style={{ border: 'solid 1px red' }}>
-                  <CardHeader style={{ textAlign: 'center' }} title={moment().month(currentMonth).format('MMMM')} />
-                  <CardContent style={{ textAlign: 'center' }}>
+              <Grid item xs={12} lg={3}>
+                <MonthSummaryPanel>
+                  <CardHeader
+                    avatar={<FactoryOutlinedIcon color="primary" />}
+                    sx={{ textAlign: 'center' }}
+                    title={moment().month(currentMonth).format('MMMM')}
+                    titleTypographyProps={{ fontWeight: 800 }}
+                  />
+                  <CardContent sx={{ px: 2.5, py: 2, textAlign: 'center' }}>
                     {!isLoading &&
                       <>
-                        <Typography style={{ fontWeight: 'bold', color: '#ffb200' }}>
+                        <Typography sx={{ color: '#ffb200', fontSize: 18, fontWeight: 800, lineHeight: 1.55 }}>
                           Slit : {data.slit?.length > 0 ? addComma((data?.slit[currentMonth]?.sumA / 1000).toFixed(2)) : 0}
                         </Typography>
-                        <Typography style={{ fontWeight: 'bold', color: '#cc0000' }}>
+                        <Typography sx={{ color: '#cc0000', fontSize: 18, fontWeight: 800, lineHeight: 1.55 }}>
                           Forming : {data.forming?.length > 0 ? addComma((data?.forming[currentMonth]?.sumA / 1000).toFixed(2)) : 0}
                         </Typography>
-                        <Typography style={{ fontWeight: 'bold', color: '#0051ff' }}>
+                        <Typography sx={{ color: '#0051ff', fontSize: 18, fontWeight: 800, lineHeight: 1.55 }}>
                           HydroTest : {data.hydro?.length > 0 ? addComma((data?.hydro[currentMonth]?.sumA / 1000).toFixed(2)) : 0}
                         </Typography>
-                        <Typography style={{ fontWeight: 'bold', color: '#009933' }}>
+                        <Typography sx={{ color: '#009933', fontSize: 18, fontWeight: 800, lineHeight: 1.55 }}>
                           Galvanize : {data.galvanize?.length > 0 ? addComma((data?.galvanize[currentMonth]?.sumA / 1000).toFixed(2)) : 0}
                         </Typography>
-                        <Typography style={{ fontWeight: 'bold', color: '#9900cc' }}>
+                        <Typography sx={{ color: '#9900cc', fontSize: 18, fontWeight: 800, lineHeight: 1.55 }}>
                           Painting : {data.painting?.length > 0 ? addComma((data?.painting[currentMonth]?.sumA / 1000).toFixed(2)) : 0}
                         </Typography>
-                        <Typography style={{ fontWeight: 'bold', color: '#cccc00' }}>
+                        <Typography sx={{ color: '#b4b400', fontSize: 18, fontWeight: 800, lineHeight: 1.55 }}>
                           Threading : {addComma(((data?.threading?.length > 0 ? data?.threading[currentMonth]?.sumA : 0 + data?.groove?.length > 0 ? data?.groove[currentMonth]?.sumA : 0) / 1000).toFixed(2))}
                         </Typography>
-                        <Typography style={{ fontWeight: 'bold', color: '#00ffff' }}>
+                        <Typography sx={{ color: '#00b8c8', fontSize: 18, fontWeight: 800, lineHeight: 1.55 }}>
                           Cuting : {data.cuting?.length > 0 ? addComma((data?.cuting[currentMonth]?.sumA / 1000).toFixed(2)) : 0}
                         </Typography>
-                        <Typography style={{ fontWeight: 'bold', color: '#663300' }}>
+                        <Typography sx={{ color: '#663300', fontSize: 18, fontWeight: 800, lineHeight: 1.55 }}>
                           Packing : {data.packing?.length > 0 ? addComma((data?.packing[currentMonth]?.sumA / 1000).toFixed(2)) : 0}
                         </Typography>
                       </>
                     }
                   </CardContent>
-                </Card>
+                </MonthSummaryPanel>
               </Grid>
             </Grid>
           </CardContent>
-          <Divider />
-          <Box
-            display="flex"
-            justifyContent="flex-end"
-            p={2}
-          >
+          <ActionRail>
             {!isLoading && (
               <>
-                <Grid container spacing={2}>
+                <Grid container spacing={1}>
                   {months.map((item, index) => (
                     <Grid item key={index}>
                       <Button
-                        style={{ backgroundColor: item === Types ? '#4169E1' : 'transparent', color: 'black' }}
+                        sx={{
+                          backgroundColor: item === Types ? 'primary.main' : 'transparent',
+                          borderColor: item === Types ? 'primary.main' : 'rgba(0, 150, 214, 0.32)',
+                          color: item === Types ? '#ffffff' : 'primary.dark',
+                          fontWeight: 700,
+                          '&:hover': {
+                            backgroundColor: item === Types ? 'primary.dark' : 'rgba(0, 150, 214, 0.08)'
+                          }
+                        }}
                         variant="outlined"
                         endIcon={<ArrowRightIcon />}
                         size="small"
-                        color="primary"
                         onClick={() => handleData(item)}
                       >
                         {item}
@@ -656,18 +783,19 @@ const Test = ({ className, ...rest }) => {
                   color="primary"
                   endIcon={<ArrowRightIcon />}
                   size="small"
-                  variant="outlined"
+                  sx={{ fontWeight: 800, whiteSpace: 'nowrap' }}
+                  variant="contained"
                   onClick={() => setOpenModal(true)}
                 >
                   Overview
                 </Button>
               </>
             )}
-          </Box>
-        </Card>
+          </ActionRail>
+        </ReportCard>
       </Grid>
       <Grid item xs={12}>
-        <Card className={className} {...rest}>
+        <ReportCard className={className} {...rest}>
           <ModalManagementFullPage
             open={barModal}
             onClose={() => setBarModal(false)}
@@ -675,52 +803,62 @@ const Test = ({ className, ...rest }) => {
               <TableGroupDetail day={day} wc={groupBy} />
             }
           />
-          <CardHeader
-            action={
-              <div style={{ display: 'flex', margin: '10px' }}>
-                <DateTimePicker
-                  label="StartDate"
-                  name="day"
-                  value={day}
-                  onChange={(e) => setDay(moment(e).format('YYYY-MM-DD'))}
-                />
-                <DateTimePicker
-                  label="EndDate"
-                  name="day"
-                  value={dayEnd}
-                  onChange={(e) => setDayEnd(moment(e).format('YYYY-MM-DD'))}
-                />
-              </div>
-            }
-            title={`${groupBy} Production Report`}
-            subheader={`Total Production : ${sum ? (sum / 1000).toFixed(2) : 0} Tons`}
-            subheaderTypographyProps={{ align: 'center', color: 'secondary', variant: 'h4', fontWeight: 'bold' }}
-          />
-          <Divider />
+          <ReportHeader>
+            <Stack alignItems="center" direction="row" spacing={1.5}>
+              <HeaderIcon>
+                <FactoryOutlinedIcon />
+              </HeaderIcon>
+              <Box>
+                <Typography sx={{ color: '#102f43', fontSize: 20, fontWeight: 800 }}>
+                  {groupBy} Production Report
+                </Typography>
+                <Typography color="textSecondary" variant="body2" sx={{ fontWeight: 800,  }}>
+                  Total Production: {sum ? (sum / 1000).toFixed(2) : 0} Tons
+                </Typography>
+              </Box>
+            </Stack>
+            <ControlSurface>
+              <DateTimePicker
+                label="StartDate"
+                name="day"
+                value={day}
+                onChange={(e) => setDay(moment(e).format('YYYY-MM-DD'))}
+              />
+              <DateTimePicker
+                label="EndDate"
+                name="day"
+                value={dayEnd}
+                onChange={(e) => setDayEnd(moment(e).format('YYYY-MM-DD'))}
+              />
+            </ControlSurface>
+          </ReportHeader>
           <CardContent>
-            <Box
-              height={400}
-              position="relative"
-              display="flex" justifyContent="center" alignItems="center"
-            >
+            <ChartStage>
               {isLoading2 ? (
                 <CircularProgress />
               ) : (
                 <Bar data={myData} plugins={[ChartDataLabels]} options={optionsBar} />
               )}
-            </Box>
+            </ChartStage>
           </CardContent>
-          <Divider />
-          <Box display="flex" justifyContent="flex-end" p={2}>
+          <ActionRail>
             <Grid container spacing={2}>
               {group.map((item) => (
                 <Grid item key={item.value}>
                   <Button
-                    style={{ color: item.color, backgroundColor: item.value === groupBy ? 'gray' : 'transparent' }}
+                    sx={{
+                      backgroundColor: item.value === groupBy ? alpha(item.color, 0.16) : 'transparent',
+                      borderColor: item.value === groupBy ? item.color : alpha(item.color, 0.4),
+                      color: item.color,
+                      fontWeight: 800,
+                      '&:hover': {
+                        backgroundColor: alpha(item.color, 0.12),
+                        borderColor: item.color,
+                      }
+                    }}
                     variant="outlined"
                     endIcon={<ArrowRightIcon />}
                     size="small"
-                    color="primary"
                     onClick={() => setGroupBy(item.value)}
                   >
                     {item.label}
@@ -729,7 +867,8 @@ const Test = ({ className, ...rest }) => {
               ))}
 
             </Grid>
-            <Select
+            <Box sx={{ minWidth: 130 }}>
+              <Select
                           menuPortalTarget={document.body}
                           styles={{
                             menuPortal: (base) => ({ ...base, zIndex: 9999 }),
@@ -745,8 +884,9 @@ const Test = ({ className, ...rest }) => {
                           placeholder="Grade"
                           onChange={(e) => setGrade(e.value)}
                         />
-          </Box>
-        </Card>
+            </Box>
+          </ActionRail>
+        </ReportCard>
       </Grid>
 
 

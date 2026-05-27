@@ -1,11 +1,26 @@
 import React, { useState } from 'react';
 import { useQuery } from "react-query";
 import {
-  Box, CircularProgress, Container, Grid, Paper, Tooltip, Typography
+  Alert,
+  Box,
+  Chip,
+  CircularProgress,
+  Container,
+  Grid,
+  Paper,
+  Stack,
+  Tooltip,
+  Typography
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { keyframes } from '@emotion/react';
 import SettingsIcon from '@mui/icons-material/Settings';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import FactoryIcon from '@mui/icons-material/Factory';
+import InsightsIcon from '@mui/icons-material/Insights';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import Page from 'src/components/Page';
 import API from 'src/views/components/API';
 import moment from 'moment';
@@ -25,22 +40,97 @@ const rotation = keyframes`
 
 const RootPage = styled(Page)(({ theme }) => ({
   background:
-    'linear-gradient(180deg, #eef4f8 0%, #f7f9fb 46%, #ffffff 100%)',
+    'linear-gradient(180deg, #edf5f8 0%, #f7fafb 42%, #ffffff 100%)',
   minHeight: '100%',
-  paddingBottom: theme.spacing(4),
-  paddingTop: theme.spacing(2.5)
+  paddingBottom: theme.spacing(4.5),
+  paddingTop: theme.spacing(3)
+}));
+
+const HeaderPanel = styled(Paper)(({ theme }) => ({
+  background:
+    'linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(239,248,251,0.96) 100%)',
+  border: '1px solid rgba(15, 54, 84, 0.12)',
+  borderRadius: 8,
+  boxShadow: '0 18px 44px rgba(15, 54, 84, 0.10)',
+  marginBottom: theme.spacing(2),
+  overflow: 'hidden',
+  padding: theme.spacing(2.25, 2.5),
+  position: 'relative',
+  '&::before': {
+    background:
+      'linear-gradient(90deg, #00a4d8 0%, #00a4d8 46%, #ef3124 46%, #ef3124 100%)',
+    content: '""',
+    height: 5,
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0
+  }
 }));
 
 const Title = styled(Typography)(({ theme }) => ({
-  borderBottom: '1px solid rgba(15, 54, 84, 0.14)',
-  paddingBottom: theme.spacing(1.5),
+  color: '#102f43',
   fontFamily: 'Roboto, sans-serif',
-  fontSize: '1.65rem',
-  fontWeight: 700,
+  fontSize: '1.85rem',
+  fontWeight: 800,
   letterSpacing: 0,
-  color: '#14324a',
-  marginBottom: theme.spacing(2),
-  textShadow: '0 1px 0 rgba(255, 255, 255, 0.8)',
+  lineHeight: 1.12,
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '1.45rem',
+  }
+}));
+
+const SummaryCard = styled(Paper)(({ theme }) => ({
+  alignItems: 'center',
+  background: '#ffffff',
+  border: '1px solid rgba(15, 54, 84, 0.11)',
+  borderRadius: 8,
+  boxShadow: '0 10px 24px rgba(15, 54, 84, 0.08)',
+  display: 'grid',
+  gap: theme.spacing(1.25),
+  gridTemplateColumns: '38px 1fr',
+  height: 88,
+  padding: theme.spacing(1.5),
+}));
+
+const SummaryIcon = styled(Box)(({ theme }) => ({
+  alignItems: 'center',
+  backgroundColor: 'rgba(0, 132, 168, 0.10)',
+  borderRadius: 6,
+  color: '#006b86',
+  display: 'flex',
+  height: 38,
+  justifyContent: 'center',
+  width: 38,
+}));
+
+const StatusChip = styled(Chip)({
+  borderRadius: 6,
+  fontWeight: 800,
+  height: 26,
+  '& .MuiChip-icon': {
+    fontSize: 17,
+    marginLeft: 6,
+  }
+});
+
+const BoardPanel = styled(Paper)(({ theme }) => ({
+  background: 'rgba(255,255,255,0.78)',
+  border: '1px solid rgba(15, 54, 84, 0.10)',
+  borderRadius: 8,
+  boxShadow: '0 16px 38px rgba(15, 54, 84, 0.08)',
+  padding: theme.spacing(1.25),
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(1),
+  }
+}));
+
+const SectionGrid = styled(Grid)(({ theme }) => ({
+  alignItems: 'stretch',
+  marginBottom: theme.spacing(0.65),
+  '&:last-of-type': {
+    marginBottom: 0,
+  }
 }));
 
 const StatusPaper = styled(Paper)(({ theme }) => ({
@@ -90,17 +180,19 @@ const SummaryPaper = styled(Paper)(({ theme }) => ({
 }));
 
 const GroupTitle = styled(Typography)(({ theme }) => ({
-  borderBottom: '0',
-  borderLeft: '5px solid #3f51b5',
+  borderBottom: 0,
+  borderLeft: '6px solid #3f51b5',
   borderRadius: 8,
-  background: 'rgba(255, 255, 255, 0.72)',
+  background: 'linear-gradient(180deg, #ffffff 0%, #f3f8fb 100%)',
   boxShadow: '0 8px 18px rgba(15, 54, 84, 0.07)',
   color: '#17344c',
-  fontWeight: 700,
-  paddingBottom: theme.spacing(1),
+  fontSize: '0.95rem',
+  fontWeight: 800,
   display: 'flex',
   alignItems: 'center',
+  letterSpacing: 0,
   minHeight: 64,
+  textTransform: 'uppercase',
 }));
 
 const RotatingSettingsIcon = styled(SettingsIcon)({
@@ -179,6 +271,17 @@ const getStatusText = (item, timeDiff) => {
   return `${item.reason || 'Waiting'} (${timeDiff} min)`;
 };
 
+const normalizeProductionRows = (rows = []) => rows.map((item) => ({
+  ...item,
+  sumA: item.sumA > 0 ? Number(item.sumA) : 0,
+  sumApcs: item.sumApcs > 0 ? Number(item.sumApcs) : 0,
+}));
+
+const sumProduction = (rows = []) => rows.reduce(
+  (total, item) => total + Number(item.sumA || 0),
+  0
+);
+
 const renderWorkCenterTooltip = (item) => {
   const timeDiff = item.time?.date ? Math.abs(moment(item.time.date).diff(moment(), 'minutes')) : 0;
   const totalTime = timeDiff + Number(item.totalTime || 0);
@@ -230,8 +333,8 @@ const label = [
     label: 'HydroTest'
   },
   {
-    value: ["P6GL01"],
-    name: [["P6GL01", "สถานีชุป 01"]],
+    value: ["P6GL01", "P6GL02"],
+    name: [["P6GL01", "สถานีชุป 01"], ["P6GL02", "สถานีชุป 02"]],
     label: 'Galvanize'
   },
   {
@@ -253,8 +356,8 @@ const label = [
     label: 'Groove'
   },
   {
-    value: ["P6CT01", "P6CT02", "P6CT03", "P6CT04", "W6CT01"],
-    name: [["P6CT01", "สถานีตัดแบ่งความยาว No.1"], ["P6CT02", "สถานีตัดแบ่งความยาว No.2"], ["P6CT03", "สถานีตัดแบ่งความยาว No.3 เลเซอร์"], ["P6CT04", "สถานีตัดแบ่งความยาว No.4 เลเซอร์"], ["W6CT01", "สถานีตัดท่อ"]],
+    value: ["P6CT01", "P6CT02", "P6CT03", "P6CT04", "P6CT05", "W6CT01"],
+    name: [["P6CT01", "สถานีตัดแบ่งความยาว No.1"], ["P6CT02", "สถานีตัดแบ่งความยาว No.2"], ["P6CT03", "สถานีตัดแบ่งความยาว No.3 เลเซอร์"], ["P6CT04", "สถานีตัดแบ่งความยาว No.4 เลเซอร์"], ["P6CT05", "สถานีตัดแบ่งความยาว No.5 เลเซอร์"], ["W6CT01", "สถานีตัดท่อ"]],
     label: 'Cuting'
   },
   {
@@ -271,28 +374,30 @@ const Dashboard = () => {
     queryKey: ['WorkCenter'],
     queryFn: async () => {
       try {
+        const today = moment();
+        const yesterday = today.clone().subtract(1, 'day');
+        const previousMonth = today.clone().subtract(1, 'month');
+        const startDate = previousMonth.clone().startOf('month');
+
         const response = await API.get('RPT_QC_Lab_Tag_Detail/data.php', {
           params: {
             load: 'work',
-            StartDate: moment().format('YYYY-MM-DD'),
-            EndDate: moment().format('YYYY-MM-DD'),
+            StartDate: startDate.format('YYYY-MM-DD'),
+            EndDate: today.format('YYYY-MM-DD'),
           }
         });
-        const date = moment().format('YYYY-MM-DD');
 
-        const currentDay = response.data[0].filter((item) => {
-          return moment(item.date.date).format('YYYY-MM-DD') === date;
-        });
+        const productionRows = normalizeProductionRows(response.data[0]);
+        const currentDay = productionRows.filter(item => moment(item.date.date).isSame(today, 'day'));
+        const yesterdayRows = productionRows.filter(item => moment(item.date.date).isSame(yesterday, 'day'));
+        const currentMonth = productionRows.filter(item => moment(item.date.date).isSame(today, 'month'));
 
-        const currentMonth = response.data[0].map((item) => {
-          return {
-            ...item,
-            sumA: item.sumA > 0 ? Number(item.sumA) : 0,
-            sumApcs: item.sumApcs > 0 ? Number(item.sumApcs) : 0,
-          };
-        });
-
-        return { res: currentDay, status: response.data[1], month: currentMonth };
+        return {
+          res: currentDay,
+          status: response.data[1],
+          month: currentMonth,
+          yesterday: yesterdayRows
+        };
 
       } catch (error) {
         console.log('error', error);
@@ -310,7 +415,7 @@ const Dashboard = () => {
     const sumA = data?.res.filter((item1) => item1.wc === item)[0]?.sumA || 0;
     const piece = data?.res.filter((item1) => item1.wc === item)[0]?.sumApcs || 0;
     const status = data?.status.filter((item1) => item1.wc === item)[0];
-    return { wc: item, name: forming.name[index][1], sum: Number(sumA).toFixed(2), piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '', operationSpeed: status?.operationSpeed, operationTime: status?.operationtime };
+    return { wc: item, name: forming.name[index][1], sum: Number(sumA).toFixed(2), piece: Number(piece).toFixed(2), status: status?.status || 'red', reason: status?.reason_description || '', time: status?.time_stopped || '', size: status?.size || '', totalTime: status?.totalStop || '', totalStop: status?.countStop || '', operationSpeed: Number(status?.pcs_hr * status?.multiplier / 60).toFixed(0) || '-', operationTime: status?.operationtime };
   });
 
   const fmMonth = forming.value.map((item, index) => {
@@ -436,12 +541,11 @@ const Dashboard = () => {
   const total = all.reduce((prev, current) => prev + Number(current.sum), 0);
   const allMonth = [...fmMonth, ...pkMonth, ...slMonth, ...htMonth, ...ptMonth, ...gaMonth, ...grMonth, ...ctMonth, ...thMonth];
   const totalMonth = allMonth.reduce((prev, current) => prev + current, 0);
+  const totalYesterday = sumProduction(data?.yesterday);
 
   const green = all.filter((item) => item.status === 'green').length;
   const yellow = all.filter((item) => item.status === 'yellow').length;
   const red = all.filter((item) => item.status === 'red').length;
-
-  console.log(workCenter, 'workCenter');
 
   const renderWorkCenterCard = (item, extraStyle = {}) => (
     <Tooltip
@@ -461,6 +565,52 @@ const Dashboard = () => {
     </Tooltip>
   );
 
+  const summaryItems = [
+    {
+      icon: <FactoryIcon fontSize="small" />,
+      label: 'Daily Production',
+      value: `${addComma(total.toFixed(2))} Mt`,
+      supporting: `Yesterday: ${addComma(totalYesterday.toFixed(2))} Mt`,
+      color: '#006b86',
+      iconBg: 'rgba(0, 132, 168, 0.10)'
+    },
+    {
+      icon: <InsightsIcon fontSize="small" />,
+      label: 'Monthly Production',
+      value: `${addComma(totalMonth.toFixed(2))} Mt`,
+      color: '#3f51b5',
+      iconBg: 'rgba(63, 81, 181, 0.10)'
+    },
+    {
+      icon: <SettingsIcon fontSize="small" />,
+      label: 'Machine Status',
+      color: '#17344c',
+      iconBg: 'rgba(23, 52, 76, 0.10)',
+      value: (
+        <Stack direction="row" flexWrap="wrap" gap={0.75} sx={{ mt: 0.5 }}>
+          <StatusChip
+            icon={<CheckCircleIcon />}
+            label={`${green} Run`}
+            size="small"
+            sx={{ backgroundColor: '#dff7e8', color: '#087b3f' }}
+          />
+          <StatusChip
+            icon={<WarningAmberIcon />}
+            label={`${yellow} Maintenance`}
+            size="small"
+            sx={{ backgroundColor: '#fff3c7', color: '#986300' }}
+          />
+          <StatusChip
+            icon={<ErrorOutlineIcon />}
+            label={`${red} Stop`}
+            size="small"
+            sx={{ backgroundColor: '#ffe1de', color: '#b42318' }}
+          />
+        </Stack>
+      )
+    }
+  ];
+
   return (
     <RootPage
 
@@ -468,14 +618,69 @@ const Dashboard = () => {
     >
       <ModalManagement open={open} onClose={() => setOpen(false)} modalDetail={<WorkCenterStatus wc={workCenter.wc} status={workCenter.status} sum={workCenter.sum} piece={workCenter.piece} reason={workCenter.reason} name={workCenter.name} time={workCenter.time} size={workCenter.size} totalTime={workCenter.totalTime} totalStop={workCenter.totalStop} operationSpeed={workCenter.operationSpeed} operationTime={workCenter.operationTime} onClose={() => setOpen(false)} />} />
       <Container maxWidth={false}>
-        <Title align='center' variant="h1" gutterBottom>
-          Work Center
-        </Title>
+        <HeaderPanel>
+          <Stack
+            alignItems={{ xs: 'flex-start', md: 'center' }}
+            direction={{ xs: 'column', md: 'row' }}
+            justifyContent="space-between"
+            spacing={2}
+            sx={{ mb: isLoading ? 0 : 2 }}
+          >
+            <Box>
+              <Title variant="h1">
+                Work Center
+              </Title>
+              <Typography color="textSecondary" sx={{ mt: 0.75 }} variant="body2">
+                Real-time production status by station, refreshed every 30 seconds.
+              </Typography>
+            </Box>
+            <Chip
+              icon={<AccessTimeIcon />}
+              label={moment().format('DD MMM YYYY')}
+              sx={{
+                backgroundColor: 'rgba(0, 132, 168, 0.10)',
+                color: '#006b86',
+                fontWeight: 700
+              }}
+            />
+          </Stack>
+          {!isLoading && !error && (
+            <Grid container spacing={1.25}>
+              {summaryItems.map((item) => (
+                <Grid item xs={12} md={4} key={item.label}>
+                  <SummaryCard variant="outlined">
+                    <SummaryIcon sx={{ backgroundColor: item.iconBg, color: item.color }}>
+                      {item.icon}
+                    </SummaryIcon>
+                    <Box>
+                      <Typography color="textSecondary" variant="caption">
+                        {item.label}
+                      </Typography>
+                      <Typography component="div" sx={{ color: item.color || '#102f43', fontWeight: 800, lineHeight: 1.2 }}>
+                        {item.value}
+                      </Typography>
+                      {item.supporting && (
+                        <Typography color="textSecondary" sx={{ display: 'block', mt: 0.35, fontWeight: 700 }} variant="caption">
+                          {item.supporting}
+                        </Typography>
+                      )}
+                    </Box>
+                  </SummaryCard>
+                </Grid>
+              ))}
+            </Grid>
+          )}
+        </HeaderPanel>
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            Unable to load work center data. Please try again.
+          </Alert>
+        )}
         {isLoading ? <Box height={'50vh'} display="flex" justifyContent="center" alignItems="center">
           <CircularProgress />
         </Box> : (
-          <>
-            <Grid
+          <BoardPanel>
+            <SectionGrid
               container
               spacing={1}
             >
@@ -501,8 +706,8 @@ const Dashboard = () => {
                   ))}
                 </>
               )}
-            </Grid>
-            <Grid
+            </SectionGrid>
+            <SectionGrid
               container
               spacing={1}
             >
@@ -532,8 +737,8 @@ const Dashboard = () => {
                   ))}
                 </>
               )}
-            </Grid>
-            <Grid
+            </SectionGrid>
+            <SectionGrid
               container
               spacing={1}
             >
@@ -559,8 +764,8 @@ const Dashboard = () => {
                   ))}
                 </>
               )}
-            </Grid>
-            <Grid
+            </SectionGrid>
+            <SectionGrid
               container
               spacing={1}
             >
@@ -586,8 +791,8 @@ const Dashboard = () => {
                   ))}
                 </>
               )}
-            </Grid>
-            <Grid
+            </SectionGrid>
+            <SectionGrid
               container
               spacing={1}
             >
@@ -613,8 +818,8 @@ const Dashboard = () => {
                   ))}
                 </>
               )}
-            </Grid>
-            <Grid
+            </SectionGrid>
+            <SectionGrid
               container
               spacing={1}
             >
@@ -640,8 +845,8 @@ const Dashboard = () => {
                   ))}
                 </>
               )}
-            </Grid>
-            <Grid
+            </SectionGrid>
+            <SectionGrid
               container
               spacing={1}
             >
@@ -667,8 +872,8 @@ const Dashboard = () => {
                   ))}
                 </>
               )}
-            </Grid>
-            <Grid
+            </SectionGrid>
+            <SectionGrid
               container
               spacing={1}
             >
@@ -694,8 +899,8 @@ const Dashboard = () => {
                   ))}
                 </>
               )}
-            </Grid>
-            <Grid
+            </SectionGrid>
+            <SectionGrid
               container
               spacing={1}
             >
@@ -721,43 +926,8 @@ const Dashboard = () => {
                   ))}
                 </>
               )}
-            </Grid>
-          </>
-        )}
-        {!isLoading && (
-          <Grid
-            container
-            spacing={1}
-          >
-            <Grid item xs={12} md={1}>
-              <GroupTitle style={{ padding: 20, borderColor: '#663300' }} variant="h5" gutterBottom>
-                Total
-              </GroupTitle>
-            </Grid>
-            <Grid item xs={3} md={1}>
-              <SummaryPaper style={{ fontWeight: '700', borderRadius: 10 }} variant="outlined" square>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div>D: {(total).toFixed(2)} Mt</div>
-                  <div>M: {addComma((totalMonth).toFixed(2))} Mt</div>
-                </div>
-              </SummaryPaper>
-            </Grid>
-            <Grid item xs={3} md={1}>
-              <StatusPaper style={{ ...statusCellBaseStyle, ...statusCardStyles.green, flexDirection: 'row' }} variant="outlined" square>
-                <span style={{ fontWeight: 'bold' }}>{green}</span> <RotatingSettingsIcon style={{ paddingLeft: '3px' }} />
-              </StatusPaper>
-            </Grid>
-            <Grid item xs={3} md={1}>
-              <StatusPaper style={{ ...statusCellBaseStyle, ...statusCardStyles.yellow, flexDirection: 'row' }} variant="outlined" square>
-                <span style={{ fontWeight: 'bold' }}>{yellow}</span> <BuildIcon style={{ paddingLeft: '3px' }} />
-              </StatusPaper>
-            </Grid>
-            <Grid item xs={3} md={1}>
-              <StatusPaper style={{ ...statusCellBaseStyle, ...statusCardStyles.red, flexDirection: 'row' }} variant="outlined" square>
-                <span style={{ fontWeight: 'bold' }}>{red}</span> <SettingsIcon style={{ paddingLeft: '3px' }} />
-              </StatusPaper>
-            </Grid>
-          </Grid>
+            </SectionGrid>
+          </BoardPanel>
         )}
       </Container>
     </RootPage>

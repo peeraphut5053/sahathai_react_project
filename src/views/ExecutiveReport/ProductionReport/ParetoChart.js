@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import moment from 'moment';
 import API from 'src/views/components/API';
-import { Typography, useTheme } from '@mui/material';
+import { Box, Card, CircularProgress, Stack, Typography, useTheme } from '@mui/material';
+import { alpha, styled } from '@mui/material/styles';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import { Bar } from 'react-chartjs-2';
 import ModalManagementFullPage from 'src/views/components/ModalManagementFullPage';
 import TableStopReason from './TableStopReason';
@@ -47,6 +50,53 @@ const label = [
     label: 'Packing'
   }
 ]
+
+const supportBlue = '#00a4d8';
+const accentRed = '#ef3124';
+
+const ParetoCard = styled(Card)(({ theme }) => ({
+  background: `linear-gradient(180deg, ${alpha(theme.palette.primary.main, 0.045)} 0%, #ffffff 42%)`,
+  border: `1px solid ${alpha(theme.palette.primary.main, 0.13)}`,
+  borderRadius: 8,
+  boxShadow: `0 12px 26px ${alpha('#253746', 0.08)}`,
+  height: '100%',
+  overflow: 'hidden'
+}));
+
+const CardTop = styled(Box)(({ theme }) => ({
+  alignItems: 'center',
+  borderBottom: `1px solid ${alpha(theme.palette.primary.main, 0.10)}`,
+  display: 'flex',
+  justifyContent: 'space-between',
+  padding: theme.spacing(1.25, 1.5)
+}));
+
+const HeaderIcon = styled(Box)(({ theme }) => ({
+  alignItems: 'center',
+  background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${supportBlue} 100%)`,
+  borderRadius: 8,
+  color: '#ffffff',
+  display: 'flex',
+  height: 32,
+  justifyContent: 'center',
+  width: 32
+}));
+
+const ChartFrame = styled(Box)(({ theme }) => ({
+  height: 360,
+  padding: theme.spacing(1.5),
+  position: 'relative'
+}));
+
+const StateFrame = styled(Box)(({ theme }) => ({
+  alignItems: 'center',
+  color: theme.palette.text.secondary,
+  display: 'flex',
+  height: 360,
+  justifyContent: 'center',
+  padding: theme.spacing(2),
+  textAlign: 'center'
+}));
 
 const ParetoChart = ({ month, group }) => {
   const [open, setOpen] = useState(false);
@@ -227,17 +277,10 @@ const ParetoChart = ({ month, group }) => {
     cacheTime: 10 * 60 * 1000
   });
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  console.log(paretoData);
-
-
-  const datapoints = paretoData?.paretoData.map((item) => item.value);
-
-  const reduceArray = ((sum, datapoint) => sum + datapoint);
-  const totalSum = datapoints.reduce(reduceArray);
+  const rows = paretoData?.paretoData || [];
+  const datapoints = rows.map((item) => item.value);
+  const totalSum = datapoints.reduce((sum, datapoint) => sum + datapoint, 0);
+  const hasData = datapoints.length > 0 && totalSum > 0;
 
   const cumulativeSum = (sum => datapoint => sum += datapoint)(0);
   const cumulativeDatapoints = datapoints.map(cumulativeSum);
@@ -262,12 +305,13 @@ const ParetoChart = ({ month, group }) => {
 
 
   const data = {
-    labels: paretoData.paretoData.map((item) => item.name),
+    labels: rows.map((item) => item.name),
     datasets: [
       {
         label: 'Percentage',
         data: percentageDatapoints,
-        borderColor: '#e68a00',
+        borderColor: accentRed,
+        backgroundColor: accentRed,
         yAxisID: 'LinePercentage',
         fill: false,
         type: 'line',
@@ -275,8 +319,8 @@ const ParetoChart = ({ month, group }) => {
       {
         label: 'Downtime',
         data: datapoints,
-        borderColor: '#ccb3ff',
-        backgroundColor: '#ccb3ff',
+        borderColor: supportBlue,
+        backgroundColor: alpha(supportBlue, 0.55),
         yAxisID: 'bar1',
       },
     ]
@@ -301,6 +345,10 @@ const ParetoChart = ({ month, group }) => {
           },
           beginAtZero: true,
           stepSize: 10
+        },
+        gridLines: {
+          color: alpha(theme.palette.text.secondary, 0.10),
+          drawBorder: false
         }
       },
       {
@@ -308,8 +356,13 @@ const ParetoChart = ({ month, group }) => {
         type: 'linear',
         position: 'left',
         beginAtZero: true,
-        grid: {
-          display: false
+        ticks: {
+          fontColor: theme.palette.text.secondary,
+          beginAtZero: true
+        },
+        gridLines: {
+          color: alpha(theme.palette.text.secondary, 0.10),
+          drawBorder: false
         },
         scaleLabel: {
           display: true,
@@ -332,10 +385,46 @@ const ParetoChart = ({ month, group }) => {
       <ModalManagementFullPage
         open={open}
         onClose={() => setOpen(false)}
-        modalDetail={<TableStopReason reasonData={paretoData.realData} wc={wc} group={group} month={month} />}
+        modalDetail={<TableStopReason reasonData={paretoData?.realData} wc={wc} group={group} month={month} />}
       />
-      <Typography variant="h4" style={{ margin: '15px', textAlign: 'center' }}>Pareto Chart of Downtime Causes</Typography>
-      <Bar width={800} height={500} data={data} options={options} />
+      <ParetoCard>
+        <CardTop>
+          <Stack alignItems="center" direction="row" spacing={1}>
+            <HeaderIcon>
+              <BarChartIcon fontSize="small" />
+            </HeaderIcon>
+            <Box>
+              <Typography color="textPrimary" fontWeight={900} variant="subtitle2">
+                Pareto Chart of Downtime Causes
+              </Typography>
+              <Typography color="textSecondary" variant="caption">
+                {group} stop reasons ranked by downtime minutes.
+              </Typography>
+            </Box>
+          </Stack>
+          <Stack alignItems="center" direction="row" spacing={0.75}>
+            <OpenInFullIcon sx={{ color: theme.palette.primary.main, fontSize: 16 }} />
+            <Typography color="primary" fontWeight={900} variant="caption">
+              Click bar for detail
+            </Typography>
+          </Stack>
+        </CardTop>
+        {isLoading ? (
+          <StateFrame>
+            <CircularProgress size={28} />
+          </StateFrame>
+        ) : hasData ? (
+          <ChartFrame>
+            <Bar data={data} options={options} />
+          </ChartFrame>
+        ) : (
+          <StateFrame>
+            <Typography color="textSecondary" variant="body2">
+              No downtime data available for this month.
+            </Typography>
+          </StateFrame>
+        )}
+      </ParetoCard>
     </>
   );
 };

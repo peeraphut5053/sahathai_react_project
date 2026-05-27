@@ -4,6 +4,9 @@ import {
   Button,
   ButtonGroup,
   Chip,
+  CircularProgress,
+  Tab,
+  Tabs,
   Typography
 } from '@mui/material';
 import {
@@ -13,100 +16,9 @@ import {
   PrecisionManufacturing
 } from '@mui/icons-material';
 import Page from 'src/components/Page';
+import API from 'src/views/components/API';
+import ProductionDashboard from '../ProductionDashboard';
 import styles from './ProductionLiveBoardV2.module.css';
-
-const stations = [
-  {
-    name: 'P1 Forming',
-    plant: 'Poochao',
-    status: 'RUNNING',
-    job: 'J240429-018',
-    item: 'PIPE 2" x 2.3mm x 6M / GRADE A',
-    customer: 'Domestic',
-    progress: 78,
-    planPcs: 2400,
-    donePcs: 1872,
-    tons: 18.6,
-    scrap: 12,
-    speed: '312 pcs/hr',
-    alert: ''
-  },
-  {
-    name: 'P2 Forming',
-    plant: 'Poochao',
-    status: 'CHANGEOVER',
-    job: 'J240429-022',
-    item: 'PIPE 1-1/2" x 1.8mm x 6M / GRADE B',
-    customer: 'Export',
-    progress: 34,
-    planPcs: 1800,
-    donePcs: 612,
-    tons: 6.4,
-    scrap: 4,
-    speed: 'Waiting setup',
-    alert: 'Changeover 24 min'
-  },
-  {
-    name: 'W1 Finishing',
-    plant: 'Wangnoi',
-    status: 'RUNNING',
-    job: 'J240429-011',
-    item: 'GI PIPE 3" x 3.2mm x 6M',
-    customer: 'Domestic',
-    progress: 91,
-    planPcs: 900,
-    donePcs: 819,
-    tons: 21.1,
-    scrap: 3,
-    speed: '118 pcs/hr',
-    alert: ''
-  },
-  {
-    name: 'W2 Packing',
-    plant: 'Wangnoi',
-    status: 'STOPPED',
-    job: 'J240429-007',
-    item: 'BLACK PIPE 4" x 4.0mm x 6M',
-    customer: 'Export',
-    progress: 56,
-    planPcs: 720,
-    donePcs: 403,
-    tons: 17.9,
-    scrap: 0,
-    speed: '0 pcs/hr',
-    alert: 'Hold: waiting QC release'
-  },
-  {
-    name: 'Slitting',
-    plant: 'Poochao',
-    status: 'RUNNING',
-    job: 'J240429-026',
-    item: 'COIL SLIT 1219mm to 184mm',
-    customer: 'Internal',
-    progress: 64,
-    planPcs: 14,
-    donePcs: 9,
-    tons: 42.3,
-    scrap: 1,
-    speed: '5.4 ton/hr',
-    alert: ''
-  },
-  {
-    name: 'Hydro Test',
-    plant: 'Wangnoi',
-    status: 'RUNNING',
-    job: 'J240429-015',
-    item: 'PIPE 2-1/2" x 2.6mm x 6M',
-    customer: 'Domestic',
-    progress: 47,
-    planPcs: 1300,
-    donePcs: 611,
-    tons: 9.7,
-    scrap: 8,
-    speed: '142 pcs/hr',
-    alert: 'Output below target'
-  }
-];
 
 const statusClass = {
   RUNNING: styles.running,
@@ -121,15 +33,79 @@ const progressTone = (station) => {
 };
 
 const addComma = (value) => Number(value).toLocaleString('en-US');
+const toNumber = (value) => Number(value || 0);
 
-const ProductionLiveBoardV2 = () => {
+const mapDashboardRows = (rows, plant) => rows.map((row) => {
+  const todayPcs = toNumber(row['Qty Today (PCS)']);
+  const monthPcs = toNumber(row['Qty MTD (PCS)']);
+  const todayTon = toNumber(row['Qty Today (Ton)']);
+  const progress = monthPcs > 0 ? Math.min(100, Math.round((todayPcs / monthPcs) * 100)) : 0;
+
+  return {
+    name: row.Station || '-',
+    plant,
+    status: todayPcs > 0 || todayTon > 0 ? 'RUNNING' : 'STOPPED',
+    job: '-',
+    item: 'Production dashboard API',
+    customer: 'All',
+    progress,
+    planPcs: monthPcs,
+    donePcs: todayPcs,
+    monthTons: toNumber(row['Qty MTD (Ton)']),
+    tons: todayTon,
+    scrap: '-',
+    speed: todayPcs > 0 ? `${addComma(todayPcs)} pcs today` : 'No output today',
+    alert: todayPcs > 0 || todayTon > 0 ? '' : 'No production output today'
+  };
+});
+
+const ProductionLiveBoardV2Content = () => {
+  const [stations, setStations] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState('');
+  const [lastUpdated, setLastUpdated] = React.useState(null);
+
+  const loadProductionBoard = React.useCallback(() => {
+    setLoading(true);
+    setError('');
+
+    Promise.all([
+      API.get('API_ExecutiveReport/data.php?load=ProductionDashboardP'),
+      API.get('API_ExecutiveReport/data.php?load=ProductionDashboardW')
+    ])
+      .then(([poochaoResponse, wangnoiResponse]) => {
+        setStations([
+          ...mapDashboardRows(poochaoResponse.data || [], 'Poochao'),
+          ...mapDashboardRows(wangnoiResponse.data || [], 'Wangnoi')
+        ]);
+        setLastUpdated(new Date());
+      })
+      .catch(() => {
+        setError('Cannot load production live data.');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  React.useEffect(() => {
+    loadProductionBoard();
+    const timerID = setInterval(loadProductionBoard, 60000);
+
+    return () => {
+      clearInterval(timerID);
+    };
+  }, [loadProductionBoard]);
+
   const running = stations.filter((station) => station.status === 'RUNNING').length;
   const stopped = stations.filter((station) => station.status === 'STOPPED').length;
   const totalPcs = stations.reduce((sum, station) => sum + station.donePcs, 0);
   const totalTons = stations.reduce((sum, station) => sum + station.tons, 0);
+  const totalMonthPcs = stations.reduce((sum, station) => sum + station.planPcs, 0);
+  const onPlanPercent = totalMonthPcs > 0 ? Math.round((totalPcs / totalMonthPcs) * 100) : 0;
 
   return (
-    <Page className={styles.root} title="Production Live Board V2">
+    <>
       <div className={styles.toolbar}>
         <div className={styles.titleBlock}>
           <div className={styles.eyebrow}>Production command center</div>
@@ -143,6 +119,12 @@ const ProductionLiveBoardV2 = () => {
             label="Auto refresh: 60 sec"
             variant="outlined"
           />
+          {lastUpdated && (
+            <Chip
+              label={`Updated: ${lastUpdated.toLocaleTimeString('th-TH')}`}
+              variant="outlined"
+            />
+          )}
           <ButtonGroup variant="outlined" size="small">
             <Button startIcon={<FilterAlt />}>Plant</Button>
             <Button startIcon={<PrecisionManufacturing />}>Station</Button>
@@ -164,15 +146,34 @@ const ProductionLiveBoardV2 = () => {
         </div>
         <div className={styles.metricCard}>
           <div className={styles.metricLabel}>On Plan</div>
-          <div className={styles.metricValue}>82%</div>
-          <div className={styles.metricMeta}>Weighted by planned quantity</div>
+          <div className={styles.metricValue}>{onPlanPercent}%</div>
+          <div className={styles.metricMeta}>Today output compared with MTD quantity</div>
         </div>
         <div className={`${styles.metricCard} ${stopped > 0 ? styles.danger : ''}`}>
           <div className={styles.metricLabel}>Needs Attention</div>
-          <div className={styles.metricValue}>{stopped + 2}</div>
-          <div className={styles.metricMeta}>Stop, slow output, or QC hold</div>
+          <div className={styles.metricValue}>{stopped}</div>
+          <div className={styles.metricMeta}>Stations with no output today</div>
         </div>
       </section>
+
+      {loading && (
+        <div className={styles.stateBox}>
+          <CircularProgress size={24} />
+          <span>Loading production live data...</span>
+        </div>
+      )}
+
+      {error && !loading && (
+        <div className={`${styles.stateBox} ${styles.dangerState}`}>
+          {error}
+        </div>
+      )}
+
+      {!loading && !error && stations.length === 0 && (
+        <div className={styles.stateBox}>
+          No production live data.
+        </div>
+      )}
 
       <section className={styles.boardGrid}>
         {stations.map((station) => (
@@ -207,15 +208,15 @@ const ProductionLiveBoardV2 = () => {
 
               <div className={styles.statsGrid}>
                 <div className={styles.statBox}>
-                  <div className={styles.statLabel}>Plan</div>
+                  <div className={styles.statLabel}>MTD PCS</div>
                   <div className={styles.statValue}>{addComma(station.planPcs)}</div>
                 </div>
                 <div className={styles.statBox}>
-                  <div className={styles.statLabel}>Complete</div>
+                  <div className={styles.statLabel}>Today PCS</div>
                   <div className={styles.statValue}>{addComma(station.donePcs)}</div>
                 </div>
                 <div className={styles.statBox}>
-                  <div className={styles.statLabel}>Ton</div>
+                  <div className={styles.statLabel}>Today Ton</div>
                   <div className={styles.statValue}>{station.tons.toFixed(1)}</div>
                 </div>
               </div>
@@ -230,9 +231,9 @@ const ProductionLiveBoardV2 = () => {
                   <div className={styles.statValue}>{station.speed}</div>
                 </div>
                 <div className={styles.statBox}>
-                  <div className={styles.statLabel}>Remain</div>
+                  <div className={styles.statLabel}>MTD Ton</div>
                   <div className={styles.statValue}>
-                    {addComma(station.planPcs - station.donePcs)}
+                    {station.monthTons.toFixed(1)}
                   </div>
                 </div>
               </div>
@@ -246,6 +247,39 @@ const ProductionLiveBoardV2 = () => {
           </article>
         ))}
       </section>
+    </>
+  );
+};
+
+const ProductionLiveBoardV2 = () => {
+  const [activeTab, setActiveTab] = React.useState(0);
+
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
+
+  return (
+    <Page className={styles.root} title="Production Live Board V2">
+      <div className={styles.tabShell}>
+        <Tabs
+          value={activeTab}
+          onChange={handleTabChange}
+          variant="scrollable"
+          scrollButtons="auto"
+          className={styles.tabs}
+        >
+          <Tab label="Production Live" />
+          <Tab label="Production Live V2" />
+        </Tabs>
+      </div>
+
+      <div className={styles.tabPanel} hidden={activeTab !== 0}>
+        {activeTab === 0 && <ProductionDashboard />}
+      </div>
+
+      <div className={styles.tabPanel} hidden={activeTab !== 1}>
+        {activeTab === 1 && <ProductionLiveBoardV2Content />}
+      </div>
     </Page>
   );
 };

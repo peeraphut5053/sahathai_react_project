@@ -1,0 +1,210 @@
+.dialog {
+  background:
+    linear-gradient(180deg, rgba(40, 112, 118, 0.12) 0, rgba(40, 112, 118, 0) 142px),
+    #ffffff;
+  border: 1px solid rgba(33, 43, 54, 0.14);
+  border-radius: 8px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.24);
+  box-sizing: border-box;
+  max-width: 100%;
+  outline: none;
+  padding: 30px 28px 24px;
+  position: relative;
+  width: 100%;
+}
+
+.closeButton {
+  color: #5f6b7a;
+  position: absolute;
+  z-index: 2;
+}
+
+.closeButton:hover {
+  background-color: rgba(33, 43, 54, 0.08);
+}
+
+.header {
+  align-items: flex-start;
+  display: flex;
+  gap: 16px;
+  padding-right: 32px;
+}
+
+.headerIcon {
+  align-items: center;
+  background-color: #eaf4f4;
+  border: 1px solid rgba(40, 112, 118, 0.2);
+  border-radius: 8px;
+  color: #287076;
+  display: flex;
+  flex: 0 0 auto;
+  height: 54px;
+  justify-content: center;
+  width: 54px;
+}
+
+.headerCopy {
+  min-width: 0;
+}
+
+.eyebrow {
+  color: #287076;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.4;
+  margin: 0 0 2px;
+  text-transform: uppercase;
+}
+
+.title {
+  color: #172033;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.description {
+  color: #5f6b7a;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 4px 0 0;
+}
+
+.statusCard {
+  align-items: center;
+  border: 1px solid rgba(33, 43, 54, 0.12);
+  border-radius: 8px;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-top: 22px;
+  padding: 18px;
+}
+
+.idle {
+  background-color: #fcd9d9;
+}
+
+.open {
+  background-color: rgb(227, 255, 238);
+}
+
+.closed {
+  background-color: #f8eded;
+}
+
+.statusLabel {
+  color: #172033;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.statusSubtext {
+  color: #5f6b7a;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 4px 0 0;
+}
+
+.wcBadge {
+  background-color: #ffffff;
+  border: 1px solid rgba(40, 112, 118, 0.18);
+  border-radius: 8px;
+  color: #172033;
+  flex: 0 0 auto;
+  min-width: 92px;
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.wcBadge span {
+  color: #5f6b7a;
+  display: block;
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.wcBadge strong {
+  display: block;
+  font-size: 20px;
+  line-height: 1.15;
+  margin-top: 2px;
+}
+
+.actionArea {
+  border-top: 1px solid rgba(33, 43, 54, 0.1);
+  margin-top: 18px;
+  padding-top: 18px;
+}
+
+.actionArea p {
+  color: #5f6b7a;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0 0 12px;
+}
+
+.startButton,
+.stopButton {
+  min-height: 46px;
+}
+
+.startButton {
+  background-color: #2e7d32;
+}
+
+.startButton:hover {
+  background-color: #276a2b;
+}
+
+.stopButton {
+  background-color: #c62828;
+}
+
+.stopButton:hover {
+  background-color: #a82222;
+}
+
+.loading {
+  align-items: center;
+  color: #287076;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: center;
+  min-height: 220px;
+}
+
+.loading span {
+  color: #5f6b7a;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .dialog {
+    padding: 28px 18px 20px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 12px;
+    padding-right: 28px;
+  }
+
+  .statusCard {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .wcBadge {
+    text-align: left;
+    width: 100%;
+  }
+}

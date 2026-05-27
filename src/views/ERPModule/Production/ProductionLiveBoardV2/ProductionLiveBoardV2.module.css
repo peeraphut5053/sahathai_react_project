@@ -4,6 +4,43 @@
   padding: 18px;
 }
 
+.tabShell {
+  background: #ffffff;
+  border: 1px solid #dce3ea;
+  border-radius: 8px;
+  margin-bottom: 14px;
+  padding: 0 10px;
+}
+
+.tabs {
+  min-height: 46px;
+}
+
+.tabs :global(.MuiTab-root) {
+  color: #52606d;
+  font-size: 0.86rem;
+  font-weight: 800;
+  min-height: 46px;
+  text-transform: none;
+}
+
+.tabs :global(.Mui-selected) {
+  color: #1d5f50;
+}
+
+.tabs :global(.MuiTabs-indicator) {
+  background-color: #2f7d68;
+  height: 3px;
+}
+
+.tabPanel {
+  min-width: 0;
+}
+
+.tabPanel[hidden] {
+  display: none;
+}
+
 .toolbar {
   align-items: center;
   display: flex;
@@ -87,6 +124,28 @@
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.stateBox {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #dce3ea;
+  border-radius: 8px;
+  color: #4d5c68;
+  display: flex;
+  font-size: 0.9rem;
+  font-weight: 700;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 14px;
+  min-height: 72px;
+  padding: 14px;
+}
+
+.dangerState {
+  background: #fff1f1;
+  border-color: #efc3c3;
+  color: #7c2626;
 }
 
 .stationCard {
@@ -256,6 +315,10 @@
 @media (max-width: 700px) {
   .root {
     padding: 12px;
+  }
+
+  .tabShell {
+    margin-bottom: 12px;
   }
 
   .toolbar {

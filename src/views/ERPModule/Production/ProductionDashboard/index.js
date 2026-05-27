@@ -81,7 +81,7 @@ const ProductionDashboard = () => {
               >
                 <Grid item lg={3} sm={6} xl={3} xs={12}>
                   <Typography color="textPrimary" gutterBottom variant="h4" >
-                    Production Index 
+                    Production Index f
                   </Typography>
                   <Typography color="textPrimary" gutterBottom variant="h5" >
                     {moment().format('YYYY-MM-DD HH:mm:ss')} 

@@ -1,63 +1,44 @@
 import React from 'react';
 import Modal from '@mui/material/Modal';
-import { Backdrop, Fade, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Backdrop, Fade } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 const StyledModal = styled(Modal)({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: '24px',
+    '@media (max-width: 600px)': {
+        padding: '12px',
+    },
 });
 
-const Paper = styled('div')({
-    position: 'absolute',
-    width: '70%',
-    padding: '20px',
-    backgroundColor: "#e6e6e6",
-    borderBottom: '6px solid #3f51b5',
-    borderRadius: '5px',
+const Paper = styled('div', {
+    shouldForwardProp: (prop) => !['clean', 'modalWidth'].includes(prop),
+})(({ clean, modalWidth }) => ({
+    position: 'relative',
+    width: modalWidth || 'clamp(320px, 70vw, 1120px)',
+    maxHeight: 'calc(100vh - 64px)',
+    overflowY: 'auto',
+    boxSizing: 'border-box',
+    padding: clean ? 0 : '20px',
+    backgroundColor: clean ? 'transparent' : "#e6e6e6",
+    borderBottom: clean ? 'none' : '6px solid #3f51b5',
+    borderRadius: clean ? 0 : '5px',
     boxShadow: `0 0 0 50vmax rgba(0,0,0,.5)`,
     outline: 'none',
-});
-
-const CloseButton = styled(IconButton)(({ theme }) => ({
-    position: 'absolute',
-    top: theme.spacing(1),
-    right: theme.spacing(1),
-    zIndex: 1,
+    '@media (max-width: 1200px)': {
+        width: modalWidth || 'calc(100vw - 48px)',
+    },
+    '@media (max-width: 600px)': {
+        maxHeight: 'calc(100vh - 24px)',
+        padding: clean ? 0 : '12px',
+        width: 'calc(100vw - 24px)',
+    },
 }));
 
 
 export default function ModalManagement(props) {
-
-    // const classes = makeStyles((theme) => ({
-    //     paper: {
-    //         position: 'absolute',
-    //         width: props.width,
-    //         height: props.height,
-    //         backgroundColor: theme.palette.background.paper,
-    //         border: '0px solid #000',
-    //         boxShadow: theme.shadows[5],
-    //         padding: theme.spacing(2, 4, 3),
-    //     },
-    // }));
-
-    function rand() {
-        return Math.round(Math.random() * 20) - 10;
-    }
-
-    function getModalStyle() {
-        const top = 50 + rand();
-        const left = 50 + rand();
-
-        return {
-            top: `${top}%`,
-            left: `${left}%`,
-            transform: `translate(-${top}%, -${left}%)`,
-        };
-    }
-
     return (
 
         <StyledModal
@@ -75,7 +56,7 @@ export default function ModalManagement(props) {
             }}
         >
             <Fade in={props.open}>
-                <Paper>
+                <Paper clean={props.clean} modalWidth={props.width}>
                     {props.modalDetail}
                 </Paper>
             </Fade>

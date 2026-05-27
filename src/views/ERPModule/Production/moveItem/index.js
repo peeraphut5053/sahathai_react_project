@@ -192,6 +192,7 @@ function App() {
             maxBodyHeight="50vh"
             search={false}
             sorting
+            initialSorting={[{ id: 'create_date.date', desc: true }]}
             filtering
             rowStyle={documentRowStyle}
           />

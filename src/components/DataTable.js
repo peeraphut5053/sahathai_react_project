@@ -44,26 +44,35 @@ const getHeaderStyle = meta => {
   };
 };
 
-const normalizeColumns = (columns) => columns.filter(column => !column.hidden).map((column, index) => ({
-  id: column.field || column.title || `column-${index}`,
-  accessorFn: row => getValueByPath(row, column.field),
-  header: column.title,
-  cell: info => {
-    const row = info.row.original;
-    return normalizeCellValue(column.render ? column.render(row) : info.getValue());
-  },
-  enableSorting: column.sorting !== false,
-  meta: {
-    field: column.field,
-    cellStyle: column.cellStyle,
-    editable: column.editable,
-    headerStyle: column.headerStyle,
-    initialEditValue: column.initialEditValue,
-    lookup: column.lookup,
-    minWidth: column.minWidth || column.width,
-    align: column.align || column.cellStyle?.textAlign || 'center',
-  },
-}));
+const normalizeColumns = (columns) => columns.filter(column => !column.hidden).map((column, index) => {
+  const normalizedColumn = {
+    id: column.field || column.title || `column-${index}`,
+    accessorFn: row => getValueByPath(row, column.field),
+    header: column.title,
+    cell: info => {
+      const row = info.row.original;
+      return normalizeCellValue(column.render ? column.render(row) : info.getValue());
+    },
+    enableSorting: column.sorting !== false,
+    meta: {
+      field: column.field,
+      cellStyle: column.cellStyle,
+      editable: column.editable,
+      headerStyle: column.headerStyle,
+      initialEditValue: column.initialEditValue,
+      lookup: column.lookup,
+      minWidth: column.minWidth || column.width,
+      align: column.align || column.cellStyle?.textAlign || 'center',
+      render: column.render,
+    },
+  };
+
+  if (typeof column.sortingFn === 'function') {
+    normalizedColumn.sortingFn = column.sortingFn;
+  }
+
+  return normalizedColumn;
+});
 
 const setValueByPath = (row, path, value) => {
   if (!path) {
@@ -118,15 +127,18 @@ const downloadCsv = (filename, columns, rows) => {
   const csv = [
     columns.map(column => escapeCsvValue(column.columnDef.header)).join(','),
     ...rows.map(row => columns.map((column) => {
-      const rawValue = column.columnDef.accessorFn
-        ? column.columnDef.accessorFn(row.original)
-        : row.getValue(column.id);
+      const { render } = column.columnDef.meta || {};
+      const rawValue = render
+        ? render(row.original)
+        : column.columnDef.accessorFn
+          ? column.columnDef.accessorFn(row.original)
+          : row.getValue(column.id);
 
-      return escapeCsvValue(rawValue);
+      return escapeCsvValue(normalizeCellValue(rawValue));
     }).join(',')),
-  ].join('\n');
+  ].join('\r\n');
 
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const blob = new Blob(['\uFEFF', csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
 
@@ -159,9 +171,10 @@ const DataTable = ({
   onSelectionChange,
   editable,
   rowActions,
+  initialSorting = [],
 }) => {
   const [globalFilter, setGlobalFilter] = useState('');
-  const [sortingState, setSortingState] = useState([]);
+  const [sortingState, setSortingState] = useState(initialSorting);
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [editingRowId, setEditingRowId] = useState(null);

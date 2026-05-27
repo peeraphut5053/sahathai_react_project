@@ -15,6 +15,7 @@ const WorkCenterStatus = ({ wc, status, sum, piece, reason, name, time, size, on
 
   const total = timeDiff + totalTime;
 
+
   const stop = status === 'yellow' ? totalStop + 1 : totalStop;
 
   return (

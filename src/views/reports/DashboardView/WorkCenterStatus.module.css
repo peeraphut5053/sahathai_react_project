@@ -1,0 +1,205 @@
+.panel {
+  background:
+    linear-gradient(180deg, rgba(32, 83, 91, 0.1) 0, rgba(32, 83, 91, 0) 150px),
+    #ffffff;
+  border: 1px solid rgba(33, 43, 54, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 22px 54px rgba(15, 23, 42, 0.2);
+  box-sizing: border-box;
+  color: #172033;
+  padding: 30px 28px 26px;
+  position: relative;
+  width: 100%;
+}
+
+.closeButton {
+  color: #5f6b7a;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 2;
+}
+
+.closeButton:hover {
+  background-color: rgba(33, 43, 54, 0.08);
+}
+
+.header {
+  align-items: flex-start;
+  display: flex;
+  gap: 16px;
+  padding-right: 34px;
+}
+
+.statusMark {
+  align-items: center;
+  border-radius: 8px;
+  display: flex;
+  flex: 0 0 auto;
+  height: 58px;
+  justify-content: center;
+  width: 58px;
+}
+
+.statusMark svg {
+  font-size: 30px;
+}
+
+.headerCopy {
+  min-width: 0;
+}
+
+.eyebrow {
+  color: #287076;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.4;
+  margin: 0 0 3px;
+  text-transform: uppercase;
+}
+
+.headerCopy h1 {
+  color: #172033;
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 800;
+  line-height: 1.16;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.headerCopy p {
+  color: #5f6b7a;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.45;
+  margin: 6px 0 0;
+}
+
+.statusBanner {
+  border: 1px solid rgba(33, 43, 54, 0.12);
+  border-radius: 8px;
+  margin-top: 24px;
+  padding: 18px 20px;
+}
+
+.statusBanner span {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 4px;
+}
+
+.statusBanner strong {
+  display: block;
+  font-size: clamp(22px, 3.2vw, 30px);
+  font-weight: 800;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.running {
+  background-color: #e7f7ee;
+  border-color: rgba(46, 125, 50, 0.24);
+  color: #1b5e20;
+}
+
+.closed {
+  background-color: #fbe9e7;
+  border-color: rgba(198, 40, 40, 0.22);
+  color: #b71c1c;
+}
+
+.paused {
+  background-color: #fff4d7;
+  border-color: rgba(180, 121, 0, 0.24);
+  color: #8a5a00;
+}
+
+.metrics {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 18px;
+}
+
+.metricCard {
+  align-items: flex-start;
+  background-color: #f7faf9;
+  border: 1px solid rgba(33, 43, 54, 0.1);
+  border-radius: 8px;
+  display: flex;
+  gap: 13px;
+  min-height: 126px;
+  padding: 17px;
+}
+
+.wideMetric {
+  grid-column: 1 / -1;
+  min-height: 0;
+}
+
+.metricIcon {
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid rgba(40, 112, 118, 0.16);
+  border-radius: 8px;
+  color: #287076;
+  display: flex;
+  flex: 0 0 auto;
+  height: 38px;
+  justify-content: center;
+  width: 38px;
+}
+
+.metricCard span {
+  color: #5f6b7a;
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 5px;
+}
+
+.metricCard strong {
+  color: #172033;
+  display: block;
+  font-size: clamp(24px, 3.2vw, 34px);
+  font-weight: 800;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.metricCard p {
+  color: #5f6b7a;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 7px 0 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+  .panel {
+    padding: 28px 18px 20px;
+  }
+
+  .header {
+    gap: 12px;
+    padding-right: 30px;
+  }
+
+  .statusMark {
+    height: 50px;
+    width: 50px;
+  }
+
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .metricCard {
+    min-height: 0;
+  }
+}

@@ -1,10 +1,25 @@
 import pdfMake from 'src/utils/pdfMake';
 // import { convertAllLotReport, workcenterHeader, dateFormatReport,fontsReport } from './function/GroupLot';
-import { fontsReport } from '../Production/productionReport/function/GroupLot'import { logo } from './function/logo'
+import { fontsReport } from '../Production/productionReport/function/GroupLot'
+import { logo } from './function/logo'
 
 function ReportMoveBoatNote(dataNow, loc, boatPosition) {
     pdfMake.fonts = fontsReport
   console.log(dataNow);
+
+    const formatNumber = (value) => {
+        if (value === null || value === undefined || value === '') {
+            return value;
+        }
+
+        const numberValue = Number(value);
+
+        if (Number.isNaN(numberValue)) {
+            return value;
+        }
+
+        return numberValue.toLocaleString('en-US');
+    };
   
     const data = []
     // data.push([
@@ -99,9 +114,9 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
             { text: result[i]["Uf_Schedule"], fontSize: 12, alignment: 'center' },
             { text: result[i]["Uf_length"], fontSize: 12, alignment: 'center' },
             { text: result[i]["Uf_TypeEnd"], fontSize: 12, alignment: 'center' },
-            { text: result[i]["PCSperBundle"], fontSize: 12, alignment: 'center' },
-            { text: result[i]["countlot"], fontSize: 12, alignment: 'center' },
-            { text: result[i]["weight"], fontSize: 12, alignment: 'center' },
+            { text: formatNumber(result[i]["PCSperBundle"]), fontSize: 12, alignment: 'center' },
+            { text: formatNumber(result[i]["countlot"]), fontSize: 12, alignment: 'center' },
+            { text: formatNumber(result[i]["weight"]), fontSize: 12, alignment: 'center' },
             // { text: result[i]["boat_position"], fontSize: 12, alignment: 'center' },
         ],
         )
@@ -117,9 +132,9 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
-                { text: total_bdl, fontSize: 13, alignment: 'center' },
-                { text: total_pcs, fontSize: 13, alignment: 'center' },
-                { text: total_weight, fontSize: 13, alignment: 'center' },
+                { text: formatNumber(total_bdl), fontSize: 13, alignment: 'center' },
+                { text: formatNumber(total_pcs), fontSize: 13, alignment: 'center' },
+                { text: formatNumber(total_weight), fontSize: 13, alignment: 'center' },
             ],
             )
         }
@@ -174,9 +189,9 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
             { text: result2[i]["Uf_Schedule"], fontSize: 12, alignment: 'center' },
             { text: result2[i]["Uf_length"], fontSize: 12, alignment: 'center' },
             { text: result2[i]["Uf_TypeEnd"], fontSize: 12, alignment: 'center' },
-            { text: result2[i]["PCSperBundle"], fontSize: 12, alignment: 'center' },
-            { text: result2[i]["countlot"], fontSize: 12, alignment: 'center' },
-            { text: result2[i]["weight"], fontSize: 12, alignment: 'center' },
+            { text: formatNumber(result2[i]["PCSperBundle"]), fontSize: 12, alignment: 'center' },
+            { text: formatNumber(result2[i]["countlot"]), fontSize: 12, alignment: 'center' },
+            { text: formatNumber(result2[i]["weight"]), fontSize: 12, alignment: 'center' },
             // { text: result[i]["boat_position"], fontSize: 12, alignment: 'center' },
 
         ],
@@ -193,9 +208,9 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
-                { text: total_bdl2, fontSize: 13, alignment: 'center' },
-                { text: total_pcs2, fontSize: 13, alignment: 'center' },
-                { text: total_weight2, fontSize: 13, alignment: 'center' },
+                { text: formatNumber(total_bdl2), fontSize: 13, alignment: 'center' },
+                { text: formatNumber(total_pcs2), fontSize: 13, alignment: 'center' },
+                { text: formatNumber(total_weight2), fontSize: 13, alignment: 'center' },
             ],
             )
         }
@@ -251,9 +266,9 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
             { text: result3[i]["Uf_Schedule"], fontSize: 12, alignment: 'center' },
             { text: result3[i]["Uf_length"], fontSize: 12, alignment: 'center' },
             { text: result3[i]["Uf_TypeEnd"], fontSize: 12, alignment: 'center' },
-            { text: result3[i]["PCSperBundle"], fontSize: 12, alignment: 'center' },
-            { text: result3[i]["countlot"], fontSize: 12, alignment: 'center' },
-            { text: result3[i]["weight"], fontSize: 12, alignment: 'center' },
+            { text: formatNumber(result3[i]["PCSperBundle"]), fontSize: 12, alignment: 'center' },
+            { text: formatNumber(result3[i]["countlot"]), fontSize: 12, alignment: 'center' },
+            { text: formatNumber(result3[i]["weight"]), fontSize: 12, alignment: 'center' },
             // { text: result[i]["boat_position"], fontSize: 12, alignment: 'center' },
         ],
         )
@@ -269,9 +284,9 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
-                { text: total_bdl3, fontSize: 13, alignment: 'center' },
-                { text: total_pcs3, fontSize: 13, alignment: 'center' },
-                { text: total_weight3, fontSize: 13, alignment: 'center' },
+                { text: formatNumber(total_bdl3), fontSize: 13, alignment: 'center' },
+                { text: formatNumber(total_pcs3), fontSize: 13, alignment: 'center' },
+                { text: formatNumber(total_weight3), fontSize: 13, alignment: 'center' },
             ],
             )
         }
@@ -327,9 +342,9 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
             { text: result4[i]["Uf_Schedule"], fontSize: 12, alignment: 'center' },
             { text: result4[i]["Uf_length"], fontSize: 12, alignment: 'center' },
             { text: result4[i]["Uf_TypeEnd"], fontSize: 12, alignment: 'center' },
-            { text: result4[i]["PCSperBundle"], fontSize: 12, alignment: 'center' },
-            { text: result4[i]["countlot"], fontSize: 12, alignment: 'center' },
-            { text: result4[i]["weight"], fontSize: 12, alignment: 'center' },
+            { text: formatNumber(result4[i]["PCSperBundle"]), fontSize: 12, alignment: 'center' },
+            { text: formatNumber(result4[i]["countlot"]), fontSize: 12, alignment: 'center' },
+            { text: formatNumber(result4[i]["weight"]), fontSize: 12, alignment: 'center' },
             // { text: result[i]["boat_position"], fontSize: 12, alignment: 'center' },
 
         ],
@@ -346,9 +361,9 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
-                { text: total_bdl4, fontSize: 13, alignment: 'center' },
-                { text: total_pcs4, fontSize: 13, alignment: 'center' },
-                { text: total_weight4, fontSize: 13, alignment: 'center' },
+                { text: formatNumber(total_bdl4), fontSize: 13, alignment: 'center' },
+                { text: formatNumber(total_pcs4), fontSize: 13, alignment: 'center' },
+                { text: formatNumber(total_weight4), fontSize: 13, alignment: 'center' },
             ],
             )
         }
@@ -404,9 +419,9 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
             { text: result5[i]["Uf_Schedule"], fontSize: 12, alignment: 'center' },
             { text: result5[i]["Uf_length"], fontSize: 12, alignment: 'center' },
             { text: result5[i]["Uf_TypeEnd"], fontSize: 12, alignment: 'center' },
-            { text: result5[i]["PCSperBundle"], fontSize: 12, alignment: 'center' },
-            { text: result5[i]["countlot"], fontSize: 12, alignment: 'center' },
-            { text: result5[i]["weight"], fontSize: 12, alignment: 'center' },
+            { text: formatNumber(result5[i]["PCSperBundle"]), fontSize: 12, alignment: 'center' },
+            { text: formatNumber(result5[i]["countlot"]), fontSize: 12, alignment: 'center' },
+            { text: formatNumber(result5[i]["weight"]), fontSize: 12, alignment: 'center' },
             // { text: result[i]["boat_position"], fontSize: 12, alignment: 'center' },
 
         ],
@@ -423,13 +438,17 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                 { text: "", fontSize: 11, alignment: 'center' },
                 { text: "", fontSize: 11, alignment: 'center' },
                 // { text: "", fontSize: 11, alignment: 'center' },
-                { text: total_bdl5, fontSize: 13, alignment: 'center' },
-                { text: total_pcs5, fontSize: 13, alignment: 'center' },
-                { text: total_weight5, fontSize: 13, alignment: 'center' },
+                { text: formatNumber(total_bdl5), fontSize: 13, alignment: 'center' },
+                { text: formatNumber(total_pcs5), fontSize: 13, alignment: 'center' },
+                { text: formatNumber(total_weight5), fontSize: 13, alignment: 'center' },
             ],
             )
         }
     }
+
+    const totalCountlot = total_pcs + total_pcs2 + total_pcs3 + total_pcs4 + total_pcs5;
+    const totalWeight = total_weight + total_weight2 + total_weight3 + total_weight4 + total_weight5;
+    const grossWeight = (totalWeight * 1.003).toFixed(0);
 
     if (boatPosition == "หัวเรือ"){
         var docDefinition2 = {
@@ -487,7 +506,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                                 },
                                 {
                                     border: [false, false, false, false],
-                                    text: `Total Countlot : ${total_pcs + total_pcs2 + total_pcs3 + total_pcs4 + total_pcs5}`, fontSize: 14 
+                                    text: `Total Countlot : ${formatNumber(totalCountlot)}`, fontSize: 14 
                                 },
                             ],
                             [
@@ -499,7 +518,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                                 },
                                 {
                                     border: [false, false, false, false],
-                                    text: `Total Weight : ${total_weight + total_weight2 + total_weight3 + total_weight4 + total_weight5}`, fontSize: 14 
+                                    text: `Total Weight : ${formatNumber(totalWeight)}`, fontSize: 14 
                                 },
                             ],
                         ],
@@ -622,7 +641,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                                 },
                                 {
                                     border: [false, false, false, false],
-                                    text: `Total Countlot : ${total_pcs + total_pcs2 + total_pcs3 + total_pcs4 + total_pcs5}`, fontSize: 14 
+                                    text: `Total Countlot : ${formatNumber(totalCountlot)}`, fontSize: 14 
                                 },
                             ],
                             [
@@ -634,7 +653,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                                 },
                                 {
                                     border: [false, false, false, false],
-                                    text: `Total Weight : ${total_weight + total_weight2 + total_weight3 + total_weight4 + total_weight5}`, fontSize: 14 
+                                    text: `Total Weight : ${formatNumber(totalWeight)}`, fontSize: 14 
                                 },
                             ],
                         ],
@@ -757,7 +776,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                                 },
                                 {
                                     border: [false, false, false, false],
-                                    text: `Total Countlot : ${total_pcs + total_pcs2 + total_pcs3 + total_pcs4 + total_pcs5}`, fontSize: 14 
+                                    text: `Total Countlot : ${formatNumber(totalCountlot)}`, fontSize: 14 
                                 },
                             ],
                             [
@@ -769,7 +788,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                                 },
                                 {
                                     border: [false, false, false, false],
-                                    text: `Total Weight : ${total_weight + total_weight2 + total_weight3 + total_weight4 + total_weight5}`, fontSize: 14 
+                                    text: `Total Weight : ${formatNumber(totalWeight)}`, fontSize: 14 
                                 },
                             ],
                         ],
@@ -892,7 +911,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                                 },
                                 {
                                     border: [false, false, false, false],
-                                    text: `Total Countlot : ${total_pcs + total_pcs2 + total_pcs3 + total_pcs4 + total_pcs5}`, fontSize: 14 
+                                    text: `Total Countlot : ${formatNumber(totalCountlot)}`, fontSize: 14 
                                 },
                             ],
                             [
@@ -904,7 +923,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                                 },
                                 {
                                     border: [false, false, false, false],
-                                    text: `Total Weight : ${total_weight + total_weight2 + total_weight3 + total_weight4 + total_weight5}`, fontSize: 14 
+                                    text: `Total Weight : ${formatNumber(totalWeight)}`, fontSize: 14 
                                 },
                             ],
                         ],
@@ -1028,7 +1047,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                             },
                             {
                                 border: [false, false, false, false],
-                                text: `Total Countlot : ${total_pcs + total_pcs2 + total_pcs3 + total_pcs4 + total_pcs5}`, fontSize: 14 
+                                text: `Total Countlot : ${formatNumber(totalCountlot)}`, fontSize: 14 
                             },
                         ],
                         [
@@ -1040,7 +1059,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                             },
                             {
                                 border: [false, false, false, false],
-                                text: `Total Weight : ${total_weight + total_weight2 + total_weight3 + total_weight4 + total_weight5}`, fontSize: 14 
+                                text: `Total Weight : ${formatNumber(totalWeight)} GW : ${formatNumber(grossWeight)}`, fontSize: 14 
                             },
                         ],
                         [
@@ -1052,7 +1071,7 @@ function ReportMoveBoatNote(dataNow, loc, boatPosition) {
                             },
                             {
                                 border: [false, false, false, false],
-                                text: `Total ActualWeight : ${dataNow[0]["sumActWeight"]}`, fontSize: 14 
+                                text: `Total ActualWeight : ${formatNumber(dataNow[0]["sumActWeight"])}`, fontSize: 14 
                             },
                         ],
                     ],
