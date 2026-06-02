@@ -107,12 +107,10 @@ const LatestProducts = ({ className, ...rest }) => {
               <ListItemText primary="Coil" />
             </ListItem>
             <Divider />
-            {V_STS_execSUM_Outs_Coil.map((value) =>
-              <>
-                <ListItem button>
-                  <ListItemText primary={`${value.Item_Group} ${value.aged} = ${value.TotalCoil} coils (${value.sumQTY} MT)`} />
-                </ListItem>
-              </>
+            {V_STS_execSUM_Outs_Coil.map((value, index) =>
+              <ListItem button key={`${value.Item_Group}-${value.aged}-${index}`}>
+                <ListItemText primary={`${value.Item_Group} ${value.aged} = ${value.TotalCoil} coils (${value.sumQTY} MT)`} />
+              </ListItem>
             )}
           </RootList>
         </ListItem>
@@ -130,12 +128,10 @@ const LatestProducts = ({ className, ...rest }) => {
               <ListItemText primary="Strip" />
             </ListItem>
             <Divider />
-            {V_STS_execSUM_Outs_Strip.map((value) =>
-              <>
-                <ListItem button key={value.sumQTY}>
-                  <ListItemText primary={`${value.Item_Group} ${value.aged} = ${value.TotalStrip} strips (${value.sumQTY} MT)`} />
-                </ListItem>
-              </>
+            {V_STS_execSUM_Outs_Strip.map((value, index) =>
+              <ListItem button key={`${value.Item_Group}-${value.aged}-${index}`}>
+                <ListItemText primary={`${value.Item_Group} ${value.aged} = ${value.TotalStrip} strips (${value.sumQTY} MT)`} />
+              </ListItem>
             )}
           </RootList>
         </ListItem>
@@ -153,12 +149,10 @@ const LatestProducts = ({ className, ...rest }) => {
               <ListItemText primary="Processing Pipe" />
             </ListItem>
             <Divider />
-            {V_STS_execSUM_Outs_ProcessingPipe.map((value) =>
-              <>
-                <ListItem button>
-                  <ListItemText primary={`${value.Item_Group} ${value.aged} = ${value.TotalPipe} pcs (${value.sumQTY} MT)`} />
-                </ListItem>
-              </>
+            {V_STS_execSUM_Outs_ProcessingPipe.map((value, index) =>
+              <ListItem button key={`${value.Item_Group}-${value.aged}-${index}`}>
+                <ListItemText primary={`${value.Item_Group} ${value.aged} = ${value.TotalPipe} pcs (${value.sumQTY} MT)`} />
+              </ListItem>
             )}
           </RootList>
 
@@ -176,12 +170,10 @@ const LatestProducts = ({ className, ...rest }) => {
               <ListItemText primary="Finished Pipe (all category)" />
             </ListItem>
             <Divider />
-            {V_STS_execSUM_Outs_FinishedPipe.map((value) =>
-              <>
-                <ListItem button>
-                  <ListItemText primary={`${value.Item_Group} ${value.aged} = ${value.TotalPipe} pcs (${value.sumQTY} MT)`} />
-                </ListItem>
-              </>
+            {V_STS_execSUM_Outs_FinishedPipe.map((value, index) =>
+              <ListItem button key={`${value.Item_Group}-${value.aged}-${index}`}>
+                <ListItemText primary={`${value.Item_Group} ${value.aged} = ${value.TotalPipe} pcs (${value.sumQTY} MT)`} />
+              </ListItem>
             )}
           </RootList>
 

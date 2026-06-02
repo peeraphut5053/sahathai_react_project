@@ -407,7 +407,7 @@ const ReasonAddNewReason = (props) => {
                                                         <Autocomplete
                                                             fullWidth
                                                             getOptionLabel={(option) => option.issue || ''}
-                                                            getOptionSelected={(option, value) => option.issueNum === value.issueNum}
+                                                            isOptionEqualToValue={(option, value) => option.issueNum === value.issueNum}
                                                             onChange={(event, value) => {
                                                                 setFieldValue('repair_issue_num', value ? value.issueNum : '');
                                                             }}

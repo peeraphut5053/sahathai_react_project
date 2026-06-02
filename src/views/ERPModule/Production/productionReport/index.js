@@ -490,38 +490,46 @@ const ProductionDailyReport = () => {	const [data, setdata] = useState([])
 								/>
 
 								<Modal open={openModalReasonMaster} onClose={handleCloseModalReasonMaster} >
-									<ReasonStopMachineTableEditable
-										setDataFormingRecord_description={setDataFormingRecord_description}
-										dataFormingRecord_description={dataFormingRecord_description}
-									/>
+									<div>
+										<ReasonStopMachineTableEditable
+											setDataFormingRecord_description={setDataFormingRecord_description}
+											dataFormingRecord_description={dataFormingRecord_description}
+										/>
+									</div>
 								</Modal>
 								<Modal open={openModalReasonMasterDetail} onClose={handleCloseModalReasonMasterDetail} >
-									<ReasonStopMachineDetailTableEditable
-										setDataFormingRecord_description_detail={setDataFormingRecord_description_detail}
-										dataFormingRecord_description_detail={dataFormingRecord_description_detail}
-									/>
+									<div>
+										<ReasonStopMachineDetailTableEditable
+											setDataFormingRecord_description_detail={setDataFormingRecord_description_detail}
+											dataFormingRecord_description_detail={dataFormingRecord_description_detail}
+										/>
+									</div>
 								</Modal>
 								<Modal open={openModalAddNewReason} onClose={handleCloseModalAddNewReason} >
-									<ReasonAddNewReason
-										handleCloseModalAddNewReason={handleCloseModalAddNewReason}
-										w_c={values.w_c}
-										dataFormingRecord={dataFormingRecord}
-										setDataFormingRecord={setDataFormingRecord}
-										startdate={values.startdate}
-										enddate={values.enddate}
-										item={values.item}
-										types={types}
-										dataReason={dataReason}
-									/>
+									<div>
+										<ReasonAddNewReason
+											handleCloseModalAddNewReason={handleCloseModalAddNewReason}
+											w_c={values.w_c}
+											dataFormingRecord={dataFormingRecord}
+											setDataFormingRecord={setDataFormingRecord}
+											startdate={values.startdate}
+											enddate={values.enddate}
+											item={values.item}
+											types={types}
+											dataReason={dataReason}
+										/>
+									</div>
 								</Modal>
 								<Modal open={openModalAddNewMeter} onClose={handleCloseModalAddNewMeter} >
-									<ReasonAddNewMeter
-										handleCloseModalAddNewMeter={handleCloseModalAddNewMeter}
-										w_c={values.w_c}
-										dataFormingRecord_reason_meter={dataFormingRecord_reason_meter}
-										setDataFormingRecord_reason_meter={setDataFormingRecord_reason_meter}
-										startdate={values.startdate}
-									/>
+									<div>
+										<ReasonAddNewMeter
+											handleCloseModalAddNewMeter={handleCloseModalAddNewMeter}
+											w_c={values.w_c}
+											dataFormingRecord_reason_meter={dataFormingRecord_reason_meter}
+											setDataFormingRecord_reason_meter={setDataFormingRecord_reason_meter}
+											startdate={values.startdate}
+										/>
+									</div>
 								</Modal>
 								<ModalPassword open={passModal} onClose={() => setPassModal(false)} setStatusModal={setStatusModal} />
 								<ModalManagement clean width="min(560px, calc(100vw - 32px))" open={statusModal} onClose={() => setStatusModal(false)} modalDetail={<WorkCenter wc={values.w_c} onClose={() => setStatusModal(false)} />} />

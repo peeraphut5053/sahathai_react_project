@@ -128,24 +128,26 @@ const PieChartExecutiveSummary = ({ className, ...rest }) => {
 
   const options = {
     animation: false,
-    cutoutPercentage: 80,
+    cutout: '80%',
     layout: { padding: 0 },
-    legend: {
-      display: false
+    plugins: {
+      legend: {
+        display: false
+      },
+      tooltip: {
+        backgroundColor: theme.palette.background.default,
+        bodyColor: theme.palette.text.secondary,
+        borderColor: theme.palette.divider,
+        borderWidth: 1,
+        enabled: true,
+        footerColor: theme.palette.text.secondary,
+        intersect: false,
+        mode: 'index',
+        titleColor: theme.palette.text.primary
+      }
     },
     maintainAspectRatio: false,
-    responsive: true,
-    tooltips: {
-      backgroundColor: theme.palette.background.default,
-      bodyFontColor: theme.palette.text.secondary,
-      borderColor: theme.palette.divider,
-      borderWidth: 1,
-      enabled: true,
-      footerFontColor: theme.palette.text.secondary,
-      intersect: false,
-      mode: 'index',
-      titleFontColor: theme.palette.text.primary
-    }
+    responsive: true
   };
 
 

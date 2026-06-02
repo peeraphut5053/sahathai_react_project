@@ -554,8 +554,8 @@ const BoatNote = () => {
                                     <Grid container spacing={2}>
                                         <Grid item lg={12} >
                                             <Grid container spacing={2}>
-                                                <Grid item lg={3} spacing={2}>
-                                                    <Grid item lg={12} spacing={2}>
+                                                <Grid item lg={3}>
+                                                    <Grid item lg={12}>
                                                         <Paper className={styles.paper}>
                                                             <Grid container spacing={2}>
 
@@ -626,7 +626,7 @@ const BoatNote = () => {
                                                         </Paper>
                                                     </Grid>
                                                     <br></br>
-                                                    <Grid item lg={12} spacing={2}>
+                                                    <Grid item lg={12}>
                                                         <Paper className={styles.paper}>
                                                             <Grid container spacing={2}>
 

@@ -16,7 +16,6 @@ import STS_execRpt_W_bySizeType_Live from './STS_execRpt_W_bySizeType_Live';
 const StyledMenu = styled((props) => (
     <Menu
         elevation={0}
-        getContentAnchorEl={null}
         anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'center',
@@ -115,8 +114,7 @@ export default function MenuChip(props) {
                 color="primary"
                 onClick={handleClick}
                 label={props.label}
-            >
-            </Chip>
+            />
             <StyledMenu
                 id="customized-menu"
                 anchorEl={anchorEl}

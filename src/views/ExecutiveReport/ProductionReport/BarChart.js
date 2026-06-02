@@ -340,6 +340,10 @@ const Test = ({ className, ...rest }) => {
         data: result.map((item) => item?.[grade] / 1000),
         backgroundColor: color,
         borderColor: color,
+        barThickness: 40,
+        maxBarThickness: 40,
+        barPercentage: 1,
+        categoryPercentage: 1,
         borderWidth: 1
       }
     ],
@@ -381,10 +385,6 @@ const Test = ({ className, ...rest }) => {
     scales: {
       xAxes: [
         {
-          barThickness: 20,
-          maxBarThickness: 20,
-          barPercentage: 1,
-          categoryPercentage: 1,
           ticks: {
             fontColor: theme.palette.text.secondary
           },
@@ -517,10 +517,6 @@ const Test = ({ className, ...rest }) => {
     scales: {
       xAxes: [
         {
-          barThickness: 40,
-          maxBarThickness: 40,
-          barPercentage: 1,
-          categoryPercentage: 1,
           ticks: {
             fontColor: theme.palette.text.secondary
           },

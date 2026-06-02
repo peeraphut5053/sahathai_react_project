@@ -213,9 +213,10 @@ const ModalFinishing = ({ values, openModal, handleCloseModal }) => {
               { title: 'หมายเหตุ', field: 'remark', width: 100 },
               {
                 title: 'รวมเวลา',
-                field: 'down_time',
+                field: 'down_time_total',
                 type: 'numeric',
                 width: 100,
+                render: rowData => rowData.down_time,
                 headerStyle: {
                   fontSize: 12
                 }

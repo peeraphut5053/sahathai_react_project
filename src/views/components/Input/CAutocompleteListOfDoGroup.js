@@ -31,7 +31,6 @@ export default function CAutocompleteListOfDoGroup(props) {
             const countries = await response.json();
 
             if (active) {
-                console.log("countries", countries)
                 setOptions(countries)
             }
         })();
@@ -68,13 +67,11 @@ export default function CAutocompleteListOfDoGroup(props) {
                 onClose={() => {
                     setOpen(false);
                 }}
-                getOptionSelected={(option, value) => option.boatList === value.boatList}
-                // getOptionSelected={(option, value) => ()=>{console.log(value)}}
+                isOptionEqualToValue={(option, value) => option.boatList === value.boatList}
                 getOptionLabel={(option) => `${option.id}  ${option.do_group_name}`}
                 options={options}
                 loading={loading}
                 onChange={(option, value) => {
-                    console.log(value)
                     if (value) {
                         props.setDo_group_list(value)
                     } else {

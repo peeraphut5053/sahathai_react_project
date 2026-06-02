@@ -83,7 +83,7 @@ export default function CAutocompleteBoatList(props) {
                 onClose={() => {
                     setOpen(false);
                 }}
-                getOptionSelected={(option, value) => option.boatList === value.boatList}
+                isOptionEqualToValue={(option, value) => option.boatList === value.boatList}
                 // getOptionSelected={(option, value) => ()=>{console.log(value)}}
                 getOptionLabel={(option) => `${option.boatList}  ${option.description}`}
                 options={options}

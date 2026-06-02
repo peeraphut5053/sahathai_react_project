@@ -252,7 +252,7 @@ const JobRecicpt = () => {
                             color="primary"
                             size="meldium"
                             onClick={handleSubmit}
-                            disabled={process}
+                            disabled={Boolean(process)}
                           >
                             Process
                           </Button>

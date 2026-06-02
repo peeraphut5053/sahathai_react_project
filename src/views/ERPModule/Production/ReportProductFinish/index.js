@@ -17,12 +17,14 @@ const ReportProductFinish = (props) => {
   const [openModalItem2, setOpenModalItem2] = React.useState(false);
 
 
-  const searchReportProductFinish = () => {
+  const searchReportProductFinish = (isActive = () => true) => {
 
 
     API.get(`API_ExecutiveReport/data.php?load=ReportProductFinish`)
       .then(res => {
-        setDataReportProductFinish(addTotal(res.data))
+        if (isActive()) {
+          setDataReportProductFinish(addTotal(res.data))
+        }
       })
   }
 
@@ -65,7 +67,13 @@ const ReportProductFinish = (props) => {
   }
 
   useEffect(() => {
-    searchReportProductFinish()
+    let active = true;
+
+    searchReportProductFinish(() => active)
+
+    return () => {
+      active = false;
+    };
   }, [])
 
   const handleClick = (event) => {

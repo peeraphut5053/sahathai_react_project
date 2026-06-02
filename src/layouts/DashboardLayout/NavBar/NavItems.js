@@ -7,6 +7,16 @@ import { styled } from '@mui/material/styles';
 
 const ACTIVE_CLASS_NAME = 'active';
 
+const RouterNavLink = React.forwardRef(({ className, ...props }, ref) => (
+  <RouterLink
+    ref={ref}
+    {...props}
+    className={({ isActive }) => clsx(className, {
+      [ACTIVE_CLASS_NAME]: isActive
+    })}
+  />
+));
+
 const RootListItem = styled(ListItem)({
   display: 'flex',
   paddingTop: 0,
@@ -58,8 +68,7 @@ const NavItem = ({
       {...rest}
     >
       <NavButton
-        activeClassName={ACTIVE_CLASS_NAME}
-        component={RouterLink}
+        component={RouterNavLink}
         to={href}
       >
         {Icon && (

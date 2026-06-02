@@ -128,49 +128,42 @@ const PieChartExecutiveSummary2 = ({ className, ...rest }) => {
 
   const options = {
     animation: false,
-    cutoutPercentage: 80,
+    cutout: '80%',
     layout: { padding: 0 },
-    legend: {
-      display: false
-    },
     plugins: {
+      legend: {
+        display: false
+      },
       datalabels: {
         display: false, // ปิดการแสดง datalabels
       },
+      tooltip: {
+        backgroundColor: theme.palette.background.default,
+        bodyColor: theme.palette.text.secondary,
+        borderColor: theme.palette.divider,
+        borderWidth: 1,
+        enabled: true,
+        footerColor: theme.palette.text.secondary,
+        intersect: false,
+        mode: 'index',
+        titleColor: theme.palette.text.primary
+      }
     },
     maintainAspectRatio: false,
-    responsive: true,
-    tooltips: {
-      backgroundColor: theme.palette.background.default,
-      bodyFontColor: theme.palette.text.secondary,
-      borderColor: theme.palette.divider,
-      borderWidth: 1,
-      enabled: true,
-      footerFontColor: theme.palette.text.secondary,
-      intersect: false,
-      mode: 'index',
-      titleFontColor: theme.palette.text.primary
-    }
+    responsive: true
   };
 
 
   const ExecPie = (selectedDateStart, selectedDateEnd) => {
-    console.log(selectedDateStart)
-    console.log(selectedDateEnd)
-
-
-   
       API.get(`API_ExecutiveReport/data.php?load=STS_execSUM_Coil_Rec&startDate=${selectedDateStart}&endDate=${selectedDateEnd}`)
       .then(res => {
         (res.data) ? setCoilReciveNow(res.data) : setCoilReciveNow([])
-        console.log(res.data)
       })
 
 
       API.get(`API_ExecutiveReport/data.php?load=STS_execSUM_Pipe_Sale&startDate=${selectedDateStart}&endDate=${selectedDateEnd}`)
       .then(res => {
         (res.data) ? setPipeSaleNow(res.data) : setPipeSaleNow([])
-        console.log(res.data)
       })
   }
 
@@ -288,7 +281,7 @@ const PieChartExecutiveSummary2 = ({ className, ...rest }) => {
           <Grid item xs={12} lg={4}>
             <div style={{ padding: '0px 5px' }}>
               <span style={{ padding: '0px 4px' }}>
-                <Chip color="primary" onClick={() => { ExecPie(selectedDateStart, selectedDateEnd) }} label={"PROCESS"} > </Chip>
+                <Chip color="primary" onClick={() => { ExecPie(selectedDateStart, selectedDateEnd) }} label={"PROCESS"} />
               </span>
             </div>
           </Grid>

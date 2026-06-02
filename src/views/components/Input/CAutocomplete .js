@@ -28,13 +28,11 @@ export default function CAutocomplete(props) {
   
             // const response = await fetch('https://country.register.gov.uk/records.json?page-size=5000');
             // const response2 = await API_sts_web_center.get("RPT_JOBPACKING/data.php?load=workcenter");
-            console.log("response", response)
             await sleep(1e3); // For demo purposes.
             const countries = await response.json();
 
 
             if (active) {
-                console.log("countries", countries)
                 setOptions(countries)
             }
         })();
@@ -71,13 +69,11 @@ export default function CAutocomplete(props) {
                 onClose={() => {
                     setOpen(false);
                 }}
-                getOptionSelected={(option, value) => option.wc === value.wc}
-                // getOptionSelected={(option, value) => ()=>{console.log(value)}}
+                isOptionEqualToValue={(option, value) => option.wc === value.wc}
                 getOptionLabel={(option) => `${option.wc}  ${option.description}`}
                 options={options}
                 loading={loading}
                 onChange={(option, value) => {
-                    console.log(value)
                     if (value) {
                         props.setFieldValue('w_c', value.wc)
                     } else {

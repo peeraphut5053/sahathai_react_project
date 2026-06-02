@@ -176,8 +176,8 @@ const ProductionLiveBoardV2Content = () => {
       )}
 
       <section className={styles.boardGrid}>
-        {stations.map((station) => (
-          <article className={styles.stationCard} key={station.name}>
+        {stations.map((station, index) => (
+          <article className={styles.stationCard} key={`${station.plant}-${station.name}-${index}`}>
             <header className={styles.stationHeader}>
               <Box minWidth={0}>
                 <Typography className={styles.stationName}>{station.name}</Typography>

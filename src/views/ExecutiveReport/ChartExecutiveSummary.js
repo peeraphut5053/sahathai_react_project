@@ -137,6 +137,10 @@ const ChartExecutiveSummary = ({ className, ...rest }) => {
         label: 'Received',
         fill: false,
         borderColor: colors.pink[900],
+        barThickness: 12,
+        maxBarThickness: 10,
+        barPercentage: 0.5,
+        categoryPercentage: 0.5,
 
       },
       {
@@ -145,6 +149,10 @@ const ChartExecutiveSummary = ({ className, ...rest }) => {
         label: 'Released',
         fill: false,
         borderColor: colors.pink[500],
+        barThickness: 12,
+        maxBarThickness: 10,
+        barPercentage: 0.5,
+        categoryPercentage: 0.5,
       },
       {
         backgroundColor: selectLineColor,
@@ -152,6 +160,10 @@ const ChartExecutiveSummary = ({ className, ...rest }) => {
         label: 'Balance',
         fill: false,
         borderColor: selectLineColor,
+        barThickness: 12,
+        maxBarThickness: 10,
+        barPercentage: 0.5,
+        categoryPercentage: 0.5,
       }
     ],
     labels: [
@@ -181,6 +193,10 @@ const ChartExecutiveSummary = ({ className, ...rest }) => {
         label: 'Coil',
         fill: false,
         borderColor: colors.indigo[500],
+        barThickness: 12,
+        maxBarThickness: 10,
+        barPercentage: 0.5,
+        categoryPercentage: 0.5,
 
       },
       {
@@ -189,6 +205,10 @@ const ChartExecutiveSummary = ({ className, ...rest }) => {
         label: 'Strip',
         fill: false,
         borderColor: colors.orange[500],
+        barThickness: 12,
+        maxBarThickness: 10,
+        barPercentage: 0.5,
+        categoryPercentage: 0.5,
       },
       {
         backgroundColor: colors.red[500],
@@ -196,6 +216,10 @@ const ChartExecutiveSummary = ({ className, ...rest }) => {
         label: 'Processing Pipe',
         fill: false,
         borderColor: colors.red[500],
+        barThickness: 12,
+        maxBarThickness: 10,
+        barPercentage: 0.5,
+        categoryPercentage: 0.5,
       },
       {
         backgroundColor: colors.green[500],
@@ -203,6 +227,10 @@ const ChartExecutiveSummary = ({ className, ...rest }) => {
         label: 'Finished Pipe',
         fill: false,
         borderColor: colors.green[500],
+        barThickness: 12,
+        maxBarThickness: 10,
+        barPercentage: 0.5,
+        categoryPercentage: 0.5,
       },
 
       {
@@ -211,6 +239,10 @@ const ChartExecutiveSummary = ({ className, ...rest }) => {
         label: 'Scrap Pipe',
         fill: false,
         borderColor: colors.blue[300],
+        barThickness: 12,
+        maxBarThickness: 10,
+        barPercentage: 0.5,
+        categoryPercentage: 0.5,
       },
 
     ],
@@ -238,45 +270,32 @@ const ChartExecutiveSummary = ({ className, ...rest }) => {
 
   const optionsLine = {
     animation: true,
-    cornerRadius: 40,
     layout: { padding: 0 },
-    legend: { display: true },
     maintainAspectRatio: false,
     responsive: true,
     scales: {
-      xAxes: [
-        {
-          barThickness: 12,
-          maxBarThickness: 10,
-          barPercentage: 0.5,
-          categoryPercentage: 0.5,
-          ticks: {
-            fontColor: theme.palette.text.secondary
-          },
-          gridLines: {
-            display: true,
-            drawBorder: false
-          }
+      x: {
+        ticks: {
+          color: theme.palette.text.secondary
+        },
+        grid: {
+          display: true,
+          drawBorder: false
         }
-      ],
-      yAxes: [
-        {
-          ticks: {
-            fontColor: theme.palette.text.secondary,
-            beginAtZero: true,
-            min: 0
-          },
-          gridLines: {
-            borderDash: [2],
-            borderDashOffset: [2],
-            color: theme.palette.divider,
-            drawBorder: false,
-            zeroLineBorderDash: [2],
-            zeroLineBorderDashOffset: [2],
-            zeroLineColor: theme.palette.divider
-          }
+      },
+      y: {
+        beginAtZero: true,
+        min: 0,
+        ticks: {
+          color: theme.palette.text.secondary
+        },
+        grid: {
+          borderDash: [2],
+          borderDashOffset: [2],
+          color: theme.palette.divider,
+          drawBorder: false
         }
-      ]
+      }
     },
     // tooltips: {
     //   backgroundColor: theme.palette.background.default,

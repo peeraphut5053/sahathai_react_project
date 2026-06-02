@@ -27,7 +27,7 @@ const App = () => {
           const response = await API.post(`SignIn.php?action=CheckAuth&token=${jwt.token}`)
 
           if (response.data) {
-            console.log('Good');
+        
           } else {
             localStorage.removeItem("token");
             navigate("/login");

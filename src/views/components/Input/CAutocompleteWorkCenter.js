@@ -71,7 +71,7 @@ export default function CAutocompleteWorkCenter(props) {
                 onClose={() => {
                     setOpen(false);
                 }}
-                getOptionSelected={(option, value) => option.wc === value.wc}
+                isOptionEqualToValue={(option, value) => option.wc === value.wc}
                 // getOptionSelected={(option, value) => ()=>{console.log(value)}}
                 getOptionLabel={(option) => `${option.wc}  ${option.description}`}
                 options={options}

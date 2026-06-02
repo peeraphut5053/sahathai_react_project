@@ -717,7 +717,7 @@ const Dashboard = () => {
                 </GroupTitle>
               </Grid>
               <Grid item xs={3} md={1}>
-                <SummaryPaper style={{ fontWeight: '700', borderRadius: 10 }} variant="outlined" suare>
+                <SummaryPaper style={{ fontWeight: '700', borderRadius: 10 }} variant="outlined" square>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <div>D: {fm?.reduce((prev, current) => prev + Number(current.sum), 0).toFixed(2)} Mt</div>
                     <div>M: {addComma(fmMonth?.reduce((prev, current) => prev + current, 0).toFixed(2))} Mt</div>
@@ -727,13 +727,13 @@ const Dashboard = () => {
               {!isLoading && (
                 <>
                   {fm?.map((item, index) => (
-                    <>
+                    <React.Fragment key={item.wc || index}>
                       {index === fm.length - 1 && <Grid item xs={3} md={1}></Grid>}
                       {index === fm.length - 1 && <Grid item xs={3} md={1}></Grid>}
                       <Grid key={index} item xs={3} md={1}>
                         {renderWorkCenterCard(item, { marginBottom: index === fm.length - 1 ? '4px' : '' })}
                       </Grid>
-                    </>
+                    </React.Fragment>
                   ))}
                 </>
               )}

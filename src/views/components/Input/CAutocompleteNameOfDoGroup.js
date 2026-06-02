@@ -68,7 +68,7 @@ export default function CAutocompleteNameOfDoGroup(props) {
                 onClose={() => {
                     setOpen(false);
                 }}
-                getOptionSelected={(option, value) => option.boatList === value.boatList}
+                isOptionEqualToValue={(option, value) => option.boatList === value.boatList}
                 // getOptionSelected={(option, value) => ()=>{console.log(value)}}
                 getOptionLabel={(option) => `${option.id}  ${option.do_group_name}`}
                 options={options}

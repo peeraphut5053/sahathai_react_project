@@ -70,7 +70,7 @@ export default function CAutocompleteLocationPTR(props) {
                 onClose={() => {
                     setOpen(false);
                 }}
-                getOptionSelected={(option, value) => option.loc === value.loc}
+                isOptionEqualToValue={(option, value) => option.loc === value.loc}
                 // getOptionSelected={(option, value) => ()=>{console.log(value)}}
                 getOptionLabel={(option) => `${option.loc}  ${option.description}`}
                 options={options}

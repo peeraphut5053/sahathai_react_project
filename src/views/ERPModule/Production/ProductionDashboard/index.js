@@ -34,26 +34,37 @@ const ProductionDashboard = () => {
 
 
   const tick = () => {
-      setTimeout(() => {
+      return setTimeout(() => {
       API.get(`API_ExecutiveReport/data.php?load=ProductionDashboardP`)
         .then(res => {
-          setProductionDashboardP(res.data)
+          if (isMounted.current) {
+            setProductionDashboardP(res.data)
+          }
         })
         API.get(`API_ExecutiveReport/data.php?load=ProductionDashboardW`)
         .then(res => {
-          setProductionDashboardW(res.data) 
+          if (isMounted.current) {
+            setProductionDashboardW(res.data) 
+          }
         })
         
-      setDate(new Date());
+      if (isMounted.current) {
+        setDate(new Date());
+      }
     }, 2000);
   }
 
+  const isMounted = React.useRef(false);
+
   React.useEffect(() => {
-      tick()
+      isMounted.current = true;
+      const timeoutID = tick()
       var timerID = setInterval(() => tick(), 600000);
       
 
       return function cleanup() {
+        isMounted.current = false;
+        clearTimeout(timeoutID);
         clearInterval(timerID);
       };
   }, [])

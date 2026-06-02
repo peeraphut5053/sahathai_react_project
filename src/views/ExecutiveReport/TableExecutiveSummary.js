@@ -132,8 +132,8 @@ const TableExecutiveSummary = ({ className, ...rest }) => {
                                 </TableHead>
 
                                 <TableBody>
-                                    {ExecutiveSummaryData1.map((row) => (
-                                        <StyledTableRow key={row.name}>
+                                    {ExecutiveSummaryData1.map((row, index) => (
+                                        <StyledTableRow key={row.Data_Group || index}>
                                             <StyledTableCell component="th" scope="row">
                                                 {row.Data_Group}
                                             </StyledTableCell>
@@ -162,8 +162,8 @@ const TableExecutiveSummary = ({ className, ...rest }) => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {ExecutiveSummaryData2.map((row) => (
-                                        <StyledTableRow key={row.name}>
+                                    {ExecutiveSummaryData2.map((row, index) => (
+                                        <StyledTableRow key={row.Data_Group || index}>
                                             <StyledTableCell component="th" scope="row">
                                                 {row.Data_Group}
                                             </StyledTableCell>

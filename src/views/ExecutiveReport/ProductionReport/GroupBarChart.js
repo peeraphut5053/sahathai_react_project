@@ -350,6 +350,10 @@ const GroupBarChart = ({ className, ...rest }) => {
         label: 'A',
         data: result.map((item) => (item.sumA / 1000).toFixed(2)),
         backgroundColor: theme.palette.primary.main,
+        barThickness: 40,
+        maxBarThickness: 40,
+        barPercentage: 1,
+        categoryPercentage: 1,
         borderWidth: 1
       }
     ]
@@ -360,14 +364,24 @@ const GroupBarChart = ({ className, ...rest }) => {
     datasets: [
       {
         label: 'B',
-        data: result.map((item) => (item.sumB / 1000).toFixed(2)),
+        data: result.map((item) => Number((item.sumB / 1000).toFixed(2))),
         backgroundColor: supportBlue,
+        stack: 'holdVolume',
+        barThickness: 40,
+        maxBarThickness: 40,
+        barPercentage: 1,
+        categoryPercentage: 1,
         borderWidth: 1
       },
       {
         label: 'C',
-        data: result.map((item) => (item.sumC / 1000).toFixed(2)),
+        data: result.map((item) => Number((item.sumC / 1000).toFixed(2))),
         backgroundColor: accentRed,
+        stack: 'holdVolume',
+        barThickness: 40,
+        maxBarThickness: 40,
+        barPercentage: 1,
+        categoryPercentage: 1,
         borderWidth: 1
       },
 
@@ -384,10 +398,6 @@ const GroupBarChart = ({ className, ...rest }) => {
     scales: {
       xAxes: [
         {
-          barThickness: 40,
-          maxBarThickness: 40,
-          barPercentage: 1,
-          categoryPercentage: 1,
           ticks: {
             fontColor: theme.palette.text.secondary
           },
@@ -460,7 +470,7 @@ const GroupBarChart = ({ className, ...rest }) => {
     },
     onClick: function (evt, item) {
       if (item.length > 0) {
-        const index = item[0]._index;
+        const index = item[0].index;
         const wc = unique[index];
         const r = data?.res.filter((item) => item.wc === wc);
         const r1 = data?.res1.filter((item) => item.wc === wc);
@@ -473,48 +483,37 @@ const GroupBarChart = ({ className, ...rest }) => {
   const options2 = {
     animation: false,
     layout: { padding: 0 },
-    legend: { display: true },
     maintainAspectRatio: false,
     responsive: true,
     width: 500,
     scales: {
-      xAxes: [
-        {
-          stacked: true,
-          barThickness: 40,
-          maxBarThickness: 40,
-          barPercentage: 1,
-          categoryPercentage: 1,
-          ticks: {
-            fontColor: theme.palette.text.secondary
-          },
-          gridLines: {
-            display: false,
-            drawBorder: false
-          }
+      x: {
+        stacked: true,
+        ticks: {
+          color: theme.palette.text.secondary
+        },
+        grid: {
+          display: false,
+          drawBorder: false
         }
-      ],
-      yAxes: [
-        {
-          stacked: true,
-          ticks: {
-            fontColor: theme.palette.text.secondary,
-            beginAtZero: true,
-            min: 0
-          },
-          gridLines: {
-            borderDash: [2],
-            borderDashOffset: [2],
-            color: theme.palette.divider,
-            drawBorder: false,
-            zeroLineBorderDash: [2],
-            zeroLineBorderDashOffset: [2],
-            zeroLineColor: theme.palette.divider
-          }
+      },
+      y: {
+        stacked: true,
+        beginAtZero: true,
+        min: 0,
+        ticks: {
+          color: theme.palette.text.secondary
+        },
+        grid: {
+          borderDash: [2],
+          borderDashOffset: [2],
+          color: theme.palette.divider,
+          drawBorder: false
         }
-      ]
+      }
     },
     plugins: {
+      legend: { display: true },
       datalabels: {
         color: '#000',  // เปลี่ยนเป็นสีดำเพื่อให้เห็นชัดเจน
         anchor: 'end',   // ยึดกับจุดบนสุดของแท่งกราฟ

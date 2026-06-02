@@ -3,7 +3,6 @@ import { alpha, styled } from '@mui/material/styles';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import { Chart } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import React from 'react'
 import { Pie } from 'react-chartjs-2';
@@ -72,7 +71,6 @@ const PieChart = ({ data }) => {
   const { wc, totalTimes, breakTimes, realTime } = data;
 
   const total = Number(breakTimes) + Number(realTime);
-  Chart.plugins.unregister(ChartDataLabels);
   return (
     <MachineCard>
       <CardTop>
@@ -115,25 +113,24 @@ const PieChart = ({ data }) => {
           }}
           options={{
             animation: false,
-            cutoutPercentage: 50,
+            cutout: '50%',
             layout: { padding: 0 },
-            legend: {
-              display: false
-            },
             responsive: true,
-            
-            tooltips: {
-              callbacks: {
-                label: function(tooltipItem, data) {
-                  const dataset = data.datasets[tooltipItem.datasetIndex];
-                  const total = dataset.data.reduce((previousValue, currentValue) => previousValue + Number(currentValue), 0);
-                  const currentValue = dataset.data[tooltipItem.index];
-                  const percentage = ((currentValue/total) * 100).toFixed(2); // Keep two decimals
-                  return `${data.labels[tooltipItem.index]}: ${currentValue} (${percentage}%)`;
-                }
-              }
-            },
             plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const dataset = context.dataset;
+                    const total = dataset.data.reduce((previousValue, currentValue) => previousValue + Number(currentValue), 0);
+                    const currentValue = dataset.data[context.dataIndex];
+                    const percentage = total ? ((currentValue / total) * 100).toFixed(2) : '0.00';
+                    return `${context.label}: ${currentValue} (${percentage}%)`;
+                  }
+                }
+              },
               datalabels: {
                 display: true,
                 formatter: (value, ctx) => {

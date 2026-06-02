@@ -44,35 +44,46 @@ const getHeaderStyle = meta => {
   };
 };
 
-const normalizeColumns = (columns) => columns.filter(column => !column.hidden).map((column, index) => {
-  const normalizedColumn = {
-    id: column.field || column.title || `column-${index}`,
-    accessorFn: row => getValueByPath(row, column.field),
-    header: column.title,
-    cell: info => {
-      const row = info.row.original;
-      return normalizeCellValue(column.render ? column.render(row) : info.getValue());
-    },
-    enableSorting: column.sorting !== false,
-    meta: {
-      field: column.field,
-      cellStyle: column.cellStyle,
-      editable: column.editable,
-      headerStyle: column.headerStyle,
-      initialEditValue: column.initialEditValue,
-      lookup: column.lookup,
-      minWidth: column.minWidth || column.width,
-      align: column.align || column.cellStyle?.textAlign || 'center',
-      render: column.render,
-    },
-  };
+const normalizeColumns = (columns) => {
+  const usedColumnIds = new Set();
 
-  if (typeof column.sortingFn === 'function') {
-    normalizedColumn.sortingFn = column.sortingFn;
-  }
+  return columns.filter(column => !column.hidden).map((column, index) => {
+    const baseColumnId = column.field || column.title || `column-${index}`;
+    const columnId = usedColumnIds.has(baseColumnId)
+      ? `${baseColumnId}-${index}`
+      : baseColumnId;
 
-  return normalizedColumn;
-});
+    usedColumnIds.add(columnId);
+
+    const normalizedColumn = {
+      id: columnId,
+      accessorFn: row => getValueByPath(row, column.field),
+      header: column.title,
+      cell: info => {
+        const row = info.row.original;
+        return normalizeCellValue(column.render ? column.render(row) : info.getValue());
+      },
+      enableSorting: column.sorting !== false,
+      meta: {
+        field: column.field,
+        cellStyle: column.cellStyle,
+        editable: column.editable,
+        headerStyle: column.headerStyle,
+        initialEditValue: column.initialEditValue,
+        lookup: column.lookup,
+        minWidth: column.minWidth || column.width,
+        align: column.align || column.cellStyle?.textAlign || 'center',
+        render: column.render,
+      },
+    };
+
+    if (typeof column.sortingFn === 'function') {
+      normalizedColumn.sortingFn = column.sortingFn;
+    }
+
+    return normalizedColumn;
+  });
+};
 
 const setValueByPath = (row, path, value) => {
   if (!path) {

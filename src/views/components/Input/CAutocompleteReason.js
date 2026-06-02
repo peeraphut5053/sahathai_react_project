@@ -90,7 +90,7 @@ export default function CAutocompleteReason(props) {
                 onClose={() => {
                     setOpen(false);
                 }}
-                getOptionSelected={(option, value) => option.reason_id === value.reason_id}
+                isOptionEqualToValue={(option, value) => option.reason_id === value.reason_id}
                 // getOptionSelected={(option, value) => ()=>{console.log(value)}} ${option.reason_id}  
                 getOptionLabel={(option) => `${option.reason_description}`}
                 options={options}

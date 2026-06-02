@@ -76,6 +76,10 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
         borderColor: '#ffb200',
         backgroundColor: '#ffb200',
         fill: false,
+        barThickness: 40,
+        maxBarThickness: 40,
+        barPercentage: 1,
+        categoryPercentage: 1,
         borderWidth: 1
       },
       {
@@ -84,6 +88,10 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
         borderColor: '#cc0000',
         backgroundColor: '#cc0000',
         fill: false,
+        barThickness: 40,
+        maxBarThickness: 40,
+        barPercentage: 1,
+        categoryPercentage: 1,
         borderWidth: 1
       },
       {
@@ -92,6 +100,10 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
         borderColor: '#0051ff',
         backgroundColor: '#0051ff',
         fill: false,
+        barThickness: 40,
+        maxBarThickness: 40,
+        barPercentage: 1,
+        categoryPercentage: 1,
         borderWidth: 1
       },
       {
@@ -100,6 +112,10 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
         borderColor: '#009933',
         backgroundColor: '#009933',
         fill: false,
+        barThickness: 40,
+        maxBarThickness: 40,
+        barPercentage: 1,
+        categoryPercentage: 1,
         borderWidth: 1
       },
       {
@@ -108,6 +124,10 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
         borderColor: '#9900cc',
         backgroundColor: '#9900cc',
         fill: false,
+        barThickness: 40,
+        maxBarThickness: 40,
+        barPercentage: 1,
+        categoryPercentage: 1,
         borderWidth: 1
       },
       {
@@ -116,6 +136,10 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
         borderColor: '#cccc00',
         backgroundColor: '#cccc00',
         fill: false,
+        barThickness: 40,
+        maxBarThickness: 40,
+        barPercentage: 1,
+        categoryPercentage: 1,
         borderWidth: 1
       },
       {
@@ -124,6 +148,10 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
         borderColor: '#00ffff',
         backgroundColor: '#00ffff',
         fill: false,
+        barThickness: 40,
+        maxBarThickness: 40,
+        barPercentage: 1,
+        categoryPercentage: 1,
         borderWidth: 1
       },
       {
@@ -132,6 +160,10 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
         borderColor: '#663300',
         backgroundColor: '#663300',
         fill: false,
+        barThickness: 40,
+        maxBarThickness: 40,
+        barPercentage: 1,
+        categoryPercentage: 1,
         borderWidth: 1
       },
     ]
@@ -150,10 +182,6 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
     scales: {
       xAxes: [
         {
-          barThickness: 40,
-          maxBarThickness: 40,
-          barPercentage: 1,
-          categoryPercentage: 1,
           ticks: {
             fontColor: theme.palette.text.secondary
           },
@@ -267,6 +295,10 @@ const LineCard = ({ data: dataLine, options, currentData, Types }) => {
           '#00ffff',
           '#663300',
         ],
+        barThickness: 40,
+        maxBarThickness: 40,
+        barPercentage: 1,
+        categoryPercentage: 1,
        
       },
     ],

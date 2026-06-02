@@ -49,19 +49,26 @@ const V_STS_execRpt_F_byMKTType_Live = (props) => {
   }, [])
 
 
-  const searchV_STS_execRpt_F_byMKTType_Live = useCallback((daystart, dayend) => {
+  const searchV_STS_execRpt_F_byMKTType_Live = useCallback((daystart, dayend, isActive = () => true) => {
 
     API.get(`API_ExecutiveReport/data.php?load=V_STS_execRpt_F_byMKTType_Live&daystart=${daystart}&dayend=${dayend}`)
       .then(res => {
-        setDataV_STS_execRpt_F_byMKTType_Live(addTotal(res.data))
-        setIsLoadingState(false)
+        if (isActive()) {
+          setDataV_STS_execRpt_F_byMKTType_Live(addTotal(res.data))
+          setIsLoadingState(false)
+        }
 
       })
   }, [addTotal])
 
   useEffect(() => {
+    let active = true;
 
-    searchV_STS_execRpt_F_byMKTType_Live(props.daystart, props.dayend)
+    searchV_STS_execRpt_F_byMKTType_Live(props.daystart, props.dayend, () => active)
+
+    return () => {
+      active = false;
+    };
   }, [props.dayend, props.daystart, searchV_STS_execRpt_F_byMKTType_Live])
 
 
